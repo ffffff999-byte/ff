@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنصة الرقمية للتطوير المهني - نظام فارس</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #005a56; /* لون وزارة التعليم */
+            --primary-light: #007d77;
+            --secondary: #eef2f5;
+            --accent: #d4a017;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --bg-color: #f7fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 20px rgba(0,90,86,0.15);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 25px;
+            background-color: var(--accent);
+            border-radius: 4px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 10px 15px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: my-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-right: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--secondary);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 1rem;
+            border-radius: 12px;
+        }
+
+        .step-list li::before {
+            counter-increment: my-counter;
+            content: counter(my-counter);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .icon-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: #fff;
+        }
+
+        .icon-box .symbol {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .icon-box .details strong {
+            display: block;
+            color: var(--text-dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .icon-box .details span {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .status-btn {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .status-btn.green { background-color: var(--success); }
+        .status-btn.grey { background-color: #a0aec0; }
+
+        .alert-box {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-right: 4px solid var(--warning);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            margin-top: 3rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .footer a {
+            display: inline-block;
+            margin-top: 10px;
+            color: white;
+            background-color: #0088cc; /* Telegram Color */
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+            box-shadow: 0 4px 6px rgba(0,136,204,0.2);
+        }
+
+        .footer a:hover {
+            background-color: #006699;
+        }
+        
+        /* Manager Section Special Styling */
+        .manager-section {
+            border-top: 4px solid var(--danger);
+        }
+
+        .highlight-text {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>التطوير المهني في نظام فارس</h1>
+        <p>دليلك الشامل لإضافة الساعات، فهم الأيقونات، وحل مشكلات التفعيل</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Section 1: Intro -->
+        <div class="alert-box">
+            💡 <strong>تنبيه هام:</strong> لا يمكن إضافة أنشطة جديدة إلا بعد أن يقوم المدير باعتماد أو إعادة الأنشطة المرفوعة مسبقاً. تأكد من رفع أكبر عدد ممكن من الدورات في الطلب الواحد.
+        </div>
+
+        <div class="grid-2">
+            <!-- Section 2: Steps to Add -->
+            <div class="card">
+                <h2 class="section-title">خطوات الإضافة (للمعلم)</h2>
+                <ol class="step-list">
+                    <li>الدخول إلى <strong>صلاحية الخدمة الذاتية للموظف</strong>.</li>
+                    <li>اختيار <strong>خدمات المعلمين</strong> ثم <strong>خدمة التطوير المهني للمعلمين</strong>.</li>
+                    <li>الضغط على <strong>بيانات الأنشطة للتطوير المهني</strong> وإدخال تفاصيل الدورة (الاسم، الجهة، التاريخ، النوع).</li>
+                    <li>تحديد مدة النشاط بالشكل الصحيح:
+                        <ul style="margin-right: 15px; margin-top: 5px; color: var(--text-light); font-size: 0.9rem;">
+                            <li><strong>بالساعات:</strong> للتدريب المباشر، عن بعد، وورش العمل.</li>
+                            <li><strong>بالأيام:</strong> للمؤتمرات واللقاءات التربوية.</li>
+                            <li><strong>بدون:</strong> للمحاضرات، القراءة، والإنتاج المعرفي.</li>
+                        </ul>
+                    </li>
+                    <li>الضغط على <strong>حفظ</strong> ثم <strong>إرسال للموافقة</strong>.</li>
+                </ol>
+            </div>
+
+            <!-- Section 3: Icons Meaning -->
+            <div class="card">
+                <h2 class="section-title">دلالات الأيقونات في النظام</h2>
+                
+                <div class="icon-box">
+                    <div class="symbol">✏️<span style="color:#ffc107; font-size:1rem;">(أصفر)</span></div>
+                    <div class="details">
+                        <strong>قلم أصفر</strong>
+                        <span>يعني أن النشاط أو الدورة لم تعتمد بعد.</span>
+                    </div>
+                </div>
+
+                <div class="icon-box">
+                    <div class="symbol">🖋️<span style="color:#a0aec0; font-size:1rem;">(رمادي)</span></div>
+                    <div class="details">
+                        <strong>قلم رمادي</strong>
+                        <span>يعني أن النشاط معتمد ومقبول.</span>
+                    </div>
+                </div>
+
+                <div class="icon-box">
+                    <div class="symbol"><span class="status-btn grey">إرسال للموافقة</span></div>
+                    <div class="details">
+                        <strong>أيقونة الإرسال بالرمادي</strong>
+                        <span>الطلب معلّق لدى المدير وينتظر الإجراء.</span>
+                    </div>
+                </div>
+
+                <div class="icon-box">
+                    <div class="symbol"><span class="status-btn green">إرسال للموافقة</span></div>
+                    <div class="details">
+                        <strong>أيقونة الإرسال بالأخضر</strong>
+                        <span>الطلب متاح ويمكنك إضافة دورات جديدة.</span>
+                    </div>
+                </div>
+
+                <div class="alert-box" style="margin-bottom:0; background-color: #f1f5f9; border-color: #94a3b8; color: #334155; font-size: 0.9rem;">
+                    ⚠️ إذا كان <strong>القلم رمادي والأيقونة رمادية</strong>، فهذا يعني أن الدورات الظاهرة معتمدة، لكن الطلب العام لا يزال معلقاً عند مديرك بانتظار الاعتماد النهائي أو الإعادة.
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Solving the Issue -->
+        <div class="card manager-section">
+            <h2 class="section-title" style="color: var(--danger);">حل مشكلة عدم تفعيل أزرار الإضافة (خاص بالمدير)</h2>
+            <p style="margin-bottom: 1.5rem; color: var(--text-light);">
+                تحدث هذه المشكلة عندما يقوم المعلم برفع دورات حديثة وقديمة في نفس الوقت، حيث يقوم النظام بترتيبها في صفحات مختلفة حسب التاريخ. قد يعتمد المدير الصفحة الأخيرة وينسى الصفحات الأولى، مما يعلّق الطلب. أو بسبب وجود أسطر فارغة غير مقصودة.
+            </p>
+
+            <ol class="step-list">
+                <li>الدخول لحساب <strong>المدير المباشر</strong>، والضغط على علامة (الجرس) للوصول لقائمة العمل.</li>
+                <li>اختيار <strong>انتقال إلى قائمة العمل بالكامل</strong> للبحث عن طلبات المعلمين المعلقة.</li>
+                <li>البحث عن التبليغ المسمى <strong>طلب اعتماد أنشطة التطوير المهني (XXTEACHT)</strong> الخاص بالمعلم.</li>
+                <li>الدخول للطلب والضغط على <strong>تفاصيل بيانات النشاطات</strong>.</li>
+                <li><span class="highlight-text">الخطوة الأهم:</span> يجب على المدير تصفح <strong>جميع صفحات الأنشطة</strong> من الأولى للأخيرة.</li>
+                <li>التأكد من اتخاذ إجراء (قبول / رفض / إعادة) <strong>لكل نشاط في كل الصفحات</strong>.</li>
+                <li>في حال وجود <strong>سطر فارغ</strong>، يجب على المدير تعبئته بأي أحرف أو أصفار عشوائية ثم اختيار إجراء <strong>(رفض)</strong> له.</li>
+                <li>التأشير على مربع <strong>(أقر بسلامة وصحة الأنشطة...)</strong>، ثم الضغط على <strong>حفظ</strong>.</li>
+                <li>العودة لصفحة الطلب الرئيسية والضغط على <strong>اعتماد</strong> النهائي لفك تعليق حساب المعلم.</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>تصميم د/فواز</p>
+        <p>تفضل للمزيد هنا</p>
+        <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">رابط القناة على تيليجرام ✈️</a>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>بطاقة تحليل الوثائق - مدارس رياض الأطفال</title>
+<style>
+:root {
+  --navy:#0b1f3a; --blue:#1d65d8; --sky:#eaf4ff; --gold:#d6aa45; --ink:#182033; --muted:#667085; --line:#d8e4f2; --paper:#ffffff; --soft:#f6f9ff;
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"IBM Plex Sans Arabic","Noto Kufi Arabic","Readex Pro",Tahoma,Arial,sans-serif;background:radial-gradient(circle at top right,#eff7ff,transparent 35%),linear-gradient(135deg,#f8fbff,#eef5ff);color:var(--ink);}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(90deg,rgba(29,101,216,.035) 1px,transparent 1px),linear-gradient(rgba(29,101,216,.035) 1px,transparent 1px);background-size:34px 34px;pointer-events:none;z-index:-1}
+.app{display:grid;grid-template-columns:330px minmax(0,1fr);min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow:auto;background:linear-gradient(180deg,#061a32,#0d2a50 55%,#10386c);color:#fff;padding:22px;border-left:1px solid rgba(255,255,255,.15);box-shadow:-12px 0 32px rgba(7,24,52,.18)}
+.brand{padding:18px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);border-radius:var(--radius);backdrop-filter:blur(10px);}
+.brand .mini{display:inline-flex;gap:8px;align-items:center;background:rgba(214,170,69,.16);color:#ffe7a7;border:1px solid rgba(214,170,69,.35);padding:7px 12px;border-radius:999px;font-weight:700;font-size:12px}
+.brand h1{font-size:22px;line-height:1.55;margin:12px 0 6px}
+.brand p{margin:0;color:#d6e8ff;font-size:13px;line-height:1.8}
+.controls{margin:16px 0;display:grid;gap:10px}
+.searchbox,.selectbox,.field{width:100%;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.10);color:#fff;border-radius:15px;padding:12px 14px;outline:none}
+.searchbox::placeholder,.field::placeholder{color:#c8dcf5}
+.selectbox option{color:#111}
+.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+button,.file-label{border:0;border-radius:14px;padding:11px 12px;font-weight:800;cursor:pointer;background:#fff;color:#0b2b54;box-shadow:0 8px 18px rgba(0,0,0,.12);transition:.2s;display:inline-flex;justify-content:center;align-items:center;gap:7px;text-decoration:none}
+button:hover,.file-label:hover{transform:translateY(-1px)}
+.gold{background:linear-gradient(135deg,#f8d77b,#d6aa45);color:#201500}
+.nav{display:grid;gap:8px;margin-top:12px}
+.nav-title{color:#a9caef;font-size:12px;font-weight:800;margin:14px 2px 6px}
+.nav-link{display:flex;align-items:center;gap:10px;color:#eaf4ff;text-decoration:none;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.12);padding:10px;border-radius:15px;font-size:13px;line-height:1.45}
+.nav-link span{width:26px;height:26px;display:grid;place-items:center;border-radius:9px;background:rgba(214,170,69,.22);color:#ffdd81;font-weight:900;flex:0 0 auto}
+.signature{margin-top:16px;padding:14px;border-radius:18px;background:rgba(214,170,69,.14);border:1px dashed rgba(255,226,154,.45);line-height:1.8;font-weight:800;color:#fff9e7}
+.signature a{color:#fff;text-decoration:underline}
+main{padding:28px 32px 56px;overflow:hidden}
+.hero{position:relative;overflow:hidden;border-radius:30px;background:linear-gradient(135deg,#0b1f3a 0%,#1457b7 55%,#6e54c9 100%);color:#fff;padding:30px;box-shadow:0 24px 60px rgba(10,45,96,.22)}
+.hero::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.12);left:-110px;top:-130px}
+.hero h2{font-size:34px;margin:0 0 10px;line-height:1.35}
+.hero p{margin:0;max-width:900px;line-height:1.9;color:#e9f2ff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin:18px 0}
+.stat{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:20px;padding:15px;box-shadow:0 12px 28px rgba(16,56,108,.08)}
+.stat b{display:block;font-size:25px;color:var(--blue)}.stat span{color:var(--muted);font-weight:700}
+.meta-form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.meta-form input{background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px;font-weight:700;outline:none}
+.section-title{display:flex;align-items:center;gap:12px;margin:30px 0 14px;padding:14px 16px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px rgba(16,56,108,.08)}
+.section-title span{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,var(--blue),#6e54c9);color:#fff;font-weight:900}
+.section-title h2{margin:0;font-size:22px;flex:1}
+.print-section{background:#eef5ff;color:#0d407f;box-shadow:none;border:1px solid #cfe0f8}
+.cards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.indicator-card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 14px 34px rgba(16,56,108,.08);outline:none;position:relative;overflow:hidden}
+.indicator-card::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--gold),var(--blue),#6e54c9)}
+.indicator-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:76px;padding:7px 10px;border-radius:12px;background:#eef6ff;color:#0d54ad;font-weight:900;border:1px solid #d6e7ff}
+.indicator-head h3{margin:0;font-size:18px;line-height:1.65}
+.desc{background:#f4f8ff;border-right:5px solid var(--blue);padding:12px 14px;border-radius:16px;line-height:1.9;color:#26364d;margin:10px 0}
+.paragraph-title{margin:13px 0 8px;padding:10px 12px;border-radius:14px;background:#fff8e8;border:1px solid #f1d892;color:#473300;font-weight:900;line-height:1.7}
+.rating-title,.evidence-title{font-weight:900;color:#0b2b54;margin:13px 0 8px}
+table.rating{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;margin:8px 0 12px;background:#fff}
+.rating th{background:#0d407f;color:#fff;padding:10px;font-size:13px}
+.rating td{padding:11px;text-align:center;border-right:1px solid var(--line);font-weight:800;color:#334155;background:#fbfdff}
+.evidence-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.evidence-list li{position:relative;background:#f9fbff;border:1px solid #e3edf8;border-radius:14px;padding:10px 36px 10px 10px;line-height:1.8}
+.evidence-list li::before{content:"✓";position:absolute;right:12px;top:10px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:#eaf6ee;color:#16803f;font-weight:900;font-size:11px}
+p,.note-line{line-height:1.8;margin:8px 0;color:#2f3a4c}
+mark.search-hit{background:#fff06a;color:#111;padding:0 3px;border-radius:5px}
+.hidden{display:none!important}
+.backtop{position:fixed;left:22px;bottom:22px;z-index:10;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#6e54c9);color:#fff;box-shadow:0 16px 35px rgba(29,101,216,.32)}
+.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#0b1f3a;color:#fff;border-radius:999px;padding:12px 18px;opacity:0;pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1}
+@media(max-width:1050px){.app{grid-template-columns:1fr} aside{position:relative;height:auto} .cards-grid{grid-template-columns:1fr} .stats,.meta-form{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){main{padding:18px}.hero h2{font-size:25px}.stats,.meta-form{grid-template-columns:1fr}.btnrow{grid-template-columns:1fr}}
+@media print{
+  @page{size:A4 portrait;margin:10mm}
+  body{background:white} body::before, aside,.backtop,.toast,.print-section{display:none!important}
+  .app{display:block} main{padding:0} .hero{background:#fff;color:#111;border:1px solid #ddd;box-shadow:none;padding:12px} .hero p{color:#333} .stats,.meta-form{display:none}
+  .section-title,.indicator-card{box-shadow:none;break-inside:avoid;page-break-inside:avoid} .cards-grid{grid-template-columns:1fr;gap:8px} .indicator-card{padding:11px;margin-bottom:8px} .desc,.paragraph-title,.evidence-list li{background:#fff} .section-title{margin:10px 0 8px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="brand">
+    <span class="mini">🎓 منصة تحليل الوثائق</span>
+    <h1>بطاقة تحليل الوثائق<br>لمدارس رياض الأطفال</h1>
+    <p>منصة تفاعلية قابلة للتعديل والطباعة والحفظ، مرتبة حسب المجالات والمؤشرات والفقرات والشواهد.</p>
+  </div>
+  <div class="controls">
+    <input id="searchInput" class="searchbox" placeholder="ابحث في المؤشرات أو الشواهد…" oninput="searchCards()" />
+    <select id="sectionSelect" class="selectbox" onchange="goSection(this.value)"><option value="">انتقال سريع للمجال</option><option value="sec0">الإدارة المدرسية : ١- التخطيط</option><option value="sec1">الإدارة المدرسية - قيادة العملية التعليمية</option><option value="sec2">الإدارة المدرسية : ٣- المجتمع المدرسي</option><option value="sec3">الإدارة المدرسية - التطوير المؤسسي</option><option value="sec4">الإدارة المدرسية - حقوق الطفل وحمايته</option><option value="sec5">التعليم والتعلم : ١- بناء خبرات التعلم</option><option value="sec6">التعليم والتعلم : ٢ - تقويم التعلم</option><option value="sec7">نواتج التعلم : - التطور الشخصي والصحي والاجتماعي</option><option value="sec8">البيئة المدرسية ٢ - الأمن والسلامة</option><option value="sec9">تعريفات</option></select>
+    <input id="schoolName" class="field" placeholder="اسم المدرسة" oninput="saveMeta()" />
+    <input id="teamName" class="field" placeholder="أعضاء فريق التقويم" oninput="saveMeta()" />
+    <div class="btnrow">
+      <button class="gold" onclick="window.print()">🖨️ طباعة / PDF</button>
+      <button onclick="downloadHTML()">💾 حفظ HTML</button>
+      <button onclick="clearSearch()">🧹 مسح البحث</button>
+      <button onclick="toggleAll()">📂 طي/فتح</button>
+    </div>
+  </div>
+  <div class="nav-title">قائمة المحتوى</div>
+  <nav class="nav"><a href="#sec0" class="nav-link"><span>1</span>الإدارة المدرسية : ١- التخطيط</a><a href="#sec1" class="nav-link"><span>2</span>الإدارة المدرسية - قيادة العملية التعليمية</a><a href="#sec2" class="nav-link"><span>3</span>الإدارة المدرسية : ٣- المجتمع المدرسي</a><a href="#sec3" class="nav-link"><span>4</span>الإدارة المدرسية - التطوير المؤسسي</a><a href="#sec4" class="nav-link"><span>5</span>الإدارة المدرسية - حقوق الطفل وحمايته</a><a href="#sec5" class="nav-link"><span>6</span>التعليم والتعلم : ١- بناء خبرات التعلم</a><a href="#sec6" class="nav-link"><span>7</span>التعليم والتعلم : ٢ - تقويم التعلم</a><a href="#sec7" class="nav-link"><span>8</span>نواتج التعلم : - التطور الشخصي والصحي والاجتماعي</a><a href="#sec8" class="nav-link"><span>9</span>البيئة المدرسية ٢ - الأمن والسلامة</a><a href="#sec9" class="nav-link"><span>10</span>تعريفات</a></nav>
+  <div class="signature">تصميم د/فواز<br>تفضل للمزيد هنا<br><a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
+</aside>
+<main id="top">
+  <section class="hero">
+    <h2>بطاقة تحليل الوثائق</h2>
+    <p>واجهة موحّدة لعرض جميع المؤشرات والفقرات ومصفوفات مستويات التقييم والشواهد الداعمة. يمكن تعديل النص مباشرة داخل البطاقات، ثم الطباعة أو الحفظ PDF من المتصفح.</p>
+  </section>
+  <section class="stats">
+    <div class="stat"><b>10</b><span>مجالات/أقسام</span></div>
+    <div class="stat"><b>25</b><span>مؤشر</span></div>
+    <div class="stat"><b>29</b><span>فقرة</span></div>
+    <div class="stat"><b>169</b><span>شاهد داعم</span></div>
+  </section>
+  <section class="meta-form">
+    <input placeholder="المدرسة" contenteditable="true">
+    <input placeholder="التاريخ" type="date">
+    <input placeholder="اليوم">
+    <input placeholder="أعضاء فريق التقويم">
+  </section>
+  <section class="domain-section" id="sec0" data-title="الإدارة المدرسية : ١- التخطيط">
+      <div class="section-title"><span>01</span><h2>الإدارة المدرسية : ١- التخطيط</h2><button class="print-section" onclick="printSection('sec0')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec0" data-code="١-١-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-١-١-١</span><h3>تضع المدرسة خطة تشغيلية شاملة وفق أهداف تطويرية محددة.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطوير خطتها التشغيلية بما يضمن شموليتها ومرونتها في تحقيق أهداف تطويرية طموحة تتضمن مبادرات نوعية، وإشراك الكادر التعليمي في تطويرها واتخاذ القرارات المتعلقة بها.</div>
+<div class="paragraph-title">الفقرة (١): يوجد لدى المدرسة خطة تشغيلية شاملة وفق أهداف تطويرية محددة.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢-٣) شواهد</td><td>(٤-٥) شواهد</td><td>(٧) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تضع المدرسة خطة تشغيلية شاملة.</li><li>تتضمن الخطة التشغيلية مؤشرات أداء لتحقق الأهداف.</li><li>تتضمن الخطة التشغيلية أهداف تطويرية محددة.</li><li>تتضمن الخطة التشغيلية برامج ومبادرات نوعية.</li><li>يُشارك ٩٠٪ وأكثر من الكادر التعليمي في إعداد الخطة التشغيلية.</li><li>تتضمن الخطة التشغيلية برامجاً للاستدامة.</li><li>تتضمن الخطة التشغيلية أدوار للمعلمين/ات تساهم في اتخاذهم للقرارات المتعلقة بالخطة التشغيلية.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec0" data-code="١-١-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-١-١-٢</span><h3>تتابع المدرسة تنفيذ خطتها التشغيلية، وتطورها بما يضمن تحقيق أهدافها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة متابعة خطتها التشغيلية في تنفيذ البرامج والأنشطة، وتقويمها وفق الخطة الزمنية بأساليب متنوعة، وتطويرها وفق نتائج التقويم المدرسي، وخطة التحسين بما يضمن تحقيق جميع أهدافها.</div>
+<div class="paragraph-title">الفقرة (٢): تتابع المدرسة تنفيذ البرامج والأنشطة، وتقومها وفق الخطة الزمنية.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تقوم المدرسة بتنفيذ أنشطة وبرامج الخطة التشغيلية وفق الخطة الزمنية.</li><li>تقيس المدرسة مدى رضا المجتمع المدرسي عن الخطة التشغيلية (المعلمين/ات، والأطفال، والأسر).</li><li>تتابع المدرسة تنفيذ برامج الخطة التشغيلية.</li><li>تتابع المدرسة تنفيذ الأنشطة والبرامج بأساليب متنوعة (٢ أو أكثر) أو مبتكرة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+<div class="paragraph-title">الفقرة (٣): تطور المدرسة خطتها التشغيلية وفق نتائج التقويم المدرسي، وخطة التحسين بما يضمن تحقيق أهدافها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطور المدرسة الخطة التشغيلية وفق نتائج التقويم المدرسي.</li><li>تتضمن الخطة التشغيلية مبادرات نوعية في الخطة وفق نتائج التقويم المدرسي.</li><li>تطور المدرسة أنشطة وبرامج الخطة التشغيلية بما يضمن تحقيق أهدافها.</li><li>تحدث المدرسة الخطة التشغيلية بناءً على التطورات والاحتياجات المستمرة في المجتمع.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec1" data-title="الإدارة المدرسية - قيادة العملية التعليمية">
+      <div class="section-title"><span>02</span><h2>الإدارة المدرسية - قيادة العملية التعليمية</h2><button class="print-section" onclick="printSection('sec1')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec1" data-code="١-٢-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٢-١-١</span><h3>تعزز المدرسة القيم الإسلامية والهوية الوطنية.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تعزيز القيم الإسلامية والهوية الوطنية لدى الأطفال بأساليب متنوعة ومبتكرة، من خلال تنفيذ البرامج والأنشطة وتفعيل المناسبات الوطنية، ومتابعة تنفيذها، بما يسهم في ترسيخ أثرها لديهم.</div>
+<div class="paragraph-title">الفقرة (٤): تنفذ المدرسة برامج وأنشطة لتعزيز القيم الإسلامية، والهوية الوطنية لدى الأطفال، وتتابعها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تفعل المدرسة المناسبات لتعزيز القيم الإسلامية والهوية الوطنية.</li><li>تتابع المدرسة تنفيذ البرامج والأنشطة والمناسبات الوطنية بأساليب متنوعة (٢ فأكثر) أو مبتكرة (مثل: الاحتفالات في الأيام والمناسبات الوطنية، الرحلات التعليمية الأنشطة الرياضية والثقافية، المسرح المدرسي).</li><li>تنفذ المدرسة برامج وأنشطة تعزز القيم الإسلامية لدى الأطفال مثل: (الأدعية، تمثيل أدوار، قصص، لوح جدارية، عروض، أنشطة فنية، المجموعات الصغيرة، وغيرها).</li><li>تبرز المدرسة منجزات المملكة العربية السعودية ومكانتها في البيئة المدرسية بأساليب متنوعة مثل: (أركان، رحلات، وغيرها).</li><li>تنفذ المدرسة برامج وأنشطة تعزز الهوية الوطنية لدى الأطفال بأساليب متنوعة أو مبتكرة مثل: (تمثيل أدوار، معارض فنية، أناشيد وطنية، وغيرها).</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec1" data-code="١-٢-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٢-١-٢</span><h3>تطبق المدرسة قيم مهنة التعليم وأخلاقياتها، وتتابع الالتزام بها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تعزيز قيم مهنة التعليم وأخلاقياتها، من خلال تطبيق الممارسات المتنوعة في التعامل مع منسوبيها وتطبيق إجراءات واضحة لمتابعة التزامهم بها لترسيخ قيم وأخلاقيات مهنة التعليم.</div>
+<div class="paragraph-title">الفقرة (٥): تطبق المدرسة قيم مهنة التعليم وأخلاقياتها في التعامل مع منسوبيها، وتتابع الالتزام بها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تتابع المدرسة التزام المنسوبين/ات بقواعد السلوك الوظيفي وأخلاقيات مهنة التعليم (مرتين على الأقل في السنة).</li><li>تكرم المدرسة المنسوبين/ات الذين/اللاتي يظهرون/يظهرن التميز في العمل ويتمتعون/يتمتعن بأخلاق مهنية عالية.</li><li>تنشر المدرسة قواعد السلوك الوظيفي وأخلاقيات مهنة التعليم لدى المنسوبين/ات بأساليب متنوعة.</li><li>تُطبق المدرسة قيم مهنة التعليم وأخلاقياتها في التعامل مع المنسوبين/ات.</li><li>تتخذ المدرسة إجراءات واضحة للمساءلة بشأن مخالفات قيم مهنة التعليم وأخلاقياتها.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec1" data-code="١-٢-١-٤" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٢-١-٤</span><h3>تنفذ المدرسة برامج وأنشطة تربوية داعمة للسلوك الإيجابي لدى الأطفال، ومنهم ذوو الإعاقة والموهوبون، وتتابعها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تنفيذ برامج وأنشطة تربوية وقائية وعلاجية متنوعة داعمة للسلوك الإيجابي وتعمل على معالجة وحل المشكلات السلوكية التي تواجه الأطفال ومنهم ذوو الإعاقة والموهوبون، وتطبق إجراءات متنوعة ومحددة للكشف عنها، وتتابع أثرها بشكل مستمر.</div>
+<div class="paragraph-title">الفقرة (٦): تنفذ المدرسة برامج وأنشطة وقائية وعلاجية للمشكلات السلوكية التي تواجه الأطفال، ومنهم ذوو الإعاقة والموهوبون، وتتابعها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة إجراءات محددة للكشف عن المشكلات السلوكية مثل: (ملاحظة بيئة التعلم، الاستبانات، المقابلات الفردية أو الجماعية، وغيرها).</li><li>تنفذ المدرسة برامجاً وأنشطة مرتبطة بنتائج الكشف عن المشكلات السلوكية مثل: (تنفذ جلسات علاجية فردية، تعاون المدرسة مع الأسرة، جلسات ارشاد فردي وجماعي، برامج تربوية موجهة لعلاج بعض المشكلات، وغيرها).</li><li>تتابع المدرسة أثر البرامج والأنشطة بانتظام.</li><li>تُصمَّم المدرسة برامجاً وأنشطة للوقاية من المشكلات السلوكية لجميع فئات الأطفال ومنهم ذوو الإعاقة مثل: (البرامج الداعمة للسلوك الإيجابي، برامج المهارات الحياتية، التوعية الإلكترونية والأمن السيبراني، مكافحة التنمر، وغيرها).</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec1" data-code="١-٢-١-٥" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٢-١-٥</span><h3>تنفذ المدرسة برامج وأنشطة إثرائية لتطوير مواهب الأطفال وتتابعها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق أساليب وإجراءات واضحة للكشف عن مواهب الأطفال، وتنفذ برامج وأنشطة إثرائية متنوعة لتطوير مواهبهم وقدراتهم بما يضمن تلبية احتياجاتهم، ومتابعة أثرها.</div>
+<div class="paragraph-title">الفقرة (٧): تنفذ المدرسة برامج إثرائية لتطوير مواهب الأطفال، وتتابع تنفيذها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة أساليب واضحة للكشف عن مواهب الأطفال (الملاحظة المباشرة، ملفات إنجاز الأطفال، استطلاع رأي ومقابلة الأسرة، وغيرها).</li><li>تصمم البرامج والأنشطة الإثرائية وفق المعايير النمائية.</li><li>تنفذ المدرسة البرامج والأنشطة التي تطور مواهب الأطفال.</li><li>تتابع المدرسة تنفيذ الأنشطة والبرامج الإثرائية بأساليب متنوعة (٢ فأكثر) أو مبتكرة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec2" data-title="الإدارة المدرسية : ٣- المجتمع المدرسي">
+      <div class="section-title"><span>03</span><h2>الإدارة المدرسية : ٣- المجتمع المدرسي</h2><button class="print-section" onclick="printSection('sec2')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec2" data-code="١-٣-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٣-١-٢</span><h3>تعزز المدرسة مشاركة الأسرة في تعلم أطفالهم، والتحضير لمستقبلهم.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تقديم برامج وأنشطة متنوعة تعزز التواصل مع الأسرة بأساليب فاعلة للتوعية بدورهم، وإشراكهم في تعلم أبنائهم والتحضير لمستقبلهم، وتتيح فرصا متنوعة للمشاركة في الأنشطة والفعاليات التي تنفذها، وتقويمها وتطويرها.</div>
+<div class="paragraph-title">الفقرة (٨): تنفذ المدرسة أنشطة وبرامج للتوعية بدور الأسرة في دعم تعلم أطفالهم والتحضير لمستقبلهم. / تشرك المدرسة الأسرة في تقويم أنشطتها وفعالياتها وتطويرها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تنفذ المدرسة أنشطة وبرامج توعوية تعرف المجتمع المدرسي بدور الأسرة في التحضير لمستقبل أبنائهم.</li><li>تشرك المدرسة الأسرة في الأنشطة والفعاليات التي تنفذها المدرسة (لقاءات دورية، وورش عمل لأسر الأطفال).</li><li>تزود المدرسة الأسرة بتقارير دورية عن تعلم أطفالهم ونموهم المعرفي والسلوكي، مع مقترحات للدعم.</li><li>تعزز المدرسة التواصل الفعال مع الأسرة بأساليب وطرق متنوعة أو مبتكرة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec2" data-code="١-٣-١-٣" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٣-١-٣</span><h3>تعزز المدرسة الشراكة المجتمعية لدعم التعلم والتأثير الإيجابي في المجتمع.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تعزيز الشراكة المجتمعية لدعم تعلم الأطفال، وتلبية احتياجاتهم، ومنهم ذوو الإعاقة والموهوبون من خلال تقديم الأنشطة والفعاليات المتنوعة ذات التأثير الإيجابي في المجتمع ومتابعة أثرها.</div>
+<div class="paragraph-title">الفقرة (٩): تعزز المدرسة الشراكة المجتمعية لدعم التعلم، وتلبية احتياجات الأطفال، ومنهم ذوو الإعاقة.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣-٤) شواهد</td><td>(٥) شواهد</td><td>(٦) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تعقد المدرسة بعض الشراكات مع الأسر بما يخدم مجالات متنوعة في المدرسة.</li><li>تعقد المدرسة شراكة مع مؤسسات المجتمع تدعم تعلم الأطفال. مثل: (الجمعيات الخيرية، المراكز الصحية، الجامعات، الجهات الحكومية، وغيرها) للمشاركة في الأنشطة أو تقديم الخدمات المتنوعة.</li><li>توظف المدرسة الشراكات مع الأسر لتلبية احتياجات الأطفال المختلفة.</li><li>تتابع المدرسة أثر الأنشطة والفعاليات للشراكات في دعم تعلم الأطفال.</li><li>تدعم المدرسة تنوع الشراكات المجتمعية بما يخدم مجالات متنوعة في المدرسة.</li><li>توظف المدرسة الشراكات المجتمعية لتلبية احتياجات الأطفال بمختلف فئاتهم ومنهم ذوو الإعاقة والموهوبون.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec3" data-title="الإدارة المدرسية - التطوير المؤسسي">
+      <div class="section-title"><span>04</span><h2>الإدارة المدرسية - التطوير المؤسسي</h2><button class="print-section" onclick="printSection('sec3')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec3" data-code="١-٤-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-١</span><h3>توفر المدرسة كادرا تعليميا مكتملا ومؤهلا بما يتسق مع المهام الموكلة له.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة توفير بيئة مهنية جاذبة ومحفزة للعمل تدعم الاستقرار الوظيفي، وتطبق إجراءات واضحة ومتنوعة لاستقطاب كادر تعليمي مكتمل ومؤهل يتوافق تخصصه مع المجال الذي يدرسه، وتعمل على استبقائهم.</div>
+<div class="paragraph-title">الفقرة (١٠): يتوفر كادر تعليمي مكتمل ومؤهل. (يتم زيارة إدارة الموارد البشرية بالمدارس الأهلية والعالمية).</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣-٤) شواهد</td><td>(٥) شواهد</td><td>(٦) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة آليات واجراءات معلنة للاستقطاب.</li><li>تطبق المدرسة آليات وإجراءات واضحة لاستقطاب الكوادر التعليمية المؤهلة.</li><li>تطبق المدرسة إجراءات واضحة للمحافظة على الكادر التعليمي المؤهل والمتميز.</li><li>توفر المدرسة كادر تعليمي مكتمل وفقا لحجم المدرسة وعدد الأطفال.</li><li>تحقق المدرسة تغطية جميع المهام التعليمية في المدرسة بكفاءات مناسبة من حيث المؤهل.</li><li>تحقق المدرسة تغطية جميع المهام التعليمية في المدرسة بكفاءات مناسبة من حيث التخصص.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+<div class="paragraph-title">الفقرة (١١): يتوافق مجال التخصص في المؤهل العلمي للكادر التعليمي مع العمل الموكلة له. (يتم زيارة إدارة الموارد البشرية بالمدارس الأهلية والعالمية).</div>
+<div class="rating-title">مستويات التقييم للشواهد الداعمة:</div>
+<ul class="evidence-list"><li>(الشاهد ١): يتوافق بنسبة أقل من ٥٠٪ من الكادر التعليمي.</li><li>(الشاهد ٢): يتوافق بنسبة ما بين ٥٠٪ - أقل من ٧٥٪ من الكادر التعليمي.</li><li>(الشاهد ٣): يتوافق بنسبة ما بين ٧٥٪ - أقل من ٩٠٪ من الكادر التعليمي.</li><li>(الشاهد ٤): يتوافق بنسبة ٩٠٪ فأكثر من الكادر التعليمي.</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٢</span><h3>توفر المدرسة كادرًا إداريا مكتملا ومؤهلا بما يتسق مع المهام الموكلة له.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة توفير بيئة مهنية جاذبة ومحفزة للعمل تدعم الاستقرار الوظيفي، وتُطبق إجراءات واضحة ومتنوعة لاستقطاب كادر إداري مكتمل ومؤهل يتوافق مع المهام الموكلة له، وتعمل على استبقائهم.</div>
+<div class="paragraph-title">الفقرة (١٢): يتوفر كادر إداري مكتمل للقيام بالمهام الإدارية. (يتم زيارة إدارة الموارد البشرية بالمدارس الأهلية والعالمية).</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣-٤) شواهد</td><td>(٥) شواهد</td><td>(٦) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة آليات وإجراءات معلنة للتوظيف.</li><li>تطبق المدرسة آليات وإجراءات واضحة لاستقطاب الكوادر الادارية المؤهلة.</li><li>تُطبق المدرسة إجراءات واضحة للمحافظة على الكادر الاداري المؤهل.</li><li>توفر المدرسة كادر اداري مكتمل وفقا لاحتياج المدرسة (عدد الاداريين يغطي جميع المهام الإدارية).</li><li>تحقق المدرسة تغطية جميع المهام الادارية بكفاءات مناسبة من حيث الخبرة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+<div class="paragraph-title">الفقرة (١٣): يتوافق مؤهل وخبرة الكادر الإداري مع المهام والأعمال الموكلة له. (يتم زيارة إدارة الموارد البشرية بالمدارس الأهلية والعالمية).</div>
+<div class="rating-title">مستويات التقييم للشواهد الداعمة:</div>
+<ul class="evidence-list"><li>(الشاهد ١): يتوافق المؤهل والخبرة بنسبة أقل من ٥٠٪ من الكادر الإداري.</li><li>(الشاهد ٢): يتوافق المؤهل والخبرة بنسبة ما بين ٥٠٪ - أقل من ٧٥٪ من الكادر الإداري.</li><li>(الشاهد ٣): يتوافق المؤهل والخبرة بنسبة ما بين ٧٥٪ - أقل من ٩٠٪ من الكادر الإداري.</li><li>(الشاهد ٤): يتوافق المؤهل والخبرة بنسبة ٩٠٪ فأكثر من الكادر الإداري.</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٣" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٣</span><h3>تظهر المدرسة الملاءة والاستدامة المالية.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة المحافظة على استدامتها المالية وتطبيق إجراءات متنوعة وواضحة في إدارة المخصصات المالية وتوزيع مواردها وفق أولوياتها وتوضح الملاءة المالية، ولديها سياسات معلنة في تحصيل الرسوم الدراسية.</div>
+<div class="paragraph-title">الفقرة (١٤): توفر المدرسة تقريرًا ماليا معتمدًا يوضح الملاءة المالية، وتوزيع الموارد وفق أولوياتها. (يتم زيارة الإدارة المالية بالمدارس الأهلية والعالمية).</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣-٤) شواهد</td><td>(٥) شواهد</td><td>(٦) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تقدم المدرسة تقريرا ماليا سنويا معتمدًا.</li><li>تطبق المدرسة إجراءات واضحة لاستدامة مواردها المالية.</li><li>توزع المدرسة المخصصات المالية وفق أولويات المدرسة واحتياجاتها.</li><li>تخصص المدرسة موازنة مالية لدعم العمليات التعليمية وبيئات التعلم.</li><li>تظهر المدرسة ملاءة مالية من خلال قدرة المدرسة على توفير الموارد التعليمية دون تأخير أو نقص، (التزام المدرسة بسداد التزاماتها المالية تجاه الموظفين والموردين في الوقت المحدد، وجود احتياطي مالي للطوارئ، وغيرها).</li><li>تطبق المدرسة إجراءات معلنة لتحصيل الرسوم الدراسية.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٤" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٤</span><h3>تدعم المدرسة منسوبيها للحصول على الرخص المهنية، وتتابعها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق إجراءات واضحة تدعم حصول جميع منسوبيها على الرخص المهنية، وتتابعها بأساليب متنوعة، وتشجع حصولهم على الرتب المهنية في مستوى متقدم وخبير بما يضمن رفع كفاءة الكادر التعليمي.</div>
+<div class="paragraph-title">الفقرة (١٥): تطبق المدرسة إجراءات محددة لدعم الحصول على الرخص المهنية، وتتابعها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تحفز المدرسة جميع المعلمين/ات على الحصول على الرخصة المهنية.</li><li>تتابع المدرسة بأساليب متنوعة أو مبتكرة إجراءات حصول المنسوبين/ات على الرخصة المهنية.</li><li>نسبة المعلمين/ات الحاصلين/ات على الرخصة المهنية ٩٠٪ فأكثر من العدد الإجمالي للمعلمين/ات.</li><li>يوجد معلم/ة أو أكثر حاصلين/ات على رتب في مستوى متقدم.</li><li>يوجد معلم/ة أو أكثر حاصلين/ات على رتب في مستوى خبير.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٥" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٥</span><h3>تدعم المدرسة التطوير المهني لمنسوبيها وفقا لنتائج التقويم واحتياجاتهم.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة دعم التطوير المهني من خلال بناء خطة شاملة للتطوير المهني تتضمن أنشطة وبرامج متنوعة ترتبط بنتائج التقويم، وتلبي احتياجات منسوبيها وتشجعهم على الابتكار في عمليات التعليم والتعلم والتقويم، وتتابع تنفيذها بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (١٦): تبنى المدرسة خطة التطوير المهني وفق نتائج التقويم واحتياجات منسوبيها، وتتابع تنفيذها بشكل مستمر.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣-٤) شواهد</td><td>(٥) شواهد</td><td>(٦) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تبني المدرسة خطة تطوير مهني شاملة مبنية على نتائج التقويم.</li><li>تتضمن خطة التطوير المهني أنشطة وبرامج متنوعة تلبي احتياجات جميع منسوبي المدرسة.</li><li>تنفذ المدرسة خطة تطوير مهني تدعم عمليات التعليم والتعلم.</li><li>تتابع المدرسة تنفيذ خطة التطوير المهني بأساليب متنوعة.</li><li>تشجع خطة التطوير المهني منسوبي المدرسة على الابتكار في عمليات التعليم والتعلم والتقويم.</li><li>تعزز خطة التطوير المهني ثقافة التعلم المستمر من خلال مبادرات تطوير مهني فردية وجماعية.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٦" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٦</span><h3>تطبق المدرسة التقويم الذاتي المبني على المعايير المعتمدة من الهيئة بشكل مستمر.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق التقويم الذاتي وفق إجراءات واضحة وموثقة مبنية على المعايير المعتمدة من الهيئة بشكل مستمر و توفر بيانات دقيقة وموثوقة تتسق مع الواقع الفعلي للمدرسة، وتعزز ثقافة التقويم المدرسي بين منسوبيها بأساليب متنوعة وتشاركهم عملياته ونتائجه.</div>
+<div class="paragraph-title">الفقرة (١٧): توفر المدرسة بيانات سجلية دقيقة وموثوقة في الأنظمة التقنية تتسق مع الواقع الفعلي.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>توفر المدرسة بيانات سجلية دقيقة وموثوقة.</li><li>تعكس بيانات المدرسة السجلية واقع المدرسة الفعلي.</li><li>تحدث المدرسة البيانات السجلية باستمرار.</li><li>تعتمد المدرسة إجراءات واضحة ومحددة في تسجيل بياناتها في الأنظمة التقنية.</li><li>توظف المدرسة البيانات السجلية في اتخاذ القرارات الإدارية والتعليمية مثل: (تحليل سجلات الحضور والانضباط لتحديد أسباب الغياب ووضع خطط علاجية، الاستفادة من بيانات النمو والتحصيل في تحسين الخطط الدراسية وتطوير أساليب التدريس، توظيف بيانات المعلمين/ات المهنية في توزيع الأدوار وبناء خطط التطوير المهني، وغيرها).</li><li>أخرى تدون (الابتكار / الابداع).</li></ul>
+<div class="paragraph-title">الفقرة (١٨): تطبق المدرسة إجراءات التقويم الذاتي وأدواته وفقا للأدلة المعتمدة من الهيئة.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة إجراءات التقويم الذاتي وفق الأدلة والنماذج المعتمدة من هيئة تقويم التعليم والتدريب.</li><li>تفعل المدرسة فرق عمل متخصصة لتنفيذ عمليات التقويم الذاتي وفق للأدلة المعتمدة من هيئة تقويم التعليم والتدريب.</li><li>تعزز المدرسة ثقافة التقويم المدرسي بين جميع المنسوبين/ات بأساليب متنوعة مثل: (تنظيم ورش تدريبية دورية وتطويرية، تدريب، وغيرها).</li><li>تشرك المدرسة المنسوبين/ات وأصحاب المصلحة في تطبيق عمليات التقويم الذاتي.</li><li>تطلع المدرسة المنسوبين/ات وأصحاب المصلحة على نتائج التقويم الذاتي.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec3" data-code="١-٤-١-٧" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٤-١-٧</span><h3>تنفذ المدرسة خطة للتحسين بناء على نتائج التقويم المدرسي، وتتابعها.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطوير خطة تحسين شاملة مبنية على تحليل نتائج التقويم المدرسي وفقا لأولويات التحسين وتتابع تنفيذها وتقويمها وتطويرها بشكل مستمر بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (١٩): تحلل المدرسة نتائج التقويم المدرسي، وتوظفها في تطوير خطة شاملة للتحسين، وتتابعها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تحلل المدرسة نتائج التقويم المدرسي لتحديد أولويات التحسين ومجالات التطوير.</li><li>توظف المدرسة نتائج تحليل التقويم المدرسي وأولويات التحسين في تطوير خطة تحسين شاملة ومتكاملة.</li><li>تطور المدرسة أنشطة وبرامج خطة التحسين بما يضمن تحقيق أهدافها.</li><li>تطبق المدرسة إجراءات متنوعة لمتابعة تنفيذ خطة التحسين.</li><li>تقوم المدرسة خطة التحسين بانتظام في ضوء نتائج التقويم المدرسي.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec4" data-title="الإدارة المدرسية - حقوق الطفل وحمايته">
+      <div class="section-title"><span>05</span><h2>الإدارة المدرسية - حقوق الطفل وحمايته</h2><button class="print-section" onclick="printSection('sec4')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec4" data-code="١-٥-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٥-١-١</span><h3>تلتزم المدرسة بالمحافظة على حقوق الأطفال، وحمايتهم.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق إجراءات واضحة للمحافظة على حقوق الأطفال وحمايتهم، وتطبيق أساليب متنوعة لتوعيتهم، وتزويدهم ببيانات التواصل مع الجهات المقدمة لخدمات الحماية وكيفية الوصول إليها عند الحاجة.</div>
+<div class="paragraph-title">الفقرة (٢٠): تطبق المدرسة إجراءات واضحة للمحافظة على حقوق الأطفال، وحمايتهم.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تُطبق المدرسة إجراءات واضحة ومعلنة تسهم في حماية حقوق الأطفال داخل البيئة المدرسية مثل: (سلامة الأطفال في الدخول والخروج، سجلات طبية محدثة، السلامة الغذائية للأطفال، رعاية الأطفال عند الإصابات، التعامل مع السلوكيات المختلفة للأطفال، وغيرها).</li><li>تطبق المدرسة إجراءات تعزز الأمان والوعي والسلامة الشخصية لدى الأطفال باساليب متنوعة. مثل: (تدريب الأطفال على إجراءات الإخلاء والطوارئ من خلال تجارب افتراضية، عرض لوحات إرشادية ورسومات توعوية تناسب أعمار الأطفال حول قواعد السلامة، تنفيذ برنامج السلامة الشخصية، وغيرها).</li><li>تزود المدرسة الأطفال ببيانات التواصل مع الجهات المختصة بخدمات الحماية وكيفية الوصول إليها.</li><li>تنفذ المدرسة برامج وأنشطة إرشادية وتوعوية متنوعة لتوعية الأطفال بحقوقهم.</li><li>يحصل جميع منسوبي المدرسة على برامج تدريبية عن حماية الطفل من الايذاء معتمدة وفق النظام. مثل: (السلامة الشخصية للطفل، إدارة السلوك الإيجابي، الإسعافات الأولية للأطفال، الاتصال الفعال مع الأطفال، البدائل التربوية للعقاب، توجيه السلوك، وغيرها).</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec4" data-code="١-٥-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">١-٥-١-٢</span><h3>توفر المدرسة مناخا أمنا للتعلم، والنمو نفسيا واجتماعيا.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة توفير مناخ آمن للتعلم من خلال تنفيذ أنشطة وبرامج وقائية وعلاجية متنوعة تحقق النمو النفسي والاجتماعي للأطفال، وتحد من حالات التنمر وتعالجها إن وجدت، وتتابع تنفيذها بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (٢١): تطبق المدرسة برامج وأنشطة تضمن مناخًا أمنا للتعلم وتحد من حالات التنمر.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تنفذ المدرسة أنشطة وبرامج تحقق مناخاً آمناً للتعلم وتدعم النمو النفسي والاجتماعي للأطفال.</li><li>تنفذ المدرسة برامج وأنشطة وقائية متنوعة للأطفال للحد من التنمر مثل: (عروض تقديمية، ورش عمل، أنشطة تفاعلية، وغيرها).</li><li>تنفذ المدرسة برامج وأنشطة علاجية متنوعة للأطفال للحد من التنمر.</li><li>تتابع المدرسة تنفيذ أنشطة وبرامج الوقاية والعلاج لمشكلات التنمر، بأساليب متنوعة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec5" data-title="التعليم والتعلم : ١- بناء خبرات التعلم">
+      <div class="section-title"><span>06</span><h2>التعليم والتعلم : ١- بناء خبرات التعلم</h2><button class="print-section" onclick="printSection('sec5')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec5" data-code="٢-١-١-٢" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٢-١-١-٢</span><h3>تدعم المدرسة تنفيذ المناهج لتحقيق نواتج التعلم المستهدفة.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة دعم المعلمين/ات في تنفيذ المناهج بجودة عالية، وتوفير مصادر وأنشطة تعليم وتعلم متنوعة لإكساب الأطفال المعارف والقيم والمهارات النوعية لتحقيق التوقعات العالية لنواتج التعلم المستهدفة، وتتابع تنفيذها وفقا للخطة الدراسية بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (٢٢): تتابع المدرسة تنفيذ المناهج لتحقيق نواتج التعلم (المعارف، القيم، المهارات) المستهدفة وفق الخطة الدراسية.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>توفر المدرسة مصادر تعلم متنوعة تحقق نواتج التعلم المستهدفة من (المعارف، القيم، المهارات) لدى جميع الأطفال.</li><li>تدعم المدرسة تنفيذ المناهج بأنشطة متنوعة تحقق نواتج التعلم المستهدفة من المعارف، القيم، المهارات لدى جميع الأطفال.</li><li>تتابع المدرسة تنفيذ المناهج بأساليب متنوعة وفق الخطة الدراسية.</li><li>يتوافق تنفيذ المنهج مع الخطة الزمنية بنسبة أكثر من ٩٠٪.</li><li>تؤمن المدرسة التأخر في المنهج للسير وفق الخطة الدراسية من خلال خطط بديلة.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec5" data-code="٢-١-١-٣" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٢-١-١-٣</span><h3>تنوع المدرسة في إستراتيجيات التعليم والتعلم : لتلبية احتياجات الأطفال، ودعم تعلمهم.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق إستراتيجيات تعليم وتعلم متنوعة وفقًا لقدرات الأطفال، وخصائص المرحلة العمرية، وتراعي الفروق الفردية بينهم، وتلبي احتياجاتهم، وتدعم تعلمهم بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (٢٣): ينوع المعلمون/ات الأنشطة وطرق التدريس لمراعاة الفروق الفردية بين الأطفال.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المعلمون/ات إستراتيجيات تعليم وتعلم متنوعة مثل: (القصص، التعلم التعاوني، الاستقصاء، العصف الذهني، المناقشة، التعلم باللعب.. وغيرها) ٣ فأكثر.</li><li>تطبق المعلمون/ات إستراتيجيات تعليم وتعلم تلبي احتياجات جميع الأطفال.</li><li>تنفذ المعلمون/ات إستراتيجيات تعليم وتعلم تراعي الفروق الفردية.</li><li>تطبق المعلمون/ات إستراتيجيات تعليم وتعلم وفقا للمعايير النمائية للأطفال.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec6" data-title="التعليم والتعلم : ٢ - تقويم التعلم">
+      <div class="section-title"><span>07</span><h2>التعليم والتعلم : ٢ - تقويم التعلم</h2><button class="print-section" onclick="printSection('sec6')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec6" data-code="٢-٢-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٢-٢-١-١</span><h3>تُطبق المدرسة أساليب وأدوات تقويم متنوعة للكشف عن مستويات أداء الأطفال المختلفة.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تطبيق أساليب وأدوات تقويم تشخيصية وبنائية وختامية متنوعة لتحديد مستويات أداء الأطفال المختلفة، والكشف عن الفروق الفردية بينهم. وتشجيعهم على المشاركة الفاعلة في تقويم أدائهم وتحسينه لدعم تعلمهم بشكل مستمر.</div>
+<div class="paragraph-title">الفقرة (٢٤): تطبق المدرسة أساليب وأدوات تقويم متنوعة (تشخيصية وبنائية وختامية) لتحديد مستويات أداء الأطفال المختلفة.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تطبق المدرسة أساليب و أدوات تقويم متنوعة (تشخيصي، بنائي، ختامي).</li><li>تراعي أساليب وأدوات التقويم أنماط تعلم الأطفال المختلفة (سمعي - بصري - اجتماعي - حركي - شخصي).</li><li>تطبق المدرسة أساليب وأدوات تقويم تكشف الفروق الفردية في أداء الأطفال قبل وأثناء التعلم.</li><li>تبرز أدوات التقويم التمايز في مستويات أداء الأطفال وتنوع قدراتهم.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec6" data-code="٢-٢-١-٣" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٢-٢-١-٣</span><h3>تحلل المدرسة نتائج التقويم، وتوظفها في تحسين عمليات التعليم والتعلم والتقويم.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تحليل نتائج التقويم، وتفسيرها، واتخاذ القرارات المناسبة في تحسين نواتج التعلم، وتحديد الفجوة في الأداء وأسبابها، وتوظيفها في بناء خطط علاجية وإثرائية لتحقيق التوقعات العالية لنواتج التعلم المستهدفة، وتتابع تنفيذها بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (٢٥): تحلل المدرسة نتائج تقويم أداء الأطفال، وتوظفها في تحسين الممارسات التعلمية، وبناء خطط علاجية وإثرائية لتحسين تعلمهم.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تحلل المدرسة نتائج تقويم أداء الأطفال وتفسرها وفق المعايير النمائية.</li><li>تطور المدرسة خططاً علاجية تستند إلى تحليل نتائج التقويم لمعالجة جوانب الضعف ومجالات التحسين لدى الأطفال.</li><li>تنفذ المدرسة برامج إثرائية لدعم الأطفال في تحقيق النواتج المستهدفة.</li><li>توظف المدرسة نتائج التقويم في اتخاذ قرارات لدعم الأطفال ذوي الأداء المنخفض مثل: (تعليم فردي، تعليم تكميلي، استشارات أسرية أو طبية أو أكاديمية، وغيرها).</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec6" data-code="٢-٢-١-٤" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٢-٢-١-٤</span><h3>تقدم المدرسة التغذية الراجعة للأطفال وأولياء أمورهم، وتتابع تقدمهم بشكل مستمر.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة تقديم تغذية راجعة بناءة للأطفال وأولياء أمورهم تركز على تحسين أدائهم بأساليب متنوعة، وتشجعهم على تحقيق التوقعات العالية لنواتج التعلم المستهدفة، وتتابع مستوى تقدمهم بشكل مستمر.</div>
+<div class="paragraph-title">الفقرة (٢٦): تقدم المدرسة تغذية راجعة للأطفال، وتتابع تقدمهم بشكل مستمر.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تقدم المدرسة تغذية راجعة للأطفال بأساليب متنوعة.</li><li>تزود المدرسة أولياء الأمور بتغذية راجعة منتظمة حول مستوى تقدم أبنائهم في التعلم.</li><li>تتابع المدرسة تقدم الأطفال بشكل مستمر.</li><li>تتابع المدرسة تقدم الأطفال في تحقيق التوقعات (النواتج التعلم المستهدفة) من خلال أدوات تقويم متنوعة.</li><li>توظف المدرسة نتائج التغذية الراجعة في تحسين الخطط التعليمية وتعزيز ممارسات التعلم النشط.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec7" data-title="نواتج التعلم : - التطور الشخصي والصحي والاجتماعي">
+      <div class="section-title"><span>08</span><h2>نواتج التعلم : - التطور الشخصي والصحي والاجتماعي</h2><button class="print-section" onclick="printSection('sec7')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec7" data-code="٣-١-١-٤" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٣-١-١-٤</span><h3>يلتزم الأطفال بقواعد السلوك والانضباط المدرسي.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة متابعة التزام الأطفال بقواعد السلوك والانضباط المدرسي من خلال تطوير برامج وأنشطة متنوعة، وإعداد الأدلة والمنشورات التي تسهم في التوجيه النوعي وتجسيد المسؤولية الذاتية لديهم.</div>
+<div class="paragraph-title">الفقرة (٢٧): يلتزم الأطفال بقواعد السلوك والانضباط المدرسي.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>تنشر المدرسة قواعد السلوك والانضباط بأساليب متنوعة.</li><li>تتابع المدرسة التزام جميع الأطفال بقواعد السلوك والانضباط المدرسي بأساليب متنوعة.</li><li>تقدم المدرسة أنشطة وبرامج تعزز المسؤولية والانضباط الذاتي لدى الأطفال.</li><li>تعد المدرسة أدلة ومنشورات توجيهية تدعم نشر ثقافة الانضباط السلوكي بين الأطفال.</li><li>يلتزم جميع الأطفال بالحضور المدرسي وفق قواعد الانضباط المدرسي.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec8" data-title="البيئة المدرسية ٢ - الأمن والسلامة">
+      <div class="section-title"><span>09</span><h2>البيئة المدرسية ٢ - الأمن والسلامة</h2><button class="print-section" onclick="printSection('sec8')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card" data-section="sec8" data-code="٤-١-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٤-١-١-١</span><h3>توفر المدرسة مبنى تعليمي يستوفي المواصفات والاشتراطات المعتمدة من حيث النوع والخدمات المساندة.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة توفير مبنى تعليمي يستوفي المواصفات والاشتراطات المعتمدة من الجهات المختصة، وتشجيع المحافظة على المظهر الحضاري، مع توفير مرافق وخدمات مساندة متنوعة تلبي متطلبات العملية التعليمية للأطفال، وتحقق لهم الرفاه، وتتابع جودتها بأساليب متنوعة.</div>
+<div class="paragraph-title">الفقرة (٢٨): توفر المدرسة شهادة مطابقة المبنى للمواصفات والاشتراطات المعتمدة من حيث النوع والخدمات المساندة.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١) شاهد</td><td>(٢) شواهد</td><td>(٣) شواهد</td><td>(٤) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>يوجد لدى المدرسة شهادة مطابقة المبنى للمواصفات والاشتراطات المعتمدة من الجهات المختصة (ينطبق هذا الشاهد على مباني المدارس الحكومية وما عداها يتطلب وجود الشهادة لتحقيق هذا الشاهد).</li><li>توفر المدرسة مرافق وخدمات مساندة (عيادة، مناطق تعلم، ملاعب، وغيرها) تلبي احتياجات الأطفال.</li><li>تقدم المدرسة خدمات مساندة متنوعة تلبي متطلبات العملية التعليمية لجميع الأطفال.</li><li>تطبق المدرسة إجراءات متعددة لمتابعة جودة الخدمات المساندة وضمانها.</li><li>أخرى تدوّن (الابتكار / الابداع).</li></ul>
+            </article><article class="indicator-card" data-section="sec8" data-code="٤-٢-١-١" contenteditable="true">
+              <div class="indicator-head"><span class="badge">٤-٢-١-١</span><h3>تتوافر في مبنى المدرسة ومرافقها جميع متطلبات الأمن والسلامة.</h3></div>
+              <div class="desc"><b>وصف المؤشر:</b> يتوقع من المدرسة توفير جميع متطلبات الأمن والسلامة في المبنى والفصول والمعامل وجميع المرافق وتفعيلها بما يضمن سلامة الأطفال ومنهم ذوو الإعاقة، وتوعيتهم بالمخاطر المحتملة، ومتابعة سلامتهم أثناء الدخول والخروج وممارسة الأنشطة المتنوعة.</div>
+<div class="paragraph-title">الفقرة (٢٩): يوجد لدى المدرسة شهادة الأمن والسلامة من الدفاع المدني ساري العمل بها.</div>
+<div class="rating-title">مستويات التقييم</div><table class="rating"><thead><tr><th>المستوى ١</th><th>المستوى ٢</th><th>المستوى ٣</th><th>المستوى ٤</th></tr></thead><tbody><tr><td>(١-٢) شواهد</td><td>(٣) شواهد</td><td>(٤) شواهد</td><td>(٥) فأكثر</td></tr></tbody></table>
+<div class="evidence-title">الشواهد الداعمة</div>
+<ul class="evidence-list"><li>يوجد لدى المدرسة شهادة الأمن والسلامة من الدفاع المدني أو تقرير معتمد من جهات مختصة.</li><li>تاريخ شهادة الأمن والسلامة ساري العمل به.</li><li>تطبق المدرسة الإجراءات اللازمة للصيانة الدورية للمرافق في مبنى المدرسة.</li><li>توجد إجراءات محددة للحفاظ على سلامة المرافق والمعدات داخل المدرسة.</li><li>تنفذ المدرسة التوجيهات الواردة في التقرير أو الشهادة الصادرة عن الجهات المختصة لضمان تطبيق معايير الأمن والسلامة بشكل كامل.</li></ul>
+            </article></div>
+    </section>
+<section class="domain-section" id="sec9" data-title="تعريفات">
+      <div class="section-title"><span>10</span><h2>تعريفات</h2><button class="print-section" onclick="printSection('sec9')">طباعة هذا الجزء</button></div>
+      <div class="cards-grid"><article class="indicator-card definitions" contenteditable="true"><div class="indicator-head"><span class="badge">📘</span><h3>تعريفات</h3></div><ul class="evidence-list"><li>ذوو الإعاقة: أطفال لديهم عائق ذهني أو عاطفي جسدي أو صعوبات تؤثر في قدرتهم على التعلم والتأخر الدراسي.</li><li>الموهوبون: أطفال لديهم قدرات عالية على الأداء ويشمل القدرات المعرفية والابتكار وحل المشكلات بطرق إبداعية، ويشمل ذلك المتفوقين وسريعي التعلم.</li></ul>
+<p>بطاقة تحليل الوثائق</p></article><article class="indicator-card definitions" contenteditable="true"><div class="indicator-head"><span class="badge">📘</span><h3>تعريفات</h3></div><ul class="evidence-list"><li>ذوو الإعاقة: أطفال لديهم عائق ذهني أو عاطفي جسدي أو صعوبات تؤثر في قدرتهم على التعلم والتأخر الدراسي.</li><li>الموهوبون: أطفال لديهم قدرات عالية على الأداء ويشمل القدرات المعرفية والابتكار وحل المشكلات بطرق إبداعية، ويشمل ذلك المتفوقين وسريعي التعلم.</li></ul>
+<p>بطاقة تحليل الوثائق</p></article></div>
+    </section>
+</main>
+</div>
+<button class="backtop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div id="toast" class="toast">تم</div>
+<script>
+const originalHTML = new Map();
+document.querySelectorAll('.indicator-card').forEach((card,i)=>originalHTML.set(card, card.innerHTML));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700)}
+function escapeRegExp(str){return str.replace(/[.*+?^${}()|[\]\]/g, '\$&');}
+function clearMarks(card){ if(originalHTML.has(card)) card.innerHTML = originalHTML.get(card); }
+function searchCards(){
+  const q=document.getElementById('searchInput').value.trim();
+  let count=0;
+  document.querySelectorAll('.indicator-card').forEach(card=>{
+    clearMarks(card); card.classList.remove('hidden');
+    if(!q) return;
+    const txt=card.innerText;
+    if(!txt.includes(q)) { card.classList.add('hidden'); return; }
+    count++;
+    const re=new RegExp(escapeRegExp(q),'g');
+    card.innerHTML=card.innerHTML.replace(re, '<mark class="search-hit">'+q+'</mark>');
+  });
+  if(q) toast('عدد النتائج: '+count);
+}
+function clearSearch(){document.getElementById('searchInput').value='';document.querySelectorAll('.indicator-card').forEach(c=>{clearMarks(c);c.classList.remove('hidden')});toast('تم مسح البحث')}
+function goSection(id){if(id) document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+let folded=false;
+function toggleAll(){folded=!folded;document.querySelectorAll('.indicator-card').forEach(c=>{const kids=[...c.children].slice(1);kids.forEach(k=>k.style.display=folded?'none':'')});toast(folded?'تم طي البطاقات':'تم فتح البطاقات')}
+function printSection(id){
+  document.body.classList.add('printing-one');
+  const all=[...document.querySelectorAll('.domain-section')]; all.forEach(s=>s.style.display = s.id===id?'block':'none');
+  window.print(); all.forEach(s=>s.style.display=''); document.body.classList.remove('printing-one');
+}
+function saveMeta(){localStorage.setItem('docPlatformMeta',JSON.stringify({school:document.getElementById('schoolName').value,team:document.getElementById('teamName').value}));}
+(function loadMeta(){try{const m=JSON.parse(localStorage.getItem('docPlatformMeta')||'{}');document.getElementById('schoolName').value=m.school||'';document.getElementById('teamName').value=m.team||'';}catch(e){}})();
+function downloadHTML(){
+  const blob=new Blob(['<!DOCTYPE html>
+'+document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='منصة_بطاقة_تحليل_الوثائق_رياض_الأطفال.html'; a.click(); URL.revokeObjectURL(a.href); toast('تم تجهيز ملف HTML');
+}
+</script>
+</body>
+</html>

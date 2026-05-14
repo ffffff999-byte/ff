@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>منصة إعداد نموذج الأسئلة المركزية</title>
+<style>
+  @page { size: A4 portrait; margin: 10mm; }
+  :root{
+    --ink:#111827; --muted:#64748b; --line:#1f2937; --soft:#f8fafc; --blue:#0f3f75;
+    --sky:#e8f2ff; --gold:#b8860b; --red:#b91c1c; --green:#0f766e;
+  }
+  *{box-sizing:border-box; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important;}
+  html,body{margin:0;padding:0;background:#eef3f8;color:var(--ink);font-family:"IBM Plex Sans Arabic","Noto Kufi Arabic","Tahoma",Arial,sans-serif;}
+  body{min-height:100vh;}
+  .toolbar{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,#0f3f75,#102a43);color:#fff;padding:10px 14px;box-shadow:0 8px 25px #0002;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .toolbar button,.toolbar label{border:0;border-radius:999px;padding:9px 14px;background:#fff;color:#0f3f75;font-weight:800;cursor:pointer;box-shadow:0 2px 8px #0002;font-size:13px}
+  .toolbar input{display:none}
+  .toolbar .hint{font-size:12px;opacity:.9;margin-inline-start:8px}
+
+  .credit-banner{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:2px;flex-wrap:wrap}
+  .credit-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:linear-gradient(135deg,rgba(255,255,255,.18),rgba(184,134,11,.28));box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 18px rgba(0,0,0,.18);font-weight:900;color:#fff;letter-spacing:.1px}
+  .credit-pill a{color:#fff;text-decoration:none;border-bottom:1px dashed rgba(255,255,255,.75);padding-bottom:1px}
+  .credit-pill .spark{width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;background:#fff;color:#0f3f75;font-size:13px;box-shadow:0 3px 10px rgba(0,0,0,.22)}
+  .page-wrap{padding:18px;display:flex;justify-content:center;}
+  .a4{width:210mm;height:297mm;background:#fff;padding:9mm 8mm;overflow:hidden;position:relative;border:1px solid #cbd5e1;box-shadow:0 16px 45px #0f172a22;}
+  [contenteditable="true"]{outline:0;border-radius:4px;padding:1px 3px;min-width:14px;display:inline-block;}
+  [contenteditable="true"]:focus{background:#fff7db;box-shadow:0 0 0 1px #f59e0b inset;}
+  .header{display:grid;grid-template-columns:1fr 86px 1fr;gap:8px;align-items:start;border-bottom:2px solid #111;padding-bottom:5px;}
+  .h-right,.h-left{font-weight:900;line-height:1.35;font-size:14px;}
+  .h-left{text-align:center}.h-right{text-align:center}
+  .ministry{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-weight:900;color:#111;}
+  .basmala{font-size:15px;line-height:1.25;}
+  .logoBox{width:58px;height:45px;border:1px dashed #a7b2c1;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7990aa;font-size:10px;text-align:center;overflow:hidden;background:#f8fafc}
+  .logoBox img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+  .red{color:var(--red)} .blue{color:var(--blue)} .small{font-size:11px}.xs{font-size:10px}.muted{color:var(--muted)}
+  .student-row{display:grid;grid-template-columns:1.1fr 2.1fr .75fr .9fr;gap:0;border:1.5px solid #111;border-top:0;font-weight:800;font-size:13px;}
+  .student-row > div{border-left:1px solid #111;min-height:28px;padding:4px 6px;display:flex;align-items:center;gap:4px}.student-row > div:first-child{border-left:0}
+  table{border-collapse:collapse;width:100%;table-layout:fixed;}
+  .marks{font-size:12px;margin-top:0;border:1.5px solid #111;border-top:0;}
+  .marks th,.marks td{border:1px solid #111;text-align:center;padding:3px 2px;height:22px;line-height:1.05;vertical-align:middle;}
+  .marks th{background:#e5e7eb;font-weight:900}.marks .wbig{width:21%}.marks .wn{width:10%}.marks .sign{height:20px;text-align:right;font-weight:800;padding-right:6px}
+  .notice{border:1px solid #111;border-top:0;padding:4px 7px;font-size:11.5px;font-weight:800;text-align:center;line-height:1.25;background:#fffdf5;}
+  .section{margin-top:5px;page-break-inside:avoid;break-inside:avoid;border:1px solid #d6dee8;border-radius:8px;overflow:hidden;background:#fff;}
+  .section-title{display:flex;align-items:center;gap:6px;padding:5px 8px;background:linear-gradient(90deg,#f8fafc,#e8f2ff);border-bottom:1px solid #d6dee8;font-weight:900;font-size:13px;line-height:1.25;}
+  .badge{min-width:24px;height:24px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:900;font-size:12px;box-shadow:inset 0 -2px 0 #0002}
+  .subtitle{font-size:11px;color:#334155;font-weight:800;margin-right:auto}.instruction{font-size:11px;line-height:1.25;padding:4px 8px;font-weight:800;}
+  .question-list{padding:2px 7px 5px;display:grid;gap:3px;}
+  .mcq-item{display:grid;grid-template-columns:21px 1fr;gap:4px;align-items:start;font-size:11.2px;line-height:1.2;}
+  .qnum{font-weight:900;color:#0f3f75;text-align:center}.qtext{font-weight:900}.choices{grid-column:2;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:1px}.choice{border-bottom:1px dotted #94a3b8;padding:1px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .tf-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;padding:2px 8px 5px;font-size:11.2px;line-height:1.25}.tf-item{display:grid;grid-template-columns:22px 1fr 32px;gap:3px;border-bottom:1px dotted #cbd5e1;padding:1px 0;align-items:center}.box{border:1px solid #111;border-radius:3px;width:26px;height:18px;text-align:center;}
+  .match-table{font-size:10.5px;margin:0;border:0}.match-table th,.match-table td{border:1px solid #cbd5e1;padding:2px 4px;height:19px;line-height:1.12;vertical-align:middle}.match-table th{background:#f1f5f9;font-weight:900;color:#0f3f75}.match-wrap{padding:4px 7px 6px}.match-table .ans{width:36px;text-align:center}.match-table .n{width:26px;text-align:center;font-weight:900;color:#0f3f75}.match-table .colb{width:35%}
+  .essay{padding:5px 8px;font-size:11.5px;line-height:1.3}.essay-box{border:1px dashed #94a3b8;border-radius:6px;min-height:34px;margin-top:3px;padding:4px;background:#fbfdff}
+  .fit-scale{transform-origin:top center;}
+  @media print{
+    html,body{width:210mm;height:297mm;background:white;overflow:hidden!important;}
+    .toolbar{display:none!important}.page-wrap{padding:0;margin:0}.a4{width:210mm;height:297mm;margin:0;border:0;box-shadow:none;padding:9mm 8mm;overflow:hidden!important;page-break-after:avoid;page-break-before:avoid;}
+    .section,.header,.marks,.student-row,.notice{page-break-inside:avoid;break-inside:avoid;} [contenteditable="true"]{box-shadow:none!important;background:transparent!important}
+  }
+  @media(max-width:850px){.page-wrap{padding:10px;overflow:auto;justify-content:flex-start}.a4{transform:scale(.62);transform-origin:top right;margin-left:-70mm;margin-bottom:-110mm}.toolbar{justify-content:flex-start}.toolbar .hint{display:block;width:100%;}}
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+    <button onclick="clearEditable()">🧹 تفريغ الحقول</button>
+    <label for="logoInput">⬆️ استيراد الشعار</label><input id="logoInput" type="file" accept="image/*" onchange="loadLogo(event)">
+    <button onclick="toggleGuide()">👁️ إظهار/إخفاء الحدود</button>
+    <span class="hint">عدّل النصوص مباشرة بالضغط عليها، ثم اطبع. التصميم مضبوط على A4 عمودي صفحة واحدة.</span>
+    <div class="credit-banner" aria-label="بيانات التصميم والرابط">
+      <span class="credit-pill"><span class="spark">✦</span> تصميم د/فواز <span class="spark">↗</span> <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">تفضل للمزيد هنا</a></span>
+    </div>
+  </div>
+  <main class="page-wrap">
+    <section class="a4" id="paper">
+      <header class="header">
+        <div class="h-right">
+          <div contenteditable="true">المملكة العربية السعودية</div><br>
+          <div contenteditable="true">وزارة التعليم</div><br>
+          <div contenteditable="true">الإدارة العامة للتعليم بمنطقة الرياض</div><br>
+          <div contenteditable="true">ثانوية اليعقوبي</div>
+        </div>
+        <div class="ministry">
+          <div class="basmala" contenteditable="true">بسم الله<br>الرحمن الرحيم</div>
+          <div class="logoBox" id="logoBox" title="اضغط زر استيراد الشعار بالأعلى">استيراد<br>الشعار</div>
+        </div>
+        <div class="h-left">
+          <div contenteditable="true">اختبار نهاية الفترة الدراسية الثانية</div>
+          <div>العام الدراسي <span contenteditable="true">1447هـ</span></div>
+          <div>اختبار مقرر: <span class="red" contenteditable="true">اسم المادة</span></div>
+          <div>للصف <span contenteditable="true">الأول الثانوي</span></div>
+          <div contenteditable="true">الدور الأول</div>
+          <div>الزمن: <span contenteditable="true">ساعتان ونصف</span></div>
+        </div>
+      </header>
+
+      <div class="student-row">
+        <div>رقم الجلوس: <span contenteditable="true">(     )</span></div>
+        <div>اسم الطالب: <span contenteditable="true">........................................................</span></div>
+        <div>الشعبة:</div><div contenteditable="true">(     )</div>
+      </div>
+      <table class="marks">
+        <tr><th class="wn">السؤال</th><th class="wn">الأول</th><th class="wn">الثاني</th><th class="wn">الثالث</th><th class="wn">الرابع</th><th class="wn">المجموع رقمًا</th><th class="wbig">المجموع كتابة</th></tr>
+        <tr><th>الدرجة</th><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+        <tr><th>المصحح</th><td colspan="3" class="sign">الاسم: <span contenteditable="true">…………………</span> &nbsp; التوقيع: <span contenteditable="true">…………</span></td><th>المراجع</th><td colspan="2" class="sign">الاسم: <span contenteditable="true">…………………</span> &nbsp; التوقيع: <span contenteditable="true">…………</span></td></tr>
+      </table>
+      <div class="notice" contenteditable="true">تنبيه: هذه الورقة خاصة بالأسئلة؛ فقم بنقل إجابتك لنموذج الإجابة «ورقة التظليل».</div>
+
+      <section class="section">
+        <div class="section-title"><span class="badge">1</span><span>السؤال الأول: الاختيار من متعدد</span><span class="subtitle">الحد الأقصى للفقرات: 40 فقرة، والاختيارات لا تزيد عن أربعة</span></div>
+        <div class="instruction" contenteditable="true">أ. اختر الإجابة الصحيحة مما يلي:</div>
+        <div class="question-list" id="mcqList"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span class="badge">2</span><span>السؤال الثاني: الصواب والخطأ</span><span class="subtitle">الحد الأقصى: 15 فقرة</span></div>
+        <div class="instruction" contenteditable="true">ضع علامة (✓) أمام العبارة الصحيحة وعلامة (✕) أمام العبارة الخطأ. ملاحظة: في ورقة الإجابة يتم تظليل حرف (ص) للإجابة الصحيحة، وحرف (خ) للإجابة الخاطئة.</div>
+        <div class="tf-grid" id="tfList"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span class="badge">3</span><span>السؤال الثالث: المزاوجة</span><span class="subtitle">عشر فقرات، ويرمز للسؤال برقم والإجابة بحرف</span></div>
+        <div class="instruction" contenteditable="true">اختر لكل عبارة من العمود (أ) الحرف الرامز للإجابة الصحيحة في العمود (ب)، ثم ظلله في ورقة الإجابة.</div>
+        <div class="match-wrap">
+          <table class="match-table" id="matchTable"><thead><tr><th class="ans">الإجابة</th><th>العمود أ: عمود الأسئلة</th><th class="colb">العمود ب: عمود الإجابات</th></tr></thead><tbody></tbody></table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span class="badge">4</span><span>السؤال الرابع: سؤال مقالي</span><span class="subtitle">مع تنبيه الطالب لنقل الإجابة وإبلاغ الكنترول</span></div>
+        <div class="essay">
+          <div contenteditable="true">نص السؤال: أجب عن هذا السؤال، ثم قم بكتابة إجابتك خلف ورقة التظليل.</div>
+          <div class="essay-box" contenteditable="true">اكتب السؤال المقالي هنا...</div>
+        </div>
+      </section>
+
+    </section>
+  </main>
+<script>
+  const $ = (s)=>document.querySelector(s);
+  function makeMCQ(){
+    const list = $('#mcqList'); list.innerHTML='';
+    for(let i=1;i<=8;i++){
+      const el=document.createElement('div'); el.className='mcq-item';
+      el.innerHTML=`<div class="qnum">${i}-</div><div><span class="qtext" contenteditable="true">السؤال</span><div class="choices"><span class="choice" contenteditable="true">أ- الخيار الأول</span><span class="choice" contenteditable="true">ب- الخيار الثاني</span><span class="choice" contenteditable="true">ج- الخيار الثالث</span><span class="choice" contenteditable="true">د- الخيار الرابع</span></div></div>`;
+      list.appendChild(el);
+    }
+  }
+  function makeTF(){
+    const list = $('#tfList'); list.innerHTML='';
+    for(let i=1;i<=8;i++){
+      const el=document.createElement('div'); el.className='tf-item';
+      el.innerHTML=`<b>${i}-</b><span contenteditable="true">العبارة</span><span class="box" contenteditable="true">( )</span>`;
+      list.appendChild(el);
+    }
+  }
+  function makeMatch(){
+    const tbody = $('#matchTable tbody'); tbody.innerHTML='';
+    const letters=['أ','ب','ج','د','هـ','و','ز','ح','ط','ي'];
+    for(let i=1;i<=10;i++){
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td class="ans" contenteditable="true"></td><td><b class="n">${i}-</b> <span contenteditable="true">العبارة</span></td><td><b>${letters[i-1]}-</b> <span contenteditable="true">الخيار ${i}</span></td>`;
+      tbody.appendChild(tr);
+    }
+  }
+  function clearEditable(){
+    document.querySelectorAll('[contenteditable="true"]').forEach(el=>{
+      if(!el.closest('.header') && !el.closest('.section-title')) el.textContent='';
+    });
+  }
+  function loadLogo(e){
+    const file=e.target.files[0]; if(!file) return;
+    const r=new FileReader();
+    r.onload=()=>{ $('#logoBox').innerHTML=`<img src="${r.result}" alt="شعار">`; };
+    r.readAsDataURL(file);
+  }
+  function toggleGuide(){
+    document.body.classList.toggle('noguide');
+    const style = document.getElementById('noguideStyle') || document.createElement('style');
+    style.id='noguideStyle';
+    style.textContent = document.body.classList.contains('noguide') ? '.section,.student-row,.marks,.notice,.header{border-color:transparent!important}.section-title{border-bottom-color:#eef2f7!important}' : '';
+    document.head.appendChild(style);
+  }
+  makeMCQ(); makeTF(); makeMatch();
+</script>
+</body>
+</html>

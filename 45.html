@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة إعداد الاختبارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --bg: #f9f9f9;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* ================= لوحة الإعدادات ================= */
+        .settings-panel {
+            width: 350px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .settings-panel h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+        .btn:hover { background: #2980b9; }
+        .btn-print { background: #27ae60; }
+        .btn-print:hover { background: #219653; }
+        .btn-pdf { background: #e74c3c; }
+        .btn-pdf:hover { background: #c0392b; }
+        
+        .footer-credit {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+        }
+        .footer-credit a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* ================= ورقة الاختبار ================= */
+        .paper-container {
+            margin-right: 350px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .paper {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            box-sizing: border-box;
+            border: 1px solid #000; /* الإطار الأسود الخفيف */
+        }
+        
+        /* الترويسة / الكليشة */
+        .header-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .header-col {
+            flex: 1;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        .header-col.right { text-align: right; }
+        .header-col.left { text-align: left; }
+        
+        .logo-preview {
+            max-width: 80px;
+            max-height: 80px;
+            object-fit: contain;
+        }
+
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .student-info div {
+            border-bottom: 1px dotted #000;
+            flex-grow: 1;
+            margin: 0 10px;
+            padding-bottom: 5px;
+        }
+
+        /* الأسئلة */
+        .questions-area {
+            font-size: 1.1rem;
+        }
+        .question-block {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px dashed #ecf0f1;
+            page-break-inside: avoid;
+        }
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .question-content {
+            margin-right: 20px;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .q-controls button {
+            background: #ecf0f1;
+            border: 1px solid #bdc3c7;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: inherit;
+            padding: 5px 10px;
+        }
+
+        /* التذييل والتواقيع */
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            page-break-inside: avoid;
+            font-weight: bold;
+        }
+        .signatures div {
+            text-align: center;
+            width: 30%;
+        }
+
+        /* ================= التوافق مع الجوال ================= */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .settings-panel {
+                position: relative;
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+                border-bottom: 3px solid var(--primary);
+            }
+            .paper-container {
+                margin-right: 0;
+                padding: 10px;
+            }
+            .paper {
+                width: 100%;
+                padding: 15px;
+                min-height: auto;
+            }
+            .header-grid {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header-col, .header-col.right, .header-col.left {
+                text-align: center;
+            }
+            .student-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .student-info div {
+                margin: 0;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .signatures {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .signatures div {
+                width: 100%;
+            }
+        }
+
+        /* ================= إعدادات الطباعة / حفظ PDF ================= */
+        @media print {
+            body { background: white; }
+            .settings-panel, .q-controls { display: none !important; }
+            .paper-container { margin: 0; padding: 0; width: 100%; }
+            .paper { 
+                box-shadow: none; 
+                width: 100%; 
+                padding: 10mm; 
+                min-height: auto; 
+                border: 1px solid #000 !important; /* ضمان ظهور الإطار عند الطباعة */
+            }
+            .question-block { border: none; padding: 0; }
+            @page { margin: 10mm; size: A4; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="settings-panel">
+        <h2>إعدادات الترويسة (الكليشة)</h2>
+        
+        <div class="form-group">
+            <label>شعار المدرسة (اختياري)</label>
+            <input type="file" id="logoInput" accept="image/*" onchange="loadLogo(event)">
+        </div>
+        
+        <div class="form-group">
+            <label>الإدارة التعليمية</label>
+            <input type="text" id="inpEdu" value="الإدارة العامة للتعليم بـ" onkeyup="updateField('txtEdu', this.value)">
+        </div>
+        
+        <div class="form-group">
+            <label>مكتب التعليم / المدرسة</label>
+            <input type="text" id="inpSchool" value="مدرسة: " onkeyup="updateField('txtSchool', this.value)">
+        </div>
+
+        <div class="form-group">
+            <label>المادة</label>
+            <input type="text" id="inpSubject" value="المادة: " onkeyup="updateField('txtSubject', this.value)">
+        </div>
+
+        <div class="form-group">
+            <label>الصف</label>
+            <input type="text" id="inpGrade" value="الصف: " onkeyup="updateField('txtGrade', this.value)">
+        </div>
+
+        <div class="form-group">
+            <label>الزمن</label>
+            <input type="text" id="inpTime" value="الزمن: ساعتان" onkeyup="updateField('txtTime', this.value)">
+        </div>
+
+        <div class="form-group">
+            <label>عنوان الاختبار</label>
+            <input type="text" id="inpTitle" value="اختبار نهاية الفصل الدراسي للعام 1446هـ" onkeyup="updateField('txtTitle', this.value)">
+        </div>
+
+        <h2>إدارة الأسئلة</h2>
+        <div class="form-group">
+            <select id="qType">
+                <option value="text">سؤال مقالي / مباشر</option>
+                <option value="mcq">اختيار من متعدد</option>
+                <option value="tf">صح وخطأ</option>
+            </select>
+        </div>
+        <button class="btn" onclick="addQuestion()">+ إضافة سؤال</button>
+        
+        <div style="margin-top: 30px;">
+            <button class="btn btn-pdf" onclick="window.print()">💾 حفظ كـ PDF</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ طباعة الاختبار</button>
+        </div>
+
+        <div class="footer-credit">
+            تصميم د/فواز <br> تفضل للمزيد هنا <br>
+            <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">https://t.me/TAqhjT3MFVE1Yzk0</a>
+        </div>
+    </div>
+
+    <div class="paper-container">
+        <div class="paper" id="examPaper">
+            
+            <div class="header-grid">
+                <div class="header-col right">
+                    المملكة العربية السعودية<br>
+                    وزارة التعليم<br>
+                    <span id="txtEdu">الإدارة العامة للتعليم بـ</span><br>
+                    <span id="txtSchool">مدرسة: </span>
+                </div>
+                <div class="header-col">
+                    <img id="logoPreview" class="logo-preview" style="display:none;" alt="الشعار">
+                </div>
+                <div class="header-col left">
+                    <span id="txtSubject">المادة: </span><br>
+                    <span id="txtGrade">الصف: </span><br>
+                    <span id="txtTime">الزمن: ساعتان</span>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; text-decoration: underline; margin-bottom: 25px; outline: none;" id="txtTitle" contenteditable="true">
+                اختبار نهاية الفصل الدراسي للعام 1446هـ
+            </h3>
+
+            <div class="student-info">
+                <div>اسم الطالب/ة: .......................................................</div>
+                <div style="flex-grow: 0.3;">رقم الجلوس: ....................</div>
+            </div>
+
+            <div class="questions-area" id="questionsArea">
+                </div>
+
+            <div class="signatures">
+                <div>توقيع المعلم/ة<br><br>......................</div>
+                <div>توقيع المراجع/ة<br><br>......................</div>
+                <div>توقيع المدير/ة<br><br>......................</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function updateField(id, value) {
+            document.getElementById(id).innerText = value;
+        }
+
+        function loadLogo(event) {
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('logoPreview');
+                output.src = reader.result;
+                output.style.display = 'inline-block';
+            };
+            if(event.target.files[0]){
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        }
+
+        let qCount = 0;
+
+        function addQuestion() {
+            qCount++;
+            const type = document.getElementById('qType').value;
+            const container = document.getElementById('questionsArea');
+            
+            const qBlock = document.createElement('div');
+            qBlock.className = 'question-block';
+            qBlock.id = `q-${qCount}`;
+            
+            let innerHTML = `
+                <div class="question-title">
+                    <span contenteditable="true" style="outline: none;">السؤال ${qCount}: اكتب نص السؤال هنا...</span>
+                    <div class="q-controls">
+                        <button onclick="document.getElementById('q-${qCount}').remove()">حذف 🗑️</button>
+                    </div>
+                </div>
+                <div class="question-content">
+            `;
+
+            if (type === 'mcq') {
+                innerHTML += `
+                    <div class="options-grid">
+                        <div contenteditable="true" style="outline: none;">أ) الخيار الأول</div>
+                        <div contenteditable="true" style="outline: none;">ب) الخيار الثاني</div>
+                        <div contenteditable="true" style="outline: none;">ج) الخيار الثالث</div>
+                        <div contenteditable="true" style="outline: none;">د) الخيار الرابع</div>
+                    </div>
+                `;
+            } else if (type === 'tf') {
+                innerHTML += `
+                    <div style="margin-top: 10px;">
+                        <div contenteditable="true" style="margin-bottom: 5px; outline: none;">1- العبارة الأولى (   )</div>
+                        <div contenteditable="true" style="margin-bottom: 5px; outline: none;">2- العبارة الثانية (   )</div>
+                        <div contenteditable="true" style="margin-bottom: 5px; outline: none;">3- العبارة الثالثة (   )</div>
+                    </div>
+                `;
+            } else {
+                innerHTML += `
+                    <div style="margin-top: 10px;">
+                        <div style="border-bottom: 1px dashed #ccc; height: 30px; margin-bottom: 10px;"></div>
+                        <div style="border-bottom: 1px dashed #ccc; height: 30px; margin-bottom: 10px;"></div>
+                    </div>
+                `;
+            }
+
+            innerHTML += `</div>`;
+            qBlock.innerHTML = innerHTML;
+            container.appendChild(qBlock);
+        }
+
+        window.onload = function() {
+            addQuestion();
+        };
+    </script>
+
+</body>
+</html>

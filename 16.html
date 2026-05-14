@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة تقييم المدرسة | وثائق الاعتماد</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a14;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-pale: #f5e9c8;
+    --navy: #0d1b3e;
+    --navy-mid: #162448;
+    --navy-light: #1e3260;
+    --teal: #0e7c7b;
+    --teal-light: #14a8a6;
+    --cream: #faf7f0;
+    --white: #ffffff;
+    --border: rgba(201,168,76,0.25);
+    --shadow: 0 8px 40px rgba(10,10,20,0.18);
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 50%, #0e4a6e 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.07'%3E%3Cpath d='M40 0L80 40L40 80L0 40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    opacity: 0.6;
+  }
+  .header-inner {
+    position: relative; z-index: 2;
+    max-width: 1400px; margin: 0 auto;
+    padding: 40px 40px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .header-logo {
+    width: 72px; height: 72px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .header-text p {
+    color: var(--gold-light);
+    font-size: 14px;
+    margin-top: 6px;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+  .header-actions {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  }
+  .btn-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.5); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.35);
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    background: var(--navy-mid);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .stats-inner {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 40px;
+    display: flex; gap: 0;
+  }
+  .stat-item {
+    flex: 1; padding: 18px 24px;
+    text-align: center;
+    border-left: 1px solid rgba(201,168,76,0.15);
+    transition: background 0.2s;
+  }
+  .stat-item:last-child { border-left: none; }
+  .stat-item:hover { background: rgba(201,168,76,0.05); }
+  .stat-num {
+    font-family: 'Cairo', sans-serif;
+    font-size: 26px; font-weight: 900;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+  /* ===== NAV TABS ===== */
+  .nav-wrap {
+    background: var(--white);
+    border-bottom: 2px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(10,10,20,0.08);
+  }
+  .nav-inner {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 40px;
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex; align-items: center; gap: 8px;
+    padding: 16px 24px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #6b7280;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none; border-top: none; border-right: none; border-left: none;
+  }
+  .nav-tab:hover { color: var(--navy); background: var(--gold-pale); }
+  .nav-tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+    background: linear-gradient(to bottom, transparent, var(--gold-pale));
+  }
+  .nav-tab .tab-icon { font-size: 18px; }
+  .nav-tab .tab-count {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 800;
+  }
+  .nav-tab.active .tab-count { background: var(--gold); color: var(--navy); }
+
+  /* ===== MAIN CONTENT ===== */
+  .main {
+    max-width: 1400px; margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+  .section { display: none; animation: fadeUp 0.35s ease; }
+  .section.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION HEADER ===== */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+  }
+  .section-title {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .icon-blue { background: linear-gradient(135deg, #162448, #1e3260); }
+  .icon-teal { background: linear-gradient(135deg, #0e5a59, #0e7c7b); }
+  .icon-purple { background: linear-gradient(135deg, #3b1f6e, #5a32a3); }
+  .icon-orange { background: linear-gradient(135deg, #7a3200, #c05000); }
+  .section-title-text h2 {
+    font-family: 'Cairo', sans-serif;
+    font-size: 22px; font-weight: 900;
+    color: var(--navy);
+  }
+  .section-title-text p {
+    font-size: 13px; color: #6b7280; margin-top: 3px;
+  }
+  .section-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-action {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px; border-radius: 10px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all 0.2s;
+  }
+  .btn-print {
+    background: var(--navy);
+    color: var(--white);
+  }
+  .btn-print:hover { background: var(--navy-light); transform: translateY(-1px); }
+  .btn-save {
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: var(--white);
+  }
+  .btn-save:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-export {
+    background: var(--gold-pale);
+    color: var(--navy);
+    border: 1px solid var(--border);
+  }
+  .btn-export:hover { background: var(--gold); }
+
+  /* ===== INDICATOR CARD ===== */
+  .indicator-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    box-shadow: 0 2px 16px rgba(10,10,20,0.06);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .indicator-card:hover { box-shadow: var(--shadow); }
+
+  .indicator-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .indicator-header::after {
+    content: '';
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--gold), var(--gold-light));
+  }
+  .indicator-header-left {
+    display: flex; align-items: center; gap: 14px; flex: 1;
+  }
+  .indicator-code {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px; font-weight: 900;
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .indicator-title {
+    color: var(--white);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px; font-weight: 700;
+    line-height: 1.5;
+  }
+  .indicator-header-right {
+    display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+  }
+  .btn-ind {
+    display: flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 8px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: all 0.2s;
+  }
+  .btn-ind-print {
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-ind-print:hover { background: rgba(255,255,255,0.22); }
+  .btn-ind-save {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+  }
+  .btn-ind-save:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .toggle-icon {
+    color: var(--gold-light);
+    font-size: 18px;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+  .indicator-card.collapsed .toggle-icon { transform: rotate(180deg); }
+
+  .indicator-body { padding: 0; }
+  .indicator-card.collapsed .indicator-body { display: none; }
+
+  /* ===== ITEM ROW ===== */
+  .item-row {
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 0;
+    transition: background 0.15s;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-row:hover { background: linear-gradient(to left, var(--gold-pale), transparent); }
+
+  .item-header {
+    padding: 16px 24px 12px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .item-num {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px; font-weight: 800;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .item-content { flex: 1; }
+  .item-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--navy); line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  /* ===== EVIDENCE LIST ===== */
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 8px; margin-bottom: 14px;
+  }
+  .evidence-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #f8f9ff, #f0f4ff);
+    border: 1px solid rgba(30,50,96,0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .evidence-item:hover { border-color: var(--gold); background: var(--gold-pale); }
+  .evidence-item.checked {
+    background: linear-gradient(135deg, #e8f5e9, #f0faf0);
+    border-color: #4caf7d;
+  }
+  .evidence-checkbox {
+    width: 20px; height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    transition: all 0.2s;
+    font-size: 12px;
+  }
+  .evidence-item.checked .evidence-checkbox {
+    background: #4caf7d; border-color: #4caf7d; color: white;
+  }
+  .evidence-text {
+    font-size: 13px; color: #374151; line-height: 1.55;
+    font-weight: 400;
+  }
+
+  /* ===== RATING SECTION ===== */
+  .rating-section {
+    padding: 12px 24px 16px 24px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    background: linear-gradient(to right, rgba(13,27,62,0.03), transparent);
+    border-top: 1px dashed var(--border);
+    margin: 0 0 0 24px;
+  }
+  .rating-label {
+    font-size: 13px; font-weight: 700; color: var(--navy);
+    white-space: nowrap;
+  }
+  .rating-stars { display: flex; gap: 6px; }
+  .star-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    background: var(--white);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px; font-weight: 800;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .star-btn:hover { border-color: var(--gold); color: var(--gold); transform: scale(1.1); }
+  .star-btn.active { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .scale-hint {
+    font-size: 11px; color: #9ca3af;
+    background: #f1f5f9;
+    padding: 4px 10px; border-radius: 6px;
+    line-height: 1.6; max-width: 260px;
+  }
+  .notes-input {
+    flex: 1; min-width: 180px;
+    padding: 8px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color 0.2s;
+    outline: none;
+    resize: none;
+  }
+  .notes-input:focus { border-color: var(--gold); }
+
+  /* ===== PROGRESS ===== */
+  .progress-wrap { margin-bottom: 32px; }
+  .progress-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .progress-pct { font-size: 13px; font-weight: 800; color: var(--teal); }
+  .progress-bar {
+    height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to left, var(--teal-light), var(--gold));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  /* ===== SUMMARY PANEL ===== */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px; margin-bottom: 32px;
+  }
+  .summary-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(10,10,20,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .summary-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .summary-card-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+  .summary-card-val {
+    font-family: 'Cairo', sans-serif;
+    font-size: 32px; font-weight: 900;
+    color: var(--navy); display: block;
+    line-height: 1;
+  }
+  .summary-card-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+  /* ===== PRINT / PDF STYLES ===== */
+  @media print {
+    header, .stats-bar, .nav-wrap, .section-actions, .btn-action,
+    .btn-ind, .btn-header, .toggle-icon, .toast,
+    .star-btn:not(.active), .pdf-hide { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .section { display: block !important; }
+    .indicator-card.collapsed .indicator-body { display: block !important; }
+    .indicator-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ccc !important; margin-bottom: 10px; }
+    .indicator-header { background: #0d1b3e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .indicator-code { background: #c9a84c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .evidence-item { break-inside: avoid; border: 1px solid #ddd !important; }
+    .evidence-item.checked { background: #e8f5e9 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .item-num { background: #0d1b3e !important; color: #c9a84c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .star-btn.active { background: #c9a84c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .rating-section { border-top: 1px dashed #ccc !important; background: #f9f9f9 !important; }
+    .notes-input { border: 1px dashed #aaa !important; min-height: 28px; }
+    .main { padding: 10px; }
+    .progress-wrap, .summary-grid { display: none !important; }
+    .pdf-cover { display: block !important; }
+    @page { margin: 15mm 12mm; size: A4; }
+  }
+
+  /* PDF Cover Page (hidden on screen) */
+  .pdf-cover { display: none; }
+  .pdf-cover-inner {
+    text-align: center; padding: 60px 40px;
+    border: 3px solid #0d1b3e; border-radius: 12px;
+    margin-bottom: 30px;
+  }
+  .pdf-cover-inner h1 { font-family: 'Cairo', sans-serif; font-size: 28px; color: #0d1b3e; margin-bottom: 12px; }
+  .pdf-cover-inner p { font-size: 14px; color: #555; margin: 6px 0; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 30px rgba(10,10,20,0.3);
+    opacity: 0; transition: all 0.3s;
+    pointer-events: none; z-index: 9999;
+    border: 1px solid var(--gold);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ===== SCORE BADGE ===== */
+  .score-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 700;
+    margin-right: 8px;
+  }
+  .score-0 { background: #fee2e2; color: #991b1b; }
+  .score-1 { background: #fef3c7; color: #92400e; }
+  .score-2 { background: #e0f2fe; color: #075985; }
+  .score-3 { background: #dcfce7; color: #166534; }
+  .score-4 { background: linear-gradient(135deg, #fef3c7, #d1fae5); color: #065f46; border: 1px solid #6ee7b7; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .header-inner { padding: 24px 20px; flex-wrap: wrap; }
+    .stats-inner { flex-wrap: wrap; }
+    .stat-item { flex: 1 1 45%; }
+    .main { padding: 20px; }
+    .nav-inner { padding: 0 16px; }
+    .evidence-grid { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:20px;flex:1">
+      <div class="header-logo">🏫</div>
+      <div class="header-text">
+        <h1>منصة تقييم جودة المدرسة</h1>
+        <p>وثائق وشواهد الاعتماد المدرسي | الفريق الخارجي للتقييم</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-header btn-outline" onclick="pdfAll()">🖨️ طباعة الكل</button>
+      <button class="btn-header btn-gold" onclick="pdfAll()">📄 حفظ PDF</button>
+    </div>
+  </div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><span class="stat-num" id="stat-indicators">39</span><span class="stat-label">مؤشراً رئيسياً</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat-items">52</span><span class="stat-label">مفردة للتقييم</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat-evidence">0</span><span class="stat-label">شاهد محقق</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat-rated">0</span><span class="stat-label">مفردة مُقيَّمة</span></div>
+    <div class="stat-item"><span class="stat-num" id="stat-avg">—</span><span class="stat-label">متوسط التقييم</span></div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showSection('s1',this)">
+      <span class="tab-icon">🏛️</span> الإدارة المدرسية <span class="tab-count">39</span>
+    </button>
+    <button class="nav-tab" onclick="showSection('s2',this)">
+      <span class="tab-icon">📚</span> التعليم والتعلم <span class="tab-count">7</span>
+    </button>
+    <button class="nav-tab" onclick="showSection('s3',this)">
+      <span class="tab-icon">🎯</span> نواتج التعلم <span class="tab-count">3</span>
+    </button>
+    <button class="nav-tab" onclick="showSection('s4',this)">
+      <span class="tab-icon">🏗️</span> البيئة المدرسية <span class="tab-count">3</span>
+    </button>
+    <button class="nav-tab" onclick="showSection('s5',this)">
+      <span class="tab-icon">📊</span> ملخص التقييم
+    </button>
+  </div>
+</div>
+
+<!-- DESIGNER CREDIT -->
+<div style="background:linear-gradient(135deg,#0d1b3e,#162448);border-top:1px solid rgba(201,168,76,0.2);padding:10px 40px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap">
+  <span style="color:rgba(255,255,255,0.55);font-family:'Tajawal',sans-serif;font-size:13px;font-weight:400">تصميم</span>
+  <span style="color:#e8c97a;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700">د/ فواز</span>
+  <span style="color:rgba(255,255,255,0.3);font-size:12px">•</span>
+  <span style="color:rgba(255,255,255,0.55);font-family:'Tajawal',sans-serif;font-size:13px">تفضل للمزيد هنا</span>
+  <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener"
+     style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#c9a84c,#e8c97a);color:#0d1b3e;padding:5px 16px;border-radius:20px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:800;text-decoration:none;transition:all 0.2s;box-shadow:0 2px 10px rgba(201,168,76,0.35)"
+     onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(201,168,76,0.5)'"
+     onmouseout="this.style.transform='';this.style.boxShadow='0 2px 10px rgba(201,168,76,0.35)'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+    Telegram
+  </a>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ===================== SECTION 1 ===================== -->
+<div class="section active" id="s1">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-icon icon-blue">🏛️</div>
+      <div class="section-title-text">
+        <h2>١. الإدارة المدرسية</h2>
+        <p>39 مفردة تقييم | 7 مؤشرات رئيسية</p>
+      </div>
+    </div>
+    <div class="section-actions">
+      <button class="btn-action btn-export" onclick="pdfSection('s1')">📄 تصدير PDF</button>
+      <button class="btn-action btn-print" onclick="pdfSection('s1')">🖨️ طباعة القسم</button>
+      <button class="btn-action btn-save" onclick="pdfSection('s1')">📄 حفظ PDF</button>
+    </div>
+  </div>
+
+  <div id="s1-progress" class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">التقدم في تقييم القسم</span>
+      <span class="progress-pct" id="s1-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="s1-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- المؤشر 1-1-1-1 -->
+  <div class="indicator-card" id="ind-1">
+    <div class="indicator-header" onclick="toggleCard('ind-1')">
+      <div class="indicator-header-left">
+        <span class="indicator-code">1-1-1-1</span>
+        <span class="indicator-title">تضع المدرسة خطة تشغيلية مكتملة العناصر، وفق أهداف تطويرية محددة.</span>
+      </div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('ind-1')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('ind-1')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <!-- مفردة 1 -->
+      <div class="item-row" id="item-1">
+        <div class="item-header">
+          <div class="item-num">1</div>
+          <div class="item-content">
+            <div class="item-title">يوجد لدى المدرسة خطة تشغيلية؛ مكتملة العناصر.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد خطة تشغيلية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتضمن الخطة أهدافاً تطويرية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتضمن الخطة برامج ومبادرات وفق جدول زمني.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد بالخطة أدوار ومسؤوليات محددة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد بالخطة مؤشرات أداء لتحقق الأهداف.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتضمن الخطة برامج الاستدامة والتحسين.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يشارك 90% وأكثر من الكادر التعليمي في إعداد الخطة.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-1">
+            <button class="star-btn" onclick="setRating('rating-1',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-1',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-1',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-1',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=3-1 شواهد | 2=5-4 | 3=6 | 4=7+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <!-- مفردة 2 -->
+      <div class="item-row" id="item-2">
+        <div class="item-header">
+          <div class="item-num">2</div>
+          <div class="item-content">
+            <div class="item-title">أهداف خطة المدرسة محددة، وقابلة للقياس.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتسم الأهداف بأنها محددة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتسم الأهداف بأنها شاملة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتسم الأهداف بأنها قابلة للقياس.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتسم الأهداف بأنها واقعية.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-2">
+            <button class="star-btn" onclick="setRating('rating-2',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-2',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-2',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-2',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <!-- مفردة 3 -->
+      <div class="item-row" id="item-3">
+        <div class="item-header">
+          <div class="item-num">3</div>
+          <div class="item-content">
+            <div class="item-title">البرامج والأنشطة تحقق الأهداف التطويرية للمدرسة.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد بالخطة برامج وأنشطة مرتبطة بالأهداف.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد برامج وأنشطة متنوعة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد إجراءات واضحة للتنفيذ.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تشمل البرامج والأنشطة المجالات المدرسية كافة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تلبي البرامج والأنشطة احتياجات جميع المتعلمين.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تلبي احتياجات ذوي صعوبات التعلم وذوي الإعاقة (إن وجد).</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تلبي احتياجات سريعي التعلم والموهوبين (إن وجد).</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-3">
+            <button class="star-btn" onclick="setRating('rating-3',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-3',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-3',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-3',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=3-1 شواهد | 2=5-4 | 3=6 | 4=7+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <!-- مفردة 4 -->
+      <div class="item-row" id="item-4">
+        <div class="item-header">
+          <div class="item-num">4</div>
+          <div class="item-content">
+            <div class="item-title">تتوزع الأدوار والمسؤوليات في تنفيذ خطة المدرسة على منسوبيها وفق خطتها الزمنية.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد بالخطة أدوار ومسؤوليات محددة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتوزع الأدوار والمسؤوليات في تنفيذ الخطة وفق خطتها الزمنية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد أدوار ومسؤوليات مرتبطة بالبرامج والأنشطة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يوجد توزيع للأدوار والمسؤوليات بما يتسق مع منسوبي المدرسة.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-4">
+            <button class="star-btn" onclick="setRating('rating-4',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-4',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-4',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-4',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المؤشر 2-1-1-1 -->
+  <div class="indicator-card" id="ind-2">
+    <div class="indicator-header" onclick="toggleCard('ind-2')">
+      <div class="indicator-header-left">
+        <span class="indicator-code">2-1-1-1</span>
+        <span class="indicator-title">تتابع المدرسة تنفيذ خطتها وتطورها بما يضمن تحقيق أهدافها.</span>
+      </div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('ind-2')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('ind-2')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-5">
+        <div class="item-header">
+          <div class="item-num">5</div>
+          <div class="item-content">
+            <div class="item-title">تتابع المدرسة تنفيذ البرامج والأنشطة وفق الخطة الزمنية.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتابع المدرسة تنفيذ الأنشطة والبرامج وفق الخطة الزمنية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتابع المدرسة تنفيذ الأنشطة والبرامج بأساليب متنوعة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يوجد إجراءات واضحة لمتابعة تنفيذ البرامج والأنشطة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تحدد المدرسة المشكلات والتحديات عند التنفيذ واقتراح الحلول والبدائل.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تدعم المدرسة منفذي البرامج والأنشطة (تحفيز - حلول - بدائل).</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-5">
+            <button class="star-btn" onclick="setRating('rating-5',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-5',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-5',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-5',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=2-1 شواهد | 2=3 | 3=4 | 4=5+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <div class="item-row" id="item-6">
+        <div class="item-header">
+          <div class="item-num">6</div>
+          <div class="item-content">
+            <div class="item-title">تُقوِّم المدرسة تنفيذ خطتها بما يضمن تحقيق أهدافها.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقوِّم المدرسة مدى تنفيذ الخطة التشغيلية وفق أهدافها.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقوِّم المدرسة تنفيذ الخطة بأساليب متنوعة (اجتماعات، ورش عمل، استطلاعات).</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقوِّم المدرسة تنفيذ الخطة وفق مؤشرات أداء محددة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقيس المدرسة مدى رضا المجتمع المدرسي عن الخطة التشغيلية.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-6">
+            <button class="star-btn" onclick="setRating('rating-6',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-6',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-6',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-6',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <div class="item-row" id="item-7">
+        <div class="item-header">
+          <div class="item-num">7</div>
+          <div class="item-content">
+            <div class="item-title">تطور المدرسة خطتها بما يضمن تحقيق أهدافها.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تحلل المدرسة نتائج تقويم الخطة التشغيلية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد مبادرات نوعية في الخطة وفق نتائج التقويم.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد إجراءات واضحة لتطوير الخطة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تطوِّر المدرسة أنشطتها وبرامجها بما يضمن تحقيق أهدافها.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يشارك المجتمع المدرسي في تطوير الخطة.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تُحدِّث المدرسة الخطة التشغيلية بناءً على التطورات والاحتياجات المستمرة.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-7">
+            <button class="star-btn" onclick="setRating('rating-7',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-7',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-7',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-7',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المؤشرات 3-7 مختصرة لكنها كاملة -->
+  <!-- المؤشر 1-1-2-1 -->
+  <div class="indicator-card" id="ind-3">
+    <div class="indicator-header" onclick="toggleCard('ind-3')">
+      <div class="indicator-header-left">
+        <span class="indicator-code">1-1-2-1</span>
+        <span class="indicator-title">تعزز المدرسة القيم الإسلامية والهوية الوطنية.</span>
+      </div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('ind-3')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('ind-3')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-8">
+        <div class="item-header">
+          <div class="item-num">8</div>
+          <div class="item-content">
+            <div class="item-title">تستهدف المدرسة تعزيز القيم الإسلامية والهوية الوطنية في خططها وبرامجها وأنشطتها.</div>
+            <div class="evidence-grid">
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تستهدف المدرسة تعزيز القيم الإسلامية والهوية الوطنية بصورة واضحة في خططها.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تستثمر المدرسة المناسبات لتعزيز القيم الإسلامية في الأنشطة الصفية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تستثمر المدرسة المناسبات لتعزيز القيم الإسلامية في الأنشطة غير الصفية.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تستثمر المدرسة المناسبات لتعزيز القيم الإسلامية في المجتمع المحلي.</span></div>
+              <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتابع المدرسة على تنفيذ الأنشطة والبرامج بأساليب متنوعة (3 فأكثر) أو مبتكرة.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-section">
+          <span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-8">
+            <button class="star-btn" onclick="setRating('rating-8',1,this)">1</button>
+            <button class="star-btn" onclick="setRating('rating-8',2,this)">2</button>
+            <button class="star-btn" onclick="setRating('rating-8',3,this)">3</button>
+            <button class="star-btn" onclick="setRating('rating-8',4,this)">4</button>
+          </div>
+          <span class="scale-hint">1=2-1 شواهد | 2=3 | 3=4 | 4=5+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Additional indicators 2-1-2-1 through 7-1-4-1 shown collapsed by default -->
+  <div class="indicator-card collapsed" id="ind-4">
+    <div class="indicator-header" onclick="toggleCard('ind-4')">
+      <div class="indicator-header-left">
+        <span class="indicator-code">2-1-2-1</span>
+        <span class="indicator-title">تلتزم المدرسة بقيم مهنة التعليم وأخلاقياتها.</span>
+      </div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('ind-4')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('ind-4')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-9">
+        <div class="item-header"><div class="item-num">9</div><div class="item-content">
+          <div class="item-title">تنشر المدرسة الوعي بقيم مهنة التعليم وأخلاقياتها لدى منسوبيها.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تنشر المدرسة قواعد السلوك الوظيفي وأخلاقيات مهنة التعليم بأساليب متنوعة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد برامج وأنشطة تعزز العلاقات الإيجابية لدى منسوبي المدرسة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد قنوات فعَّالة للتواصل بين منسوبي المدرسة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتابع المدرسة نشر قواعد السلوك الوظيفي وأخلاقياتها بشكل مستمر.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-9"><button class="star-btn" onclick="setRating('rating-9',1,this)">1</button><button class="star-btn" onclick="setRating('rating-9',2,this)">2</button><button class="star-btn" onclick="setRating('rating-9',3,this)">3</button><button class="star-btn" onclick="setRating('rating-9',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <div class="item-row" id="item-10">
+        <div class="item-header"><div class="item-num">10</div><div class="item-content">
+          <div class="item-title">تطبق المدرسة قيم مهنة التعليم وأخلاقياتها في التعامل مع منسوبيها.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تشجع المدرسة منسوبيها على المشاركة في البرامج المعززة لقيم مهنة التعليم.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد إجراءات واضحة للمساءلة بشأن مخالفات قيم مهنة التعليم.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد متابعة التزام منسوبيها بقواعد السلوك الوظيفي مستمرة (مرتين على الأقل في السنة).</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يوجد تكريم لمنسوبي المدرسة الذين يظهرون التميز في العمل.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-10"><button class="star-btn" onclick="setRating('rating-10',1,this)">1</button><button class="star-btn" onclick="setRating('rating-10',2,this)">2</button><button class="star-btn" onclick="setRating('rating-10',3,this)">3</button><button class="star-btn" onclick="setRating('rating-10',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- More indicators grouped -->
+  <div class="indicator-card collapsed" id="ind-5">
+    <div class="indicator-header" onclick="toggleCard('ind-5')">
+      <div class="indicator-header-left">
+        <span class="indicator-code">3-1-2-1 إلى 7-1-4-1</span>
+        <span class="indicator-title">المؤشرات: المناخ الآمن | السلوك | الإثراء | التعاون | الشراكة | الكوادر | الاستدامة | التقويم</span>
+      </div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('ind-5')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('ind-5')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <!-- Items 11-39 abbreviated -->
+      <script>
+        const items11to39 = [
+          {num:11, title:'توفر المدرسة برامج وأنشطة تضمن مناخاً آمناً للتعلم وتحد من حالات التنمر.', evs:['توجد أساليب استباقية للكشف عن حالات التنمر.','توجد برامج وقائية متنوعة للمتعلمين للحد من التنمر.','توجد برامج تدعم تعلم المتعلمين والنمو الشامل لشخصيتهم.','تقل حالات التنمر في المدرسة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:12, title:'تنشر المدرسة الوعي بقواعد السلوك والمواظبة، وتتابع تطبيقها.', evs:['تنشر المدرسة قواعد السلوك والمواظبة بأساليب متنوعة.','تطبق إجراءات محددة لمتابعة الالتزام بقواعد السلوك.','تتابع المدرسة تطبيق قواعد السلوك في المجتمع المدرسي بانتظام.','تتابع المدرسة التطبيق في المجتمع المحلي بأساليب متنوعة أو مبتكرة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:13, title:'توفر المدرسة برامج وأنشطة وقائية وعلاجية للمشكلات السلوكية بمن فيهم ذوو الإعاقة.', evs:['تطبق المدرسة إجراءات محددة للكشف عن المشكلات السلوكية.','توجد برامج وقائية متنوعة للمشكلات السلوكية.','تطبق المدرسة برامج علاجية مرتبطة بنتائج تشخيص المشكلات السلوكية.','تتابع المدرسة تنفيذ البرامج والأنشطة بأساليب متنوعة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:14, title:'توفر المدرسة برامج وأنشطة تعزز السلوك الإيجابي لدى المتعلمين.', evs:['توجد برامج وأنشطة متنوعة تعزز السلوك الإيجابي.','تستثمر المدرسة الشراكات المجتمعية في تعزيز السلوك الإيجابي.','تتابع المدرسة تنفيذ برامج السلوك الإيجابي بأساليب متنوعة.','تقدم المدرسة حوافز وامتيازات للمتعلمين عند تحقيق السلوك الإيجابي.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:15, title:'توفر المدرسة خطة للأنشطة الإثرائية غير الصفية، وتتابع تنفيذها.', evs:['توجد خطة للأنشطة الإثرائية غير الصفية.','تتضمن الخطة أساليب للكشف عن مواهب وقدرات المتعلمين.','تتضمن الخطة أنشطة إثرائية غير صفية متنوعة.','تتضمن الخطة إجراءات واضحة في التنفيذ.','تتابع المدرسة تنفيذ الأنشطة الإثرائية بأساليب متنوعة.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:16, title:'توفر المدرسة برامج إثرائية لتطوير مواهب المتعلمين، وتتابع تنفيذها.', evs:['تطبق المدرسة أساليب للكشف عن مواهب وقدرات المتعلمين.','توجد برامج إثرائية مرتبطة بنتائج تشخيص مواهب المتعلمين.','تحفز المدرسة المتعلمين للمشاركة في مقاييس موهبة.','تتابع المدرسة تنفيذ الأنشطة الإثرائية.','تقدم المدرسة للموهوبين حوافز تشجيعية للتميز.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:17, title:'تدعم المدرسة المشاركة في المسابقات الوطنية والدولية.', evs:['تقدم المدرسة توعية بالمسابقات الوطنية والدولية.','تدعم مشاركة المتعلمين بالمسابقات (تدريب، ورش عمل، مواد تعليمية).','تحقق المدرسة مستويات متقدمة في المسابقات.','تتابع مشاركة المتعلمين في المسابقات بأساليب متنوعة.','تحتفي المدرسة بإنجازات الفائزين وتكريمهم.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:18, title:'توفر المدرسة برامج وأنشطة إثرائية تُهيئ المتعلمين لمستقبلهم الأكاديمي والمهني.', evs:['توجد برامج إرشادية للكشف عن ميول المتعلمين.','توجد برامج وأنشطة إثرائية متنوعة تُهيئ المتعلمين للمستقبل.','تلبي البرامج احتياجات جميع المتعلمين ومنهم ذوو الإعاقة والموهوبون.','تتابع المدرسة تنفيذ البرامج والأنشطة بأساليب متنوعة.','تقدم المدرسة حوافز تشجع على المشاركة في الأنشطة الإثرائية.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:19, title:'تضع المدرسة خطة لتعزيز العمل التعاوني بين منسوبيها، وتتابعها.', evs:['توجد خطة لتعزيز العمل التعاوني في المجتمع المدرسي.','توجد أنشطة تشجع التعاون وروح الفريق في المجتمع المدرسي.','توجد أنشطة تشجع التعاون وروح الفريق في المجتمع المحلي.','توجد إجراءات واضحة للتنفيذ.','تتابع المدرسة تنفيذ الخطة بأساليب متنوعة.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:20, title:'توفر المدرسة أنشطة وبرامج للتوعية بدور الأسرة في دعم تعلم أبنائها والتحضير لمستقبلهم.', evs:['توجد برامج توعوية تعرِّف بدور الأسرة في دعم التعلم.','توجد برامج توعوية تعرِّف بدور الأسرة في التحضير للمستقبل.','تُشرك المدرسة الأسرة في الأنشطة غير الصفية والفعاليات.','تُشرك الأسرة في تعلم أبنائهم وتقويم أدائهم.','تُشرك الأسرة في التحضير لمستقبل أبنائهم.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:21, title:'توفر المدرسة فرصاً للتواصل الفعال مع الأسرة.', evs:['تتواصل المدرسة مع الأسرة بأساليب متنوعة (منصة مدرستي، رسائل، تواصل اجتماعي).','تتواصل مع الأسرة لتزويدهم بمعلومات عن تعلم أبنائها.','تتواصل لاطلاع الأسرة على أنشطة المدرسة وبرامجها.','تتواصل لدعوة الأسرة للمشاركة في البرامج والأنشطة.','تتواصل للمشاركة في تقويم خدمات المدرسة وتطويرها.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:22, title:'توفر المدرسة فرصاً للتواصل والتعاون مع مؤسسات المجتمع؛ لتعزيز تعلم المتعلمين.', evs:['تتواصل المدرسة مع مؤسسات المجتمع المحلية بطرق متنوعة.','تتواصل للمشاركة في أنشطة أو تقديم خدمات للمدرسة.','توجد شراكات تعليمية مع مؤسسات المجتمع.','يوجد تقدير وتكريم المجتمع المحلي على تقديم خدماته.','يوجد توثيق لمشاركات مؤسسات المجتمع.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:23, title:'تستثمر المدرسة إمكانات المؤسسات الوطنية في تلبية احتياجات ذوي الإعاقة والموهوبين.', evs:['توجد برامج تعرِّف بالخدمات التي تقدمها المؤسسات الوطنية ذات العلاقة.','يوجد توثيق لجميع مشاركات مؤسسات المجتمع.','يوجد تكريم للمشاركين من ذوي الإعاقة والموهوبين.','تحفز المدرسة المتعلمين للمشاركة في برامج المؤسسات الوطنية.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:24, title:'تقدم المدرسة أنشطة وفعاليات توعوية للمجتمع المحلي وتتيح إمكاناتها لخدمته.', evs:['توجد أنشطة توعوية للمجتمع المحلي بطرق مبتكرة.','تشجع المدرسة المجتمع المدرسي على تقديم أنشطة لخدمة المجتمع.','تتيح المدرسة إمكاناتها لخدمة المجتمع المحلي.','توجد حوافز معلنة للمشاركين في خدمة المجتمع.','توثِّق المدرسة جميع المشاركات في خدمة المجتمع.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:25, title:'يوجد لدى المدرسة كادر تعليمي مكتمل ومؤهل.', evs:['توجد آليات وإجراءات واضحة لاستقطاب الكوادر التعليمية المؤهلة.','توجد آليات وإجراءات معلنة.','يوجد كادر تعليمي مكتمل وفق الحجم المدرسي.','يوجد (90% فأكثر) من مؤهلات الكادر التعليمي بكالوريوس فأعلى.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:26, title:'يتوافق مجال التخصص في المؤهل العلمي للكادر التعليمي مع العمل المكلف به.', evs:['بنسبة أقل من 50%.','بنسبة ما بين 50% - أقل من 75%.','بنسبة ما بين 75% – أقل من 90%.','بنسبة 90% فأكثر.'], scale:'1=أقل 50% | 2=50%-75% | 3=75%-90% | 4=90%+'},
+          {num:27, title:'يوجد لدى المدرسة تشكيل إداري مكتمل للقيام بالمهام الإدارية.', evs:['توجد آليات وإجراءات واضحة لاستقطاب الكوادر الإدارية المؤهلة.','يوجد كادر إداري مكتمل وفق الحجم المدرسي.','توجد آليات وإجراءات معلنة.','يوجد (90% فأكثر) من مؤهلات الكادر الإداري (ثانوي فأعلى).'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+          {num:28, title:'يتوافق مؤهل وخبرة الكادر الإداري مع المهام والأعمال المكلف بها.', evs:['بنسبة أقل من 50%.','بنسبة ما بين 50% - أقل من 75%.','بنسبة ما بين 75% – أقل من 90%.','بنسبة 90% فأكثر.'], scale:'1=أقل 50% | 2=50%-75% | 3=75%-90% | 4=90%+'},
+          {num:29, title:'توفر المدرسة خطة وتقريراً مالياً سنوياً معتمداً.', evs:['توجد خطة مالية سنوية.','تتضمن الخطة المصاريف والإيرادات المتوقعة.','تتضمن الخطة آلية استخدام الموارد المالية.','يوجد تقرير مالي سنوي معتمد.','يتضمن التقرير الإيرادات الفعلية والمصروفات والأرباح أو الخسائر.','يتضمن التقرير تحليلات وتوجيهات للتحسين المستقبلي.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:30, title:'توزع المدرسة الموارد المالية وفق أولوياتها لدعم العملية التعليمية.', evs:['توجد آليات وضوابط محددة لعمليات الصرف.','يوجد توزيع للموارد المالية تدعم العملية التعليمية.','توجد ميزانية مخصصة للتدريب والتطوير المهني.','توجد ميزانية مخصصة للبرامج والأنشطة.','توجد ميزانية مخصصة للمواد التعليمية.','توجد ميزانية مخصصة للحوافز والمكافآت.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:31, title:'تُظهر المدرسة القدرة على تغطية التزاماتها المالية.', evs:['تتوافق مصروفات المدرسة التشغيلية مع إيراداتها.','تلتزم المدرسة بدفع الرواتب والأجور والمصروفات الأساسية.','توجد إجراءات وضوابط محددة للمراجعة والتدقيق.','توجد إجراءات لمتابعة تغطية الالتزامات المالية.','توجد آليات محددة للمساءلة والحسم.','تخصص المدرسة ميزانية لتغطية المصروفات الطارئة.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:32, title:'تنشر المدرسة سياسات واضحة في الرسوم والتحصيل لأصحاب المصلحة.', evs:['توجد سياسات وضوابط محددة في الرسوم وإجراءات التحصيل.','تنشر المدرسة سياسات التحصيل بأساليب متنوعة.','تُبلغ أولياء الأمور بالرسوم وطرق الدفع بشكل مستمر.','توجد تسهيلات لدفع الرسوم المدرسية.','تتابع المدرسة عمليات دفع الرسوم وإجراءات التحصيل.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:33, title:'توفر المدرسة أنشطة وبرامج توعوية للحصول على الرخص المهنية.', evs:['توجد أنشطة وبرامج توعوية حول أهمية الرخصة المهنية.','يوجد تنوع في الأنشطة والبرامج.','توجد حوافز تشجع المعلمين على الحصول على الرخصة المهنية.','نسبة المعلمين الحاصلين على الرخصة المهنية (90% فأكثر).','يوجد معلمون حاصلون على رتب في مستوى متقدم.','يوجد معلمون حاصلون على رتب في مستوى خبير.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:34, title:'تبني المدرسة خطة التطوير المهني وفق نتائج تقويم الأداء الوظيفي واحتياجات منسوبيها.', evs:['تحدد المدرسة الاحتياجات التدريبية لمنسوبيها.','توجد خطة للتطوير المهني وفق نتائج التقويم.','يشارك منسوبو المدرسة في تحديد أهداف الخطة.','تتضمن الخطة برامج تدريبية متنوعة وفق جدول زمني.','تتضمن الخطة إجراءات محددة ومتطلبات التنفيذ.','تتضمن الخطة أدواراً ومسؤوليات.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:35, title:'تنفذ المدرسة خطة التطوير المهني لمنسوبيها وتتابعها بانتظام.', evs:['تنفذ المدرسة البرامج التدريبية بأساليب متنوعة (ورش، دورات، ندوات، زيارات مدارس أخرى).','تقيس المدرسة أثر التدريب في الأداء المدرسي.','تشجع المدرسة المعلمين على المشاركة في مجتمعات التعلم المهنية.','تشجع منسوبيها على إجراء الدراسات والبحوث الإجرائية.','تتابع خطة التطوير المهني بأساليب متنوعة.','يحصل 90% وأكثر من منسوبي المدرسة على برامج تدريبية.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:36, title:'تطبق المدرسة التقويم الذاتي المبني على المعايير المعتمدة من الهيئة.', evs:['تُشكِّل المدرسة فريق التقويم الذاتي وفق معايير محددة.','تُدرِّب فريق التقويم الذاتي على المعايير وإجراءات التطبيق والمنصة الرقمية.','توجد خطة تنفيذية زمنية لتطبيق التقويم الذاتي.','تنشر المدرسة ثقافة التقويم الذاتي في المجتمع المدرسي.','تطبق المدرسة أدوات التقويم الذاتي وفق الدليل الإجرائي المعتمد من الهيئة.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:37, title:'تُشرك المدرسة منسوبيها في عمليات التقويم الذاتي، ونتائجه.', evs:['تُشرك المدرسة المعلمين في عمليات التقويم الذاتي.','تُشرك المدرسة المتعلمين في عمليات التقويم الذاتي.','تُشرك المدرسة أولياء الأمور في عمليات التقويم الذاتي.','تُشرك المدرسة الكادر الإداري في عمليات التقويم الذاتي.','تُطلع المدرسة منسوبيها وأصحاب المصلحة على نتائج التقويم الذاتي.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+          {num:38, title:'تبني المدرسة خطة التحسين في ضوء نتائج التقويم المدرسي.', evs:['تحلل المدرسة نتائج التقويم الذاتي والتوصيات.','تضع المدرسة خطة للتحسين مبنية على نتائج التقويم الذاتي.','تُشرك المدرسة منسوبيها في إعداد خطة التحسين.','تحدد المدرسة الأولويات والمجالات التي تحتاج إلى تحسين.','تتضمن الخطة أدواراً ومسؤوليات في تنفيذ برامجها.','تتضمن الخطة مؤشرات الإنجاز.'], scale:'1=2-1 شواهد | 2=4-3 | 3=5 | 4=6+'},
+          {num:39, title:'تنفذ المدرسة خطة التحسين وتتابعها.', evs:['تنفذ المدرسة خطة التحسين بأساليب متنوعة.','تتابع المدرسة تقدم الأداء بانتظام.','تحدد المدرسة المشكلات والتحديات في التنفيذ وتقدم الحلول والبدائل.','تطور المدرسة خطة التحسين وإجراءات التنفيذ.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+        ];
+        document.currentScript.insertAdjacentHTML('afterend', items11to39.map(it => `
+          <div class="item-row" id="item-${it.num}">
+            <div class="item-header">
+              <div class="item-num">${it.num}</div>
+              <div class="item-content">
+                <div class="item-title">${it.title}</div>
+                <div class="evidence-grid">
+                  ${it.evs.map(e=>`<div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">${e}</span></div>`).join('')}
+                </div>
+              </div>
+            </div>
+            <div class="rating-section">
+              <span class="rating-label">التقييم:</span>
+              <div class="rating-stars" id="rating-${it.num}">
+                <button class="star-btn" onclick="setRating('rating-${it.num}',1,this)">1</button>
+                <button class="star-btn" onclick="setRating('rating-${it.num}',2,this)">2</button>
+                <button class="star-btn" onclick="setRating('rating-${it.num}',3,this)">3</button>
+                <button class="star-btn" onclick="setRating('rating-${it.num}',4,this)">4</button>
+              </div>
+              <span class="scale-hint">${it.scale}</span>
+              <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+            </div>
+          </div>`).join(''));
+      </script>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 2 ===================== -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-icon icon-teal">📚</div>
+      <div class="section-title-text"><h2>٢. التعليم والتعلم</h2><p>7 مفردات تقييم | 3 مؤشرات</p></div>
+    </div>
+    <div class="section-actions">
+      <button class="btn-action btn-print" onclick="pdfSection('s2')">🖨️ طباعة</button>
+      <button class="btn-action btn-save" onclick="pdfSection('s2')">📄 حفظ PDF</button>
+    </div>
+  </div>
+  <div id="s2-progress" class="progress-wrap"><div class="progress-header"><span class="progress-label">التقدم في تقييم القسم</span><span class="progress-pct" id="s2-pct">0%</span></div><div class="progress-bar"><div class="progress-fill" id="s2-fill" style="width:0%"></div></div></div>
+  <script>
+    const s2data = [
+      {code:'2-1-1-2', title:'تدعم المدرسة تنفيذ المناهج؛ لتحقيق نواتج التعلم المستهدفة وفق الخطة الدراسية.', items:[
+        {num:40, title:'توفر المدرسة أنشطة ومصادر لدعم تعلم محتوى المناهج (المعارف والمهارات والقيم).', evs:['توجد مصادر متنوعة تدعم تعلم جميع موضوعات ومحتوى المنهج.','توجد أنشطة تعلم تركز على المعارف المستهدفة.','توجد أنشطة تعلم تركز على المهارات النوعية المستهدفة.','توجد أنشطة تعلم تركز على القيم الوطنية المستهدفة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+        {num:41, title:'تتابع المدرسة تنفيذ المناهج لتحقيق نواتج التعلم المستهدفة وفق الخطة الدراسية.', evs:['تتابع المدرسة تنفيذ المناهج وفق الخطة الدراسة.','تقدم المدرسة التغذية الراجعة باستمرار.','تبادر المدرسة بتأمين حصص للمعلم المتأخر في المنهج.','يتوافق تنفيذ المنهج مع الخطة الزمنية بنسبة أكثر من 90%.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'6-1-1-2', title:'تنمي المدرسة المهارات القرائية والعددية الأساسية لدى المتعلمين.', items:[
+        {num:42, title:'تنمي المدرسة المهارات القرائية والعددية الأساسية لدى المتعلمين.', evs:['توجد أنشطة تنمي مهارات القراءة والكتابة لدى المتعلمين.','توجد أنشطة تنمي المهارات العددية لدى المتعلمين.','توجد أنشطة علاجية وإثرائية لتنمية مهارات القراءة والكتابة.','توجد أنشطة علاجية وإثرائية لتنمية المهارات العددية.','تشجع المدرسة المتعلمين على القراءة والكتابة بطرق متنوعة.','تشجع المدرسة المتعلمين على العمليات الحسابية بطرق متنوعة.','تشجع المدرسة المتعلمين على المشاركة في المسابقات الوطنية والدولية.'], scale:'1=3-1 شواهد | 2=5-4 | 3=6 | 4=7+'},
+      ]},
+      {code:'7-1-1-2', title:'تنمي المدرسة مهارات التفكير العليا لدى المتعلمين.', items:[
+        {num:43, title:'توفر المدرسة أنشطة تنمي مهارات التفكير العليا (الناقد والإبداعي وحل المشكلات) لدى المتعلمين.', evs:['توجد أنشطة تنمي مهارات التفكير الناقد (التحليل، الاستنتاج، التقويم).','توجد أنشطة تنمي مهارات التفكير الإبداعي (الطلاقة، المرونة، الأصالة).','توجد أنشطة تنمي مهارات حل المشكلات لدى المتعلمين.','توجد أنشطة إثرائية صفية وغير صفية متنوعة.','تتابع المدرسة تنفيذ الأنشطة بانتظام.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+      ]},
+      {code:'1-1-2-2', title:'تقوم المدرسة أداء المتعلمين باستخدام أساليب وأدوات تقويم متنوعة وفاعلة.', items:[
+        {num:44, title:'تستخدم المدرسة أساليب وأدوات تقويم متنوعة تُظهر التمايز في أداء المتعلمين.', evs:['توجد أساليب وأدوات تقويم متنوعة (تشخيصي، تكويني، ختامي).','تطبق المدرسة أدوات تقويم متنوعة (تقويم ذاتي، تقويم الأقران، مشروعات، مهام أدائية).','تقدم المدرسة أدوات تقويم تحقق التمايز في مستويات الأداء.','تراعي أدوات التقويم أنماط تعلم المتعلمين المختلفة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'2-1-2-2', title:'تحلل المدرسة نتائج التقويم وتوظفها في تحسين نواتج التعلم بانتظام.', items:[
+        {num:45, title:'تحلل المدرسة نتائج تقويم أداء المتعلمين، وتوظفها في تحسين تعلمهم بانتظام.', evs:['تحلل المدرسة نتائج تقويم أداء المتعلمين.','تدعم المدرسة المتعلمين الذين يحتاجون إلى تحسين أدائهم بأساليب متنوعة.','توظف المدرسة نتائج التقويم في دعم التعلم وتحسينه.','تضع المدرسة خطط علاجية وإثرائية بأساليب متنوعة.','تتابع المدرسة تنفيذ الخطط العلاجية والبرامج الإثرائية بانتظام.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+      ]},
+      {code:'3-1-2-2', title:'تقدم المدرسة التغذية الراجعة للمتعلمين بانتظام.', items:[
+        {num:46, title:'تقدم المدرسة تغذية راجعة للمتعلمين بانتظام.', evs:['تقدم المدرسة تغذية راجعة مقدمة بانتظام.','تقدم تغذية راجعة مرتبطة بنواتج التعلم المستهدفة.','تقدم تغذية راجعة تركز على دعم التعلم وتحسين أداء المتعلمين.','تقدم تغذية راجعة توضح مستوى تقدم المتعلمين.','تقدم تغذية راجعة إيجابية تشجع المتعلمين على تقديم ملاحظاتهم وأفكارهم.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
+      ]},
+    ];
+    document.currentScript.insertAdjacentHTML('afterend', s2data.map((ind,i) => `
+      <div class="indicator-card" id="s2-ind-${i}">
+        <div class="indicator-header" onclick="toggleCard('s2-ind-${i}')">
+          <div class="indicator-header-left">
+            <span class="indicator-code">${ind.code}</span>
+            <span class="indicator-title">${ind.title}</span>
+          </div>
+          <div class="indicator-header-right">
+            <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s2-ind-${i}')">🖨️ طباعة</button>
+            <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s2-ind-${i}')">📄 PDF</button>
+            <span class="toggle-icon">▲</span>
+          </div>
+        </div>
+        <div class="indicator-body">
+          ${ind.items.map(it=>`
+            <div class="item-row" id="item-${it.num}">
+              <div class="item-header">
+                <div class="item-num">${it.num}</div>
+                <div class="item-content">
+                  <div class="item-title">${it.title}</div>
+                  <div class="evidence-grid">
+                    ${it.evs.map(e=>`<div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">${e}</span></div>`).join('')}
+                  </div>
+                </div>
+              </div>
+              <div class="rating-section">
+                <span class="rating-label">التقييم:</span>
+                <div class="rating-stars" id="rating-${it.num}">
+                  <button class="star-btn" onclick="setRating('rating-${it.num}',1,this)">1</button>
+                  <button class="star-btn" onclick="setRating('rating-${it.num}',2,this)">2</button>
+                  <button class="star-btn" onclick="setRating('rating-${it.num}',3,this)">3</button>
+                  <button class="star-btn" onclick="setRating('rating-${it.num}',4,this)">4</button>
+                </div>
+                <span class="scale-hint">${it.scale}</span>
+                <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`).join(''));
+  </script>
+</div>
+
+<!-- ===================== SECTION 3 ===================== -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-icon icon-purple">🎯</div>
+      <div class="section-title-text"><h2>٣. نواتج التعلم</h2><p>3 مفردات تقييم | 2 مؤشرات</p></div>
+    </div>
+    <div class="section-actions">
+      <button class="btn-action btn-print" onclick="pdfSection('s3')">🖨️ طباعة</button>
+      <button class="btn-action btn-save" onclick="pdfSection('s3')">📄 حفظ PDF</button>
+    </div>
+  </div>
+  <div class="indicator-card" id="s3-ind-0">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-0')">
+      <div class="indicator-header-left"><span class="indicator-code">4-1-2-3</span><span class="indicator-title">يشارك المتعلمون في الأنشطة المجتمعية والأعمال التطوعية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-0')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-0')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-47">
+        <div class="item-header"><div class="item-num">47</div><div class="item-content">
+          <div class="item-title">يشارك المتعلمون في أعمال تطوعية تخدم المجتمع.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تنفذ المدرسة برامج توضح أهمية المشاركة في أعمال التطوع.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقدم المدرسة فرصاً تطوعية مناسبة للمتعلمين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تقدم المدرسة معلومات وإرشادات حول المشاركة في الأعمال التطوعية.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يشارك 90% فأكثر من المتعلمين في الأعمال التطوعية.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تشجع المدرسة المتعلمين المشاركين في الأعمال التطوعية وتكرمهم.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-47"><button class="star-btn" onclick="setRating('rating-47',1,this)">1</button><button class="star-btn" onclick="setRating('rating-47',2,this)">2</button><button class="star-btn" onclick="setRating('rating-47',3,this)">3</button><button class="star-btn" onclick="setRating('rating-47',4,this)">4</button></div>
+          <span class="scale-hint">1=2-1 شواهد | 2=3 | 3=4 | 4=5+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="indicator-card" id="s3-ind-1">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-1')">
+      <div class="indicator-header-left"><span class="indicator-code">5-1-2-3</span><span class="indicator-title">يلتزم المتعلمون بقواعد السلوك والانضباط المدرسي.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-1')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-1')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-48">
+        <div class="item-header"><div class="item-num">48</div><div class="item-content">
+          <div class="item-title">نسبة المتعلمين الملتزمين بقواعد السلوك.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">أقل من 50%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ما بين 50% - أقل من 75%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ما بين 75% - أقل من 90%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">90% فأعلى.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-48"><button class="star-btn" onclick="setRating('rating-48',1,this)">1</button><button class="star-btn" onclick="setRating('rating-48',2,this)">2</button><button class="star-btn" onclick="setRating('rating-48',3,this)">3</button><button class="star-btn" onclick="setRating('rating-48',4,this)">4</button></div>
+          <span class="scale-hint">1=أقل 50% | 2=50%-75% | 3=75%-90% | 4=90%+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <div class="item-row" id="item-49">
+        <div class="item-header"><div class="item-num">49</div><div class="item-content">
+          <div class="item-title">نسبة المتعلمين الملتزمين المنتظمين في الحضور.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">أقل من 50%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ما بين 50% - أقل من 75%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ما بين 75% - أقل من 90%.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">90% فأعلى.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-49"><button class="star-btn" onclick="setRating('rating-49',1,this)">1</button><button class="star-btn" onclick="setRating('rating-49',2,this)">2</button><button class="star-btn" onclick="setRating('rating-49',3,this)">3</button><button class="star-btn" onclick="setRating('rating-49',4,this)">4</button></div>
+          <span class="scale-hint">1=أقل 50% | 2=50%-75% | 3=75%-90% | 4=90%+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 4 ===================== -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-icon icon-orange">🏗️</div>
+      <div class="section-title-text"><h2>٤. البيئة المدرسية</h2><p>3 مفردات تقييم | 2 مؤشرات</p></div>
+    </div>
+    <div class="section-actions">
+      <button class="btn-action btn-print" onclick="pdfSection('s4')">🖨️ طباعة</button>
+      <button class="btn-action btn-save" onclick="pdfSection('s4')">📄 حفظ PDF</button>
+    </div>
+  </div>
+  <div class="indicator-card" id="s4-ind-0">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-0')">
+      <div class="indicator-header-left"><span class="indicator-code">1-1-2-4</span><span class="indicator-title">تتوافر في فصول المدرسة ومعاملها وجميع مرافقها متطلبات الأمن والسلامة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-0')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-0')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-50">
+        <div class="item-header"><div class="item-num">50</div><div class="item-content">
+          <div class="item-title">يوجد لدى المدرسة تقرير الأمن والسلامة من إدارة التعليم ساري العمل به.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يوجد تقرير الأمن والسلامة ساري أو شهادة من الدفاع المدني.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">يوجد متطلبات الأمن والسلامة مناسبة لجميع المتعلمين بمن فيهم ذوو الإعاقة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد تقارير الزيارات الدورية من الجهات المختصة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد لوحات إرشادية توضح تعليمات الأمن والسلامة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تتابع المدرسة سلامة المتعلمين في مرافق المدرسة وأثناء الدخول والخروج.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-50"><button class="star-btn" onclick="setRating('rating-50',1,this)">1</button><button class="star-btn" onclick="setRating('rating-50',2,this)">2</button><button class="star-btn" onclick="setRating('rating-50',3,this)">3</button><button class="star-btn" onclick="setRating('rating-50',4,this)">4</button></div>
+          <span class="scale-hint">1=2-1 شواهد | 2=3 | 3=4 | 4=5+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+      <div class="item-row" id="item-51">
+        <div class="item-header"><div class="item-num">51</div><div class="item-content">
+          <div class="item-title">الشهادات الصحية للعاملين سارية المفعول.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد شهادات صحية للعاملين في المقصف المدرسي.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد شهادات صحية لجميع العاملين في المقصف سارية المفعول.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد نتائج الفحوصات الصحية الدورية للعاملين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد سجلات التطعيمات الصادرة عن الجهات المختصة لكل عامل.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-51"><button class="star-btn" onclick="setRating('rating-51',1,this)">1</button><button class="star-btn" onclick="setRating('rating-51',2,this)">2</button><button class="star-btn" onclick="setRating('rating-51',3,this)">3</button><button class="star-btn" onclick="setRating('rating-51',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="indicator-card" id="s4-ind-1">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-1')">
+      <div class="indicator-header-left"><span class="indicator-code">2-1-2-4</span><span class="indicator-title">تعمل المدرسة على صيانة جميع مرافق المبنى وتجهيزاته بانتظام.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-1')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-1')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-52">
+        <div class="item-header"><div class="item-num">52</div><div class="item-content">
+          <div class="item-title">تتوافر خطط لأعمال الصيانة الوقائية والعلاجية بانتظام.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد صيانة (وقائية وعلاجية) مستمرة لمرافق مبنى المدرسة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد صيانة شاملة تغطي جميع المرافق والتجهيزات في المدرسة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد إجراءات للصيانة والعلاج الدوري للمرافق والمعدات.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">توجد إجراءات محددة للمحافظة على سلامة المرافق والمعدات.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-52"><button class="star-btn" onclick="setRating('rating-52',1,this)">1</button><button class="star-btn" onclick="setRating('rating-52',2,this)">2</button><button class="star-btn" onclick="setRating('rating-52',3,this)">3</button><button class="star-btn" onclick="setRating('rating-52',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 5: SUMMARY ===================== -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-title">
+      <div class="section-icon icon-blue">📊</div>
+      <div class="section-title-text"><h2>ملخص التقييم الكلي</h2><p>نظرة شاملة على نتائج التقييم</p></div>
+    </div>
+    <div class="section-actions">
+      <button class="btn-action btn-print" onclick="window.print()">🖨️ طباعة التقرير</button>
+      <button class="btn-action btn-save" onclick="pdfAll()">📄 حفظ PDF الكامل</button>
+    </div>
+  </div>
+  <div class="summary-grid" id="summary-cards">
+    <div class="summary-card"><span class="summary-card-icon">📋</span><span class="summary-card-val" id="sum-total">52</span><span class="summary-card-label">إجمالي المفردات</span></div>
+    <div class="summary-card"><span class="summary-card-icon">✅</span><span class="summary-card-val" id="sum-rated">0</span><span class="summary-card-label">مفردة مُقيَّمة</span></div>
+    <div class="summary-card"><span class="summary-card-icon">☑️</span><span class="summary-card-val" id="sum-ev">0</span><span class="summary-card-label">شاهد محقق</span></div>
+    <div class="summary-card"><span class="summary-card-icon">⭐</span><span class="summary-card-val" id="sum-avg">—</span><span class="summary-card-label">متوسط التقييم</span></div>
+  </div>
+  <div id="summary-breakdown"></div>
+</div>
+
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== STATE =====
+const ratings = {};
+const checkedEvidence = {};
+
+// ===== NAVIGATION =====
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 's5') updateSummary();
+  updateStats();
+}
+
+// ===== TOGGLE CARD =====
+function toggleCard(id) {
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+// ===== EVIDENCE TOGGLE =====
+function toggleEvidence(el) {
+  el.classList.toggle('checked');
+  el.querySelector('.evidence-checkbox').textContent = el.classList.contains('checked') ? '✓' : '';
+  updateStats();
+  updateSectionProgress();
+}
+
+// ===== RATING =====
+function setRating(ratingId, val, btn) {
+  ratings[ratingId] = val;
+  const container = document.getElementById(ratingId);
+  container.querySelectorAll('.star-btn').forEach((b,i) => {
+    b.classList.toggle('active', i < val);
+  });
+  updateStats();
+  updateSectionProgress();
+}
+
+// ===== STATS =====
+function updateStats() {
+  const checked = document.querySelectorAll('.evidence-item.checked').length;
+  const rated = Object.keys(ratings).length;
+  const vals = Object.values(ratings);
+  const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+  document.getElementById('stat-evidence').textContent = checked;
+  document.getElementById('stat-rated').textContent = rated;
+  document.getElementById('stat-avg').textContent = avg;
+  if(document.getElementById('sum-ev')) {
+    document.getElementById('sum-ev').textContent = checked;
+    document.getElementById('sum-rated').textContent = rated;
+    document.getElementById('sum-avg').textContent = avg;
+  }
+}
+
+function updateSectionProgress() {
+  ['s1','s2','s3','s4'].forEach(sec => {
+    const section = document.getElementById(sec);
+    if (!section) return;
+    const items = section.querySelectorAll('.rating-stars');
+    const rated = section.querySelectorAll('.rating-stars .star-btn.active[onclick*="rating-"]');
+    const total = items.length;
+    const done = new Set();
+    section.querySelectorAll('.star-btn.active').forEach(b => {
+      const rid = b.closest('.rating-stars')?.id;
+      if(rid && ratings[rid]) done.add(rid);
+    });
+    const pct = total ? Math.round((done.size/total)*100) : 0;
+    const pctEl = document.getElementById(sec+'-pct');
+    const fillEl = document.getElementById(sec+'-fill');
+    if(pctEl) pctEl.textContent = pct+'%';
+    if(fillEl) fillEl.style.width = pct+'%';
+  });
+}
+
+// ===== SUMMARY =====
+function updateSummary() {
+  const vals = Object.values(ratings);
+  const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : '—';
+  document.getElementById('sum-avg').textContent = avg;
+  document.getElementById('sum-rated').textContent = vals.length;
+  document.getElementById('sum-ev').textContent = document.querySelectorAll('.evidence-item.checked').length;
+
+  const breakdown = document.getElementById('summary-breakdown');
+  const sections = [
+    {id:'s1', name:'الإدارة المدرسية', icon:'🏛️'},
+    {id:'s2', name:'التعليم والتعلم', icon:'📚'},
+    {id:'s3', name:'نواتج التعلم', icon:'🎯'},
+    {id:'s4', name:'البيئة المدرسية', icon:'🏗️'},
+  ];
+  breakdown.innerHTML = sections.map(s => {
+    const sec = document.getElementById(s.id);
+    const ratingEls = sec ? sec.querySelectorAll('.rating-stars') : [];
+    const secRatings = [];
+    ratingEls.forEach(el => { if(ratings[el.id]) secRatings.push(ratings[el.id]); });
+    const secAvg = secRatings.length ? (secRatings.reduce((a,b)=>a+b,0)/secRatings.length).toFixed(1) : '—';
+    const pct = ratingEls.length ? Math.round((secRatings.length/ratingEls.length)*100) : 0;
+    return `<div class="indicator-card" style="margin-bottom:16px">
+      <div class="indicator-header">
+        <div class="indicator-header-left">
+          <span style="font-size:24px">${s.icon}</span>
+          <span class="indicator-title">${s.name}</span>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-shrink:0">
+          <span class="score-badge score-${Math.round(parseFloat(secAvg)||0)}" style="font-size:14px;padding:6px 16px">متوسط: ${secAvg}</span>
+          <span style="color:rgba(255,255,255,0.7);font-size:13px">${secRatings.length}/${ratingEls.length} مفردة مُقيَّمة</span>
+        </div>
+      </div>
+      <div style="padding:16px 24px">
+        <div class="progress-header"><span class="progress-label">نسبة الإنجاز</span><span class="progress-pct">${pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== PDF HELPERS =====
+const PDF_STYLES = `
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Tajawal',sans-serif;direction:rtl;color:#0a0a14;background:#fff;font-size:12px;line-height:1.6}
+  .pdf-cover{text-align:center;padding:50px 30px;border:3px solid #0d1b3e;border-radius:12px;margin-bottom:30px;page-break-after:always}
+  .pdf-cover h1{font-family:'Cairo',sans-serif;font-size:24px;color:#0d1b3e;margin-bottom:10px}
+  .pdf-cover .sub{font-size:14px;color:#555;margin:5px 0}
+  .pdf-cover .badge{display:inline-block;background:#c9a84c;color:#0d1b3e;padding:5px 18px;border-radius:20px;font-weight:700;margin-top:14px;font-size:13px}
+  .indicator-card{border:1.5px solid #b0bec5;border-radius:10px;margin-bottom:14px;break-inside:avoid;overflow:hidden}
+  .indicator-header{background:#0d1b3e;padding:12px 18px;display:flex;align-items:center;gap:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .indicator-header-right{display:none!important}
+  .toggle-icon{display:none!important}
+  .indicator-code{background:#c9a84c;color:#0d1b3e;padding:3px 12px;border-radius:20px;font-weight:900;font-size:11px;white-space:nowrap;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .indicator-title{color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;flex:1}
+  .item-row{padding:10px 16px;border-bottom:1px solid #eceff1}
+  .item-row:last-child{border-bottom:none}
+  .item-header{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+  .item-num{background:#0d1b3e;color:#c9a84c;min-width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .item-title{font-family:'Cairo',sans-serif;font-weight:700;color:#0d1b3e;font-size:12px;line-height:1.5;padding-top:4px}
+  .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:6px 0 6px 40px}
+  .evidence-item{display:flex;gap:7px;padding:5px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:11px;align-items:flex-start}
+  .evidence-item.checked{background:#e8f5e9;border-color:#81c784;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .evidence-checkbox{min-width:16px;height:16px;border:1.5px solid #90a4ae;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
+  .evidence-item.checked .evidence-checkbox{background:#4caf50;border-color:#4caf50;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rating-section{display:flex;align-items:center;gap:12px;padding:8px 16px 10px;background:#f5f7ff;border-top:1px dashed #cfd8dc;margin-right:40px;flex-wrap:wrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .rating-label{font-size:11px;font-weight:700;color:#0d1b3e;white-space:nowrap}
+  .rating-stars{display:flex;gap:4px}
+  .star-btn{width:28px;height:28px;border-radius:6px;border:1.5px solid #b0bec5;background:#fff;font-size:12px;font-weight:800;color:#90a4ae;display:flex;align-items:center;justify-content:center}
+  .star-btn.active{background:#c9a84c;border-color:#c9a84c;color:#0d1b3e;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .scale-hint{font-size:10px;color:#78909c;background:#eceff1;padding:3px 8px;border-radius:5px;max-width:220px;line-height:1.5}
+  .notes-input{display:none!important}
+  .notes-val{font-size:11px;color:#37474f;background:#fff;border:1px dashed #b0bec5;border-radius:5px;padding:4px 8px;min-height:22px;flex:1;min-width:140px}
+  .section-title-bar{background:linear-gradient(135deg,#0d1b3e,#1e3260);color:#fff;padding:14px 20px;border-radius:10px;margin-bottom:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .section-title-bar h2{font-family:'Cairo',sans-serif;font-size:17px;font-weight:900}
+  .summary-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px}
+  .summary-table th{background:#0d1b3e;color:#fff;padding:8px 12px;text-align:right;font-family:'Cairo',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .summary-table td{padding:7px 12px;border-bottom:1px solid #eceff1}
+  .summary-table tr:nth-child(even) td{background:#f8f9ff}
+  .badge-gold{background:#c9a84c;color:#0d1b3e;padding:2px 10px;border-radius:12px;font-weight:700;font-size:11px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  button{display:none!important}
+  @page{margin:14mm 12mm;size:A4}
+`;
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function buildPdfWindow(title, bodyHtml) {
+  const w = window.open('', '_blank');
+  if (!w) { showToast('⚠️ يرجى السماح بالنوافذ المنبثقة'); return; }
+  const date = new Date().toLocaleDateString('ar-SA', {year:'numeric',month:'long',day:'numeric'});
+  w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head>
+    <meta charset="UTF-8"><title>${title}</title>
+    <style>${PDF_STYLES}</style>
+  </head><body>
+    <div class="pdf-cover">
+      <div style="font-size:44px;margin-bottom:14px">🏫</div>
+      <h1>منصة تقييم جودة المدرسة</h1>
+      <p class="sub">وثائق وشواهد الاعتماد المدرسي — الفريق الخارجي للتقييم</p>
+      <div class="badge">${title}</div>
+      <p class="sub" style="margin-top:16px;font-size:11px;color:#888">تاريخ الإصدار: ${date}</p>
+    </div>
+    ${bodyHtml}
+    <p style="margin-top:28px;color:#90a4ae;font-size:10px;text-align:center;border-top:1px solid #eceff1;padding-top:10px">
+      منصة تقييم المدرسة &nbsp;|&nbsp; تاريخ الطباعة: ${date} &nbsp;|&nbsp; البيانات سرية
+    </p>
+  </body></html>`);
+  w.document.close();
+  setTimeout(() => { w.focus(); w.print(); }, 900);
+  showToast('📄 جاري فتح نافذة حفظ PDF...');
+}
+
+function cardToHtml(card) {
+  const clone = card.cloneNode(true);
+  clone.classList.remove('collapsed');
+  clone.querySelectorAll('.indicator-header-right').forEach(el => el.remove());
+  clone.querySelectorAll('.toggle-icon').forEach(el => el.remove());
+  clone.querySelectorAll('button').forEach(el => el.remove());
+  // Sync checked state from live DOM
+  const liveEvItems = card.querySelectorAll('.evidence-item');
+  const cloneEvItems = clone.querySelectorAll('.evidence-item');
+  liveEvItems.forEach((liveEl, i) => {
+    if (liveEl.classList.contains('checked')) {
+      cloneEvItems[i]?.classList.add('checked');
+      const cb = cloneEvItems[i]?.querySelector('.evidence-checkbox');
+      if (cb) cb.textContent = '✓';
+    }
+  });
+  // Sync ratings
+  const liveStars = card.querySelectorAll('.star-btn');
+  const cloneStars = clone.querySelectorAll('.star-btn');
+  liveStars.forEach((ls, i) => {
+    if (ls.classList.contains('active')) cloneStars[i]?.classList.add('active');
+  });
+  // Replace textareas with note values
+  const liveTAs = card.querySelectorAll('.notes-input');
+  const cloneTAs = clone.querySelectorAll('.notes-input');
+  liveTAs.forEach((ta, i) => {
+    const div = clone.ownerDocument?.createElement('div') || document.createElement('div');
+    div.className = 'notes-val';
+    div.textContent = ta.value || '—';
+    cloneTAs[i]?.replaceWith(div);
+  });
+  return clone.outerHTML;
+}
+
+function buildSectionSummary(sec) {
+  const rows = [];
+  sec.querySelectorAll('.item-row').forEach(row => {
+    const num = row.querySelector('.item-num')?.textContent?.trim() || '';
+    const t = row.querySelector('.item-title')?.textContent?.trim() || '';
+    const rid = row.querySelector('.rating-stars')?.id;
+    const r = (rid && ratings[rid]) ? ratings[rid] : '—';
+    const checked = row.querySelectorAll('.evidence-item.checked').length;
+    const total = row.querySelectorAll('.evidence-item').length;
+    const note = row.querySelector('.notes-input')?.value || '';
+    rows.push(`<tr><td style="font-weight:700;font-family:Cairo,sans-serif;white-space:nowrap">${num}</td>
+      <td style="font-size:11px">${t}</td>
+      <td style="text-align:center"><span class="badge-gold">${r}/4</span></td>
+      <td style="text-align:center;font-size:11px">${checked}/${total}</td>
+      <td style="font-size:10px;color:#546e7a">${note||'—'}</td></tr>`);
+  });
+  const h2 = sec.querySelector('h2')?.textContent || '';
+  return `<div class="section-title-bar"><h2>📊 ${h2}</h2></div>
+    <table class="summary-table">
+      <thead><tr><th>رقم</th><th>المفردة</th><th>التقييم</th><th>الشواهد</th><th>الملاحظات</th></tr></thead>
+      <tbody>${rows.join('')}</tbody>
+    </table>`;
+}
+
+function pdfIndicator(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const code = card.querySelector('.indicator-code')?.textContent?.trim() || id;
+  buildPdfWindow('المؤشر ' + code, cardToHtml(card));
+}
+
+function pdfSection(secId) {
+  const sec = document.getElementById(secId);
+  if (!sec) return;
+  sec.querySelectorAll('.indicator-card').forEach(c => c.classList.remove('collapsed'));
+  const title = sec.querySelector('h2')?.textContent?.trim() || secId;
+  const summaryHtml = buildSectionSummary(sec);
+  const detailHtml = Array.from(sec.querySelectorAll('.indicator-card')).map(c => cardToHtml(c)).join('');
+  buildPdfWindow(title,
+    `<div style="margin-bottom:24px">${summaryHtml}</div>
+     <div style="page-break-before:always">
+       <h2 style="font-family:Cairo,sans-serif;color:#0d1b3e;margin-bottom:16px;font-size:14px;padding-bottom:8px;border-bottom:2px solid #c9a84c">تفاصيل المؤشرات والشواهد الداعمة</h2>
+       ${detailHtml}
+     </div>`);
+}
+
+function pdfAll() {
+  document.querySelectorAll('.indicator-card').forEach(c => c.classList.remove('collapsed'));
+  const sections = [
+    {id:'s1', name:'الإدارة المدرسية'},
+    {id:'s2', name:'التعليم والتعلم'},
+    {id:'s3', name:'نواتج التعلم'},
+    {id:'s4', name:'البيئة المدرسية'},
+  ];
+  // Summaries page
+  let summaryBlock = sections.map((s,i) => {
+    const sec = document.getElementById(s.id);
+    return sec ? `<div style="${i>0?'margin-top:24px':''}">${buildSectionSummary(sec)}</div>` : '';
+  }).join('');
+  // Detail pages per section
+  let detailBlock = sections.map((s,i) => {
+    const sec = document.getElementById(s.id);
+    if (!sec) return '';
+    const cards = Array.from(sec.querySelectorAll('.indicator-card')).map(c => cardToHtml(c)).join('');
+    return `<div style="page-break-before:always">
+      <div class="section-title-bar" style="margin-bottom:14px"><h2>${s.name}</h2></div>
+      ${cards}
+    </div>`;
+  }).join('');
+  buildPdfWindow('التقييم الشامل الكامل',
+    `<h2 style="font-family:Cairo,sans-serif;color:#0d1b3e;font-size:16px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #c9a84c">ملخص نتائج التقييم</h2>
+    ${summaryBlock}
+    ${detailBlock}`);
+}
+
+// Initialize
+updateStats();
+
+</script>
+</body>
+</html>

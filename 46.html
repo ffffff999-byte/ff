@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة بناء الاختبارات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET & BASE ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  font-family:'Tajawal',sans-serif;
+  background:#f1f5f9;
+  color:#1e293b;
+  font-size:15px;
+  line-height:1.6;
+}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  background:white;
+  border-bottom:1px solid #e2e8f0;
+  padding:12px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand-icon{
+  width:38px;height:38px;
+  background:linear-gradient(135deg,#0d9488,#0f766e);
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  color:white;font-size:20px;
+}
+.brand-text h1{font-size:17px;font-weight:800;color:#0f172a}
+.brand-text p{font-size:11px;color:#64748b;margin-top:-2px}
+
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+.btn{
+  display:inline-flex;
+  align-items:center;justify-content:center;
+  gap:6px;
+  padding:9px 16px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  font-weight:700;
+  font-size:14px;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.btn-primary{background:#0d9488;color:white}
+.btn-primary:hover{background:#0f766e}
+.btn-outline{background:white;color:#0f172a;border:1px solid #cbd5e1}
+.btn-outline:hover{background:#f8fafc;border-color:#94a3b8}
+.btn-danger{background:#ef4444;color:white}
+.btn-danger:hover{background:#dc2626}
+.btn-sm{padding:6px 12px;font-size:13px}
+
+/* ============ STEPPER ============ */
+.stepper{
+  background:white;
+  padding:18px 24px;
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  border-bottom:1px solid #e2e8f0;
+  flex-wrap:wrap;
+}
+.step{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 18px;
+  background:#f1f5f9;
+  border-radius:10px;
+  cursor:pointer;
+  transition:all .15s;
+  border:2px solid transparent;
+  font-family:'Tajawal',sans-serif;
+  font-size:14px;
+  color:#475569;
+}
+.step:hover{background:#e2e8f0}
+.step.active{
+  background:#0d9488;
+  color:white;
+  border-color:#0d9488;
+}
+.step-num{
+  width:26px;height:26px;
+  border-radius:50%;
+  background:white;
+  color:#0d9488;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;
+  font-size:13px;
+}
+.step.active .step-num{background:white;color:#0d9488}
+.step:not(.active) .step-num{background:#cbd5e1;color:white}
+.step-title{font-weight:700}
+
+/* ============ LAYOUT ============ */
+.main{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  min-height:calc(100vh - 134px);
+}
+
+.side-panel{
+  background:white;
+  border-left:1px solid #e2e8f0;
+  padding:20px;
+  overflow-y:auto;
+  max-height:calc(100vh - 134px);
+}
+
+/* ============ SECTION ============ */
+.panel-section{
+  margin-bottom:24px;
+}
+.panel-section h2{
+  font-size:16px;
+  font-weight:800;
+  color:#0f172a;
+  margin-bottom:12px;
+  padding-bottom:8px;
+  border-bottom:2px solid #e2e8f0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.panel-section h3{
+  font-size:13px;
+  font-weight:700;
+  color:#64748b;
+  margin:14px 0 8px;
+  text-transform:none;
+}
+
+.field{margin-bottom:12px}
+.field-label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  color:#334155;
+  margin-bottom:5px;
+}
+.field input[type="text"],
+.field input[type="number"],
+.field select,
+.field textarea{
+  width:100%;
+  padding:9px 12px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-family:'Tajawal',sans-serif;
+  font-size:14px;
+  color:#0f172a;
+  background:white;
+  transition:border-color .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;
+  border-color:#0d9488;
+  box-shadow:0 0 0 3px rgba(13,148,136,.15);
+}
+.field textarea{resize:vertical;min-height:60px}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ============ CHOICE CARDS ============ */
+.choice-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.choice-card{
+  background:white;
+  border:2px solid #e2e8f0;
+  border-radius:10px;
+  padding:16px 12px;
+  cursor:pointer;
+  text-align:center;
+  transition:all .15s;
+}
+.choice-card:hover{border-color:#94a3b8;background:#f8fafc}
+.choice-card.active{
+  border-color:#0d9488;
+  background:#f0fdfa;
+  box-shadow:0 0 0 3px rgba(13,148,136,.1);
+}
+.choice-card .emoji{font-size:28px;margin-bottom:4px;display:block}
+.choice-card .label{font-weight:700;font-size:13px;color:#0f172a}
+.choice-card .desc{font-size:11px;color:#64748b;margin-top:2px}
+
+/* ============ LOGO UPLOAD ============ */
+.logo-upload{
+  border:2px dashed #cbd5e1;
+  background:#f8fafc;
+  border-radius:10px;
+  padding:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .15s;
+}
+.logo-upload:hover{border-color:#0d9488;background:#f0fdfa}
+.logo-upload img{max-height:60px;max-width:100%}
+.logo-upload .upload-icon{font-size:32px;display:block;margin-bottom:4px;color:#94a3b8}
+.logo-upload .upload-text{font-size:13px;color:#64748b;font-weight:600}
+
+/* ============ QUESTION TYPE BUTTONS ============ */
+.qtype-group{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.qtype-group-title{
+  font-size:14px;
+  font-weight:800;
+  color:#0f172a;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.qtype-group-title .flag{font-size:18px}
+
+.qtype-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.qtype-btn{
+  background:white;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  padding:10px 8px;
+  cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  color:#334155;
+  transition:all .15s;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
+.qtype-btn:hover{
+  border-color:#0d9488;
+  background:#f0fdfa;
+  color:#0d9488;
+  transform:translateY(-1px);
+}
+.qtype-btn .icon{font-size:20px}
+
+/* ============ ACTION BUTTONS GRID ============ */
+.action-grid{
+  display:grid;
+  gap:10px;
+}
+.action-btn{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  background:white;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  text-align:right;
+  transition:all .15s;
+  width:100%;
+}
+.action-btn:hover{border-color:#0d9488;background:#f0fdfa;transform:translateX(-2px)}
+.action-btn .ico{
+  font-size:22px;
+  width:42px;height:42px;
+  background:#f1f5f9;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.action-btn .info{flex:1}
+.action-btn .info .title{font-weight:700;font-size:14px;color:#0f172a}
+.action-btn .info .desc{font-size:12px;color:#64748b;margin-top:1px}
+.action-btn.primary{background:#0d9488;border-color:#0d9488}
+.action-btn.primary .ico{background:rgba(255,255,255,.2);color:white}
+.action-btn.primary .info .title{color:white}
+.action-btn.primary .info .desc{color:rgba(255,255,255,.85)}
+.action-btn.primary:hover{background:#0f766e;border-color:#0f766e}
+.action-btn.danger:hover{border-color:#ef4444;background:#fef2f2}
+
+/* ============ TOGGLE PILL ============ */
+.toggle-pill{
+  display:flex;
+  background:#f1f5f9;
+  border-radius:10px;
+  padding:4px;
+  gap:4px;
+}
+.toggle-btn{
+  flex:1;
+  padding:10px;
+  border:none;
+  background:transparent;
+  color:#64748b;
+  cursor:pointer;
+  font-family:'Tajawal',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  border-radius:7px;
+  transition:all .15s;
+}
+.toggle-btn.active{
+  background:white;
+  color:#0d9488;
+  box-shadow:0 1px 3px rgba(0,0,0,.08);
+}
+
+/* ============ CANVAS ============ */
+.canvas{
+  padding:24px;
+  overflow-y:auto;
+  max-height:calc(100vh - 134px);
+  background:#e2e8f0;
+}
+
+.canvas-info{
+  background:white;
+  padding:10px 16px;
+  border-radius:10px;
+  margin-bottom:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  font-size:13px;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
+}
+.canvas-info-stats{display:flex;gap:18px;color:#64748b}
+.canvas-info-stats b{color:#0d9488;font-size:15px}
+.canvas-info-zoom{display:flex;gap:4px}
+.zoom-btn{
+  width:32px;height:32px;
+  background:#f1f5f9;
+  border:1px solid #cbd5e1;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:700;
+  font-family:'Tajawal',sans-serif;
+}
+.zoom-btn:hover{background:#0d9488;color:white;border-color:#0d9488}
+
+.exam-pages{display:flex;flex-direction:column;gap:18px;align-items:center}
+
+.exam-page{
+  background:white;
+  width:210mm;
+  min-height:297mm;
+  padding:10mm 12mm;
+  box-shadow:0 4px 12px rgba(0,0,0,.1);
+  color:#000;
+  font-size:11.5pt;
+  border:2px solid #000;
+  position:relative;
+}
+.exam-page::before{
+  content:'';
+  position:absolute;
+  top:4mm;
+  left:4mm;
+  right:4mm;
+  bottom:4mm;
+  border:1px solid #000;
+  pointer-events:none;
+}
+.exam-page.lang-ar{direction:rtl;font-family:'Cairo','Tajawal',sans-serif}
+.exam-page.lang-en{direction:ltr;font-family:'Poppins',sans-serif}
+
+/* ============ AR HEADER ============ */
+.ar-header{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:8px;
+  border-bottom:1.5px solid #333;
+  padding-bottom:6px;
+  margin-bottom:6px;
+}
+.ar-header-right{font-size:10pt;line-height:1.7;font-weight:600;text-align:right}
+.ar-header-left{font-size:10pt;line-height:1.7;font-weight:600;text-align:left}
+.ar-header-mid{text-align:center}
+.ar-header-mid img{max-height:60px;max-width:120px}
+.ar-header-mid .ph{
+  width:90px;height:55px;border:1px dashed #aaa;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9pt;color:#999;margin:0 auto;
+}
+.ar-title-bar{
+  background:#fef9e7;
+  border:1.5px solid #f5b7b1;
+  padding:5px 12px;
+  text-align:center;
+  font-weight:800;
+  font-size:12pt;
+  margin:5px 0;
+  border-radius:4px;
+}
+.ar-meta-table{
+  width:100%;
+  border-collapse:collapse;
+  margin:4px 0;
+  font-size:10pt;
+}
+.ar-meta-table td{border:1px solid #333;padding:3px 6px;text-align:center}
+.ar-meta-table .lbl{background:#f4f6f8;font-weight:700;width:70px}
+.ar-student-info{
+  display:grid;
+  grid-template-columns:auto 1fr auto 110px;
+  gap:8px;
+  align-items:center;
+  margin:6px 0;
+  font-size:10.5pt;
+  font-weight:700;
+}
+.ar-student-info .ln{
+  border:1px solid #333;
+  height:22px;
+  padding:2px 6px;
+  border-radius:3px;
+}
+
+/* ============ EN HEADER ============ */
+.en-header{
+  border:2px solid #000;
+  padding:6px;
+  margin-bottom:6px;
+}
+.en-header-top{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:8px;
+  align-items:center;
+  padding-bottom:4px;
+}
+.en-header-left{font-size:9.5pt;line-height:1.6;font-weight:700;text-align:left}
+.en-header-right{font-size:9.5pt;line-height:1.6;font-weight:700;text-align:right}
+.en-header-logo{text-align:center}
+.en-header-logo img{max-height:60px;max-width:120px}
+.en-header-logo .ph{
+  width:80px;height:55px;border:1px dashed #aaa;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9pt;color:#999;margin:0 auto;
+}
+.en-title-bar{
+  background:#e7f1f5;
+  border:1.5px solid #00b4d8;
+  border-radius:18px;
+  padding:5px 12px;
+  text-align:center;
+  font-weight:700;
+  font-size:12pt;
+  color:#023e8a;
+  margin:5px auto;
+  max-width:90%;
+}
+.en-papers{text-align:center;font-size:10pt;color:#0077b6;font-weight:700;margin:3px 0}
+.grades-table{width:100%;border-collapse:collapse;margin:5px 0 6px;font-size:10pt}
+.grades-table th,.grades-table td{border:1.3px solid #000;text-align:center;padding:3px 2px}
+.grades-table th{background:#fff;color:#c0392b;font-weight:700;font-size:9.5pt;height:22px}
+.grades-table td{height:32px;font-weight:700}
+.en-student-info{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  align-items:center;
+  padding:4px;
+  font-size:10.5pt;
+  font-weight:700;
+}
+.en-student-info .ln{
+  display:inline-block;
+  min-width:240px;
+  border-bottom:1px dotted #555;
+  padding-bottom:2px;
+}
+
+/* ============ QUESTIONS STYLING ============ */
+.question-block{
+  margin-bottom:10px;
+  position:relative;
+  page-break-inside:avoid;
+  break-inside:avoid;
+}
+
+.q-controls{
+  position:absolute;
+  top:0;
+  left:-44px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  opacity:0;
+  transition:opacity .15s;
+  z-index:5;
+}
+.lang-ar .q-controls{left:auto;right:-44px}
+.question-block:hover .q-controls{opacity:1}
+.qc-btn{
+  width:30px;height:30px;
+  border-radius:6px;
+  border:none;
+  background:#0d9488;
+  color:white;
+  cursor:pointer;
+  font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 1px 3px rgba(0,0,0,.1);
+}
+.qc-btn:hover{background:#0f766e}
+.qc-btn.del{background:#ef4444}
+.qc-btn.dup{background:#3b82f6}
+
+.q-en-header{
+  background:linear-gradient(90deg,#c8e6c9 0%,#a5d6a7 100%);
+  border:1px solid #2f855a;
+  border-radius:4px;
+  padding:3px 10px;
+  font-weight:700;
+  font-size:12pt;
+  color:#2f855a;
+  text-align:center;
+  margin-bottom:5px;
+  text-decoration:underline;
+}
+.q-ar-header{
+  background:#f4f6f8;
+  border:1px solid #333;
+  padding:4px 10px;
+  font-weight:800;
+  font-size:11.5pt;
+  color:#000;
+  margin-bottom:5px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.q-ar-header .mark-label{color:#c0392b;font-size:10pt}
+
+.q-instruction{font-weight:700;color:#c0392b;font-size:11pt;margin:4px 0 3px;text-decoration:underline}
+.q-instruction.blue{color:#2c5282}
+.q-content{font-size:11pt;line-height:1.6}
+
+[contenteditable]:hover{background:rgba(13,148,136,.05);outline:1px dashed #0d9488}
+[contenteditable]:focus{background:rgba(13,148,136,.08);outline:2px solid #0d9488}
+
+.q-mark-box{
+  float:right;
+  border:1.5px solid #000;
+  width:48px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;
+  background:white;
+  border-radius:4px;
+  margin:0 0 5px 8px;
+  font-size:11pt;
+}
+.lang-ar .q-mark-box{float:left;margin:0 8px 5px 0}
+
+.writing-lines{margin-top:5px}
+.writing-lines .line{border-bottom:1px dotted #888;height:18px;margin-bottom:1px}
+
+.passage{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:4px;
+  padding:7px 10px;
+  margin:5px 0;
+  font-size:11pt;
+  line-height:1.65;
+  white-space:pre-wrap;
+}
+
+.num-list{padding:0;list-style:none}
+.num-list li{margin-bottom:4px;padding:2px 0}
+.answer-line{
+  border-bottom:1px dotted #888;
+  display:inline-block;
+  min-width:180px;
+  height:14px;
+  margin:0 4px;
+}
+
+.ar-mcq-table{width:100%;border-collapse:collapse;margin:4px 0;font-size:10.5pt}
+.ar-mcq-table td{border:1px solid #333;padding:4px 6px;vertical-align:top}
+.ar-mcq-table .qn{width:24px;text-align:center;font-weight:700;background:#f8f9fa}
+.ar-mcq-table .stem{padding:6px;font-weight:600}
+.ar-mcq-table .opt-letter{width:22px;background:#f8f9fa;text-align:center;font-weight:700;color:#c0392b}
+.ar-mcq-table .opt-text{padding:4px 6px}
+
+.match-table{width:100%;border-collapse:collapse;margin:4px 0;font-size:10.5pt}
+.match-table th,.match-table td{border:1px solid #333;padding:4px 8px;height:26px}
+.match-table th{background:#f4f6f8;font-weight:700}
+.match-table .num{color:#c0392b;font-weight:700;text-align:center;width:28px;background:#fafafa}
+.match-table .ans{width:32px;text-align:center;background:#fafafa}
+
+.ar-tf-table{width:100%;border-collapse:collapse;margin:4px 0;font-size:10.5pt}
+.ar-tf-table th,.ar-tf-table td{border:1px solid #333;padding:5px 8px}
+.ar-tf-table th{background:#f4f6f8;font-weight:700;text-align:center}
+.ar-tf-table .num{width:24px;text-align:center;font-weight:700;background:#fafafa}
+.ar-tf-table .answer-cell{width:90px;text-align:center}
+.ar-tf-table .opt{display:inline-block;border:1px solid #999;padding:2px 8px;margin:0 2px;font-weight:700}
+
+.word-box{
+  border:2px solid #6a1b9a;
+  border-radius:6px;
+  padding:5px 12px;
+  text-align:center;
+  font-style:italic;
+  font-weight:600;
+  margin:5px auto;
+  width:fit-content;
+  font-size:11pt;
+  background:#fafafa;
+}
+
+.picture-row{display:grid;gap:8px;margin:6px 0;text-align:center}
+.picture-row.cols-3{grid-template-columns:repeat(3,1fr)}
+.picture-row.cols-4{grid-template-columns:repeat(4,1fr)}
+.picture-row.cols-5{grid-template-columns:repeat(5,1fr)}
+.picture-row.cols-6{grid-template-columns:repeat(6,1fr)}
+.pic-cell{text-align:center}
+.pic-cell img{max-width:100%;max-height:65px;margin-bottom:3px}
+.pic-placeholder{
+  width:100%;height:55px;
+  background:#f5f5f5;
+  border:1px dashed #aaa;
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  color:#999;font-size:9pt;cursor:pointer;
+}
+.pic-label{font-size:10pt;font-weight:600}
+.pic-blank{border-bottom:1px dotted #888;height:13px;margin-top:3px}
+
+.ar-fill-table{width:100%;border-collapse:collapse;font-size:10.5pt;margin:4px 0}
+.ar-fill-table td{border:1px solid #333;padding:6px 8px;height:42px}
+.ar-fill-table .num{width:26px;text-align:center;font-weight:700;background:#fafafa}
+
+.end-marker{
+  text-align:center;
+  font-weight:800;
+  margin:8px 0;
+  color:#c0392b;
+  font-size:11pt;
+  border:1px solid #c0392b;
+  padding:5px;
+  border-radius:4px;
+  background:#fff5f5;
+}
+
+.empty-canvas{
+  text-align:center;
+  padding:80px 30px;
+  color:#94a3b8;
+  background:white;
+  border-radius:14px;
+  border:2px dashed #cbd5e1;
+}
+.empty-canvas .big-icon{font-size:64px;margin-bottom:14px}
+.empty-canvas h3{font-family:'Cairo',sans-serif;color:#475569;font-size:20px;font-weight:800;margin-bottom:6px}
+.empty-canvas p{font-size:14px;color:#64748b}
+
+/* ============ FOOTER CREDIT ============ */
+.footer-credit{
+  text-align:center;
+  padding:14px;
+  margin-top:20px;
+  background:#f1f5f9;
+  border-radius:10px;
+  font-size:12.5px;
+  color:#64748b;
+  border:1px dashed #cbd5e1;
+}
+.footer-credit a{color:#0d9488;text-decoration:none;font-weight:800}
+.footer-credit a:hover{text-decoration:underline}
+
+/* ============ PRINT ============ */
+@media print{
+  @page{size:A4;margin:0}
+  body{background:white;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .topbar,.stepper,.side-panel,.canvas-info,.q-controls,.footer-credit{display:none !important}
+  .main{display:block}
+  .canvas{padding:0;overflow:visible;max-height:none;background:white}
+  .exam-pages{gap:0}
+  .exam-page{
+    width:210mm;
+    min-height:297mm;
+    box-shadow:none;
+    margin:0;
+    padding:8mm 10mm;
+    page-break-after:always;
+    border:2px solid #000 !important;
+  }
+  .exam-page::before{
+    border:1px solid #000 !important;
+  }
+  .exam-page:last-child{page-break-after:auto}
+  [contenteditable]:hover,[contenteditable]:focus{
+    background:transparent !important;
+    outline:none !important;
+  }
+}
+
+@media(max-width:1100px){
+  .main{grid-template-columns:1fr}
+  .side-panel{max-height:none;border-left:none;border-bottom:1px solid #e2e8f0}
+  .exam-page{width:100%;padding:8mm}
+}
+</style>
+</head>
+<body>
+
+<!-- =========== TOPBAR =========== -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon">🎓</div>
+    <div class="brand-text">
+      <h1>منصة بناء الاختبارات</h1>
+      <p>Exam Builder</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-outline btn-sm" onclick="loadExam()">📂 استرجاع</button>
+    <button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ طباعة</button>
+  </div>
+</div>
+
+<!-- =========== STEPPER =========== -->
+<div class="stepper">
+  <div class="step active" data-step="1" onclick="goStep(1)">
+    <div class="step-num">1</div>
+    <div class="step-title">نوع الاختبار</div>
+  </div>
+  <div class="step" data-step="2" onclick="goStep(2)">
+    <div class="step-num">2</div>
+    <div class="step-title">الترويسة</div>
+  </div>
+  <div class="step" data-step="3" onclick="goStep(3)">
+    <div class="step-num">3</div>
+    <div class="step-title">إضافة الفقرات</div>
+  </div>
+</div>
+
+<!-- =========== MAIN =========== -->
+<div class="main">
+
+  <!-- ===== SIDE PANEL ===== -->
+  <aside class="side-panel" id="sidePanel">
+    <!-- content rendered by JS -->
+  </aside>
+
+  <!-- ===== CANVAS ===== -->
+  <main class="canvas">
+    <div class="canvas-info">
+      <div class="canvas-info-stats">
+        <span>📄 الصفحات: <b id="pageCount">1</b></span>
+        <span>📋 الفقرات: <b id="qCount">0</b></span>
+      </div>
+      <div class="canvas-info-zoom">
+        <button class="zoom-btn" onclick="zoomOut()">−</button>
+        <button class="zoom-btn" onclick="resetZoom()" style="width:auto;padding:0 10px"><span id="zoomVal">100%</span></button>
+        <button class="zoom-btn" onclick="zoomIn()">+</button>
+      </div>
+    </div>
+    <div class="exam-pages" id="examPages"></div>
+  </main>
+</div>
+
+<input type="file" id="imgUploadInput" accept="image/*" style="display:none">
+
+<script>
+/* ====================== STATE ====================== */
+let state = {
+  step: 1,
+  examType: null,    // 'ar' or 'en' (chosen in step 1)
+  gender: 'male',
+  logo: null,
+  header: {
+    hdr1:'',hdr2:'',hdr3:'',hdr4:'',
+    subject:'',grade:'',term:'',
+    examDate:'',duration:'',
+    examTitle:'',papersCount:'',round:'',
+    corrector:'',checker:''
+  },
+  questions: [],
+  zoom: 1
+};
+let currentImgTarget = null;
+
+/* ====================== STEPS ====================== */
+function goStep(n){
+  state.step = n;
+  document.querySelectorAll('.step').forEach(s=>s.classList.toggle('active', +s.dataset.step===n));
+  renderSidePanel();
+}
+
+/* ====================== SIDE PANEL RENDER ====================== */
+function renderSidePanel(){
+  const panel = document.getElementById('sidePanel');
+  if(state.step===1) panel.innerHTML = stepOneHTML();
+  else if(state.step===2) panel.innerHTML = stepTwoHTML();
+  else if(state.step===3) panel.innerHTML = stepThreeHTML();
+  bindStepInputs();
+}
+
+/* -------- STEP 1: choose exam type -------- */
+function stepOneHTML(){
+  return `
+    <div class="panel-section">
+      <h2>🎯 الخطوة 1: اختر نوع الاختبار</h2>
+      <p style="font-size:13px;color:#64748b;margin-bottom:14px">حدد التنسيق المناسب لاختبارك</p>
+      <div class="choice-grid">
+        <div class="choice-card ${state.examType==='ar'?'active':''}" onclick="chooseType('ar')">
+          <span class="emoji">🇸🇦</span>
+          <div class="label">اختبار عربي</div>
+          <div class="desc">تنسيق المدارس السعودية</div>
+        </div>
+        <div class="choice-card ${state.examType==='en'?'active':''}" onclick="chooseType('en')">
+          <span class="emoji">🇬🇧</span>
+          <div class="label">اختبار إنجليزي</div>
+          <div class="desc">English exam format</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h2>📝 صيغة الاختبار</h2>
+      <div class="toggle-pill">
+        <button class="toggle-btn ${state.gender==='male'?'active':''}" onclick="setGender('male')">👨‍🎓 طلاب</button>
+        <button class="toggle-btn ${state.gender==='female'?'active':''}" onclick="setGender('female')">👩‍🎓 طالبات</button>
+      </div>
+    </div>
+
+    ${state.examType ? `
+    <div class="panel-section">
+      <button class="btn btn-primary" style="width:100%" onclick="goStep(2)">
+        التالي: تعبئة الترويسة ←
+      </button>
+    </div>` : `
+    <div style="padding:14px;background:#fef3c7;border-radius:8px;font-size:13px;color:#854d0e;text-align:center">
+      👆 اختر نوع الاختبار أولاً للمتابعة
+    </div>`}
+
+    ${footerCreditHTML()}
+  `;
+}
+
+function chooseType(t){
+  state.examType=t;
+  renderSidePanel();
+  render();
+}
+
+function setGender(g){
+  state.gender=g;
+  renderSidePanel();
+  render();
+}
+
+/* -------- STEP 2: header -------- */
+function stepTwoHTML(){
+  return `
+    <div class="panel-section">
+      <h2>📋 الخطوة 2: بيانات الترويسة</h2>
+      <p style="font-size:13px;color:#64748b;margin-bottom:14px">اترك أي حقل فارغًا إذا لم تحتجه — يمكنك تعديل أي شيء على الورقة لاحقًا</p>
+    </div>
+
+    <div class="panel-section">
+      <h3>🏛️ الجهة التعليمية</h3>
+      <div class="field">
+        <label class="field-label">السطر الأول</label>
+        <input type="text" id="hdr1" placeholder="مثال: المملكة العربية السعودية" value="${state.header.hdr1}">
+      </div>
+      <div class="field">
+        <label class="field-label">السطر الثاني</label>
+        <input type="text" id="hdr2" placeholder="مثال: وزارة التعليم" value="${state.header.hdr2}">
+      </div>
+      <div class="field">
+        <label class="field-label">السطر الثالث</label>
+        <input type="text" id="hdr3" placeholder="مثال: الإدارة العامة للتعليم" value="${state.header.hdr3}">
+      </div>
+      <div class="field">
+        <label class="field-label">السطر الرابع</label>
+        <input type="text" id="hdr4" placeholder="مثال: اسم المدرسة" value="${state.header.hdr4}">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>📷 شعار المدرسة</h3>
+      <div class="logo-upload" onclick="document.getElementById('logoInput').click()">
+        <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+        <div id="logoPreview">
+          ${state.logo ? `<img src="${state.logo}" alt="logo">` : `
+            <span class="upload-icon">📷</span>
+            <div class="upload-text">اضغط هنا لرفع الشعار</div>`}
+        </div>
+      </div>
+      ${state.logo ? `<button class="btn btn-outline btn-sm" style="margin-top:8px;width:100%" onclick="removeLogo()">إزالة الشعار</button>` : ''}
+    </div>
+
+    <div class="panel-section">
+      <h3>📚 بيانات المادة</h3>
+      <div class="field">
+        <label class="field-label">المادة / Subject</label>
+        <input type="text" id="subject" placeholder="مثال: العلوم" value="${state.header.subject}">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="field-label">الصف</label>
+          <input type="text" id="grade" placeholder="الثالث المتوسط" value="${state.header.grade}">
+        </div>
+        <div class="field">
+          <label class="field-label">الفصل</label>
+          <input type="text" id="term" placeholder="الفصل الثالث" value="${state.header.term}">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="field-label">التاريخ</label>
+          <input type="text" id="examDate" placeholder="/ / 1446 هـ" value="${state.header.examDate}">
+        </div>
+        <div class="field">
+          <label class="field-label">الزمن</label>
+          <input type="text" id="duration" placeholder="ساعة ونصف" value="${state.header.duration}">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">عنوان الاختبار</label>
+        <input type="text" id="examTitle" placeholder="أسئلة اختبار مقرر ..." value="${state.header.examTitle}">
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label class="field-label">عدد الأوراق</label>
+          <input type="number" id="papersCount" min="1" max="20" placeholder="3" value="${state.header.papersCount}">
+        </div>
+        <div class="field">
+          <label class="field-label">الدور</label>
+          <input type="text" id="round" placeholder="الدور الأول" value="${state.header.round}">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>✍️ المعلم والمراجع</h3>
+      <div class="field">
+        <label class="field-label">اسم المعلم</label>
+        <input type="text" id="corrector" placeholder="(يترك فارغاً إن لم يحتج)" value="${state.header.corrector}">
+      </div>
+      <div class="field">
+        <label class="field-label">اسم المراجع</label>
+        <input type="text" id="checker" placeholder="(يترك فارغاً إن لم يحتج)" value="${state.header.checker}">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" style="flex:1" onclick="goStep(1)">→ السابق</button>
+        <button class="btn btn-primary" style="flex:2" onclick="goStep(3)">التالي: الفقرات ←</button>
+      </div>
+    </div>
+
+    ${footerCreditHTML()}
+  `;
+}
+
+/* -------- STEP 3: add questions -------- */
+function stepThreeHTML(){
+  const isAr = state.examType==='ar';
+  return `
+    <div class="panel-section">
+      <h2>➕ الخطوة 3: أضف الفقرات</h2>
+      <p style="font-size:13px;color:#64748b;margin-bottom:14px">اضغط زر النوع لإضافة فقرة جديدة. كل النصوص قابلة للتعديل بالنقر مباشرة على الورقة.</p>
+    </div>
+
+    ${isAr ? `
+      <div class="qtype-group">
+        <div class="qtype-group-title"><span class="flag">🇸🇦</span> فقرات الاختبار العربي</div>
+        <div class="qtype-grid">
+          <button class="qtype-btn" onclick="addQuestion('ar-mcq')"><span class="icon">🔘</span>اختيار من متعدد</button>
+          <button class="qtype-btn" onclick="addQuestion('ar-tf')"><span class="icon">✓✗</span>صح / خطأ</button>
+          <button class="qtype-btn" onclick="addQuestion('ar-match')"><span class="icon">🔗</span>توصيل</button>
+          <button class="qtype-btn" onclick="addQuestion('ar-fill')"><span class="icon">📝</span>أكمل الفراغات</button>
+          <button class="qtype-btn" onclick="addQuestion('ar-essay')"><span class="icon">📄</span>أسئلة مقالية</button>
+          <button class="qtype-btn" onclick="addQuestion('ar-problem')"><span class="icon">🧮</span>مسائل (شكل+حل)</button>
+        </div>
+      </div>
+    ` : `
+      <div class="qtype-group">
+        <div class="qtype-group-title"><span class="flag">🇬🇧</span> Writing & Reading</div>
+        <div class="qtype-grid">
+          <button class="qtype-btn" onclick="addQuestion('en-composition')"><span class="icon">📝</span>Composition</button>
+          <button class="qtype-btn" onclick="addQuestion('en-comprehension')"><span class="icon">📖</span>Comprehension</button>
+        </div>
+      </div>
+      <div class="qtype-group">
+        <div class="qtype-group-title"><span class="flag">🇬🇧</span> Grammar & Vocabulary</div>
+        <div class="qtype-grid">
+          <button class="qtype-btn" onclick="addQuestion('en-grammar')"><span class="icon">🔤</span>Grammar</button>
+          <button class="qtype-btn" onclick="addQuestion('en-vocabulary')"><span class="icon">📚</span>Vocabulary</button>
+          <button class="qtype-btn" onclick="addQuestion('en-orthography')"><span class="icon">✏️</span>Orthography</button>
+          <button class="qtype-btn" onclick="addQuestion('en-match')"><span class="icon">🔗</span>Match</button>
+        </div>
+      </div>
+      <div class="qtype-group">
+        <div class="qtype-group-title"><span class="flag">🇬🇧</span> Items</div>
+        <div class="qtype-grid">
+          <button class="qtype-btn" onclick="addQuestion('en-mcq')"><span class="icon">🔘</span>MCQ</button>
+          <button class="qtype-btn" onclick="addQuestion('en-tf')"><span class="icon">✓✗</span>True / False</button>
+          <button class="qtype-btn" onclick="addQuestion('en-pictures')"><span class="icon">🖼️</span>Pictures</button>
+          <button class="qtype-btn" onclick="addQuestion('en-odd')"><span class="icon">🔍</span>Odd Word</button>
+        </div>
+      </div>
+    `}
+
+    <div class="qtype-group">
+      <div class="qtype-group-title">✨ مخصص</div>
+      <button class="qtype-btn" style="width:100%" onclick="addQuestion('custom')"><span class="icon">➕</span>فقرة مخصصة</button>
+    </div>
+
+    <div class="panel-section">
+      <h3>📋 قوالب جاهزة (تستبدل الفقرات الحالية)</h3>
+      <div class="action-grid">
+        ${isAr ? `
+          <button class="action-btn" onclick="loadTemplate('ar-science')">
+            <div class="ico">🔬</div>
+            <div class="info"><div class="title">قالب العلوم</div><div class="desc">MCQ + توصيل + ص/خ + مقالي</div></div>
+          </button>
+          <button class="action-btn" onclick="loadTemplate('ar-math')">
+            <div class="ico">🧮</div>
+            <div class="info"><div class="title">قالب الرياضيات</div><div class="desc">MCQ + توصيل + ص/خ + فراغات + مسائل</div></div>
+          </button>
+        ` : `
+          <button class="action-btn" onclick="loadTemplate('en-second-term')">
+            <div class="ico">📘</div>
+            <div class="info"><div class="title">قالب الفصل الدراسي</div><div class="desc">Composition + Comprehension + Grammar + Vocabulary + Orthography</div></div>
+          </button>
+        `}
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3>⚠️ إجراءات أخرى</h3>
+      <div class="action-grid">
+        <button class="action-btn danger" onclick="clearAll()">
+          <div class="ico" style="background:#fee2e2;color:#dc2626">🗑️</div>
+          <div class="info"><div class="title" style="color:#dc2626">مسح كل الفقرات</div><div class="desc">يبقي بيانات الترويسة</div></div>
+        </button>
+        <button class="action-btn danger" onclick="resetAll()">
+          <div class="ico" style="background:#fee2e2;color:#dc2626">♻️</div>
+          <div class="info"><div class="title" style="color:#dc2626">إعادة تعيين شاملة</div><div class="desc">يمسح كل شيء ويبدأ من جديد</div></div>
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <button class="btn btn-outline" style="width:100%" onclick="goStep(2)">→ السابق: الترويسة</button>
+    </div>
+
+    ${footerCreditHTML()}
+  `;
+}
+
+function footerCreditHTML(){
+  return `
+    <div class="footer-credit">
+      تصميم د/ فواز<br>
+      <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا 📲</a>
+    </div>
+  `;
+}
+
+/* ====================== BIND INPUTS ====================== */
+function bindStepInputs(){
+  // step 2: header fields
+  ['hdr1','hdr2','hdr3','hdr4','subject','grade','term','examDate','duration','examTitle','papersCount','round','corrector','checker'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){
+      el.addEventListener('input', ()=>{
+        state.header[id] = el.value;
+        render();
+      });
+    }
+  });
+}
+
+/* ====================== LOGO ====================== */
+function handleLogoUpload(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    state.logo=ev.target.result;
+    renderSidePanel();
+    render();
+  };
+  r.readAsDataURL(file);
+}
+function removeLogo(){
+  state.logo=null;
+  renderSidePanel();
+  render();
+}
+
+/* ====================== UID ====================== */
+function uid(){return 'q'+Date.now()+Math.floor(Math.random()*1000);}
+
+/* ====================== QUESTION FACTORY ====================== */
+function makeQuestion(type){
+  const base={id:uid(),type,mark:''};
+  switch(type){
+    case 'ar-mcq': return {...base,mark:'18',title:'السؤال: اختر الإجابة الصحيحة لكل مما يلي بتظليل الحرف الدال عليها:',markLabel:'درجة لكل فقرة',
+      items:[
+        {stem:'اكتب نص السؤال هنا ...',options:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+        {stem:'اكتب نص السؤال هنا ...',options:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+        {stem:'اكتب نص السؤال هنا ...',options:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']}
+      ]};
+    case 'ar-tf': return {...base,mark:'5',title:'السؤال: ظلل (ص) أمام العبارة الصحيحة، و (خ) أمام العبارة الخطأ:',markLabel:'درجة لكل فقرة',
+      items:['اكتب نص العبارة هنا ...','اكتب نص العبارة هنا ...','اكتب نص العبارة هنا ...','اكتب نص العبارة هنا ...']};
+    case 'ar-match': return {...base,mark:'7',title:'السؤال: اختر من المجموعة (الثانية) ما يناسبها في المجموعة (الأولى):',markLabel:'درجة لكل فقرة',
+      col1Title:'المجموعة الأولى',col2Title:'المجموعة الثانية',
+      items:[['اكتب العبارة هنا','المقابل الأول'],['اكتب العبارة هنا','المقابل الثاني'],['اكتب العبارة هنا','المقابل الثالث'],['اكتب العبارة هنا','المقابل الرابع'],['اكتب العبارة هنا','المقابل الخامس']]};
+    case 'ar-fill': return {...base,mark:'5',title:'السؤال: أكمل الفراغات التالية:',markLabel:'درجة لكل فقرة',
+      items:['اكتب نص العبارة هنا ............................','اكتب نص العبارة هنا ............................','اكتب نص العبارة هنا ............................']};
+    case 'ar-essay': return {...base,mark:'10',title:'السؤال: أجب على الأسئلة التالية:',markLabel:'درجتين لكل فقرة',
+      items:[{q:'اكتب نص السؤال هنا ...',lines:3},{q:'اكتب نص السؤال هنا ...',lines:3},{q:'اكتب نص السؤال هنا ...',lines:3}]};
+    case 'ar-problem': return {...base,mark:'6',title:'السؤال: حل المسائل التالية:',markLabel:'',
+      items:[{q:'اكتب نص المسألة هنا ...',lines:4,hasImage:true},{q:'اكتب نص المسألة هنا ...',lines:4,hasImage:false}]};
+    case 'en-composition': return {...base,mark:'6',title:'Composition',topic:'Write a paragraph about: [ ............................ ]',guide:'word1 – word2 – word3 – word4 – word5 – word6',lines:8};
+    case 'en-comprehension': return {...base,mark:'6',title:'Comprehension',instruction:'Read the following passage then answer the questions:',
+      passage:'Write your reading passage here. Click to edit.',
+      subQuestions:[
+        {label:'A) Answer the following questions:',type:'open',items:['Question 1 ...','Question 2 ...','Question 3 ...']},
+        {label:'B) Choose the correct words:',type:'mcq',items:[{stem:'Sentence with [ option1 – option2 – option3 ] choice.'},{stem:'Sentence with [ option1 – option2 – option3 ] choice.'}]},
+        {label:'C) Put ( T ) or ( F ):',type:'tf',items:['Statement 1.','Statement 2.']}
+      ]};
+    case 'en-grammar': return {...base,mark:'7',title:'Grammar',
+      subQuestions:[
+        {label:'A) Choose the correct answers:',type:'mcq',items:[{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'}]},
+        {label:'B) Answer the following:',type:'mixed',items:['Question 1 [ task ]','Question 2 [ task ]','Question 3 [ task ]']}
+      ]};
+    case 'en-vocabulary': return {...base,mark:'7',title:'Vocabulary',
+      subQuestions:[
+        {label:'A) Match:',type:'match',items:[['word 1','meaning 1'],['word 2','meaning 2'],['word 3','meaning 3'],['word 4','meaning 4']]},
+        {label:'B) Write the correct word under each picture:',type:'pictures-label',words:'word1 – word2 – word3 – word4',count:4,cols:4}
+      ]};
+    case 'en-orthography': return {...base,mark:'4',title:'Orthography',
+      subQuestions:[
+        {label:'A) Write the missing letters under each picture:',type:'pictures-letters',items:[{label:'Wo__d'},{label:'Wo__d'},{label:'Wo__d'},{label:'Wo__d'}]},
+        {label:'B) Find the odd word:',type:'odd',items:[['word1','word2','word3'],['word1','word2','word3'],['word1','word2','word3']]}
+      ]};
+    case 'en-match': return {...base,mark:'4',title:'Match',instruction:'Match the words with their meanings:',
+      items:[['item 1','meaning 1'],['item 2','meaning 2'],['item 3','meaning 3'],['item 4','meaning 4']]};
+    case 'en-mcq': return {...base,mark:'4',title:'Choose the Correct Answer',instruction:'Choose the correct answer:',
+      items:[{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'},{stem:'Sentence with [ a – b – c – d ] choice.'}]};
+    case 'en-tf': return {...base,mark:'4',title:'True or False',instruction:'Put ( T ) or ( F ):',
+      items:['Statement 1.','Statement 2.','Statement 3.','Statement 4.']};
+    case 'en-pictures': return {...base,mark:'4',title:'Pictures',instruction:'Write the correct word under each picture:',words:'word1 – word2 – word3 – word4',count:4,cols:4};
+    case 'en-odd': return {...base,mark:'4',title:'Find the Odd Word',instruction:'Find the odd word:',
+      items:[['word1','word2','word3','word4'],['word1','word2','word3','word4'],['word1','word2','word3','word4']]};
+    case 'custom': return {...base,mark:'5',title:'فقرة مخصصة / Custom Question',instruction:'اكتب التعليمات هنا / Write instructions here:',
+      customContent:'اكتب محتوى السؤال هنا — انقر للتعديل\nWrite your content here.'};
+  }
+  return null;
+}
+
+function addQuestion(type){
+  if(!state.examType){
+    alert('الرجاء اختيار نوع الاختبار في الخطوة الأولى');
+    goStep(1);
+    return;
+  }
+  const q = makeQuestion(type);
+  if(!q) return;
+  state.questions.push(q);
+  render();
+  setTimeout(()=>{
+    const blocks=document.querySelectorAll('.question-block');
+    const last=blocks[blocks.length-1];
+    if(last) last.scrollIntoView({behavior:'smooth',block:'center'});
+  },100);
+}
+
+function deleteQuestion(id){
+  if(!confirm('هل تريد حذف هذه الفقرة؟')) return;
+  state.questions=state.questions.filter(q=>q.id!==id);
+  render();
+}
+function moveQuestion(id,dir){
+  const i=state.questions.findIndex(q=>q.id===id);
+  const ni=i+dir;
+  if(ni<0||ni>=state.questions.length) return;
+  [state.questions[i],state.questions[ni]]=[state.questions[ni],state.questions[i]];
+  render();
+}
+function duplicateQuestion(id){
+  const q=state.questions.find(q=>q.id===id);
+  if(!q) return;
+  const c=JSON.parse(JSON.stringify(q));
+  c.id=uid();
+  const i=state.questions.findIndex(qq=>qq.id===id);
+  state.questions.splice(i+1,0,c);
+  render();
+}
+function editMark(id){
+  const q=state.questions.find(qq=>qq.id===id);
+  if(!q) return;
+  const m=prompt('أدخل درجة هذه الفقرة:',q.mark||'');
+  if(m!==null){q.mark=m;render();}
+}
+
+/* ====================== RENDER CANVAS ====================== */
+function render(){
+  const container=document.getElementById('examPages');
+  container.innerHTML='';
+
+  if(!state.examType){
+    container.innerHTML=`<div class="empty-canvas">
+      <div class="big-icon">👈</div>
+      <h3>اختر نوع الاختبار أولاً</h3>
+      <p>توجه إلى الخطوة الأولى في القائمة الجانبية</p>
+    </div>`;
+    document.getElementById('qCount').textContent=0;
+    document.getElementById('pageCount').textContent=0;
+    return;
+  }
+
+  const page=document.createElement('div');
+  page.className='exam-page lang-'+(state.examType==='ar'?'ar':'en');
+  page.style.transform=`scale(${state.zoom})`;
+  page.style.transformOrigin='top center';
+  page.innerHTML=renderHeader()+renderQuestions()+renderFooter();
+  container.appendChild(page);
+
+  document.getElementById('qCount').textContent=state.questions.length;
+  document.getElementById('pageCount').textContent=container.querySelectorAll('.exam-page').length;
+  document.getElementById('zoomVal').textContent=Math.round(state.zoom*100)+'%';
+
+  attachEditableListeners();
+  attachImageClickHandlers();
+}
+
+function renderHeader(){
+  return state.examType==='ar' ? renderArHeader() : renderEnHeader();
+}
+
+function renderArHeader(){
+  const h=state.header;
+  const studentLabel = state.gender==='female'?'اسم الطالبة':'اسم الطالب';
+  const logoHTML=state.logo?`<img src="${state.logo}" alt="logo">`:`<div class="ph">شعار<br>Logo</div>`;
+  const ph=(v,t)=>v?v:`<span style="color:#bbb">${t}</span>`;
+  return `
+    <div class="ar-header">
+      <div class="ar-header-right">
+        <div contenteditable="true">${ph(h.hdr1,'السطر الأول')}</div>
+        <div contenteditable="true">${ph(h.hdr2,'السطر الثاني')}</div>
+        <div contenteditable="true">${ph(h.hdr3,'السطر الثالث')}</div>
+        <div contenteditable="true">${ph(h.hdr4,'السطر الرابع')}</div>
+      </div>
+      <div class="ar-header-mid">${logoHTML}</div>
+      <div class="ar-header-left">
+        <table class="ar-meta-table" style="margin:0">
+          <tr><td class="lbl">المادة</td><td contenteditable="true">${h.subject||'&nbsp;'}</td></tr>
+          <tr><td class="lbl">اليوم/التاريخ</td><td contenteditable="true">${h.examDate||'&nbsp;'}</td></tr>
+          <tr><td class="lbl">الزمن</td><td contenteditable="true">${h.duration||'&nbsp;'}</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="ar-title-bar" contenteditable="true">${ph(h.examTitle,'انقر لإدخال عنوان الاختبار')}</div>
+    <div class="ar-student-info">
+      <span>${studentLabel}:</span>
+      <span class="ln" contenteditable="true">&nbsp;</span>
+      <span>الصف:</span>
+      <span class="ln" contenteditable="true">${h.grade||'&nbsp;'}</span>
+    </div>
+  `;
+}
+
+function renderEnHeader(){
+  const h=state.header;
+  const studentLabel = state.gender==='female'?"Student's Name (Female):":"Student's Name:";
+  const logoHTML=state.logo?`<img src="${state.logo}" alt="logo">`:`<div class="ph">Logo</div>`;
+  const ph=(v,t)=>v?v:`<span style="color:#bbb">${t}</span>`;
+  return `
+    <div class="en-header">
+      <div class="en-header-top">
+        <div class="en-header-left">
+          <div contenteditable="true">${ph(h.subject,'Subject')}</div>
+          <div contenteditable="true">${h.duration?'Time: '+h.duration:'<span style="color:#bbb">Time:</span>'}</div>
+          <div contenteditable="true">${h.examDate?'Date: '+h.examDate:'<span style="color:#bbb">Date:</span>'}</div>
+        </div>
+        <div class="en-header-logo">${logoHTML}</div>
+        <div class="en-header-right">
+          <div contenteditable="true">${ph(h.hdr1,'Header line 1')}</div>
+          <div contenteditable="true">${ph(h.hdr2,'Header line 2')}</div>
+          <div contenteditable="true">${ph(h.hdr3,'Header line 3')}</div>
+          <div contenteditable="true">${ph(h.hdr4,'School name')}</div>
+        </div>
+      </div>
+      ${h.papersCount?`<div class="en-papers">عدد أوراق الاختبار = <span contenteditable="true">${h.papersCount}</span></div>`:''}
+      <div class="en-title-bar" contenteditable="true">${ph(h.examTitle,'Exam title')}</div>
+      ${renderGradesTable()}
+      <div class="en-student-info">
+        <div><span contenteditable="true">${studentLabel}</span> <span class="ln">&nbsp;</span></div>
+        <div>Seat No. ( <span style="display:inline-block;min-width:55px;border-bottom:1px dotted #555">&nbsp;</span> )</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderGradesTable(){
+  const qs=state.questions;
+  const h=state.header;
+  if(qs.length===0){
+    return `<table class="grades-table"><tr>
+      <th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th>
+      <th>Total</th><th>Corrector</th><th>Checker</th>
+    </tr><tr>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+      <td contenteditable="true" style="font-size:9pt">${h.corrector||'&nbsp;'}</td>
+      <td contenteditable="true" style="font-size:9pt">${h.checker||'&nbsp;'}</td>
+    </tr></table>`;
+  }
+  let head='',body='',total=0;
+  qs.forEach((q,i)=>{
+    head+=`<th>Q${i+1}<br><span style="font-size:9pt">/${q.mark||'?'}</span></th>`;
+    body+=`<td>&nbsp;</td>`;
+    total+=parseInt(q.mark)||0;
+  });
+  head+=`<th>Total<br><span style="font-size:9pt">/${total}</span></th><th>Corrector</th><th>Checker</th>`;
+  body+=`<td>&nbsp;</td><td contenteditable="true" style="font-size:9pt">${h.corrector||'&nbsp;'}</td><td contenteditable="true" style="font-size:9pt">${h.checker||'&nbsp;'}</td>`;
+  return `<table class="grades-table"><tr>${head}</tr><tr>${body}</tr></table>`;
+}
+
+function renderQuestions(){
+  if(state.questions.length===0){
+    return `<div style="text-align:center;padding:60px 20px;color:#999;border:2px dashed #ddd;border-radius:8px;margin:20px 0">
+      <div style="font-size:48px;margin-bottom:12px">📋</div>
+      <h3 style="font-family:Cairo,sans-serif;color:#666;font-weight:700">لم تُضف فقرات بعد</h3>
+      <p style="margin-top:8px">انتقل إلى الخطوة 3 لإضافة الفقرات</p>
+    </div>`;
+  }
+  return state.questions.map((q,i)=>renderQuestion(q,i)).join('');
+}
+
+function renderQuestion(q,idx){
+  const controls=`<div class="q-controls">
+    <button class="qc-btn" onclick="moveQuestion('${q.id}',-1)" title="أعلى">▲</button>
+    <button class="qc-btn" onclick="moveQuestion('${q.id}',1)" title="أسفل">▼</button>
+    <button class="qc-btn dup" onclick="duplicateQuestion('${q.id}')" title="نسخ">⎘</button>
+    <button class="qc-btn" onclick="editMark('${q.id}')" title="درجة">⓵</button>
+    <button class="qc-btn del" onclick="deleteQuestion('${q.id}')" title="حذف">✕</button>
+  </div>`;
+  let body='';
+  if(q.type.startsWith('ar-')) body=renderArQuestion(q);
+  else if(q.type.startsWith('en-')) body=renderEnQuestion(q);
+  else body=renderCustom(q);
+  return `<div class="question-block" data-qid="${q.id}">${controls}${body}</div>`;
+}
+
+/* ===== AR Renderers ===== */
+function renderArQuestion(q){
+  switch(q.type){
+    case 'ar-mcq': return renderArMcq(q);
+    case 'ar-tf': return renderArTf(q);
+    case 'ar-match': return renderArMatch(q);
+    case 'ar-fill': return renderArFill(q);
+    case 'ar-essay': return renderArEssay(q);
+    case 'ar-problem': return renderArProblem(q);
+  }
+  return '';
+}
+function arHeader2(q){
+  return `<div class="q-ar-header">
+    <span contenteditable="true" data-field="title" data-qid="${q.id}">${q.title}</span>
+    <span class="mark-label">[${q.mark||'?'} درجة${q.markLabel?' - '+q.markLabel:''}]</span>
+  </div>`;
+}
+function renderArMcq(q){
+  let html=arHeader2(q)+'<table class="ar-mcq-table">';
+  q.items.forEach((it,i)=>{
+    html+=`<tr><td class="qn">${i+1}</td><td class="stem" colspan="8" contenteditable="true" data-field="item-${i}-stem" data-qid="${q.id}">${it.stem}</td></tr><tr><td></td>`;
+    ['أ','ب','ج','د'].forEach((ltr,oi)=>{
+      html+=`<td class="opt-letter">${ltr}</td><td class="opt-text" contenteditable="true" data-field="item-${i}-opt-${oi}" data-qid="${q.id}">${it.options[oi]||''}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</table>';
+  return html;
+}
+function renderArTf(q){
+  let html=arHeader2(q)+`<table class="ar-tf-table"><tr><th class="num">م</th><th>العبارة</th><th class="answer-cell">الإجابة</th></tr>`;
+  q.items.forEach((it,i)=>{
+    html+=`<tr><td class="num">${i+1}</td><td contenteditable="true" data-field="item-${i}" data-qid="${q.id}">${it}</td><td class="answer-cell"><span class="opt">ص</span><span class="opt">خ</span></td></tr>`;
+  });
+  html+='</table>';
+  return html;
+}
+function renderArMatch(q){
+  let html=arHeader2(q)+`<table class="match-table">
+    <tr><th colspan="2" contenteditable="true" data-field="col1Title" data-qid="${q.id}">${q.col1Title||'المجموعة الأولى'}</th><th class="ans">الإجابة</th><th contenteditable="true" data-field="col2Title" data-qid="${q.id}">${q.col2Title||'المجموعة الثانية'}</th></tr>`;
+  q.items.forEach((row,i)=>{
+    const ltr=['أ','ب','ج','د','هـ','و','ز','ح','ط','ي'][i]||(i+1);
+    html+=`<tr><td class="num">${i+1}</td><td contenteditable="true" data-field="item-${i}-0" data-qid="${q.id}">${row[0]}</td><td class="ans">.....</td><td contenteditable="true" data-field="item-${i}-1" data-qid="${q.id}"><b>${ltr}</b> - ${row[1]}</td></tr>`;
+  });
+  html+='</table>';
+  return html;
+}
+function renderArFill(q){
+  let html=arHeader2(q)+'<table class="ar-fill-table">';
+  q.items.forEach((it,i)=>{
+    html+=`<tr><td class="num">${i+1}</td><td contenteditable="true" data-field="item-${i}" data-qid="${q.id}">${it}</td></tr>`;
+  });
+  html+='</table>';
+  return html;
+}
+function renderArEssay(q){
+  let html=arHeader2(q);
+  q.items.forEach((it,i)=>{
+    let lines='';
+    for(let j=0;j<(it.lines||3);j++) lines+='<div class="line"></div>';
+    html+=`<div style="margin:8px 0">
+      <div style="font-weight:600;margin-bottom:3px"><span style="color:#c0392b;font-weight:700">(${i+1})</span> <span contenteditable="true" data-field="item-${i}-q" data-qid="${q.id}">${it.q}</span></div>
+      <div style="margin-right:14px"><b>الإجابة:</b><div class="writing-lines">${lines}</div></div>
+    </div>`;
+  });
+  return html;
+}
+function renderArProblem(q){
+  let html=arHeader2(q);
+  q.items.forEach((it,i)=>{
+    let lines='';
+    for(let j=0;j<(it.lines||4);j++) lines+='<div class="line"></div>';
+    const imgKey=`img-${i}`;
+    const imgSrc=q[imgKey];
+    const imgHTML=imgSrc?`<img src="${imgSrc}" style="max-height:100px" alt="">`:`<div class="pic-placeholder" style="width:140px;height:80px">📷 صورة</div>`;
+    html+=`<div style="margin:10px 0;display:grid;grid-template-columns:${it.hasImage?'1fr 160px':'1fr'};gap:10px">
+      <div>
+        <div style="font-weight:600;margin-bottom:4px"><span style="color:#c0392b;font-weight:700">(${i+1})</span> <span contenteditable="true" data-field="item-${i}-q" data-qid="${q.id}">${it.q}</span></div>
+        <div style="margin-right:14px"><b>الإجابة:</b><div class="writing-lines">${lines}</div></div>
+      </div>
+      ${it.hasImage?`<div class="img-slot" data-qid="${q.id}" data-imgkey="${imgKey}" style="cursor:pointer;text-align:center">${imgHTML}</div>`:''}
+    </div>`;
+  });
+  return html;
+}
+
+/* ===== EN Renderers ===== */
+function renderEnQuestion(q){
+  const mark=`<div class="q-mark-box">${q.mark||''}</div>`;
+  const header=`<div class="q-en-header" contenteditable="true" data-field="title" data-qid="${q.id}">${q.title}</div>`;
+  let body='';
+  switch(q.type){
+    case 'en-composition': body=renderEnComposition(q); break;
+    case 'en-comprehension': body=renderEnComprehension(q); break;
+    case 'en-grammar': case 'en-vocabulary': case 'en-orthography': body=renderEnMultiPart(q); break;
+    case 'en-match': body=renderEnMatch(q); break;
+    case 'en-mcq': body=renderEnMcq(q); break;
+    case 'en-tf': body=renderEnTf(q); break;
+    case 'en-pictures': body=renderEnPictures(q); break;
+    case 'en-odd': body=renderEnOdd(q); break;
+  }
+  return header+mark+`<div class="q-content">${body}</div>`;
+}
+function renderEnComposition(q){
+  let lines='';
+  for(let i=0;i<(q.lines||8);i++) lines+='<div class="line"></div>';
+  return `<div class="q-instruction" contenteditable="true" data-field="topic" data-qid="${q.id}">Write a paragraph about: ${q.topic.replace(/^Write a paragraph about:\s*/i,'')}</div>
+    <div style="font-weight:700;margin:3px 0"><u>Guide words:</u> [ <span contenteditable="true" data-field="guide" data-qid="${q.id}">${q.guide}</span> ]</div>
+    <div class="writing-lines">${lines}</div>`;
+}
+function renderEnComprehension(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div>`;
+  html+=`<div class="passage" contenteditable="true" data-field="passage" data-qid="${q.id}">${q.passage}</div>`;
+  (q.subQuestions||[]).forEach((sub,si)=>{
+    html+=`<div class="q-instruction blue" contenteditable="true" data-field="sub-${si}-label" data-qid="${q.id}">${sub.label}</div>`;
+    html+=renderEnSubQ(sub,q.id,si);
+  });
+  return html;
+}
+function renderEnMultiPart(q){
+  let html='';
+  (q.subQuestions||[]).forEach((sub,si)=>{
+    html+=`<div class="q-instruction blue" contenteditable="true" data-field="sub-${si}-label" data-qid="${q.id}">${sub.label}</div>`;
+    html+=renderEnSubQ(sub,q.id,si);
+  });
+  return html;
+}
+function renderEnSubQ(sub,qid,si){
+  switch(sub.type){
+    case 'open': return '<ol class="num-list">'+sub.items.map((it,i)=>`<li><span contenteditable="true" data-field="sub-${si}-item-${i}" data-qid="${qid}">${i+1}- ${it}</span><div class="answer-line" style="display:block;margin-top:3px"></div></li>`).join('')+'</ol>';
+    case 'mcq': return '<ol class="num-list">'+sub.items.map((it,i)=>`<li><span contenteditable="true" data-field="sub-${si}-item-${i}" data-qid="${qid}">${i+1}- ${it.stem}</span></li>`).join('')+'</ol>';
+    case 'tf': return '<ol class="num-list">'+sub.items.map((it,i)=>`<li><span contenteditable="true" data-field="sub-${si}-item-${i}" data-qid="${qid}">${i+1}- ${it}</span> ( ............ )</li>`).join('')+'</ol>';
+    case 'mixed': return '<ol class="num-list">'+sub.items.map((it,i)=>`<li><span contenteditable="true" data-field="sub-${si}-item-${i}" data-qid="${qid}">${i+1}- ${it}</span><div class="answer-line" style="display:block;margin-top:3px"></div></li>`).join('')+'</ol>';
+    case 'match': return renderEnMatchTable(sub.items,qid,si);
+    case 'pictures-label': return renderEnPicturesLabel(sub,qid,si);
+    case 'pictures-letters': return renderEnPicturesLetters(sub,qid,si);
+    case 'odd': return renderEnOddSub(sub,qid,si);
+  }
+  return '';
+}
+function renderEnMatch(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction||''}</div>`;
+  html+=renderEnMatchTable(q.items,q.id,'main');
+  return html;
+}
+function renderEnMatchTable(items,qid,si){
+  let html='<table class="match-table">';
+  items.forEach((row,i)=>{
+    html+=`<tr><td class="num">${i+1}</td><td contenteditable="true" data-field="match-${si}-${i}-0" data-qid="${qid}">${row[0]}</td><td class="ans">.....</td><td contenteditable="true" data-field="match-${si}-${i}-1" data-qid="${qid}">${row[1]}</td></tr>`;
+  });
+  html+='</table>';
+  return html;
+}
+function renderEnMcq(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div><ol class="num-list">`;
+  q.items.forEach((it,i)=>{html+=`<li><span contenteditable="true" data-field="item-${i}" data-qid="${q.id}">${i+1}- ${it.stem}</span></li>`;});
+  html+='</ol>';
+  return html;
+}
+function renderEnTf(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div><ol class="num-list">`;
+  q.items.forEach((it,i)=>{html+=`<li><span contenteditable="true" data-field="item-${i}" data-qid="${q.id}">${i+1}- ${it}</span> ( ............ )</li>`;});
+  html+='</ol>';
+  return html;
+}
+function renderEnPictures(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div>`;
+  html+=`<div class="word-box" contenteditable="true" data-field="words" data-qid="${q.id}">${q.words}</div>`;
+  const cols=q.cols||4;
+  html+=`<div class="picture-row cols-${cols}">`;
+  for(let i=0;i<(q.count||4);i++){
+    const imgKey=`pic-${i}`;
+    const hasImg=q[imgKey];
+    const imgHTML=hasImg?`<img src="${hasImg}" alt="">`:`<div class="pic-placeholder">📷</div>`;
+    html+=`<div class="pic-cell"><div class="img-slot" data-qid="${q.id}" data-imgkey="${imgKey}" style="cursor:pointer">${imgHTML}</div><div class="pic-blank"></div></div>`;
+  }
+  html+='</div>';
+  return html;
+}
+function renderEnPicturesLabel(sub,qid,si){
+  let html=`<div class="word-box" contenteditable="true" data-field="sub-${si}-words" data-qid="${qid}">${sub.words}</div>`;
+  const cols=sub.cols||3;
+  html+=`<div class="picture-row cols-${cols}">`;
+  for(let i=0;i<(sub.count||3);i++){
+    const imgKey=`sub-${si}-pic-${i}`;
+    const hasImg=sub[`pic-${i}`];
+    const imgHTML=hasImg?`<img src="${hasImg}" alt="">`:`<div class="pic-placeholder">📷</div>`;
+    html+=`<div class="pic-cell"><div class="img-slot" data-qid="${qid}" data-imgkey="${imgKey}" style="cursor:pointer">${imgHTML}</div><div class="pic-blank"></div></div>`;
+  }
+  html+='</div>';
+  return html;
+}
+function renderEnPicturesLetters(sub,qid,si){
+  let html=`<div class="picture-row cols-4">`;
+  sub.items.forEach((it,i)=>{
+    const imgKey=`sub-${si}-pic-${i}`;
+    const hasImg=it.img;
+    const imgHTML=hasImg?`<img src="${hasImg}" alt="">`:`<div class="pic-placeholder">📷</div>`;
+    html+=`<div class="pic-cell"><div class="img-slot" data-qid="${qid}" data-imgkey="${imgKey}" style="cursor:pointer">${imgHTML}</div><div class="pic-label" contenteditable="true" data-field="sub-${si}-item-${i}-label" data-qid="${qid}">${it.label}</div></div>`;
+  });
+  html+='</div>';
+  return html;
+}
+function renderEnOdd(q){
+  let html=`<div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div><table style="width:100%;border-collapse:collapse;margin-top:4px">`;
+  q.items.forEach((row,i)=>{
+    html+=`<tr><td style="padding:4px;font-weight:700;color:#c0392b;width:30px">${i+1}-</td>`;
+    row.forEach((w,wi)=>{html+=`<td style="padding:4px 8px" contenteditable="true" data-field="item-${i}-${wi}" data-qid="${q.id}">${w}</td>`;});
+    html+='</tr>';
+  });
+  html+='</table>';
+  return html;
+}
+function renderEnOddSub(sub,qid,si){
+  let html='<table style="width:100%;border-collapse:collapse;margin-top:4px">';
+  sub.items.forEach((row,i)=>{
+    html+=`<tr><td style="padding:4px;font-weight:700;color:#c0392b;width:30px">${i+1}-</td>`;
+    row.forEach((w,wi)=>{html+=`<td style="padding:4px 8px" contenteditable="true" data-field="sub-${si}-item-${i}-${wi}" data-qid="${qid}">${w}</td>`;});
+    html+='</tr>';
+  });
+  html+='</table>';
+  return html;
+}
+function renderCustom(q){
+  return `<div class="q-en-header" contenteditable="true" data-field="title" data-qid="${q.id}">${q.title}</div>
+    <div class="q-mark-box">${q.mark||''}</div>
+    <div class="q-content">
+      <div class="q-instruction" contenteditable="true" data-field="instruction" data-qid="${q.id}">${q.instruction}</div>
+      <div contenteditable="true" data-field="customContent" data-qid="${q.id}" style="font-size:11pt;line-height:1.7;min-height:60px;padding:8px;white-space:pre-wrap;border:1px dashed #ddd;border-radius:4px">${q.customContent||''}</div>
+    </div>`;
+}
+
+function renderFooter(){
+  if(state.questions.length===0) return '';
+  return state.examType==='ar'
+    ? `<div class="end-marker">انتهت الأسئلة مع تمنياتنا لكم بالتوفيق</div>`
+    : `<div class="end-marker">— Questions Finished — Good Luck —</div>`;
+}
+
+/* ====================== EDITABLE ====================== */
+function attachEditableListeners(){
+  document.querySelectorAll('[contenteditable][data-field][data-qid]').forEach(el=>{
+    el.addEventListener('blur',()=>{
+      const qid=el.dataset.qid;
+      const field=el.dataset.field;
+      const q=state.questions.find(qq=>qq.id===qid);
+      if(!q) return;
+      updateField(q,field,el.innerHTML.trim());
+    });
+  });
+}
+function updateField(q,field,value){
+  if(['title','topic','guide','instruction','passage','words','customContent','col1Title','col2Title'].includes(field)){
+    q[field]=value; return;
+  }
+  let m;
+  if((m=field.match(/^sub-(\d+)-label$/))){q.subQuestions[+m[1]].label=value;return;}
+  if((m=field.match(/^sub-(\d+)-words$/))){q.subQuestions[+m[1]].words=value;return;}
+  if((m=field.match(/^sub-(\d+)-item-(\d+)$/))){
+    const sub=q.subQuestions[+m[1]];const i=+m[2];
+    const stripped=value.replace(/^\d+-\s*/,'');
+    if(sub.type==='mcq') sub.items[i].stem=stripped;
+    else sub.items[i]=stripped;
+    return;
+  }
+  if((m=field.match(/^sub-(\d+)-item-(\d+)-(\d+)$/))){q.subQuestions[+m[1]].items[+m[2]][+m[3]]=value;return;}
+  if((m=field.match(/^sub-(\d+)-item-(\d+)-label$/))){q.subQuestions[+m[1]].items[+m[2]].label=value;return;}
+  if((m=field.match(/^match-(\w+)-(\d+)-(\d+)$/))){
+    if(m[1]==='main') q.items[+m[2]][+m[3]]=value;
+    else q.subQuestions[+m[1]].items[+m[2]][+m[3]]=value;
+    return;
+  }
+  if((m=field.match(/^item-(\d+)-stem$/))){q.items[+m[1]].stem=value;return;}
+  if((m=field.match(/^item-(\d+)-opt-(\d+)$/))){q.items[+m[1]].options[+m[2]]=value;return;}
+  if((m=field.match(/^item-(\d+)-q$/))){q.items[+m[1]].q=value;return;}
+  if((m=field.match(/^item-(\d+)$/))){
+    const i=+m[1];
+    if(q.items[i]&&q.items[i].stem!==undefined) q.items[i].stem=value.replace(/^\d+-\s*/,'');
+    else if(!Array.isArray(q.items[i])) q.items[i]=value;
+    return;
+  }
+  if((m=field.match(/^item-(\d+)-(\d+)$/))){q.items[+m[1]][+m[2]]=value;return;}
+}
+
+/* ====================== IMAGE UPLOAD ====================== */
+function attachImageClickHandlers(){
+  document.querySelectorAll('.img-slot').forEach(slot=>{
+    slot.addEventListener('click',()=>{
+      currentImgTarget={qid:slot.dataset.qid,key:slot.dataset.imgkey};
+      document.getElementById('imgUploadInput').click();
+    });
+  });
+}
+document.getElementById('imgUploadInput').addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file||!currentImgTarget) return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    const url=ev.target.result;
+    const q=state.questions.find(qq=>qq.id===currentImgTarget.qid);
+    if(!q) return;
+    const key=currentImgTarget.key;
+    let m;
+    if((m=key.match(/^pic-(\d+)$/))) q[`pic-${m[1]}`]=url;
+    else if((m=key.match(/^img-(\d+)$/))) q[`img-${m[1]}`]=url;
+    else if((m=key.match(/^sub-(\d+)-pic-(\d+)$/))){
+      const sub=q.subQuestions[+m[1]];
+      if(sub.type==='pictures-letters') sub.items[+m[2]].img=url;
+      else sub[`pic-${m[2]}`]=url;
+    }
+    render();
+  };
+  r.readAsDataURL(file);
+  e.target.value='';
+});
+
+/* ====================== ZOOM ====================== */
+function zoomIn(){state.zoom=Math.min(1.5,state.zoom+0.1);applyZoom();}
+function zoomOut(){state.zoom=Math.max(0.5,state.zoom-0.1);applyZoom();}
+function resetZoom(){state.zoom=1;applyZoom();}
+function applyZoom(){
+  document.querySelectorAll('.exam-page').forEach(p=>p.style.transform=`scale(${state.zoom})`);
+  document.getElementById('zoomVal').textContent=Math.round(state.zoom*100)+'%';
+}
+
+/* ====================== SAVE / LOAD ====================== */
+function saveExam(){
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='exam_'+Date.now()+'.json';
+  a.click();
+}
+function loadExam(){
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='.json';
+  input.onchange=e=>{
+    const r=new FileReader();
+    r.onload=ev=>{
+      try{
+        state=JSON.parse(ev.target.result);
+        renderSidePanel();
+        render();
+      } catch(err){ alert('ملف غير صالح'); }
+    };
+    r.readAsText(e.target.files[0]);
+  };
+  input.click();
+}
+
+/* ====================== CLEAR ====================== */
+function clearAll(){
+  if(!confirm('سيتم مسح جميع الفقرات. هل أنت متأكد؟')) return;
+  state.questions=[];
+  render();
+}
+function resetAll(){
+  if(!confirm('سيتم مسح كل البيانات (الترويسة + الفقرات). هل أنت متأكد؟')) return;
+  state = {
+    step:1, examType:null, gender:'male', logo:null,
+    header:{hdr1:'',hdr2:'',hdr3:'',hdr4:'',subject:'',grade:'',term:'',examDate:'',duration:'',examTitle:'',papersCount:'',round:'',corrector:'',checker:''},
+    questions:[], zoom:1
+  };
+  goStep(1);
+  render();
+}
+
+/* ====================== TEMPLATES ====================== */
+function loadTemplate(name){
+  if(state.questions.length>0 && !confirm('سيتم استبدال الفقرات الحالية. متابعة؟')) return;
+  state.questions=[];
+  if(name==='en-second-term'){
+    state.examType='en';
+    state.questions=[makeQuestion('en-composition'),makeQuestion('en-comprehension'),makeQuestion('en-grammar'),makeQuestion('en-vocabulary'),makeQuestion('en-orthography')];
+  } else if(name==='ar-science'){
+    state.examType='ar';
+    state.questions=[makeQuestion('ar-mcq'),makeQuestion('ar-match'),makeQuestion('ar-tf'),makeQuestion('ar-essay')];
+  } else if(name==='ar-math'){
+    state.examType='ar';
+    state.questions=[makeQuestion('ar-mcq'),makeQuestion('ar-match'),makeQuestion('ar-tf'),makeQuestion('ar-fill'),makeQuestion('ar-problem')];
+  }
+  renderSidePanel();
+  render();
+}
+
+/* ====================== INIT ====================== */
+renderSidePanel();
+render();
+</script>
+</body>
+</html>

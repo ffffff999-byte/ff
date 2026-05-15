@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>منصة بناء الاختبارات المدرسية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo','Noto Naskh Arabic',sans-serif;direction:rtl;background:#eef2f7;min-height:100vh;}
+
+/* ===== SCREEN LAYOUT ===== */
+#app{display:flex;flex-direction:row-reverse;min-height:100vh;}
+
+/* SETTINGS PANEL */
+#settings-panel{
+  width:270px;min-width:270px;height:100vh;overflow-y:auto;
+  background:#f8fafc;border-left:1px solid #e2e8f0;
+  padding:10px;position:sticky;top:0;
+}
+.panel-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #e2e8f0;}
+.panel-header span{font-size:14px;font-weight:800;color:#1e3a5f;}
+
+.print-btn{
+  width:100%;padding:9px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);
+  color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;
+  font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-bottom:10px;box-shadow:0 2px 8px rgba(37,99,235,.25);font-family:'Cairo',sans-serif;
+  transition:transform .1s;
+}
+.print-btn:active{transform:scale(.97);}
+
+/* Gender buttons */
+.gender-btns{display:flex;gap:6px;margin-bottom:4px;}
+.gender-btn{
+  flex:1;padding:7px 4px;background:#f1f5f9;color:#374151;
+  border:1px solid #e2e8f0;border-radius:5px;cursor:pointer;font-size:12px;
+  font-weight:600;display:flex;align-items:center;justify-content:center;gap:4px;
+  font-family:'Cairo',sans-serif;transition:all .15s;
+}
+.gender-btn.active-male{background:#1d4ed8;color:#fff;border-color:#1d4ed8;}
+.gender-btn.active-female{background:#be185d;color:#fff;border-color:#be185d;}
+
+/* Collapsible group */
+.group{margin-bottom:8px;border:1px solid #e5e7eb;border-radius:6px;overflow:hidden;}
+.group-header{
+  width:100%;padding:7px 10px;background:#f8fafc;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;font-weight:700;color:#1e40af;font-family:'Cairo',sans-serif;
+}
+.group-header.accent{background:#eff6ff;color:#1d4ed8;}
+.group-body{padding:10px;display:block;}
+.group-body.hidden{display:none;}
+
+/* Field */
+.field{margin-bottom:7px;}
+.field label{font-size:10.5px;color:#6b7280;font-weight:600;display:block;margin-bottom:2px;}
+.field input[type=text],.field input[type=number]{
+  width:100%;padding:4px 8px;font-size:12px;border:1px solid #d1d5db;
+  border-radius:4px;background:#fff;color:#1c1c1e;font-family:'Cairo',sans-serif;
+  direction:rtl;
+}
+.field input[type=number]{width:60px;text-align:center;}
+
+/* Toggle */
+.toggle-wrap{display:flex;align-items:center;gap:8px;}
+.toggle{
+  width:36px;height:20px;border-radius:10px;background:#d1d5db;
+  position:relative;transition:background .2s;cursor:pointer;flex-shrink:0;
+}
+.toggle.on{background:#2563eb;}
+.toggle-thumb{
+  position:absolute;top:2px;right:2px;width:16px;height:16px;
+  border-radius:50%;background:#fff;transition:right .2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.toggle.off .toggle-thumb{right:16px;}
+
+/* Section type buttons */
+.section-types{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.section-type-btn{
+  padding:7px 4px;background:#fff;border:1px solid #e2e8f0;border-radius:5px;
+  cursor:pointer;font-size:11px;color:#374151;display:flex;flex-direction:column;
+  align-items:center;gap:2px;transition:all .15s;font-family:'Cairo',sans-serif;
+}
+.section-type-btn:hover{background:#f0f7ff;border-color:#93c5fd;color:#1d4ed8;}
+.section-type-btn .icon{font-size:15px;}
+
+/* Credit */
+.credit{
+  margin-top:16px;padding-top:10px;border-top:1px dashed #d1d5db;
+  text-align:center;font-size:11px;color:#9ca3af;
+}
+.credit a{color:#2563eb;text-decoration:none;}
+
+/* MAIN AREA */
+#main-area{flex:1;padding:14px 20px;overflow-y:auto;display:flex;flex-direction:column;align-items:center;min-width:0;}
+
+/* Top bar */
+.top-bar{
+  width:100%;max-width:800px;display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;padding:8px 14px;background:#fff;border-radius:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);gap:8px;flex-wrap:wrap;
+}
+.top-bar-title{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:#1e3a5f;}
+.top-bar-actions{display:flex;gap:6px;align-items:center;}
+.btn-save{padding:5px 10px;background:#f0fdf4;color:#16a34a;border:1px solid #86efac;border-radius:5px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Cairo',sans-serif;}
+.btn-reset{padding:5px 10px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:5px;cursor:pointer;font-size:12px;font-weight:600;font-family:'Cairo',sans-serif;}
+.btn-print-top{padding:5px 14px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:700;font-family:'Cairo',sans-serif;box-shadow:0 2px 6px rgba(37,99,235,.3);}
+
+/* Exam paper */
+#exam-paper-wrap{
+  width:794px;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.12);
+  border-radius:4px;padding:28px 32px;position:relative;min-height:400px;
+}
+#exam-paper-wrap .exam-paper{
+  border:3px solid #000;
+  outline:1.5px solid #000;
+  outline-offset:-6px;
+  padding:12px 16px;
+}
+
+/* Hint bar */
+.hint-bar{
+  margin-top:10px;padding:7px 14px;background:#eff6ff;border-radius:6px;
+  font-size:11px;color:#1d4ed8;max-width:800px;width:100%;text-align:center;
+  border:1px solid #bfdbfe;
+}
+
+/* ===== EXAM HEADER ===== */
+.exam-header{direction:rtl;font-family:'Noto Naskh Arabic','Cairo',serif;}
+.header-top-table{width:100%;border-collapse:collapse;margin-bottom:4px;}
+.header-top-table td{vertical-align:top;padding:2px 4px;}
+.header-right{font-size:13px;font-weight:700;line-height:1.8;text-align:right;}
+.header-right span{display:block;}
+.header-center{text-align:center;vertical-align:middle;width:120px;}
+.header-left{font-size:12px;font-weight:600;line-height:1.8;text-align:right;}
+.header-left span{display:block;}
+.logo-area{
+  width:80px;height:80px;border:2px dashed #9ca3af;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  margin:0 auto;position:relative;overflow:hidden;background:#f9fafb;
+  transition:border-color .2s;
+}
+.logo-area:hover{border-color:#2563eb;}
+.logo-area img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+.logo-placeholder{font-size:11px;color:#9ca3af;text-align:center;}
+.logo-overlay{
+  position:absolute;inset:0;background:rgba(0,0,0,.4);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;
+  font-size:10px;color:#fff;
+}
+.logo-area:hover .logo-overlay{opacity:1;}
+.bismallah{text-align:center;font-size:14px;font-weight:700;margin:4px 0;}
+.header-divider{border:none;border-top:2px solid #1e3a5f;margin:4px 0;}
+.exam-title-row{text-align:center;margin:4px 0;}
+.exam-title{font-size:16px;font-weight:800;display:inline;}
+.exam-year{font-size:13px;font-weight:600;margin-right:12px;}
+.student-info-table{width:100%;border-collapse:collapse;margin:6px 0;}
+.student-info-table td{border:1px solid #374151;padding:4px 8px;font-size:12px;font-weight:600;text-align:center;}
+.grades-table{width:100%;border-collapse:collapse;margin:4px 0;font-size:11px;}
+.grades-table td,.grades-table th{border:1px solid #374151;padding:3px 5px;text-align:center;font-weight:600;}
+.grades-table .header-row{background:#e8f0fe;}
+.warning-note{
+  background:#fef9c3;border:1px solid #fbbf24;border-radius:4px;
+  padding:5px 10px;font-size:11px;font-weight:600;color:#92400e;
+  margin-top:5px;text-align:center;
+}
+
+/* ===== QUESTION SECTION ===== */
+.question-section{
+  margin-bottom:10px;position:relative;border-radius:4px;
+  padding:2px 0;
+}
+.question-section:hover .hover-toolbar{opacity:1;}
+.hover-toolbar{
+  position:absolute;right:-36px;top:0;display:flex;flex-direction:column;gap:3px;
+  opacity:0;transition:opacity .15s;
+}
+.toolbar-btn{
+  width:28px;height:28px;border-radius:4px;border:1px solid #e2e8f0;
+  background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);transition:all .15s;
+}
+.toolbar-btn:hover{background:#f0f7ff;border-color:#93c5fd;}
+.toolbar-btn.del:hover{background:#fee2e2;border-color:#fca5a5;}
+
+.section-title-row{
+  display:flex;align-items:baseline;gap:6px;margin-bottom:4px;
+  border-bottom:1px solid #1e3a5f;padding-bottom:3px;
+}
+.section-title{font-size:14px;font-weight:800;color:#1e3a5f;}
+.section-subtitle{font-size:13px;font-weight:700;color:#374151;}
+.section-marks{font-size:12px;color:#6b7280;margin-right:auto;}
+.section-instruction{font-size:12px;font-weight:600;margin-bottom:3px;}
+.section-note{font-size:11px;color:#6b7280;font-style:italic;margin-bottom:5px;}
+
+/* MCQ */
+.mcq-list{list-style:none;padding:0;}
+.mcq-item{margin-bottom:6px;}
+.mcq-question-row{display:flex;align-items:flex-start;gap:4px;margin-bottom:2px;}
+.mcq-num{font-size:12px;font-weight:700;min-width:22px;}
+.mcq-options{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px;padding-right:22px;}
+.mcq-option{display:flex;align-items:flex-start;gap:3px;font-size:12px;}
+.mcq-option-letter{font-weight:700;min-width:18px;}
+
+/* True/False */
+.tf-list{list-style:none;padding:0;}
+.tf-item{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:12px;}
+.tf-num{font-weight:700;min-width:22px;}
+.tf-box{width:18px;height:18px;border:1px solid #374151;flex-shrink:0;}
+
+/* Matching */
+.matching-table{width:100%;border-collapse:collapse;font-size:12px;}
+.matching-table td,.matching-table th{border:1px solid #374151;padding:4px 6px;text-align:right;}
+.matching-table th{background:#e8f0fe;font-weight:700;text-align:center;}
+.matching-table .answer-cell{width:50px;text-align:center;}
+
+/* Essay */
+.essay-text{font-size:12px;font-weight:600;margin-bottom:6px;}
+.essay-lines{margin-top:4px;}
+.essay-line{border-bottom:1px solid #9ca3af;height:22px;margin-bottom:2px;}
+
+/* Fill */
+.fill-list{list-style:none;padding:0;}
+.fill-item{display:flex;align-items:flex-start;gap:4px;margin-bottom:5px;font-size:12px;}
+.fill-num{font-weight:700;min-width:22px;}
+
+/* Custom */
+.custom-content{font-size:12px;min-height:40px;}
+
+/* Add buttons */
+.add-item-btn{
+  margin-top:6px;padding:4px 10px;background:#f0f7ff;color:#1d4ed8;
+  border:1px dashed #93c5fd;border-radius:4px;cursor:pointer;font-size:11px;
+  font-family:'Cairo',sans-serif;font-weight:600;
+}
+.add-item-btn:hover{background:#dbeafe;}
+
+/* Editable */
+[contenteditable]{
+  outline:none;border-bottom:1px dashed #93c5fd;min-width:20px;
+  cursor:text;transition:background .15s;border-radius:2px;padding:0 2px;
+}
+[contenteditable]:hover{background:#f0f7ff;}
+[contenteditable]:focus{background:#eff6ff;border-bottom:1px solid #2563eb;}
+
+/* End of exam */
+.exam-end{text-align:center;margin-top:16px;font-size:12px;font-weight:bold;color:#374151;}
+
+/* ===== PRINT STYLES ===== */
+@media print{
+  @page{size:A4 portrait;margin:1.2cm 1.4cm;}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  html,body{background:white!important;margin:0!important;padding:0!important;font-size:11px!important;}
+  #app,#settings-panel,.top-bar,.hint-bar,.hover-toolbar,.add-item-btn{display:none!important;}
+  #print-area{display:block!important;}
+  .exam-header,.question-section,.exam-end{display:block!important;}
+  [contenteditable]{border:none!important;background:transparent!important;outline:none!important;padding:0!important;}
+  .exam-paper{
+    box-shadow:none!important;
+    margin:0!important;
+    padding:8px 12px!important;
+    width:100%!important;
+    border:3px solid #000!important;
+    outline:1.5px solid #000!important;
+    outline-offset:-6px!important;
+    border-radius:0!important;
+    box-sizing:border-box!important;
+  }
+  .warning-note{background:#fef9c3!important;border:1px solid #fbbf24!important;}
+  .grades-table .header-row{background:#e8f0fe!important;}
+  .section-title-row{border-bottom:1px solid #1e3a5f!important;}
+  .matching-table th{background:#e8f0fe!important;}
+}
+#print-area{display:none;direction:rtl;font-family:'Noto Naskh Arabic','Cairo',serif;}
+
+/* Toast */
+.toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  background:#1e3a5f;color:#fff;padding:10px 20px;border-radius:8px;
+  font-size:13px;font-family:'Cairo',sans-serif;z-index:9999;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.toast.show{opacity:1;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:#f1f5f9;}
+::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PRINT AREA (hidden on screen) -->
+<div id="print-area">
+  <div id="print-content"></div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <!-- SETTINGS PANEL -->
+  <div id="settings-panel">
+    <div class="panel-header">
+      <span>⚙ إعدادات الاختبار</span>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" onclick="doPrint()">🖨 طباعة الاختبار</button>
+
+    <!-- Gender -->
+    <div class="group">
+      <button class="group-header accent" onclick="toggleGroup(this)">نوع الطلاب ▾</button>
+      <div class="group-body">
+        <div class="gender-btns">
+          <button class="gender-btn active-male" id="btn-male" onclick="setGender('male')">👤 بنين</button>
+          <button class="gender-btn" id="btn-female" onclick="setGender('female')">👥 بنات</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- School Info -->
+    <div class="group">
+      <button class="group-header" onclick="toggleGroup(this)">معلومات المدرسة ▾</button>
+      <div class="group-body">
+        <div class="field"><label>المملكة</label><input type="text" id="f-kingdom" oninput="syncField('kingdom',this.value)"/></div>
+        <div class="field"><label>الوزارة</label><input type="text" id="f-ministry" oninput="syncField('ministry',this.value)"/></div>
+        <div class="field"><label>الإدارة / المنطقة</label><input type="text" id="f-region" oninput="syncField('region',this.value)"/></div>
+        <div class="field"><label>اسم المدرسة</label><input type="text" id="f-school" oninput="syncField('school',this.value)"/></div>
+      </div>
+    </div>
+
+    <!-- Exam Info -->
+    <div class="group">
+      <button class="group-header" onclick="toggleGroup(this)">معلومات الاختبار ▾</button>
+      <div class="group-body">
+        <div class="field"><label>المادة</label><input type="text" id="f-subject" oninput="syncField('subject',this.value)"/></div>
+        <div class="field"><label>الصف</label><input type="text" id="f-grade" oninput="syncField('grade',this.value)"/></div>
+        <div class="field"><label>الفصل الدراسي</label><input type="text" id="f-term" oninput="syncField('term',this.value)"/></div>
+        <div class="field"><label>الدور</label><input type="text" id="f-round" oninput="syncField('round',this.value)"/></div>
+        <div class="field"><label>الزمن</label><input type="text" id="f-time" oninput="syncField('time',this.value)"/></div>
+        <div class="field"><label>التاريخ</label><input type="text" id="f-date" oninput="syncField('date',this.value)"/></div>
+        <div class="field"><label>العام الدراسي</label><input type="text" id="f-year" oninput="syncField('year',this.value)"/></div>
+        <div class="field"><label>عنوان الاختبار</label><input type="text" id="f-examTitle" oninput="syncField('examTitle',this.value)"/></div>
+      </div>
+    </div>
+
+    <!-- Header Options -->
+    <div class="group">
+      <button class="group-header" onclick="toggleGroup(this)">خيارات الترويسة ▸</button>
+      <div class="group-body hidden">
+        <div class="field"><label>نص بسم الله</label><input type="text" id="f-bismAllah" oninput="syncField('bismAllah',this.value)"/></div>
+        <div class="field"><label>عدد أعمدة الدرجات</label><input type="number" id="f-questionsCount" min="1" max="10" oninput="syncField('questionsCount',parseInt(this.value)||4)"/></div>
+        <div class="field"><label>عنوان المصحح</label><input type="text" id="f-correctorLabel" oninput="syncField('correctorLabel',this.value)"/></div>
+        <div class="field"><label>عنوان المراجع</label><input type="text" id="f-reviewerLabel" oninput="syncField('reviewerLabel',this.value)"/></div>
+        <div class="field">
+          <label>جدول الدرجات</label>
+          <div class="toggle-wrap">
+            <div class="toggle on" id="toggle-grades" onclick="toggleOption('showGradesTable','toggle-grades')">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span id="lbl-grades" style="font-size:11px;color:#374151;">مُظهَر</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>ملاحظة التظليل</label>
+          <div class="toggle-wrap" style="margin-bottom:4px;">
+            <div class="toggle on" id="toggle-warning" onclick="toggleOption('showWarningNote','toggle-warning')">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span id="lbl-warning" style="font-size:11px;color:#374151;">مُظهَرة</span>
+          </div>
+          <input type="text" id="f-warningNote" oninput="syncField('warningNote',this.value)"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Section -->
+    <div class="group">
+      <button class="group-header accent" onclick="toggleGroup(this)">إضافة قسم جديد ▾</button>
+      <div class="group-body">
+        <div class="section-types">
+          <button class="section-type-btn" onclick="addSection('mcq')"><span class="icon">☑</span>اختيار متعدد</button>
+          <button class="section-type-btn" onclick="addSection('truefalse')"><span class="icon">✓✗</span>صواب وخطأ</button>
+          <button class="section-type-btn" onclick="addSection('matching')"><span class="icon">↔</span>مزاوجة</button>
+          <button class="section-type-btn" onclick="addSection('essay')"><span class="icon">✍</span>مقالي</button>
+          <button class="section-type-btn" onclick="addSection('fill')"><span class="icon">___</span>ملء الفراغ</button>
+          <button class="section-type-btn" onclick="addSection('custom')"><span class="icon">+</span>مخصص</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Credit (no-print) -->
+    <div class="credit">
+      <div style="margin-bottom:3px;font-weight:600;">تصميم د/فواز</div>
+      <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا 🔗</a>
+    </div>
+  </div>
+
+  <!-- MAIN AREA -->
+  <div id="main-area">
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="top-bar-title">📄 منصة بناء الاختبارات المدرسية</div>
+      <div class="top-bar-actions">
+        <button class="btn-save" onclick="saveData()">💾 حفظ</button>
+        <button class="btn-reset" onclick="resetExam()">↺ تعيين</button>
+        <button class="btn-print-top" onclick="doPrint()">🖨 طباعة</button>
+      </div>
+    </div>
+
+    <!-- Exam Paper -->
+    <div id="exam-paper-wrap">
+      <div id="exam-paper" class="exam-paper" style="direction:rtl;"></div>
+    </div>
+
+    <!-- Hint -->
+    <div class="hint-bar">
+      ℹ انقر على أي نص لتعديله مباشرة &nbsp;•&nbsp; استخدم الأزرار الجانبية لنقل/حذف الأقسام &nbsp;•&nbsp; انقر على دائرة الشعار لاستيراد صورة &nbsp;•&nbsp; يُحفظ الاختبار تلقائياً في المتصفح
+    </div>
+    <div style="height:40px;"></div>
+  </div>
+</div>
+
+<!-- Hidden file input for logo -->
+<input type="file" id="logo-input" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)"/>
+
+<script>
+// ===== STATE =====
+const ORDINALS = ['الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر'];
+const AR_LETTERS = ['أ','ب','ج','د','هـ','و','ز','ح','ط','ي','ك','ل','م','ن'];
+
+let state = {
+  genderMode: 'male',
+  logoUrl: null,
+  header: {
+    kingdom: 'المملكة العربية السعودية',
+    ministry: 'وزارة التعليم',
+    region: 'إدارة التعليم بمنطقة ...',
+    school: 'مدرسة ...',
+    subject: 'مادة: ...',
+    grade: 'الصف: ...',
+    term: 'الفصل الدراسي الثاني',
+    round: 'الدور الأول',
+    time: 'الزمن: ساعتان',
+    date: 'التاريخ: / / 1446هـ',
+    year: 'العام الدراسي: 1446هـ',
+    bismAllah: 'بسم الله الرحمن الرحيم',
+    examTitle: 'اختبار نهاية الفصل الدراسي الثاني',
+    studentLabel: 'اسم الطالب',
+    classLabel: 'الشعبة',
+    seatLabel: 'رقم الجلوس',
+    showGradesTable: true,
+    questionsCount: 4,
+    correctorLabel: 'المصحح',
+    reviewerLabel: 'المراجع',
+    warningNote: 'تنبيه: هذه الورقة خاصة بالأسئلة؛ فقم بنقل إجابتك لنموذج الإجابة (ورقة التظليل).',
+    showWarningNote: true,
+  },
+  sections: [
+    {
+      id: uid(), type: 'mcq',
+      title: 'السؤال الأول', subtitle: '(الاختيار من متعدد)',
+      instruction: 'اختر الإجابة الصحيحة مما يلي:',
+      note: 'الحد الأقصى للفقرات أربعون فقرة، والاختيارات لا تزيد عن أربعة',
+      showNote: true, marks: '10', optionsCount: 4,
+      items: [
+        {id:uid(), q:'السؤال الأول', opts:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+        {id:uid(), q:'السؤال الثاني', opts:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+        {id:uid(), q:'السؤال الثالث', opts:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+      ]
+    },
+    {
+      id: uid(), type: 'truefalse',
+      title: 'السؤال الثاني', subtitle: '(الصواب والخطأ)',
+      instruction: 'ضع علامة (✓) أمام العبارة الصحيحة وعلامة (✗) أمام العبارة الخاطئة:',
+      note: 'في ورقة الإجابة يتم تظليل حرف (ص) للإجابة الصحيحة، وحرف (خ) للإجابة الخاطئة.',
+      showNote: true, marks: '5',
+      items: [{id:uid(),text:'العبارة الأولى'},{id:uid(),text:'العبارة الثانية'},{id:uid(),text:'العبارة الثالثة'}]
+    },
+    {
+      id: uid(), type: 'matching',
+      title: 'السؤال الثالث', subtitle: '(المزاوجة)',
+      instruction: 'اختر لكل عبارة من العمود (أ) الحرف الرامز للإجابة الصحيحة في العمود (ب):',
+      note: 'كتابة الحرف الذي يرمز للإجابة في عمود الإجابة أمام العبارة المناسبة له، ثم تظليله في ورقة الإجابة.',
+      showNote: true, marks: '5',
+      items: [
+        {id:uid(),q:'العبارة الأولى',a:'الإجابة الأولى'},
+        {id:uid(),q:'العبارة الثانية',a:'الإجابة الثانية'},
+        {id:uid(),q:'العبارة الثالثة',a:'الإجابة الثالثة'},
+        {id:uid(),q:'العبارة الرابعة',a:'الإجابة الرابعة'},
+        {id:uid(),q:'العبارة الخامسة',a:'الإجابة الخامسة'},
+      ]
+    },
+    {
+      id: uid(), type: 'essay',
+      title: 'السؤال الرابع', subtitle: '(مقالي)',
+      instruction: 'أجب عن هذا السؤال ثم قم بكتابة إجابتك خلف ورقة التظليل.',
+      note: 'هذا السؤال مقالي، المطلوب منك إبلاغ الكنترول بوجود السؤال للإشارة له في ورقة الإجابة.',
+      showNote: true, marks: '5',
+      essayText: 'نص السؤال المقالي...', essayLines: 6
+    },
+  ]
+};
+
+function uid(){return 'id_'+Math.random().toString(36).substr(2,9);}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  fillSettingsPanel();
+  renderAll();
+});
+
+function fillSettingsPanel(){
+  const h = state.header;
+  const fields = ['kingdom','ministry','region','school','subject','grade','term','round','time','date','year','examTitle','bismAllah','questionsCount','correctorLabel','reviewerLabel','warningNote'];
+  fields.forEach(f => {
+    const el = document.getElementById('f-'+f);
+    if(el) el.value = h[f] !== undefined ? h[f] : '';
+  });
+  // toggles
+  updateToggleUI('toggle-grades', h.showGradesTable, 'lbl-grades', 'مُظهَر', 'مخفي');
+  updateToggleUI('toggle-warning', h.showWarningNote, 'lbl-warning', 'مُظهَرة', 'مخفية');
+  // gender
+  updateGenderBtns();
+}
+
+// ===== RENDER =====
+function renderAll(){
+  renderHeader();
+  renderSections();
+}
+
+function renderHeader(){
+  const h = state.header;
+  const paper = document.getElementById('exam-paper');
+  
+  // Build grades table columns
+  let gradesCols = '';
+  for(let i=0;i<h.questionsCount;i++){
+    gradesCols += `<td contenteditable="true">${ORDINALS[i]||i+1}</td>`;
+  }
+  
+  const headerHTML = `
+<div class="exam-header" id="exam-header-block">
+  <table class="header-top-table">
+    <tr>
+      <td class="header-right" style="width:35%;">
+        <span id="hd-kingdom" contenteditable="true" onblur="updateHeaderFromEl('kingdom',this)">${h.kingdom}</span>
+        <span id="hd-ministry" contenteditable="true" onblur="updateHeaderFromEl('ministry',this)">${h.ministry}</span>
+        <span id="hd-region" contenteditable="true" onblur="updateHeaderFromEl('region',this)">${h.region}</span>
+        <span id="hd-school" contenteditable="true" onblur="updateHeaderFromEl('school',this)">${h.school}</span>
+      </td>
+      <td class="header-center" style="width:20%;">
+        <div class="logo-area" onclick="triggerLogoUpload()" title="انقر لاستيراد الشعار">
+          ${state.logoUrl ? `<img src="${state.logoUrl}" alt="شعار"/>` : '<div class="logo-placeholder">📷<br/>شعار</div>'}
+          <div class="logo-overlay">تغيير</div>
+        </div>
+        <div class="bismallah" id="hd-bismallah" contenteditable="true" onblur="updateHeaderFromEl('bismAllah',this)">${h.bismAllah}</div>
+      </td>
+      <td class="header-left" style="width:45%;">
+        <span id="hd-subject" contenteditable="true" onblur="updateHeaderFromEl('subject',this)">${h.subject}</span>
+        <span id="hd-grade" contenteditable="true" onblur="updateHeaderFromEl('grade',this)">${h.grade}</span>
+        <span id="hd-term" contenteditable="true" onblur="updateHeaderFromEl('term',this)">${h.term}</span>
+        <span id="hd-round" contenteditable="true" onblur="updateHeaderFromEl('round',this)">${h.round}</span>
+        <span id="hd-time" contenteditable="true" onblur="updateHeaderFromEl('time',this)">${h.time}</span>
+        <span id="hd-date" contenteditable="true" onblur="updateHeaderFromEl('date',this)">${h.date}</span>
+      </td>
+    </tr>
+  </table>
+  <hr class="header-divider"/>
+  <div class="exam-title-row">
+    <span class="exam-title" id="hd-examTitle" contenteditable="true" onblur="updateHeaderFromEl('examTitle',this)">${h.examTitle}</span>
+    <span class="exam-year" id="hd-year" contenteditable="true" onblur="updateHeaderFromEl('year',this)">${h.year}</span>
+  </div>
+  <table class="student-info-table">
+    <tr>
+      <td style="width:50%;text-align:right;">
+        <span id="hd-studentLabel" contenteditable="true" onblur="updateHeaderFromEl('studentLabel',this)">${h.studentLabel}</span>: ___________________________
+      </td>
+      <td style="width:25%;text-align:center;">
+        <span id="hd-classLabel" contenteditable="true" onblur="updateHeaderFromEl('classLabel',this)">${h.classLabel}</span>: ( &nbsp;&nbsp;&nbsp; )
+      </td>
+      <td style="width:25%;text-align:center;">
+        <span id="hd-seatLabel" contenteditable="true" onblur="updateHeaderFromEl('seatLabel',this)">${h.seatLabel}</span>: ( &nbsp;&nbsp;&nbsp; )
+      </td>
+    </tr>
+  </table>
+  ${h.showGradesTable ? `
+  <table class="grades-table">
+    <tr class="header-row">
+      <td>السؤال</td>
+      ${gradesCols}
+      <td>المجموع رقماً</td>
+      <td>المجموع كتابةً</td>
+      <td>الدرجة</td>
+    </tr>
+    <tr>
+      <td>الدرجة</td>
+      ${Array(h.questionsCount+3).fill('<td></td>').join('')}
+    </tr>
+    <tr>
+      <td colspan="2"><span id="hd-correctorLabel" contenteditable="true" onblur="updateHeaderFromEl('correctorLabel',this)">${h.correctorLabel}</span></td>
+      <td colspan="${h.questionsCount+1}"><span id="hd-reviewerLabel" contenteditable="true" onblur="updateHeaderFromEl('reviewerLabel',this)">${h.reviewerLabel}</span></td>
+    </tr>
+    <tr>
+      <td colspan="2" style="font-size:10px;">الاسم: _________________ التوقيع: _________</td>
+      <td colspan="${h.questionsCount+1}" style="font-size:10px;">الاسم: _________________ التوقيع: _________</td>
+    </tr>
+  </table>` : ''}
+  ${h.showWarningNote ? `<div class="warning-note" id="hd-warningNote" contenteditable="true" onblur="updateHeaderFromEl('warningNote',this)">${h.warningNote}</div>` : ''}
+</div>`;
+
+  // Insert header at top of paper
+  let existing = document.getElementById('exam-header-block');
+  if(existing) existing.outerHTML = headerHTML;
+  else paper.insertAdjacentHTML('afterbegin', headerHTML);
+}
+
+function renderSections(){
+  // Remove existing sections
+  document.querySelectorAll('.question-section').forEach(el => el.remove());
+  document.querySelector('.exam-end')?.remove();
+  
+  const paper = document.getElementById('exam-paper');
+  state.sections.forEach((sec, idx) => {
+    paper.insertAdjacentHTML('beforeend', buildSectionHTML(sec, idx));
+  });
+  paper.insertAdjacentHTML('beforeend', '<div class="exam-end">انتهت الأسئلة</div>');
+}
+
+function buildSectionHTML(sec, idx){
+  const isFirst = idx === 0;
+  const isLast = idx === state.sections.length - 1;
+  
+  let contentHTML = '';
+  if(sec.type === 'mcq') contentHTML = buildMCQContent(sec);
+  else if(sec.type === 'truefalse') contentHTML = buildTFContent(sec);
+  else if(sec.type === 'matching') contentHTML = buildMatchingContent(sec);
+  else if(sec.type === 'essay') contentHTML = buildEssayContent(sec);
+  else if(sec.type === 'fill') contentHTML = buildFillContent(sec);
+  else contentHTML = buildCustomContent(sec);
+
+  return `
+<div class="question-section" id="sec-${sec.id}">
+  <div class="hover-toolbar">
+    ${!isFirst ? `<button class="toolbar-btn" onclick="moveSection('${sec.id}','up')" title="تحريك لأعلى">↑</button>` : '<div style="height:31px;"></div>'}
+    ${!isLast ? `<button class="toolbar-btn" onclick="moveSection('${sec.id}','down')" title="تحريك لأسفل">↓</button>` : '<div style="height:31px;"></div>'}
+    <button class="toolbar-btn del" onclick="removeSection('${sec.id}')" title="حذف القسم">🗑</button>
+  </div>
+  <div class="section-title-row">
+    <span class="section-title" contenteditable="true" onblur="updateSectionField('${sec.id}','title',this.innerText)">${sec.title}</span>
+    <span class="section-subtitle" contenteditable="true" onblur="updateSectionField('${sec.id}','subtitle',this.innerText)">${sec.subtitle}</span>
+    <span class="section-marks">(<span contenteditable="true" onblur="updateSectionField('${sec.id}','marks',this.innerText)">${sec.marks}</span> درجة)</span>
+  </div>
+  <div class="section-instruction" contenteditable="true" onblur="updateSectionField('${sec.id}','instruction',this.innerText)">${sec.instruction}</div>
+  ${sec.showNote ? `<div class="section-note">ملاحظة: <span contenteditable="true" onblur="updateSectionField('${sec.id}','note',this.innerText)">${sec.note}</span></div>` : ''}
+  ${contentHTML}
+</div>`;
+}
+
+function buildMCQContent(sec){
+  const count = sec.optionsCount || 4;
+  let items = '';
+  (sec.items||[]).forEach((item, i) => {
+    let opts = '';
+    (item.opts||[]).slice(0,count).forEach((opt, j) => {
+      opts += `<div class="mcq-option"><span class="mcq-option-letter">${AR_LETTERS[j]}-</span><span contenteditable="true" onblur="updateMCQOption('${sec.id}','${item.id}',${j},this.innerText)">${opt}</span></div>`;
+    });
+    items += `
+<li class="mcq-item">
+  <div class="mcq-question-row">
+    <span class="mcq-num">${i+1}-</span>
+    <span contenteditable="true" onblur="updateMCQQuestion('${sec.id}','${item.id}',this.innerText)">${item.q}</span>
+    <button onclick="removeMCQItem('${sec.id}','${item.id}')" style="margin-right:auto;background:none;border:none;cursor:pointer;color:#dc2626;font-size:12px;" title="حذف">✕</button>
+  </div>
+  <div class="mcq-options">${opts}</div>
+</li>`;
+  });
+  return `<ul class="mcq-list">${items}</ul>
+<button class="add-item-btn" onclick="addMCQItem('${sec.id}')">+ إضافة سؤال</button>`;
+}
+
+function buildTFContent(sec){
+  let items = '';
+  (sec.items||[]).forEach((item, i) => {
+    items += `
+<li class="tf-item">
+  <span class="tf-num">${i+1}-</span>
+  <div class="tf-box"></div>
+  <span contenteditable="true" onblur="updateTFItem('${sec.id}','${item.id}',this.innerText)">${item.text}</span>
+  <button onclick="removeTFItem('${sec.id}','${item.id}')" style="margin-right:auto;background:none;border:none;cursor:pointer;color:#dc2626;font-size:12px;" title="حذف">✕</button>
+</li>`;
+  });
+  return `<ul class="tf-list">${items}</ul>
+<button class="add-item-btn" onclick="addTFItem('${sec.id}')">+ إضافة عبارة</button>`;
+}
+
+function buildMatchingContent(sec){
+  const items = sec.items||[];
+  let rows = '';
+  items.forEach((item, i) => {
+    rows += `
+<tr>
+  <td style="text-align:center;">${i+1}-</td>
+  <td contenteditable="true" onblur="updateMatchingQ('${sec.id}','${item.id}',this.innerText)">${item.q}</td>
+  <td class="answer-cell"></td>
+  <td style="text-align:center;">${AR_LETTERS[i]}-</td>
+  <td contenteditable="true" onblur="updateMatchingA('${sec.id}','${item.id}',this.innerText)">${item.a}</td>
+  <td><button onclick="removeMatchingItem('${sec.id}','${item.id}')" style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:11px;">✕</button></td>
+</tr>`;
+  });
+  return `
+<table class="matching-table">
+  <tr>
+    <th>م</th><th>العمود أ (الأسئلة)</th><th>الإجابة</th>
+    <th>م</th><th>العمود ب (الإجابات)</th><th></th>
+  </tr>
+  ${rows}
+</table>
+<button class="add-item-btn" onclick="addMatchingItem('${sec.id}')">+ إضافة زوج</button>`;
+}
+
+function buildEssayContent(sec){
+  const lines = sec.essayLines || 6;
+  let linesHTML = '';
+  for(let i=0;i<lines;i++) linesHTML += '<div class="essay-line"></div>';
+  return `
+<div class="essay-text" contenteditable="true" onblur="updateSectionField('${sec.id}','essayText',this.innerText)">${sec.essayText||'نص السؤال...'}</div>
+<div class="essay-lines">${linesHTML}</div>
+<div style="margin-top:4px;display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280;">
+  عدد السطور:
+  <button onclick="changeEssayLines('${sec.id}',-1)" style="background:#f1f5f9;border:1px solid #d1d5db;border-radius:3px;cursor:pointer;padding:1px 6px;">-</button>
+  <span id="essay-lines-${sec.id}">${lines}</span>
+  <button onclick="changeEssayLines('${sec.id}',1)" style="background:#f1f5f9;border:1px solid #d1d5db;border-radius:3px;cursor:pointer;padding:1px 6px;">+</button>
+</div>`;
+}
+
+function buildFillContent(sec){
+  let items = '';
+  (sec.items||[]).forEach((item, i) => {
+    items += `
+<li class="fill-item">
+  <span class="fill-num">${i+1}-</span>
+  <span contenteditable="true" onblur="updateFillItem('${sec.id}','${item.id}',this.innerText)">${item.text}</span>
+  <button onclick="removeFillItem('${sec.id}','${item.id}')" style="margin-right:auto;background:none;border:none;cursor:pointer;color:#dc2626;font-size:12px;">✕</button>
+</li>`;
+  });
+  return `<ul class="fill-list">${items}</ul>
+<button class="add-item-btn" onclick="addFillItem('${sec.id}')">+ إضافة فقرة</button>`;
+}
+
+function buildCustomContent(sec){
+  return `<div class="custom-content" contenteditable="true" onblur="updateSectionField('${sec.id}','customContent',this.innerText)">${sec.customContent||'اكتب محتوى السؤال هنا...'}</div>`;
+}
+
+// ===== SETTINGS SYNC =====
+function syncField(field, value){
+  state.header[field] = value;
+  // Update visible element in header
+  const elMap = {
+    kingdom:'hd-kingdom', ministry:'hd-ministry', region:'hd-region', school:'hd-school',
+    subject:'hd-subject', grade:'hd-grade', term:'hd-term', round:'hd-round',
+    time:'hd-time', date:'hd-date', year:'hd-year', examTitle:'hd-examTitle',
+    bismAllah:'hd-bismallah', studentLabel:'hd-studentLabel', classLabel:'hd-classLabel',
+    seatLabel:'hd-seatLabel', correctorLabel:'hd-correctorLabel', reviewerLabel:'hd-reviewerLabel',
+    warningNote:'hd-warningNote',
+  };
+  if(elMap[field]){
+    const el = document.getElementById(elMap[field]);
+    if(el && document.activeElement !== el) el.innerText = value;
+  }
+  if(field === 'questionsCount' || field === 'showGradesTable' || field === 'showWarningNote'){
+    renderHeader();
+  }
+  autoSave();
+}
+
+function updateHeaderFromEl(field, el){
+  state.header[field] = el.innerText.trim();
+  const inputEl = document.getElementById('f-'+field);
+  if(inputEl) inputEl.value = state.header[field];
+  autoSave();
+}
+
+function toggleOption(field, toggleId){
+  state.header[field] = !state.header[field];
+  const lblMap = {
+    showGradesTable: ['lbl-grades','مُظهَر','مخفي'],
+    showWarningNote: ['lbl-warning','مُظهَرة','مخفية'],
+  };
+  if(lblMap[field]){
+    const [lblId, onTxt, offTxt] = lblMap[field];
+    updateToggleUI(toggleId, state.header[field], lblId, onTxt, offTxt);
+  }
+  renderHeader();
+  autoSave();
+}
+
+function updateToggleUI(toggleId, isOn, lblId, onTxt, offTxt){
+  const tog = document.getElementById(toggleId);
+  const lbl = document.getElementById(lblId);
+  if(tog){
+    tog.classList.toggle('on', isOn);
+    tog.classList.toggle('off', !isOn);
+    const thumb = tog.querySelector('.toggle-thumb');
+    if(thumb) thumb.style.right = isOn ? '2px' : '16px';
+  }
+  if(lbl) lbl.textContent = isOn ? onTxt : offTxt;
+}
+
+// ===== GENDER =====
+function setGender(mode){
+  state.genderMode = mode;
+  state.header.studentLabel = mode === 'female' ? 'اسم الطالبة' : 'اسم الطالب';
+  updateGenderBtns();
+  renderHeader();
+  autoSave();
+}
+
+function updateGenderBtns(){
+  const btnM = document.getElementById('btn-male');
+  const btnF = document.getElementById('btn-female');
+  if(state.genderMode === 'male'){
+    btnM.className = 'gender-btn active-male';
+    btnF.className = 'gender-btn';
+  } else {
+    btnM.className = 'gender-btn';
+    btnF.className = 'gender-btn active-female';
+  }
+}
+
+// ===== LOGO =====
+function triggerLogoUpload(){
+  document.getElementById('logo-input').click();
+}
+
+function handleLogoUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    state.logoUrl = ev.target.result;
+    renderHeader();
+    autoSave();
+    showToast('تم استيراد الشعار بنجاح ✓');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== SECTION OPERATIONS =====
+function updateSectionField(sectionId, field, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec[field] = value;
+  autoSave();
+}
+
+function addSection(type){
+  const idx = state.sections.length;
+  const ordinal = ORDINALS[idx] || (idx+1);
+  let sec = {id: uid(), showNote: true};
+  
+  if(type === 'mcq'){
+    sec = {...sec, type:'mcq', title:`السؤال ${ordinal}`, subtitle:'(الاختيار من متعدد)',
+      instruction:'اختر الإجابة الصحيحة مما يلي:',
+      note:'الحد الأقصى للفقرات أربعون فقرة، والاختيارات لا تزيد عن أربعة',
+      marks:'10', optionsCount:4,
+      items:[
+        {id:uid(),q:'السؤال الأول',opts:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+        {id:uid(),q:'السؤال الثاني',opts:['الخيار الأول','الخيار الثاني','الخيار الثالث','الخيار الرابع']},
+      ]};
+  } else if(type === 'truefalse'){
+    sec = {...sec, type:'truefalse', title:`السؤال ${ordinal}`, subtitle:'(الصواب والخطأ)',
+      instruction:'ضع علامة (✓) أمام العبارة الصحيحة وعلامة (✗) أمام العبارة الخاطئة:',
+      note:'في ورقة الإجابة يتم تظليل حرف (ص) للإجابة الصحيحة، وحرف (خ) للإجابة الخاطئة.',
+      marks:'5', items:[{id:uid(),text:'العبارة الأولى'},{id:uid(),text:'العبارة الثانية'}]};
+  } else if(type === 'matching'){
+    sec = {...sec, type:'matching', title:`السؤال ${ordinal}`, subtitle:'(المزاوجة)',
+      instruction:'اختر لكل عبارة من العمود (أ) الحرف الرامز للإجابة الصحيحة في العمود (ب):',
+      note:'كتابة الحرف الذي يرمز للإجابة في عمود الإجابة أمام العبارة المناسبة له، ثم تظليله في ورقة الإجابة.',
+      marks:'5', items:[
+        {id:uid(),q:'العبارة الأولى',a:'الإجابة الأولى'},
+        {id:uid(),q:'العبارة الثانية',a:'الإجابة الثانية'},
+        {id:uid(),q:'العبارة الثالثة',a:'الإجابة الثالثة'},
+      ]};
+  } else if(type === 'essay'){
+    sec = {...sec, type:'essay', title:`السؤال ${ordinal}`, subtitle:'(مقالي)',
+      instruction:'أجب عن هذا السؤال ثم قم بكتابة إجابتك خلف ورقة التظليل.',
+      note:'هذا السؤال مقالي، المطلوب منك إبلاغ الكنترول بوجود السؤال للإشارة له في ورقة الإجابة.',
+      marks:'5', essayText:'نص السؤال المقالي...', essayLines:6};
+  } else if(type === 'fill'){
+    sec = {...sec, type:'fill', title:`السؤال ${ordinal}`, subtitle:'(ملء الفراغ)',
+      instruction:'أكمل الفراغات التالية بما يناسبها:', note:'', marks:'5',
+      items:[{id:uid(),text:'أكمل الفراغ: _______ هي _______'},{id:uid(),text:'أكمل الفراغ: _______ هي _______'}]};
+  } else {
+    sec = {...sec, type:'custom', title:`السؤال ${ordinal}`, subtitle:'',
+      instruction:'', note:'', marks:'5', customContent:'اكتب محتوى السؤال هنا...'};
+  }
+  
+  state.sections.push(sec);
+  renderSections();
+  autoSave();
+  showToast('تم إضافة القسم ✓');
+}
+
+function removeSection(id){
+  if(!confirm('هل تريد حذف هذا القسم؟')) return;
+  state.sections = state.sections.filter(s => s.id !== id);
+  renderSections();
+  autoSave();
+  showToast('تم حذف القسم');
+}
+
+function moveSection(id, dir){
+  const idx = state.sections.findIndex(s => s.id === id);
+  if(idx === -1) return;
+  const arr = [...state.sections];
+  if(dir === 'up' && idx > 0) [arr[idx-1],arr[idx]] = [arr[idx],arr[idx-1]];
+  else if(dir === 'down' && idx < arr.length-1) [arr[idx],arr[idx+1]] = [arr[idx+1],arr[idx]];
+  state.sections = arr;
+  renderSections();
+  autoSave();
+}
+
+// ===== MCQ =====
+function addMCQItem(sectionId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(!sec) return;
+  const count = sec.optionsCount || 4;
+  sec.items.push({id:uid(), q:`السؤال ${sec.items.length+1}`, opts:Array(count).fill('').map((_,i)=>`الخيار ${ORDINALS[i]||i+1}`)});
+  renderSections();
+  autoSave();
+}
+
+function removeMCQItem(sectionId, itemId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items = sec.items.filter(i => i.id !== itemId);
+  renderSections();
+  autoSave();
+}
+
+function updateMCQQuestion(sectionId, itemId, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item) item.q = value;}
+  autoSave();
+}
+
+function updateMCQOption(sectionId, itemId, optIdx, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item && item.opts) item.opts[optIdx] = value;}
+  autoSave();
+}
+
+// ===== TF =====
+function addTFItem(sectionId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items.push({id:uid(), text:`العبارة ${sec.items.length+1}`});
+  renderSections();
+  autoSave();
+}
+
+function removeTFItem(sectionId, itemId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items = sec.items.filter(i => i.id !== itemId);
+  renderSections();
+  autoSave();
+}
+
+function updateTFItem(sectionId, itemId, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item) item.text = value;}
+  autoSave();
+}
+
+// ===== MATCHING =====
+function addMatchingItem(sectionId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items.push({id:uid(), q:`العبارة ${sec.items.length+1}`, a:`الإجابة ${sec.items.length+1}`});
+  renderSections();
+  autoSave();
+}
+
+function removeMatchingItem(sectionId, itemId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items = sec.items.filter(i => i.id !== itemId);
+  renderSections();
+  autoSave();
+}
+
+function updateMatchingQ(sectionId, itemId, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item) item.q = value;}
+  autoSave();
+}
+
+function updateMatchingA(sectionId, itemId, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item) item.a = value;}
+  autoSave();
+}
+
+// ===== ESSAY =====
+function changeEssayLines(sectionId, delta){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(!sec) return;
+  sec.essayLines = Math.max(1, Math.min(20, (sec.essayLines||6) + delta));
+  renderSections();
+  autoSave();
+}
+
+// ===== FILL =====
+function addFillItem(sectionId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items.push({id:uid(), text:'أكمل الفراغ: _______ هي _______'});
+  renderSections();
+  autoSave();
+}
+
+function removeFillItem(sectionId, itemId){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec) sec.items = sec.items.filter(i => i.id !== itemId);
+  renderSections();
+  autoSave();
+}
+
+function updateFillItem(sectionId, itemId, value){
+  const sec = state.sections.find(s => s.id === sectionId);
+  if(sec){const item = sec.items.find(i => i.id === itemId); if(item) item.text = value;}
+  autoSave();
+}
+
+// ===== COLLAPSIBLE =====
+function toggleGroup(btn){
+  const body = btn.nextElementSibling;
+  body.classList.toggle('hidden');
+  const arrow = btn.textContent.includes('▾') ? '▸' : '▾';
+  btn.textContent = btn.textContent.replace(/[▾▸]/, arrow);
+}
+
+// ===== SAVE / LOAD =====
+const STORAGE_KEY = 'exam-builder-v2';
+
+function autoSave(){
+  try{
+    // Save only serializable data (exclude logoUrl if too large)
+    const toSave = {...state};
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+  } catch(e){
+    // If quota exceeded (due to logo), save without logo
+    try{
+      const toSave = {...state, logoUrl: null};
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+    } catch(e2){}
+  }
+}
+
+function saveData(){
+  autoSave();
+  showToast('تم الحفظ تلقائياً في المتصفح ✓');
+}
+
+function loadData(){
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      const parsed = JSON.parse(saved);
+      state = {
+        ...state,
+        ...parsed,
+        header: {...state.header, ...(parsed.header||{})},
+      };
+    }
+  } catch(e){}
+}
+
+function resetExam(){
+  if(!confirm('هل تريد إعادة تعيين الاختبار؟ سيتم حذف جميع التغييرات.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// ===== PRINT =====
+function doPrint(){
+  // Build print content from current state
+  const printArea = document.getElementById('print-content');
+  printArea.innerHTML = document.getElementById('exam-paper').innerHTML;
+  // Remove editing buttons from print
+  printArea.querySelectorAll('.hover-toolbar, .add-item-btn, button').forEach(el => {
+    if(!el.closest('.matching-table') && !el.closest('.tf-list') && !el.closest('.mcq-list') && !el.closest('.fill-list')){
+      el.style.display = 'none';
+    }
+  });
+  printArea.querySelectorAll('[onclick]').forEach(el => el.removeAttribute('onclick'));
+  window.print();
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

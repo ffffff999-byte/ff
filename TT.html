@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>السجل الإلكتروني للتقويم الذاتي المدرسي</title>
+<style>
+:root{--navy:#10243e;--blue:#1d6fa5;--gold:#c59b3b;--green:#2f7d59;--red:#a83232;--bg:#f5f7fb;--card:#fff;--ink:#152033;--muted:#637083;--line:#d7dee8}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f7f9fc,#edf3f8);font-family:"Tahoma","Arial",sans-serif;color:var(--ink)}
+.app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+aside{background:linear-gradient(180deg,var(--navy),#17395d);color:white;padding:22px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{width:88px;height:88px;border:2px dashed rgba(255,255,255,.55);border-radius:22px;display:grid;place-items:center;margin:auto auto 12px;background:rgba(255,255,255,.08);overflow:hidden}
+.logo img{width:100%;height:100%;object-fit:contain}.brand{text-align:center}.brand h1{font-size:21px;margin:8px 0 4px}.brand p{margin:0;color:#dbe7f2;font-size:13px}
+.nav button{width:100%;border:0;border-radius:14px;padding:12px;margin:7px 0;background:rgba(255,255,255,.09);color:#fff;text-align:right;cursor:pointer;font-weight:700}
+.nav button.active,.nav button:hover{background:var(--gold);color:#1b2430}
+main{padding:28px;overflow:auto}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:var(--navy);color:white;cursor:pointer;font-weight:700}.btn.gold{background:var(--gold);color:#1c2330}.btn.green{background:var(--green)}.btn.light{background:#e9eef5;color:#17243a}
+.hero{background:radial-gradient(circle at top right,rgba(197,155,59,.18),transparent 42%),linear-gradient(135deg,#fff,#f5f9fd);border:1px solid var(--line);border-radius:26px;padding:28px;box-shadow:0 14px 45px rgba(16,36,62,.09)}
+.hero h2{font-size:34px;margin:0 0 8px;color:var(--navy)}.hero p{color:var(--muted);line-height:1.9}.grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:14px;margin:20px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(16,36,62,.06)}.stat b{font-size:28px;color:var(--blue)}.stat span{display:block;color:var(--muted);margin-top:5px}
+.section{display:none}.section.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin:16px 0;box-shadow:0 10px 28px rgba(16,36,62,.06)}
+.card h3{margin:0 0 14px;color:var(--navy);border-right:6px solid var(--gold);padding-right:12px}.sub{color:var(--muted);line-height:1.8}
+label{font-weight:700;color:#334155}.form{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.field{display:flex;flex-direction:column;gap:7px}
+input,textarea,select{border:1px solid var(--line);border-radius:12px;padding:11px;background:#fff;font:inherit;color:#111}textarea{min-height:92px;resize:vertical}
+table{width:100%;border-collapse:collapse;background:white;overflow:hidden;border-radius:14px}th,td{border:1px solid var(--line);padding:10px;text-align:center;vertical-align:top}th{background:#eef4fa;color:var(--navy)}td[contenteditable],.editable{background:#fffdf5;outline:none}
+.badges{display:flex;flex-wrap:wrap;gap:10px}.badge{background:#eef4fa;border:1px solid #d7e5f1;border-radius:999px;padding:9px 13px;color:#1b3b5a;font-weight:700}
+.evidence-browser{display:grid;grid-template-columns:320px 1fr;gap:16px;margin-top:16px}
+.evidence-list{border:1px solid var(--line);border-radius:18px;background:#fbfdff;max-height:420px;overflow:auto;padding:10px}
+.evidence-item{display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid #e0e7ef;background:white;border-radius:14px;padding:10px;margin:8px 0;cursor:pointer}
+.evidence-item:hover,.evidence-item.active{border-color:var(--gold);background:#fffaf0}
+.evidence-item small{display:block;color:var(--muted);font-weight:400;margin-top:4px;direction:ltr;text-align:right}
+.evidence-actions{display:flex;gap:6px;flex-wrap:wrap}
+.mini-btn{border:0;border-radius:10px;background:#eef4fa;color:#18324d;padding:7px 9px;cursor:pointer;font-weight:700}
+.preview-panel{border:1px solid var(--line);border-radius:18px;background:white;min-height:420px;padding:14px;overflow:auto}
+.preview-panel iframe,.preview-panel img,.preview-panel video,.preview-panel audio{width:100%;max-height:650px;border:0;border-radius:14px}
+.preview-empty{height:360px;display:grid;place-items:center;color:var(--muted);text-align:center;border:2px dashed var(--line);border-radius:16px}
+.file-meta{background:#f6f9fc;border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;color:#334155;line-height:1.8}
+
+.checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fbfdff}.check input{transform:scale(1.2);margin-left:8px}
+.footer{text-align:center;padding:28px;color:var(--navy);font-weight:700}.footer a{color:var(--blue);text-decoration:none;font-size:18px}.signature{font-size:20px;margin-top:8px}
+.print-only{display:none}
+@media(max-width:900px){.app{grid-template-columns:1fr}aside{position:relative;height:auto}.grid,.form,.checklist{grid-template-columns:1fr}main{padding:16px}}
+@media print{body{background:white}.app{display:block}aside,.toolbar,.no-print{display:none!important}main{padding:0}.section{display:none}.section.active{display:block}.card,.hero,.stat{box-shadow:none;border:1px solid #999;break-inside:avoid;border-radius:10px}.grid{grid-template-columns:repeat(4,1fr)}input,textarea,select{border:0;border-bottom:1px solid #999;border-radius:0}.print-only{display:block}@page{size:A4;margin:12mm}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+  <div class="logo" id="logoBox">شعار</div>
+  <input class="no-print" type="file" accept="image/*" onchange="loadLogo(event)" style="width:100%;margin:8px 0;color:white">
+  <div class="brand">
+    <h1 contenteditable="true">السجل الإلكتروني للتقويم الذاتي المدرسي</h1>
+    <p contenteditable="true">منصة عمل قابلة للتعديل والتعبئة والطباعة</p>
+  </div>
+  <div class="nav" id="nav"></div>
+</aside>
+<main>
+  <div class="toolbar no-print">
+    <button class="btn gold" onclick="window.print()">طباعة / حفظ PDF للصفحة الحالية</button>
+    <button class="btn green" onclick="saveData()">حفظ البيانات على الجهاز</button>
+    <button class="btn light" onclick="loadData()">استرجاع البيانات</button>
+    <button class="btn" onclick="addRowToActive()">إضافة صف</button>
+  </div>
+
+  <section class="section active" data-title="الرئيسية">
+    <div class="hero">
+      <h2 contenteditable="true">سجل التقويم الذاتي المدرسي</h2>
+      <p contenteditable="true">سجل إلكتروني لتنظيم أعمال التقويم الذاتي: قرار التشكيل، الاجتماعات، توزيع المهام، أدوات التقويم، الشواهد، خطة التحسين، المتابعة والتوقيعات. تم حذف الأسماء الشخصية وتحويلها إلى حقول مفتوحة.</p>
+      <div class="form">
+        <div class="field"><label>الإدارة التعليمية</label><input placeholder="اكتب الإدارة التعليمية"></div>
+        <div class="field"><label>اسم المدرسة</label><input placeholder="اكتب اسم المدرسة"></div>
+        <div class="field"><label>العام الدراسي</label><input value="1447هـ"></div>
+        <div class="field"><label>مدير/ة المدرسة</label><input placeholder="اكتب الاسم"></div>
+        <div class="field"><label>التاريخ الهجري</label><input placeholder=" / / 1447هـ"></div>
+        <div class="field"><label>الموافق</label><input placeholder=" / / 2026م"></div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="stat"><b id="membersCount">0</b><span>أعضاء الفريق</span></div>
+      <div class="stat"><b id="meetingsCount">0</b><span>اجتماعات موثقة</span></div>
+      <div class="stat"><b id="evidenceCount">0</b><span>شواهد مرفقة</span></div>
+      <div class="stat"><b id="progressCount">0%</b><span>نسبة الإنجاز</span></div>
+    </div>
+  </section>
+
+  <section class="section" data-title="قرار التشكيل">
+    <div class="card"><h3>قرار تشكيل فريق التقويم الذاتي</h3>
+      <textarea>بناءً على الصلاحيات الممنوحة لمدير/ة المدرسة، واستنادًا إلى الأدلة والتنظيمات المعتمدة، تقرر تشكيل فريق التقويم الذاتي وتحديد مهامه واجتماعاته وآليات المتابعة والتوثيق.</textarea>
+      <table class="editableTable"><thead><tr><th>م</th><th>الاسم</th><th>الوظيفة</th><th>المهمة</th><th>التوقيع</th></tr></thead><tbody>
+      <tr><td>1</td><td contenteditable="true"></td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيسًا</td><td contenteditable="true"></td></tr>
+      <tr><td>2</td><td contenteditable="true"></td><td contenteditable="true">وكيل/ة شؤون تعليمية</td><td contenteditable="true">عضو</td><td contenteditable="true"></td></tr>
+      <tr><td>3</td><td contenteditable="true"></td><td contenteditable="true">وكيل/ة شؤون مدرسية</td><td contenteditable="true">عضو</td><td contenteditable="true"></td></tr>
+      <tr><td>4</td><td contenteditable="true"></td><td contenteditable="true">معلم/ة متميز/ة</td><td contenteditable="true">عضو</td><td contenteditable="true"></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="section" data-title="اجتماعات الفريق">
+    <div class="card"><h3>نموذج اجتماع فريق التقويم المدرسي</h3>
+      <div class="form">
+        <div class="field"><label>عنوان الاجتماع</label><input value="اجتماع تكليف فريق التقويم المدرسي"></div>
+        <div class="field"><label>اليوم</label><input></div><div class="field"><label>التاريخ</label><input></div>
+        <div class="field"><label>الفئة المستهدفة</label><input value="فريق التقويم / لجنة التميز / لجنة التحصيل"></div>
+        <div class="field"><label>عدد الحضور</label><input type="number" value="0"></div>
+        <div class="field"><label>مكان الاجتماع</label><input></div>
+      </div>
+      <h3>جدول الأعمال</h3>
+      <div class="checklist">
+        <label class="check"><input type="checkbox">شرح معنى التقويم الذاتي والاعتماد المدرسي.</label>
+        <label class="check"><input type="checkbox">التعرف على معايير وأدوات تقويم المدارس.</label>
+        <label class="check"><input type="checkbox">شرح خطوات تطبيق التقويم الذاتي والتعليمات المهمة.</label>
+        <label class="check"><input type="checkbox">نشر الاستبانات الإلكترونية للمستفيدين.</label>
+        <label class="check"><input type="checkbox">مراجعة إجراءات التقويم وإكمال بطاقات التقويم والإغلاق.</label>
+        <label class="check"><input type="checkbox">مناقشة خطة التحسين وأولويات التطوير.</label>
+      </div>
+      <h3>التوصيات</h3>
+      <table class="editableTable"><thead><tr><th>م</th><th>التوصية</th><th>جهة التنفيذ</th><th>مدة التنفيذ</th><th>جهة المتابعة</th></tr></thead><tbody>
+      <tr><td>1</td><td contenteditable="true">الاطلاع على الدليل الإجرائي للتقويم المدرسي الذاتي.</td><td contenteditable="true">فريق التقويم</td><td contenteditable="true">مستمر</td><td contenteditable="true">إدارة المدرسة</td></tr>
+      <tr><td>2</td><td contenteditable="true">نشر ثقافة التقويم الذاتي بين منسوبي المدرسة والمجتمع المحلي.</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="section" data-title="توزيع المهام">
+    <div class="card"><h3>مهام فرق أدوات التقويم</h3>
+      <div class="badges"><span class="badge">فريق مجالات التقويم</span><span class="badge">فريق المقابلات</span><span class="badge">فريق ملاحظة البيئة</span><span class="badge">فريق الملاحظة الصفية</span><span class="badge">فريق الاستبانات</span><span class="badge">فريق تحليل الوثائق</span></div>
+      <table class="editableTable"><thead><tr><th>الفريق</th><th>المهام الرئيسة</th><th>المسؤول/ة</th><th>الشواهد المطلوبة</th><th>الحالة</th></tr></thead><tbody>
+      <tr><td contenteditable="true">مجالات التقويم</td><td contenteditable="true">الاطلاع على المعايير والمؤشرات والتأكد من تحققها ودعمها بالشواهد.</td><td contenteditable="true"></td><td contenteditable="true">بطاقات تقويم / أدلة / روابط</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      <tr><td contenteditable="true">المقابلات</td><td contenteditable="true">جمع معلومات وبيانات حول أداء المدرسة وإدارة وقت المقابلات وتدوين الإجابات.</td><td contenteditable="true"></td><td contenteditable="true">نماذج مقابلات</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      <tr><td contenteditable="true">ملاحظة البيئة المدرسية</td><td contenteditable="true">رصد الأمن والسلامة، الفصول، مصادر التعلم، المعامل، المقصف، المرافق والخدمات.</td><td contenteditable="true"></td><td contenteditable="true">صور / قوائم تحقق</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      <tr><td contenteditable="true">الملاحظة الصفية</td><td contenteditable="true">تنفيذ الزيارات وفق الضوابط وعدم ربطها بتقويم الأداء الوظيفي.</td><td contenteditable="true"></td><td contenteditable="true">نماذج ملاحظة صفية</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      <tr><td contenteditable="true">الاستبانات</td><td contenteditable="true">تفعيل أداة الاستبانات وإرسال الروابط وإغلاق الأداة وطباعة الرسوم البيانية.</td><td contenteditable="true"></td><td contenteditable="true">روابط / رسوم بيانية</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      <tr><td contenteditable="true">تحليل الوثائق</td><td contenteditable="true">تحليل الخطط والتقارير والسجلات والملفات المرتبطة بمجالات التقويم.</td><td contenteditable="true"></td><td contenteditable="true">ملف وثائق</td><td><select><option>لم يبدأ</option><option>قيد التنفيذ</option><option>مكتمل</option></select></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="section" data-title="الملاحظة الصفية">
+    <div class="card"><h3>بطاقة متابعة الملاحظة الصفية</h3>
+      <p class="sub">ضوابط مختصرة: الزيارة خاصة بالتقويم الذاتي، يحضر عضوين على الأقل، لا ترتبط بتقويم الأداء الوظيفي، لا تدخل في إجراءات المعلم/ة الصفية، حضور الحصة كاملة.</p>
+      <table class="editableTable"><thead><tr><th>المعيار</th><th>ملاحظات نوعية</th><th>التقدير</th></tr></thead><tbody>
+      <tr><td>فرص تعلم متكافئة لجميع فئات المتعلمين</td><td contenteditable="true"></td><td><select><option>متحقق</option><option>متحقق جزئياً</option><option>غير متحقق</option></select></td></tr>
+      <tr><td>الجو النفسي والدافعية والاندماج</td><td contenteditable="true"></td><td><select><option>متحقق</option><option>متحقق جزئياً</option><option>غير متحقق</option></select></td></tr>
+      <tr><td>تنمية المهارات الأساسية والتفكير والمهارات الرقمية</td><td contenteditable="true"></td><td><select><option>متحقق</option><option>متحقق جزئياً</option><option>غير متحقق</option></select></td></tr>
+      <tr><td>تنوع استراتيجيات التعليم والتعلم والتقويم</td><td contenteditable="true"></td><td><select><option>متحقق</option><option>متحقق جزئياً</option><option>غير متحقق</option></select></td></tr>
+      <tr><td>جودة التغذية الراجعة</td><td contenteditable="true"></td><td><select><option>متحقق</option><option>متحقق جزئياً</option><option>غير متحقق</option></select></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="section" data-title="الشواهد والوثائق">
+    <div class="card"><h3>سجل الشواهد والوثائق</h3>
+      <p class="sub">ارفع الشواهد هنا، وستظهر في قائمة جانبية قابلة للتصفح والمعاينة. الملفات تبقى داخل المتصفح أثناء الجلسة، ويمكن فتحها في نافذة مستقلة عند الحاجة.</p>
+      <div class="toolbar no-print" style="margin:0 0 10px">
+        <input type="file" id="evidenceFile" multiple onchange="listFiles(event)" title="يمكنك رفع أكثر من شاهد دفعة واحدة أو على دفعات متتالية">
+        <button class="btn light" onclick="clearEvidence()">مسح قائمة الشواهد</button>
+      </div>
+      <p class="sub" style="margin:6px 0 12px">يمكن رفع مجموعة شواهد دفعة واحدة، أو رفع شاهد ثم شاهد بعده؛ وستُرتّب كلها تلقائيًا تحت بعض بالترقيم المتسلسل.</p>
+      <div class="evidence-browser">
+        <div class="evidence-list" id="fileList">
+          <div class="preview-empty">لم يتم رفع شواهد بعد</div>
+        </div>
+        <div class="preview-panel" id="previewPanel">
+          <div class="preview-empty">اختر شاهدًا من القائمة لمعاينته هنا</div>
+        </div>
+      </div>
+      <h3 style="margin-top:20px">فهرس الشواهد</h3>
+      <table class="editableTable" id="evidenceTable"><thead><tr><th>م</th><th>اسم الملف</th><th>نوع الوثيقة</th><th>الوصف</th><th>المجال</th><th>الحالة</th></tr></thead><tbody>
+      <tr><td>1</td><td contenteditable="true"></td><td contenteditable="true">خطة تشغيلية</td><td contenteditable="true"></td><td contenteditable="true">الإدارة المدرسية</td><td><select><option>متوفر</option><option>يحتاج استكمال</option></select></td></tr>
+      <tr><td>2</td><td contenteditable="true"></td><td contenteditable="true">خطة الأمن والسلامة</td><td contenteditable="true"></td><td contenteditable="true">البيئة المدرسية</td><td><select><option>متوفر</option><option>يحتاج استكمال</option></select></td></tr>
+      <tr><td>3</td><td contenteditable="true"></td><td contenteditable="true">سجلات متابعة أداء المتعلمين</td><td contenteditable="true"></td><td contenteditable="true">نواتج التعلم</td><td><select><option>متوفر</option><option>يحتاج استكمال</option></select></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <section class="section" data-title="خطة التحسين">
+    <div class="card"><h3>بناء خطة التحسين في ضوء نتائج التقويم</h3>
+      <table class="editableTable"><thead><tr><th>الأولوية</th><th>فرصة التحسين</th><th>الإجراء التنفيذي</th><th>المؤشر</th><th>المستهدف</th><th>المسؤول/ة</th><th>الزمن</th><th>الشاهد</th></tr></thead><tbody>
+      <tr><td contenteditable="true">1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td contenteditable="true">2</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      </tbody></table>
+      <button class="btn no-print" onclick="generateImprovement()">توليد صياغة مقترحة للإجراء</button>
+      <textarea id="aiBox" placeholder="ستظهر هنا صياغة مقترحة قابلة للتعديل..."></textarea>
+    </div>
+  </section>
+
+  <section class="section" data-title="التوقيعات">
+    <div class="card"><h3>اعتماد وتوقيعات</h3>
+      <div class="form">
+        <div class="field"><label>رئيس/ة فريق التقويم</label><input></div>
+        <div class="field"><label>مدير/ة المدرسة</label><input></div>
+        <div class="field"><label>الختم</label><input placeholder="مساحة الختم"></div>
+      </div>
+      <table class="editableTable"><thead><tr><th>م</th><th>الاسم</th><th>الصفة</th><th>التوقيع</th></tr></thead><tbody>
+      <tr><td>1</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td>2</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td>3</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      </tbody></table>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>تفضل للمزيد</div>
+    <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">https://t.me/TAqhjT3MFVE1Yzk0</a>
+    <div class="signature">تصميم د/فواز</div>
+  </div>
+</main>
+</div>
+<script>
+const sections=[...document.querySelectorAll('.section')], nav=document.getElementById('nav');
+sections.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s.dataset.title;b.onclick=()=>show(i); if(i===0)b.classList.add('active'); nav.appendChild(b)});
+function show(i){sections.forEach((s,j)=>s.classList.toggle('active',i===j));[...nav.children].forEach((b,j)=>b.classList.toggle('active',i===j));calcStats()}
+function loadLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById('logoBox').innerHTML='<img src="'+r.result+'">'};r.readAsDataURL(f)}
+function addRowToActive(){const t=document.querySelector('.section.active table tbody'); if(!t)return; const row=t.rows[0].cloneNode(true); [...row.cells].forEach((c,i)=>{if(i===0)c.textContent=t.rows.length+1; else if(c.querySelector('select')) c.querySelector('select').selectedIndex=0; else c.textContent=''}); t.appendChild(row); calcStats()}
+function saveData(){localStorage.setItem('selfEvalRegister',document.querySelector('main').innerHTML); alert('تم حفظ البيانات في هذا المتصفح.')}
+function loadData(){const d=localStorage.getItem('selfEvalRegister'); if(d){document.querySelector('main').innerHTML=d; alert('تم استرجاع البيانات.');}else alert('لا توجد بيانات محفوظة.')}
+let evidenceFiles=[];
+function listFiles(e){
+  const incoming=[...e.target.files].map((file)=>({file,index:evidenceFiles.length,url:URL.createObjectURL(file)}));
+  evidenceFiles=evidenceFiles.concat(incoming);
+  const input=document.getElementById('evidenceFile');
+  if(input) input.value='';
+  renderEvidenceList();
+  fillEvidenceTable();
+  calcStats();
+}
+function renderEvidenceList(){
+  const box=document.getElementById('fileList');
+  if(!box) return;
+  if(!evidenceFiles.length){box.innerHTML='<div class="preview-empty">لم يتم رفع شواهد بعد</div>';return;}
+  box.innerHTML='<h3 style="margin:6px 4px 10px">الشواهد المحمّلة مرتبة بالتسلسل</h3>';
+  evidenceFiles.forEach((item,i)=>{
+    const div=document.createElement('div');
+    div.className='evidence-item';
+    div.innerHTML=`<div><b>${i+1}- ${item.file.name}</b><small>${item.file.type || 'نوع غير محدد'} • ${Math.round(item.file.size/1024)} KB</small></div>
+    <div class="evidence-actions"><button class="mini-btn" onclick="previewEvidence(${i});event.stopPropagation()">تصفح</button><button class="mini-btn" onclick="openEvidence(${i});event.stopPropagation()">فتح</button><button class="mini-btn" onclick="removeEvidence(${i});event.stopPropagation()">حذف</button></div>`;
+    div.onclick=()=>previewEvidence(i);
+    box.appendChild(div);
+  });
+}
+function previewEvidence(i){
+  const item=evidenceFiles[i], panel=document.getElementById('previewPanel');
+  if(!item||!panel)return;
+  document.querySelectorAll('.evidence-item').forEach((x,j)=>x.classList.toggle('active',j===i));
+  const name=item.file.name, type=item.file.type, url=item.url;
+  let preview='';
+  if(type.startsWith('image/')) preview=`<img src="${url}" alt="${name}">`;
+  else if(type==='application/pdf') preview=`<iframe src="${url}"></iframe>`;
+  else if(type.startsWith('video/')) preview=`<video src="${url}" controls></video>`;
+  else if(type.startsWith('audio/')) preview=`<audio src="${url}" controls></audio>`;
+  else preview='<div class="preview-empty">لا يمكن معاينة هذا النوع مباشرة، استخدم زر فتح الملف.</div>';
+  panel.innerHTML=`<div class="file-meta"><b>${name}</b><br>النوع: ${type || 'غير محدد'}<br>الحجم: ${Math.round(item.file.size/1024)} KB</div>${preview}`;
+}
+function removeEvidence(i){
+  const item=evidenceFiles[i];
+  if(item && item.url) URL.revokeObjectURL(item.url);
+  evidenceFiles.splice(i,1);
+  renderEvidenceList();
+  fillEvidenceTable();
+  const panel=document.getElementById('previewPanel');
+  if(panel) panel.innerHTML='<div class="preview-empty">اختر شاهدًا من القائمة لمعاينته هنا</div>';
+  calcStats();
+}
+function openEvidence(i){const item=evidenceFiles[i]; if(item) window.open(item.url,'_blank');}
+function clearEvidence(){
+  evidenceFiles.forEach(x=>URL.revokeObjectURL(x.url));
+  evidenceFiles=[];
+  const input=document.getElementById('evidenceFile'); if(input) input.value='';
+  renderEvidenceList();
+  const panel=document.getElementById('previewPanel'); if(panel) panel.innerHTML='<div class="preview-empty">اختر شاهدًا من القائمة لمعاينته هنا</div>';
+  calcStats();
+}
+function fillEvidenceTable(){
+  const tbody=document.querySelector('#evidenceTable tbody');
+  if(!tbody) return;
+  if(!evidenceFiles.length) return;
+  tbody.innerHTML='';
+  evidenceFiles.forEach((item,i)=>{
+    const row=document.createElement('tr');
+    row.innerHTML=`<td>${i+1}</td><td contenteditable="true">${item.file.name}</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td><select><option>متوفر</option><option>يحتاج استكمال</option></select></td>`;
+    tbody.appendChild(row);
+  });
+}
+function generateImprovement(){document.getElementById('aiBox').value='بناءً على نتائج التقويم الذاتي، تنفذ المدرسة إجراءً تحسينيًا يستهدف معالجة أولوية محددة من خلال خطة زمنية واضحة، وتوزيع مسؤوليات محددة، ومتابعة دورية لمؤشر الأداء، مع توثيق الشواهد وقياس الأثر في نهاية الفترة.'}
+function calcStats(){document.getElementById('membersCount').textContent=document.querySelectorAll('section[data-title="قرار التشكيل"] tbody tr').length;document.getElementById('meetingsCount').textContent=document.querySelectorAll('section[data-title="اجتماعات الفريق"] tbody tr').length;document.getElementById('evidenceCount').textContent=(typeof evidenceFiles!=='undefined'?evidenceFiles.length:document.querySelectorAll('.evidence-item').length);let selects=[...document.querySelectorAll('select')];let done=selects.filter(s=>s.value==='مكتمل'||s.value==='متوفر'||s.value==='متحقق').length;document.getElementById('progressCount').textContent=selects.length?Math.round(done/selects.length*100)+'%':'0%'}
+document.addEventListener('input',calcStats);document.addEventListener('change',calcStats);calcStats();
+</script>
+</body>
+</html>

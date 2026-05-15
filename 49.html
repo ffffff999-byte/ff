@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة إنشاء اختبار العلوم - الصف الثالث المتوسط</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================= متغيرات التصميم ============================= */
+:root {
+  --primary: #1e6091;
+  --primary-dark: #144668;
+  --accent: #d4a017;
+  --bg: #eef2f7;
+  --paper: #ffffff;
+  --text: #1a2332;
+  --border: #cbd5e0;
+  --soft: #e2e8f0;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --shadow: 0 4px 20px rgba(20, 70, 104, 0.08);
+
+  /* مقياس الطباعة (يتم تعديله ديناميكياً) */
+  --print-scale: 1;
+  --base-font: 11px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  min-height: 100vh;
+}
+
+/* ============================= شريط الأدوات (لا يطبع) ============================= */
+.toolbar {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 14px 22px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.toolbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.toolbar h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toolbar h1 svg { width: 26px; height: 26px; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-primary { background: var(--accent); color: var(--primary-dark); }
+.btn-primary:hover { background: #b8890f; transform: translateY(-1px); }
+.btn-light { background: rgba(255,255,255,0.15); color: white; backdrop-filter: blur(10px); }
+.btn-light:hover { background: rgba(255,255,255,0.25); }
+.btn-danger { background: #fee2e2; color: var(--danger); padding: 3px 8px; font-size: 11px; }
+.btn-add {
+  background: #dcfce7;
+  color: var(--success);
+  padding: 5px 12px;
+  font-size: 12px;
+  border: 1px dashed var(--success);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+}
+.btn-add:hover { background: #bbf7d0; }
+
+/* ============================= لوحة الإعدادات ============================= */
+.settings-panel {
+  background: white;
+  margin: 18px auto;
+  max-width: 1100px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.settings-header {
+  background: var(--soft);
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+.settings-header:hover { background: #cbd5e0; }
+.settings-body {
+  padding: 18px;
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.settings-body.open { display: grid; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 12px; font-weight: 700; color: var(--primary-dark); }
+.field input, .field select {
+  padding: 7px 11px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+.field input:focus, .field select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.print-mode-bar {
+  background: #fef9c3;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 0 auto 14px;
+  max-width: 1100px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.print-mode-bar strong { color: var(--primary-dark); font-size: 13px; }
+.print-mode-bar select {
+  padding: 6px 10px;
+  border: 1.5px solid var(--accent);
+  border-radius: 6px;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  background: white;
+  cursor: pointer;
+}
+
+/* ============================= ورقة الاختبار (شاشة العرض) ============================= */
+.paper {
+  background: var(--paper);
+  width: 210mm;
+  margin: 18px auto;
+  padding: 8mm 10mm;
+  box-shadow: var(--shadow);
+  border-radius: 4px;
+  font-size: var(--base-font);
+}
+
+/* ============================= ترويسة الاختبار ============================= */
+.header-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr 180px;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--primary);
+  margin-bottom: 8px;
+}
+
+.header-left {
+  text-align: center;
+  font-size: 9.5px;
+  line-height: 1.4;
+}
+.header-left .ministry-name { font-weight: 700; font-size: 10px; }
+
+.header-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.logo-box {
+  width: 62px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.logo-placeholder {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 9px;
+  text-align: center;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.logo-placeholder:hover { border-color: var(--primary); color: var(--primary); }
+
+.header-right {
+  border: 1.5px solid var(--text);
+  font-size: 10px;
+}
+.header-right table { width: 100%; border-collapse: collapse; }
+.header-right td {
+  border: 1px solid var(--text);
+  padding: 2px 5px;
+  text-align: center;
+}
+.header-right .label-cell {
+  background: var(--soft);
+  font-weight: 700;
+  width: 45%;
+}
+
+.title-bar {
+  background: var(--primary);
+  color: white;
+  padding: 5px 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 4px;
+  margin: 6px 0;
+}
+
+.student-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.student-info .info-box {
+  border: 1.5px solid var(--text);
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+.student-info .info-label {
+  font-weight: 700;
+  background: var(--soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+}
+.student-info .info-line {
+  flex: 1;
+  border-bottom: 1px dotted var(--text);
+  min-height: 16px;
+}
+
+/* ============================= أقسام الأسئلة ============================= */
+.section {
+  margin-bottom: 8px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.section-title {
+  background: linear-gradient(to left, var(--primary), var(--primary-dark));
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11.5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.section-title .grade-badge {
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+/* ============================= جدول أسئلة الاختيار من متعدد ============================= */
+.mcq-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+.mcq-table td {
+  border: 1px solid #94a3b8;
+  padding: 3px 6px;
+  vertical-align: middle;
+}
+.mcq-num {
+  background: var(--soft);
+  font-weight: 700;
+  text-align: center;
+  width: 24px;
+}
+.mcq-question {
+  background: #f8fafc;
+  padding: 4px 8px !important;
+  font-weight: 500;
+}
+.mcq-options td { width: 12.5%; }
+.opt-letter {
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  width: 20px !important;
+}
+
+.editable {
+  outline: none;
+  min-height: 14px;
+  padding: 1px 3px;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+.editable:hover { background: #fef9c3; }
+.editable:focus { background: #fef9c3; box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* أزرار حذف */
+.question-row { position: relative; }
+.delete-q-btn {
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 5;
+}
+tr.question-row:hover .delete-q-btn,
+.problem-block:hover .delete-q-btn,
+.match-cell:hover .delete-q-btn { opacity: 1; }
+
+/* ============================= قسم المطابقة ============================= */
+.match-grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  border: 1px solid #94a3b8;
+  font-size: 10.5px;
+}
+.match-header {
+  background: var(--soft);
+  padding: 4px;
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid #94a3b8;
+  font-size: 10.5px;
+}
+.match-cell {
+  padding: 3px 8px;
+  border: 1px solid #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+.match-num {
+  background: var(--soft);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.match-symbol {
+  background: var(--primary);
+  color: white;
+  width: 24px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 10.5px;
+  flex-shrink: 0;
+}
+
+/* ============================= قسم صح/خطأ ============================= */
+.tf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+}
+.tf-table td, .tf-table th {
+  border: 1px solid #94a3b8;
+  padding: 3px 7px;
+}
+.tf-table th {
+  background: var(--soft);
+  font-weight: 700;
+}
+.tf-choice {
+  text-align: center;
+  font-weight: 700;
+  width: 32px;
+}
+
+/* ============================= أسئلة المسائل ============================= */
+.problem-block {
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-bottom: 5px;
+  font-size: 10.5px;
+  position: relative;
+}
+.problem-num {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 1px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  margin-left: 5px;
+  font-size: 10px;
+}
+.answer-line {
+  border-bottom: 1px dotted #64748b;
+  min-height: 14px;
+  margin-top: 3px;
+}
+
+/* ============================= التذييل (تصميم د/فواز) ============================= */
+.footer-credit {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
+  padding: 13px 20px;
+  text-align: center;
+  border-radius: 8px;
+  margin: 18px auto;
+  max-width: 1100px;
+  font-size: 14px;
+}
+.footer-credit a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 6px;
+}
+.footer-credit a:hover { text-decoration: underline; }
+
+/* ============================= مودال صيغة الأسئلة ============================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  padding: 22px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal-box h3 {
+  color: var(--primary-dark);
+  margin-bottom: 14px;
+  font-family: 'Cairo', sans-serif;
+}
+.gender-toggle {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+}
+.gender-toggle button {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--border);
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.gender-toggle button.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+.gender-info {
+  background: #fef3c7;
+  border-right: 4px solid var(--accent);
+  padding: 9px 13px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: #78350f;
+  margin: 10px 0;
+}
+
+/* قسم إضافة فقرة جديدة */
+.add-section-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 4px 0;
+  flex-wrap: wrap;
+}
+
+input[type="file"] { display: none; }
+
+/* ============================= نمط الطباعة ============================= */
+@page {
+  size: A4 portrait;
+  margin: 8mm;
+}
+
+@media print {
+  html, body {
+    width: 210mm;
+    background: white;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* إخفاء كل ما لا يخص الاختبار */
+  .toolbar, .settings-panel, .footer-credit, .add-section-bar,
+  .delete-q-btn, .print-mode-bar, .modal-overlay { display: none !important; }
+
+  .paper {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    font-size: var(--base-font);
+    page-break-inside: avoid;
+  }
+
+  /* وضع "صفحة واحدة" - الأحجام مضغوطة قدر الإمكان */
+  body.print-one-page .paper {
+    --base-font: 9.5px;
+    font-size: 9.5px;
+    transform-origin: top right;
+  }
+  body.print-one-page .section { margin-bottom: 4px; }
+  body.print-one-page .section-title { padding: 3px 10px; font-size: 10px; margin-bottom: 3px; }
+  body.print-one-page .title-bar { padding: 3px 12px; font-size: 10.5px; margin: 3px 0; }
+  body.print-one-page .header-grid { margin-bottom: 4px; padding-bottom: 3px; gap: 8px; }
+  body.print-one-page .header-left { font-size: 8.5px; line-height: 1.3; }
+  body.print-one-page .logo-box { width: 50px; height: 50px; }
+  body.print-one-page .header-right { font-size: 9px; }
+  body.print-one-page .header-right td { padding: 1px 4px; }
+  body.print-one-page .mcq-table { font-size: 9px; }
+  body.print-one-page .mcq-table td { padding: 1.5px 4px; }
+  body.print-one-page .mcq-question { padding: 2px 6px !important; }
+  body.print-one-page .match-grid { font-size: 9px; }
+  body.print-one-page .match-cell { padding: 1.5px 6px; }
+  body.print-one-page .match-num,
+  body.print-one-page .match-symbol { width: 18px; height: 16px; font-size: 9px; }
+  body.print-one-page .tf-table { font-size: 9px; }
+  body.print-one-page .tf-table td { padding: 1.5px 5px; }
+  body.print-one-page .problem-block { padding: 2px 8px; margin-bottom: 3px; font-size: 9px; }
+  body.print-one-page .answer-line { min-height: 11px; margin-top: 2px; }
+  body.print-one-page .student-info { margin-bottom: 4px; }
+  body.print-one-page .student-info .info-box { padding: 2px 6px; font-size: 9.5px; }
+  body.print-one-page .student-info .info-line { min-height: 13px; }
+
+  /* وضع "صفحتين" - أحجام مريحة للقراءة */
+  body.print-two-pages .paper {
+    --base-font: 10.5px;
+    font-size: 10.5px;
+  }
+  body.print-two-pages .section { margin-bottom: 6px; }
+  body.print-two-pages .mcq-table { font-size: 10px; }
+  body.print-two-pages .mcq-table td { padding: 2.5px 5px; }
+
+  /* لا انقسام للأقسام داخل نفسها */
+  .section { page-break-inside: avoid; break-inside: avoid; }
+  .mcq-table tr, .tf-table tr { page-break-inside: avoid; break-inside: avoid; }
+  .match-cell, .problem-block { page-break-inside: avoid; break-inside: avoid; }
+
+  .editable:hover, .editable:focus {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* الحفاظ على الألوان */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* معاينة وضع الطباعة على الشاشة */
+body.preview-one-page .paper {
+  font-size: 9.5px;
+  min-height: 290mm;
+}
+body.preview-one-page .section { margin-bottom: 4px; }
+body.preview-one-page .section-title { padding: 3px 10px; font-size: 10px; margin-bottom: 3px; }
+body.preview-one-page .title-bar { padding: 3px 12px; font-size: 10.5px; margin: 3px 0; }
+body.preview-one-page .header-grid { margin-bottom: 4px; padding-bottom: 3px; }
+body.preview-one-page .mcq-table { font-size: 9px; }
+body.preview-one-page .mcq-table td { padding: 1.5px 4px; }
+body.preview-one-page .match-grid { font-size: 9px; }
+body.preview-one-page .match-cell { padding: 1.5px 6px; }
+body.preview-one-page .tf-table { font-size: 9px; }
+body.preview-one-page .tf-table td { padding: 1.5px 5px; }
+body.preview-one-page .problem-block { padding: 2px 8px; margin-bottom: 3px; font-size: 9px; }
+body.preview-one-page .answer-line { min-height: 11px; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<!-- ============================= شريط الأدوات ============================= -->
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <h1>
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      منصة إنشاء اختبار العلوم
+    </h1>
+    <div class="tools">
+      <button class="btn btn-light" onclick="toggleSettings()">⚙️ الإعدادات</button>
+      <button class="btn btn-light" onclick="openGenderModal()">👥 صيغة الأسئلة</button>
+      <button class="btn btn-light" onclick="saveData()">💾 حفظ</button>
+      <button class="btn btn-light" onclick="loadData()">📂 استرجاع</button>
+      <button class="btn btn-primary" onclick="doPrint()">🖨️ طباعة</button>
+    </div>
+  </div>
+</div>
+
+<!-- شريط وضع الطباعة -->
+<div class="print-mode-bar">
+  <strong>🎯 وضع الطباعة:</strong>
+  <select id="printMode" onchange="changePrintMode()">
+    <option value="auto" selected>تلقائي (يحاول صفحة واحدة)</option>
+    <option value="one">صفحة واحدة فقط (مضغوط)</option>
+    <option value="two">صفحتان (قراءة مريحة)</option>
+  </select>
+  <span id="pageCountInfo" style="margin-right:auto; font-size:12px; color:#475569;"></span>
+</div>
+
+<!-- ============================= لوحة الإعدادات ============================= -->
+<div class="settings-panel">
+  <div class="settings-header" onclick="toggleSettings()">
+    <span>⚙️ إعدادات الترويسة والاختبار</span>
+    <span id="settingsArrow">▼</span>
+  </div>
+  <div class="settings-body" id="settingsBody">
+    <div class="field">
+      <label>اسم الإدارة</label>
+      <input type="text" id="cfg_dept" value="الإدارة العامة للتعليم بمحافظة جدة" oninput="syncField('cfg_dept','tx_dept')">
+    </div>
+    <div class="field">
+      <label>القسم</label>
+      <input type="text" id="cfg_section" value="إدارة أداء التعليم - قسم الإشراف التربوي" oninput="syncField('cfg_section','tx_section')">
+    </div>
+    <div class="field">
+      <label>اسم المدرسة</label>
+      <input type="text" id="cfg_school" value="مدرسة ......................" oninput="syncField('cfg_school','tx_school')">
+    </div>
+    <div class="field">
+      <label>المادة</label>
+      <input type="text" id="cfg_subject" value="علوم" oninput="syncField('cfg_subject','tx_subject')">
+    </div>
+    <div class="field">
+      <label>الصف</label>
+      <input type="text" id="cfg_grade" value="الثالث المتوسط" oninput="syncField('cfg_grade','tx_grade')">
+    </div>
+    <div class="field">
+      <label>الفصل الدراسي</label>
+      <input type="text" id="cfg_term" value="الفصل الدراسي الثالث" oninput="syncField('cfg_term','tx_term')">
+    </div>
+    <div class="field">
+      <label>الدور</label>
+      <input type="text" id="cfg_round" value="الدور الأول" oninput="syncField('cfg_round','tx_round')">
+    </div>
+    <div class="field">
+      <label>العام الدراسي</label>
+      <input type="text" id="cfg_year" value="1445هـ" oninput="syncField('cfg_year','tx_year')">
+    </div>
+    <div class="field">
+      <label>اليوم / التاريخ</label>
+      <input type="text" id="cfg_date" value="الأحد: 1445/12/3هـ" oninput="syncField('cfg_date','tx_date')">
+    </div>
+    <div class="field">
+      <label>زمن الاختبار</label>
+      <input type="text" id="cfg_time" value="ساعة ونصف" oninput="syncField('cfg_time','tx_time')">
+    </div>
+    <div class="field">
+      <label>رقم التعليم</label>
+      <input type="text" id="cfg_eduno" value="(280)" oninput="syncField('cfg_eduno','tx_eduno')">
+    </div>
+    <div class="field">
+      <label>شعار المدرسة / الإدارة</label>
+      <label for="logoUpload" class="btn btn-primary" style="text-align:center; cursor:pointer; justify-content:center;">📁 استيراد شعار</label>
+      <input type="file" id="logoUpload" accept="image/*" onchange="handleLogo(event)">
+    </div>
+  </div>
+</div>
+
+<!-- ============================= ورقة الاختبار ============================= -->
+<div class="paper" id="paper">
+
+  <!-- الترويسة -->
+  <div class="header-grid">
+    <div class="header-left">
+      <div class="ministry-name">المملكة العربية السعودية</div>
+      <div>وزارة التعليم <span id="tx_eduno">(280)</span></div>
+      <div id="tx_dept">الإدارة العامة للتعليم بمحافظة جدة</div>
+      <div id="tx_section">إدارة أداء التعليم - قسم الإشراف التربوي</div>
+      <div id="tx_school" style="margin-top:3px; font-weight:700;">مدرسة ......................</div>
+    </div>
+
+    <div class="header-center">
+      <div class="logo-box">
+        <div id="logoContainer" class="logo-placeholder" onclick="document.getElementById('logoUpload').click()">
+          اضغط<br>لإضافة<br>الشعار
+        </div>
+      </div>
+      <div style="font-weight:700; font-size:10.5px; color:var(--primary-dark);">وزارة التعليم</div>
+      <div style="font-size:8.5px;">Ministry of Education</div>
+    </div>
+
+    <div class="header-right">
+      <table>
+        <tr>
+          <td class="label-cell">المادة</td>
+          <td><span id="tx_subject" contenteditable="true" class="editable">علوم</span></td>
+        </tr>
+        <tr>
+          <td class="label-cell">اليوم/التاريخ</td>
+          <td><span id="tx_date" contenteditable="true" class="editable">الأحد: 1445/12/3هـ</span></td>
+        </tr>
+        <tr>
+          <td class="label-cell">الزمن</td>
+          <td><span id="tx_time" contenteditable="true" class="editable">ساعة ونصف</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="title-bar">
+    أسئلة اختبار مقرر العلوم للصف <span id="tx_grade" contenteditable="true" class="editable" style="color:var(--accent);">الثالث المتوسط</span>
+    - <span id="tx_term" contenteditable="true" class="editable" style="color:var(--accent);">الفصل الدراسي الثالث</span>
+    - <span id="tx_round" contenteditable="true" class="editable" style="color:var(--accent);">الدور الأول</span>
+    - للعام الدراسي <span id="tx_year" contenteditable="true" class="editable" style="color:var(--accent);">1445هـ</span>
+  </div>
+
+  <div class="student-info">
+    <div class="info-box">
+      <span class="info-label" id="lbl_student">اسم الطالب</span>
+      <span class="info-line"></span>
+    </div>
+    <div class="info-box">
+      <span class="info-label">الصف</span>
+      <span class="info-line"></span>
+    </div>
+  </div>
+
+  <!-- السؤال الأول: الاختيار من متعدد -->
+  <div class="section" data-section="mcq">
+    <div class="section-title">
+      <span>السؤال الأول: اختر الإجابة الصحيحة بتظليل الحرف الدال عليها</span>
+      <span class="grade-badge" contenteditable="true">18 درجة</span>
+    </div>
+    <table class="mcq-table" id="mcqTable">
+      <tbody id="mcqBody"></tbody>
+    </table>
+    <div class="add-section-bar">
+      <button class="btn-add" onclick="addMCQ()">➕ إضافة سؤال اختيار من متعدد</button>
+    </div>
+  </div>
+
+  <!-- السؤال الثاني: المطابقة -->
+  <div class="section" data-section="match">
+    <div class="section-title">
+      <span>السؤال الثاني: اختر من المجموعة (الثانية) ما يناسبها في المجموعة (الأولى)</span>
+      <span class="grade-badge" contenteditable="true">7 درجات</span>
+    </div>
+    <div class="match-grid" id="matchGrid">
+      <div class="match-header">المجموعة الأولى</div>
+      <div class="match-header">المجموعة الثانية</div>
+      <div id="matchItems" style="display:contents;"></div>
+    </div>
+    <div class="add-section-bar">
+      <button class="btn-add" onclick="addMatchItem()">➕ إضافة بند مطابقة</button>
+    </div>
+  </div>
+
+  <!-- السؤال الثالث: صح/خطأ -->
+  <div class="section" data-section="tf">
+    <div class="section-title">
+      <span>السؤال الثالث: ظلل (ص) أمام العبارة الصحيحة و(خ) أمام العبارة الخاطئة</span>
+      <span class="grade-badge" contenteditable="true">5 درجات</span>
+    </div>
+    <table class="tf-table">
+      <thead>
+        <tr>
+          <th style="width:28px;">م</th>
+          <th>العبارة</th>
+          <th class="tf-choice">ص</th>
+          <th class="tf-choice">خ</th>
+        </tr>
+      </thead>
+      <tbody id="tfBody"></tbody>
+    </table>
+    <div class="add-section-bar">
+      <button class="btn-add" onclick="addTF()">➕ إضافة عبارة صح/خطأ</button>
+    </div>
+  </div>
+
+  <!-- السؤال الرابع: مسائل -->
+  <div class="section" data-section="problems">
+    <div class="section-title">
+      <span>السؤال الرابع: أجب على الأسئلة التالية</span>
+      <span class="grade-badge" contenteditable="true">10 درجات</span>
+    </div>
+    <div id="problemsBody"></div>
+    <div class="add-section-bar">
+      <button class="btn-add" onclick="addProblem()">➕ إضافة مسألة</button>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:6px; font-weight:700; color:var(--primary-dark); font-size:11px;">
+    ✦ انتهت الأسئلة مع تمنياتنا لكم بالتوفيق ✦
+  </div>
+</div>
+
+<!-- التذييل (تصميم د/فواز) -->
+<div class="footer-credit">
+  ✦ تصميم د/فواز ✦
+  <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا</a>
+</div>
+
+<!-- مودال صيغة الأسئلة -->
+<div class="modal-overlay" id="genderModal" onclick="if(event.target===this)closeGenderModal()">
+  <div class="modal-box">
+    <h3>📝 صيغة الأسئلة</h3>
+    <p style="font-size:13.5px; color:#475569;">اختر صيغة الاختبار لتعديل المخاطبة في العنوانات بشكل تلقائي:</p>
+    <div class="gender-toggle">
+      <button id="btnMale" class="active" onclick="setGender('male')">👦 بنين</button>
+      <button id="btnFemale" onclick="setGender('female')">👧 بنات</button>
+    </div>
+    <div class="gender-info">
+      <strong>تأثير الاختيار:</strong> سيتم تعديل "اسم الطالب/الطالبة" والكلمات المرتبطة تلقائياً.
+    </div>
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button class="btn btn-primary" onclick="closeGenderModal()" style="flex:1; justify-content:center;">تطبيق</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================= البيانات الأولية ============================= */
+const initialMCQ = [
+  { q: "ما سبب اندفاع ركاب السيارة للأمام عند التوقف المفاجئ؟", opts: ["الاحتكاك","التسارع","القصور الذاتي","الإزاحة"] },
+  { q: "ماذا تقيس كاميرات ساهر المرورية الموضوعة على جانبي الطرق؟", opts: ["السرعة المتوسطة","السرعة اللحظية","التسارع","الزخم"] },
+  { q: "ما مقدار تسارع سيارة تغيّر سرعتها من 10م/ث إلى 25م/ث خلال زمن مقداره 3 ثوان؟", opts: ["45 م/ث²","18 م/ث²","12 م/ث²","5 م/ث²"] },
+  { q: "يتحرك أحمد متجهاً من مدرسته إلى منزله، أي مما يلي يمثل مقدار الإزاحة بوحدة المتر؟", opts: ["50","70","100","150"] },
+  { q: "يبقى الجسم على حالته من السكون أو الحركة ما لم تؤثر عليه قوة خارجية. أي مما يأتي يتفق مع ذلك؟", opts: ["قانون نيوتن الأول","قانون نيوتن الثاني","قانون نيوتن الثالث","الاحتكاك"] },
+  { q: "تؤثر قوة محصلة مقدارها 200 نيوتن على كتلة مقدارها 10كجم. ما مقدار تسارعها بوحدة م/ث²؟", opts: ["0.05","5","10","20"] },
+  { q: "ما الذي يميز القوى المتزنة؟", opts: ["تسارعها يزداد","محصلتها تساوي صفراً","احتكاكها عالٍ","جاذبيتها كبيرة"] },
+  { q: "ما سبب وضع عجلات صغيرة أسفل بعض الثلاجات؟", opts: ["تثبيت الثلاجة","زيادة التوازن","تقليل الاحتكاك","زيادة الاحتكاك"] },
+  { q: "عند دلك البالون بالشعر يصبح كلاهما مشحونين، أي مما يلي ينتقل من الشعر إلى البالون؟", opts: ["النيوترونات","البروتونات","النواة","الإلكترونات"] },
+  { q: "أي من المواد التالية تنجذب للمغناطيس؟", opts: ["البلاستيك","النحاس","الحديد","الخشب"] },
+  { q: "المنطقة التي تحمي الأرض من الجسيمات المتأينة القادمة من الشمس:", opts: ["اللب الداخلي للأرض","الغلاف المغناطيسي للأرض","القطب الشمالي للأرض","القطب الجنوبي للأرض"] }
+];
+
+const initialMatch = [
+  { phrase: "المسافة التي يقطعها الجسم خلال وحدة الزمن.", sym: "ب", side: "التسارع" },
+  { phrase: "لكل قوة فعل قوة رد فعل.", sym: "و", side: "السرعة" },
+  { phrase: "تغيّر السرعة بالنسبة للزمن.", sym: "أ", side: "البطارية" },
+  { phrase: "تحوّل الطاقة الكيميائية بداخلها إلى طاقة كهربائية.", sym: "ج", side: "المغناطيس الكهربائي" },
+  { phrase: "قياس صعوبة تدفق الإلكترونات خلال المادة.", sym: "ح", side: "الموصلات فائقة التوصيل" },
+  { phrase: "سلك ملفوف حول قلب حديدي ويسري به تيار كهربائي.", sym: "د", side: "قانون نيوتن الثالث" },
+  { phrase: "مرور التيار الكهربائي دون أن تسخن الأسلاك أو تفقد طاقة.", sym: "هـ", side: "المقاومة الكهربائية" }
+];
+
+const initialTF = [
+  "من الأمثلة على التسارع: تصل سرعة سيارات الفورمولا 1 إلى 100كم/س خلال أقل من ثانيتين.",
+  "الفائز في سباق الـ 100 متر في الأولمبياد هو الذي لديه سرعة متوسطة أكبر.",
+  "الأقمار الصناعية التي تدور حول الأرض بسرعة ثابتة المقدار ليس لها تسارع.",
+  "يطلق مسمى التفريغ الكهربائي على حركة انتقال الشحنات الفائضة من جسم لآخر.",
+  "كلما زاد مقدار الجهد الكهربائي في البطارية تقل طاقة الوضع الكهربائية."
+];
+
+const initialProblems = [
+  "يندفع لاعب كرة الطائرة للخلف بسرعة 2م/ث، فإذا كانت كتلة اللاعب 50كجم. ما مقدار الزخم له؟",
+  "يمثل الشكل المجاور حركة دراجة هوائية. ما قيمة التسارع بين النقطتين (أ)، (ب)؟",
+  "احسب مقدار تسارع صندوق كتلته 3كجم تحت تأثير قوتين 2.3 نيوتن و 3.7 نيوتن باتجاهين متعاكسين.",
+  "يمثل الرسم البياني العلاقة بين جهد البطارية والتيار الكهربائي. (أ) ما نوع العلاقة؟ (ب) ماذا يحدث للتيار إذا زادت المقاومة؟",
+  "ما اسم الجهاز الموضح بالشكل؟ وما تحولات الطاقة التي تحدث به؟"
+];
+
+/* ============================= التوليد ============================= */
+function arabicLetter(i) {
+  return ["أ","ب","ج","د","هـ","و","ز","ح","ط","ي","ك","ل"][i];
+}
+
+function renderMCQ() {
+  const body = document.getElementById('mcqBody');
+  body.innerHTML = '';
+  initialMCQ.forEach((item, idx) => {
+    const num = idx + 1;
+    const qRow = document.createElement('tr');
+    qRow.className = 'question-row';
+    qRow.innerHTML = `
+      <td class="mcq-num" rowspan="2">
+        ${num}
+        <button class="delete-q-btn" onclick="removeMCQ(${idx})" title="حذف">×</button>
+      </td>
+      <td colspan="8" class="mcq-question editable" contenteditable="true">${item.q}</td>
+    `;
+    const optRow = document.createElement('tr');
+    optRow.className = 'mcq-options';
+    let cells = '';
+    item.opts.forEach((opt, i) => {
+      cells += `<td class="opt-letter">${arabicLetter(i)}</td><td class="editable" contenteditable="true">${opt}</td>`;
+    });
+    optRow.innerHTML = cells;
+    body.appendChild(qRow);
+    body.appendChild(optRow);
+  });
+  updatePageInfo();
+}
+
+function renderMatch() {
+  const grid = document.getElementById('matchItems');
+  grid.innerHTML = '';
+  initialMatch.forEach((item, idx) => {
+    const left = document.createElement('div');
+    left.className = 'match-cell';
+    left.innerHTML = `
+      <span class="match-num">${idx+1}</span>
+      <span class="editable" contenteditable="true" style="flex:1;">${item.phrase}</span>
+      <span class="match-symbol editable" contenteditable="true">${item.sym}</span>
+      <button class="delete-q-btn" onclick="removeMatch(${idx})">×</button>
+    `;
+    const right = document.createElement('div');
+    right.className = 'match-cell';
+    right.innerHTML = `
+      <span class="match-symbol">${arabicLetter(idx)}</span>
+      <span class="editable" contenteditable="true" style="flex:1;">${item.side}</span>
+    `;
+    grid.appendChild(left);
+    grid.appendChild(right);
+  });
+  updatePageInfo();
+}
+
+function renderTF() {
+  const body = document.getElementById('tfBody');
+  body.innerHTML = '';
+  initialTF.forEach((stmt, idx) => {
+    const tr = document.createElement('tr');
+    tr.className = 'question-row';
+    tr.innerHTML = `
+      <td style="text-align:center; font-weight:700; position:relative;">
+        ${idx+1}
+        <button class="delete-q-btn" onclick="removeTF(${idx})">×</button>
+      </td>
+      <td class="editable" contenteditable="true">${stmt}</td>
+      <td class="tf-choice">ص</td>
+      <td class="tf-choice">خ</td>
+    `;
+    body.appendChild(tr);
+  });
+  updatePageInfo();
+}
+
+function renderProblems() {
+  const body = document.getElementById('problemsBody');
+  body.innerHTML = '';
+  initialProblems.forEach((p, idx) => {
+    const div = document.createElement('div');
+    div.className = 'problem-block';
+    div.innerHTML = `
+      <button class="delete-q-btn" onclick="removeProblem(${idx})">×</button>
+      <span class="problem-num">${idx+1}</span>
+      <span class="editable" contenteditable="true">${p}</span>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    `;
+    body.appendChild(div);
+  });
+  updatePageInfo();
+}
+
+/* ============================= إضافة/حذف ============================= */
+function addMCQ() {
+  initialMCQ.push({ q: "اكتب السؤال هنا...", opts: ["الخيار الأول","الخيار الثاني","الخيار الثالث","الخيار الرابع"] });
+  renderMCQ();
+}
+function removeMCQ(idx) {
+  if (confirm('هل تريد حذف هذا السؤال؟')) { initialMCQ.splice(idx, 1); renderMCQ(); }
+}
+function addMatchItem() {
+  initialMatch.push({ phrase: "اكتب العبارة هنا...", sym: "؟", side: "اكتب الإجابة" });
+  renderMatch();
+}
+function removeMatch(idx) {
+  if (confirm('هل تريد حذف هذا البند؟')) { initialMatch.splice(idx, 1); renderMatch(); }
+}
+function addTF() {
+  initialTF.push("اكتب العبارة هنا...");
+  renderTF();
+}
+function removeTF(idx) {
+  if (confirm('هل تريد حذف هذه العبارة؟')) { initialTF.splice(idx, 1); renderTF(); }
+}
+function addProblem() {
+  initialProblems.push("اكتب المسألة هنا...");
+  renderProblems();
+}
+function removeProblem(idx) {
+  if (confirm('هل تريد حذف هذه المسألة؟')) { initialProblems.splice(idx, 1); renderProblems(); }
+}
+
+/* ============================= وضع الطباعة الذكي ============================= */
+function updatePageInfo() {
+  // تقدير عدد الصفحات بناءً على عدد الأسئلة
+  const total = initialMCQ.length + initialMatch.length + initialTF.length + initialProblems.length;
+  const info = document.getElementById('pageCountInfo');
+  let estimate = '';
+
+  // مع الوضع الافتراضي العادي
+  if (total <= 22) estimate = '📄 يُتوقع: صفحة واحدة';
+  else if (total <= 35) estimate = '📄📄 يُتوقع: صفحتان';
+  else estimate = '📄📄📄 يُتوقع: 3 صفحات أو أكثر (يُنصح بوضع مضغوط)';
+
+  info.textContent = `(إجمالي العناصر: ${total}) — ${estimate}`;
+}
+
+function changePrintMode() {
+  const mode = document.getElementById('printMode').value;
+  document.body.classList.remove('preview-one-page');
+  if (mode === 'one') {
+    document.body.classList.add('preview-one-page');
+  }
+}
+
+function doPrint() {
+  const mode = document.getElementById('printMode').value;
+  document.body.classList.remove('print-one-page', 'print-two-pages');
+
+  if (mode === 'one') {
+    document.body.classList.add('print-one-page');
+  } else if (mode === 'two') {
+    document.body.classList.add('print-two-pages');
+  } else {
+    // تلقائي: يحاول الضغط للصفحة الواحدة إذا كان المحتوى متوسط
+    const total = initialMCQ.length + initialMatch.length + initialTF.length + initialProblems.length;
+    if (total <= 25) {
+      document.body.classList.add('print-one-page');
+    } else {
+      document.body.classList.add('print-two-pages');
+    }
+  }
+
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => {
+      document.body.classList.remove('print-one-page', 'print-two-pages');
+    }, 500);
+  }, 100);
+}
+
+/* ============================= وظائف الإعدادات ============================= */
+function toggleSettings() {
+  const body = document.getElementById('settingsBody');
+  const arrow = document.getElementById('settingsArrow');
+  body.classList.toggle('open');
+  arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+
+function syncField(srcId, dstId) {
+  const value = document.getElementById(srcId).value;
+  const dst = document.getElementById(dstId);
+  if (dst) dst.textContent = value;
+}
+
+function handleLogo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const old = document.getElementById('logoContainer');
+    const img = document.createElement('img');
+    img.id = 'logoContainer';
+    img.src = e.target.result;
+    img.style.cssText = 'max-width:100%; max-height:100%; object-fit:contain; cursor:pointer;';
+    img.onclick = () => document.getElementById('logoUpload').click();
+    old.replaceWith(img);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============================= صيغة البنين/البنات ============================= */
+function openGenderModal() { document.getElementById('genderModal').classList.add('show'); }
+function closeGenderModal() { document.getElementById('genderModal').classList.remove('show'); }
+
+function setGender(g) {
+  document.getElementById('btnMale').classList.toggle('active', g === 'male');
+  document.getElementById('btnFemale').classList.toggle('active', g === 'female');
+  const studentLabel = document.getElementById('lbl_student');
+  if (g === 'female') {
+    studentLabel.textContent = 'اسم الطالبة';
+  } else {
+    studentLabel.textContent = 'اسم الطالب';
+  }
+}
+
+/* ============================= حفظ/استرجاع ============================= */
+function saveData() {
+  const data = { cfg: {}, mcq: initialMCQ, match: initialMatch, tf: initialTF, problems: initialProblems };
+  document.querySelectorAll('[id^="cfg_"]').forEach(el => { data.cfg[el.id] = el.value; });
+  try {
+    localStorage.setItem('examData', JSON.stringify(data));
+    alert('✅ تم حفظ البيانات بنجاح');
+  } catch(e) {
+    alert('⚠️ تعذّر الحفظ: ' + e.message);
+  }
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem('examData');
+    if (!raw) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+    const data = JSON.parse(raw);
+    Object.entries(data.cfg || {}).forEach(([k, v]) => {
+      const el = document.getElementById(k);
+      if (el) {
+        el.value = v;
+        const dstId = k.replace('cfg_', 'tx_');
+        const dst = document.getElementById(dstId);
+        if (dst) dst.textContent = v;
+      }
+    });
+    if (data.mcq) { initialMCQ.length = 0; data.mcq.forEach(x => initialMCQ.push(x)); }
+    if (data.match) { initialMatch.length = 0; data.match.forEach(x => initialMatch.push(x)); }
+    if (data.tf) { initialTF.length = 0; data.tf.forEach(x => initialTF.push(x)); }
+    if (data.problems) { initialProblems.length = 0; data.problems.forEach(x => initialProblems.push(x)); }
+    renderAll();
+    alert('✅ تم استرجاع البيانات');
+  } catch(e) {
+    alert('⚠️ خطأ في الاسترجاع: ' + e.message);
+  }
+}
+
+function renderAll() {
+  renderMCQ();
+  renderMatch();
+  renderTF();
+  renderProblems();
+}
+
+window.addEventListener('DOMContentLoaded', () => { renderAll(); });
+</script>
+
+</body>
+</html>

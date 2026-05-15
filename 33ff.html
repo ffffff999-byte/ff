@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة إعداد الخطة التشغيلية المدرسية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+
+        :root {
+            --primary-color: #0b5e65;
+            --secondary-color: #008b8b;
+            --accent-color: #d4af37;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --danger-color: #dc3545;
+            --success-color: #28a745;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 139, 139, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            min-width: 800px;
+        }
+
+        table th, table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: right;
+            vertical-align: top;
+        }
+
+        table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .date-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .date-group label {
+            font-size: 0.85rem;
+            color: #666;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background-color: #b5952f;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-add {
+            margin-top: 15px;
+            background-color: var(--secondary-color);
+            font-size: 1rem;
+            padding: 10px 20px;
+        }
+
+        .btn-add:hover {
+            background-color: var(--primary-color);
+        }
+
+        .btn-delete {
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn-print {
+            background-color: var(--primary-color);
+            font-size: 1.2rem;
+            padding: 15px;
+            width: 100%;
+        }
+        
+        .btn-print:hover {
+            background-color: #08494f;
+        }
+
+        .btn-excel {
+            background-color: var(--success-color);
+            font-size: 1.2rem;
+            padding: 15px;
+            width: 100%;
+        }
+
+        .btn-excel:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #e9ecef;
+            color: #555;
+            margin-top: 40px;
+            border-top: 1px solid #ccc;
+        }
+
+        footer h3 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        /* تنسيقات الطباعة */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print, .btn, header p {
+                display: none !important;
+            }
+            .section-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+                margin-bottom: 20px;
+            }
+            .form-control {
+                border: none;
+                border-bottom: 1px dashed #ccc;
+                border-radius: 0;
+                padding: 5px 0;
+                background: transparent;
+            }
+            select.form-control, input[type="date"].form-control, input[type="number"].form-control {
+                appearance: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>منصة الخطة التشغيلية المدرسية</h1>
+        <p>إطار إلكتروني لتنظيم وبناء خطط المدارس وفق معايير الجودة والتميز</p>
+    </header>
+
+    <div class="container" id="mainContainer">
+        <!-- البيانات الأساسية -->
+        <section class="section-card">
+            <h2 class="section-title">البيانات الأساسية للمدرسة والرؤية</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>اسم المدرسة</label>
+                    <input type="text" id="schoolName" class="form-control" placeholder="أدخل اسم المدرسة...">
+                </div>
+                <div class="form-group">
+                    <label>العام الدراسي</label>
+                    <input type="text" class="form-control" placeholder="مثال: 1446 هـ">
+                </div>
+                <div class="form-group">
+                    <label>المرحلة التعليمية</label>
+                    <input type="text" class="form-control" placeholder="ابتدائي / متوسط / ثانوي">
+                </div>
+                <div class="form-group">
+                    <label>نوع المبنى</label>
+                    <input type="text" class="form-control" placeholder="حكومي / مستأجر">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>الرؤية</label>
+                <textarea class="form-control" placeholder="الريادة في تطبيق ممارسات جودة التربية والتعليم..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>الرسالة</label>
+                <textarea class="form-control" placeholder="تقديم خدمات تربوية تعليمية تستمد جذورها من رؤية 2030..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>القيم الحاكمة</label>
+                <input type="text" class="form-control" placeholder="العمل الجماعي، الإتقان، المسؤولية، الإبداع...">
+            </div>
+        </section>
+
+        <!-- تشخيص الواقع SWOT -->
+        <section class="section-card">
+            <h2 class="section-title">تشخيص واقع المدرسة (SWOT)</h2>
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>نقاط القوة (البيئة الداخلية)</label>
+                    <textarea class="form-control" placeholder="مثال: كادر تعليمي وإداري ذو كفاءة عالية..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>نقاط الضعف (البيئة الداخلية)</label>
+                    <textarea class="form-control" placeholder="مثال: احتياج المبنى لبعض التجهيزات..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>الفرص (البيئة الخارجية)</label>
+                    <textarea class="form-control" placeholder="مثال: التوجه الحكومي لبرنامج تنمية القدرات البشرية..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>التهديدات (البيئة الخارجية)</label>
+                    <textarea class="form-control" placeholder="مثال: ضعف الشراكة مع القطاع الخاص أحياناً..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- القضايا الملحة -->
+        <section class="section-card">
+            <h2 class="section-title">القضايا الملحة</h2>
+            <div class="form-group">
+                <label>أبرز القضايا والتحديات التي تتطلب معالجة خلال العام الدراسي</label>
+                <textarea class="form-control" placeholder="اكتب هنا القضايا الملحة بناءً على تشخيص واقع المدرسة..."></textarea>
+            </div>
+        </section>
+
+        <!-- مصادر بناء الخطة -->
+        <section class="section-card">
+            <h2 class="section-title">مصادر بناء الخطة</h2>
+            <div class="form-group">
+                <label>المراجع والوثائق التي استندت إليها الخطة</label>
+                <textarea class="form-control" placeholder="مثال: رؤية المملكة 2030، سياسة التعليم في المملكة، الدليل التنظيمي والإجرائي، نتائج التقويم المدرسي..."></textarea>
+            </div>
+        </section>
+
+        <!-- الأهداف العامة والتفصيلية -->
+        <section class="section-card">
+            <h2 class="section-title">الأهداف العامة والتفصيلية</h2>
+            <div class="table-responsive">
+                <table id="goalsTable">
+                    <thead>
+                        <tr>
+                            <th>المجال</th>
+                            <th>الهدف العام</th>
+                            <th>الهدف التفصيلي</th>
+                            <th class="no-print" style="width: 60px;">إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="goalsBody">
+                        <tr>
+                            <td><input type="text" class="form-control" placeholder="مثال: التحصيل الدراسي"></td>
+                            <td><input type="text" class="form-control" placeholder="رفع المستوى التحصيلي لدى طالبات المدرسة"></td>
+                            <td><input type="text" class="form-control" placeholder="رفع مستوى الإتقان في مادة الرياضيات بنسبة 90%"></td>
+                            <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-add no-print" onclick="addGoalRow()">+ إضافة هدف جديد</button>
+        </section>
+
+        <!-- مجالات الخطة التشغيلية -->
+        <section class="section-card">
+            <h2 class="section-title">بناء برامج ومبادرات الخطة التشغيلية</h2>
+            <p style="margin-bottom: 20px; color: #666;">أدخل البرامج وفق الأهداف المحددة سابقاً مع تحديد المدى الزمني.</p>
+            
+            <div class="table-responsive">
+                <table id="programsTable">
+                    <thead>
+                        <tr>
+                            <th>الهدف التفصيلي</th>
+                            <th>اسم البرنامج / المبادرة</th>
+                            <th>الفئة المستهدفة</th>
+                            <th>الجهة المنفذة</th>
+                            <th style="width: 140px;">الفترة الزمنية</th>
+                            <th>مؤشرات الإنجاز والشواهد</th>
+                            <th class="no-print" style="width: 60px;">إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="programsBody">
+                        <tr>
+                            <td><input type="text" class="form-control" placeholder="الهدف التفصيلي"></td>
+                            <td><input type="text" class="form-control" placeholder="اسم البرنامج"></td>
+                            <td><input type="text" class="form-control" placeholder="الفئة المستهدفة"></td>
+                            <td><input type="text" class="form-control" placeholder="الجهة المنفذة"></td>
+                            <td>
+                                <div class="date-group">
+                                    <label>من:</label>
+                                    <input type="date" class="form-control">
+                                    <label>إلى:</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                            </td>
+                            <td><textarea class="form-control" placeholder="المؤشرات والشواهد"></textarea></td>
+                            <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn btn-add no-print" onclick="addProgramRow()">+ إضافة برنامج جديد</button>
+        </section>
+
+        <!-- المتابعة والتقويم -->
+        <section class="section-card">
+            <h2 class="section-title">لوحة المتابعة والتقويم (Dashboard)</h2>
+            <div class="table-responsive">
+                <table id="evaluationTable">
+                    <thead>
+                        <tr>
+                            <th>البرنامج</th>
+                            <th>المسؤولة عن التنفيذ</th>
+                            <th>مستوى التنفيذ</th>
+                            <th style="width: 100px;">نسبة الإنجاز %</th>
+                            <th>أسباب عدم التنفيذ / ملاحظات</th>
+                            <th class="no-print" style="width: 60px;">إجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="evaluationBody">
+                        <tr>
+                            <td><input type="text" class="form-control" placeholder="اسم البرنامج"></td>
+                            <td><input type="text" class="form-control" placeholder="المسؤولة"></td>
+                            <td>
+                                <select class="form-control">
+                                    <option>جاري التنفيذ</option>
+                                    <option>نُفذ</option>
+                                    <option>لم يُنفذ</option>
+                                </select>
+                            </td>
+                            <td><input type="number" class="form-control" placeholder="%" min="0" max="100"></td>
+                            <td><input type="text" class="form-control" placeholder="الأسباب (إن وجدت)"></td>
+                            <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-add no-print" onclick="addEvaluationRow()">+ إضافة تقويم جديد</button>
+        </section>
+
+        <!-- أزرار الإجراءات -->
+        <div class="action-buttons no-print">
+            <button class="btn btn-print" onclick="validateAndPrint()">طباعة / حفظ كملف PDF 🖨️</button>
+            <button class="btn btn-excel" onclick="exportToExcel()">تصدير البيانات إلى Excel 📊</button>
+        </div>
+    </div>
+
+    <footer>
+        <h3>تصميم د/فواز</h3>
+    </footer>
+
+    <!-- سكربت العمليات والتفاعلات -->
+    <script>
+        // --- 1. الحفظ التلقائي (Local Storage Persistence) ---
+        function updateAttributesAndSave() {
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.tagName === 'INPUT') {
+                    if (el.type === 'checkbox' || el.type === 'radio') {
+                        if(el.checked) el.setAttribute('checked', 'checked');
+                        else el.removeAttribute('checked');
+                    } else {
+                        el.setAttribute('value', el.value);
+                    }
+                }
+                if (el.tagName === 'TEXTAREA') {
+                    el.textContent = el.value;
+                }
+                if (el.tagName === 'SELECT') {
+                    Array.from(el.options).forEach(opt => {
+                        if (opt.selected) opt.setAttribute('selected', 'selected');
+                        else opt.removeAttribute('selected');
+                    });
+                }
+            });
+            
+            const containerHTML = document.getElementById('mainContainer').innerHTML;
+            localStorage.setItem('schoolPlanData', containerHTML);
+        }
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('schoolPlanData');
+            if (savedData) {
+                document.getElementById('mainContainer').innerHTML = savedData;
+            }
+        }
+
+        document.addEventListener('input', updateAttributesAndSave);
+        document.addEventListener('change', updateAttributesAndSave);
+        window.addEventListener('load', loadSavedData);
+
+        // --- 2. الإضافة والحذف الديناميكي ---
+        function addGoalRow() {
+            const tbody = document.getElementById('goalsBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="form-control" placeholder="المجال"></td>
+                <td><input type="text" class="form-control" placeholder="الهدف العام"></td>
+                <td><input type="text" class="form-control" placeholder="الهدف التفصيلي"></td>
+                <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+            `;
+            tbody.appendChild(newRow);
+            updateAttributesAndSave();
+        }
+
+        function addProgramRow() {
+            const tbody = document.getElementById('programsBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="form-control" placeholder="الهدف التفصيلي"></td>
+                <td><input type="text" class="form-control" placeholder="اسم البرنامج"></td>
+                <td><input type="text" class="form-control" placeholder="الفئة المستهدفة"></td>
+                <td><input type="text" class="form-control" placeholder="الجهة المنفذة"></td>
+                <td>
+                    <div class="date-group">
+                        <label>من:</label>
+                        <input type="date" class="form-control">
+                        <label>إلى:</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </td>
+                <td><textarea class="form-control" placeholder="المؤشرات والشواهد"></textarea></td>
+                <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+            `;
+            tbody.appendChild(newRow);
+            updateAttributesAndSave();
+        }
+
+        function addEvaluationRow() {
+            const tbody = document.getElementById('evaluationBody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="form-control" placeholder="اسم البرنامج"></td>
+                <td><input type="text" class="form-control" placeholder="المسؤولة"></td>
+                <td>
+                    <select class="form-control">
+                        <option>جاري التنفيذ</option>
+                        <option>نُفذ</option>
+                        <option>لم يُنفذ</option>
+                    </select>
+                </td>
+                <td><input type="number" class="form-control" placeholder="%" min="0" max="100"></td>
+                <td><input type="text" class="form-control" placeholder="الأسباب (إن وجدت)"></td>
+                <td class="no-print"><button class="btn-delete" onclick="deleteRow(this)">حذف</button></td>
+            `;
+            tbody.appendChild(newRow);
+            updateAttributesAndSave();
+        }
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            updateAttributesAndSave();
+        }
+
+        // --- 3. التحقق قبل الطباعة ---
+        function validateAndPrint() {
+            const schoolNameInput = document.getElementById('schoolName');
+            if (!schoolNameInput || schoolNameInput.value.trim() === '') {
+                alert('تنبيه: يرجى التأكد من تعبئة "اسم المدرسة" في قسم البيانات الأساسية قبل البدء بالطباعة.');
+                return;
+            }
+            window.print();
+        }
+
+        // --- 4. التصدير إلى Excel ---
+        function exportToExcel() {
+            let csvData = [];
+            const tables = document.querySelectorAll('table');
+            
+            tables.forEach((table) => {
+                let sectionTitle = table.closest('.section-card').querySelector('.section-title').innerText;
+                csvData.push(['"' + sectionTitle + '"']);
+                
+                const rows = table.querySelectorAll('tr');
+                rows.forEach(row => {
+                    let rowData = [];
+                    const cols = row.querySelectorAll('th, td');
+                    
+                    cols.forEach(col => {
+                        if (col.classList.contains('no-print')) return;
+                        
+                        let cellValue = "";
+                        const inputs = col.querySelectorAll('.form-control');
+                        
+                        if (inputs.length > 0) {
+                            let values = Array.from(inputs).map(input => input.value).filter(val => val !== "");
+                            cellValue = values.join(" - ");
+                        } else {
+                            cellValue = col.innerText;
+                        }
+                        
+                        cellValue = cellValue.replace(/"/g, '""').replace(/\n/g, ' ');
+                        rowData.push('"' + cellValue + '"');
+                    });
+                    
+                    if (rowData.length > 0) csvData.push(rowData.join(','));
+                });
+                
+                csvData.push([]);
+            });
+
+            let csvContent = "\uFEFF" + csvData.join("\n");
+            let blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            let url = URL.createObjectURL(blob);
+            
+            let link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", "بيانات_الخطة_التشغيلية.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+</body>
+</html>

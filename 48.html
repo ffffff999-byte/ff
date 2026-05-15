@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>منصة تصميم الاختبار</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --bg: #f5f6fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+        }
+        /* Settings Sidebar */
+        .settings-panel {
+            width: 300px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .settings-panel h3 { margin-top: 0; color: var(--primary); }
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        .control-group input[type="file"], .control-group button {
+            width: 100%; padding: 8px; box-sizing: border-box; cursor: pointer;
+        }
+        .btn-print {
+            background-color: #27ae60; color: white; border: none; font-size: 16px; font-weight: bold; border-radius: 5px;
+        }
+        .btn-print:hover { background-color: #2ecc71; }
+        .btn-add {
+            background-color: #3498db; color: white; border: none; margin-bottom: 10px; border-radius: 5px;
+        }
+        .credit {
+            margin-top: 40px; font-size: 13px; color: #555; text-align: center; border-top: 1px solid #ccc; padding-top: 10px;
+        }
+        .credit a { color: #2980b9; text-decoration: none; }
+
+        /* A4 Paper Container */
+        .paper-container {
+            margin-right: 320px; /* offset for sidebar */
+            padding: 20px;
+            width: calc(100% - 320px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* ---------- التعديل هنا: إضافة الإطار للصفحة ---------- */
+        .a4-page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 12mm; /* مساحة داخلية لتبعد النص عن الإطار */
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            direction: ltr; /* Content mostly English */
+            
+            /* إعدادات الإطار */
+            border: 5px double #000; /* إطار مزدوج باللون الأسود */
+            outline: 1px solid #000; /* خط خارجي إضافي لشكل رسمي أكثر */
+            outline-offset: -10px;
+        }
+        /* ---------------------------------------------------- */
+
+        /* Editable Areas Formatting */
+        [contenteditable="true"] {
+            outline: none;
+            transition: background 0.2s;
+        }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus {
+            background: #fffacd; /* light yellow for visual feedback */
+        }
+
+        /* Header / Klishe */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid black;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            direction: rtl; /* Header is bidirectional */
+        }
+        .header-col { text-align: center; font-size: 14px; font-weight: bold; width: 33%; }
+        .header-col.en { direction: ltr; }
+        .logo-area { display: flex; flex-direction: column; align-items: center; }
+        .logo-img { max-width: 80px; max-height: 80px; display: none; margin-top: 5px;}
+
+        /* Student Info & Table */
+        .student-info { display: flex; justify-content: space-between; direction: rtl; margin-bottom: 15px; font-weight: bold; }
+        .score-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; direction: ltr; }
+        .score-table th, .score-table td { border: 1px solid black; padding: 5px; text-align: center; font-weight: bold; }
+
+        /* Question Sections */
+        .question-section { margin-bottom: 15px; position: relative; }
+        .q-title { font-weight: bold; font-size: 18px; text-decoration: underline; margin-bottom: 5px; color: black;}
+        .q-content { font-size: 15px; line-height: 1.5; }
+        
+        .delete-btn {
+            position: absolute; right: -25px; top: 0; background: #e74c3c; color: white; 
+            border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; font-size: 12px; font-weight: bold;
+        }
+
+        /* Tables for Vocab Matching */
+        .match-table { width: 80%; margin: 10px auto; border-collapse: collapse; }
+        .match-table td { padding: 5px; border: none; font-size: 14px; }
+
+        @media print {
+            .settings-panel, .no-print, .delete-btn { display: none !important; }
+            body { background: white; margin: 0; display: block; }
+            .paper-container { margin: 0; padding: 0; width: 100%; }
+            
+            /* الحفاظ على الإطار عند الطباعة */
+            .a4-page { 
+                box-shadow: none; 
+                margin: 0; 
+                padding: 10mm; /* تعديل الهوامش للطباعة */
+                min-height: auto; 
+                width: 100%; 
+                page-break-inside: avoid;
+                border: 4px double #000;
+                outline: 1px solid #000;
+                outline-offset: -8px;
+            }
+            .question-section { page-break-inside: avoid; }
+            /* Keep background highlights off during print */
+            [contenteditable="true"]:hover, [contenteditable="true"]:focus { background: transparent; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="settings-panel no-print">
+        <h3>إعدادات المنصة</h3>
+        <p style="font-size: 12px; color: #7f8c8d;">اضغط على أي نص في الورقة لتعديله مباشرة (الأسماء، الأسئلة، الدرجات).</p>
+        
+        <div class="control-group">
+            <label>إدراج شعار المدرسة (اختياري)</label>
+            <input type="file" id="logoUpload" accept="image/*" onchange="loadLogo(event)">
+            <button onclick="removeLogo()" style="margin-top:5px; background:#e74c3c; color:white; border:none;">إزالة الشعار</button>
+        </div>
+
+        <div class="control-group">
+            <label>إضافة فقرة جديدة</label>
+            <button class="btn-add" onclick="addQuestion()">+ إضافة سؤال فارغ</button>
+        </div>
+
+        <div class="control-group" style="margin-top: 30px;">
+            <button class="btn-print" onclick="window.print()">🖨️ طباعة الاختبار</button>
+        </div>
+
+        <div class="credit">
+            تصميم د/فواز تفضل للمزيد هنا<br>
+            <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">https://t.me/TAqhjT3MFVE1Yzk0</a>
+        </div>
+    </div>
+
+    <div class="paper-container">
+        <div class="a4-page" id="examPaper">
+            
+            <div class="header">
+                <div class="header-col" contenteditable="true">
+                    المملكة العربية السعودية<br>
+                    وزارة التعليم<br>
+                    إدارة تعليم صبيا<br>
+                    اسم المدرسة: .....................
+                </div>
+                <div class="header-col logo-area">
+                    <div contenteditable="true" style="margin-bottom:5px;">رؤية VISION 2030</div>
+                    <img id="schoolLogo" class="logo-img" alt="الشعار">
+                </div>
+                <div class="header-col en" contenteditable="true">
+                    Kingdom of Saudi Arabia<br>
+                    Ministry of Education<br>
+                    English language<br>
+                    Time: 1.5 hours<br>
+                    Date: / 8 / 1446 H
+                </div>
+            </div>
+
+            <div class="student-info">
+                <span contenteditable="true">اسم الطالب/ـة: .............................................................</span>
+                <span contenteditable="true">رقم الجلوس: ( ........... )</span>
+                <span contenteditable="true">الصف: الثاني متوسط</span>
+            </div>
+
+            <table class="score-table">
+                <tr contenteditable="true">
+                    <th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th><th>Q5</th><th>Total</th><th>Corrector</th><th>Checker</th>
+                </tr>
+                <tr contenteditable="true" style="height: 30px;">
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+
+            <hr style="border: 1px solid #ccc; margin-bottom: 15px;">
+
+            <div id="questionsArea">
+                
+                <div class="question-section">
+                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                    <div class="q-title" contenteditable="true">Q1: Composition</div>
+                    <div class="q-content" contenteditable="true">
+                        <b>Write a paragraph about [Shopping]:</b><br>
+                        Guide words: [ usually - mall - mother - online - easier - saves money - makeup ]<br><br>
+                        I usually go shopping at the ........................ I go shopping with my ........................<br>
+                        I prefer ........................ shopping because it is ........................ and it ........................ my time.<br>
+                        I spend my money on ........................
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                    <div class="q-title" contenteditable="true">Q2: Comprehension</div>
+                    <div class="q-content" contenteditable="true">
+                        <b>Read the following passage then, answer the questions:</b><br>
+                        Every Thursday, Mr. Saleh goes shopping. He likes to buy things from the supermarket near his house. It is a big supermarket. He buys meat, fruit, milk and vegetables for the week. Today, two of his children are going with him, Maram and Basil. Maram wants to buy biscuits for her sister Hanan. Basil wants to buy ice-cream. Basil does not have much money. He asks his father to give him some money.<br><br>
+                        <b>A- Put {T} or {F}:</b><br>
+                        1- It is a big supermarket { &nbsp;&nbsp;&nbsp; }<br>
+                        2- Basil wants to buy apple { &nbsp;&nbsp;&nbsp; }<br>
+                        3- He asks his mother to give him some money { &nbsp;&nbsp;&nbsp; }<br><br>
+                        <b>B- Choose the correct answer:</b><br>
+                        1- He likes to { buy - drink - eat } things from the supermarket.<br>
+                        2- Today, two of his { teachers - friends - children } are going with him.<br>
+                        3- Maram wants to buy biscuits for her { sister - brother - uncle } Hanan.
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                    <div class="q-title" contenteditable="true">Q3: Grammar</div>
+                    <div class="q-content" contenteditable="true">
+                        <b>A- Choose the correct answers:</b><br>
+                        1- He goes [ swim - swam - swimming - swum ] three times a week.<br>
+                        2- Let's [ hiking - go to hike - go hiking - to hike ] tomorrow.<br>
+                        3- Tom likes football. [ His - He - Is - Him ] likes football.<br>
+                        4- I went to your house, but [ anything - someone - no one - nothing ] was home.<br><br>
+                        <b>B- Complete with can or may:</b><br>
+                        1- ................. I use your computer? No, you may not.<br><br>
+                        <b>C- Choose [ so many or so much ]:</b><br>
+                        1- He has ................. books that he can't carry them.<br><br>
+                        <b>D- Correct the verb:</b><br>
+                        1- Let's [ watched ] T.V. &nbsp;&nbsp;&nbsp;&nbsp; ( ........................ )
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                    <div class="q-title" contenteditable="true">Q4: Vocabulary</div>
+                    <div class="q-content" contenteditable="true">
+                        <b>A- Match:</b>
+                        <table class="match-table">
+                            <tr><td>1- What's up</td><td>( &nbsp; ) The problem is</td></tr>
+                            <tr><td>2- The thing is</td><td>( &nbsp; ) What's happening</td></tr>
+                            <tr><td>3- stuff</td><td>( &nbsp; ) Things in general</td></tr>
+                            <tr><td>4- Do you mind + v + ing</td><td>( &nbsp; ) A polite request</td></tr>
+                        </table>
+                        <br>
+                        <b>B- Write the correct word in each sentence ( sunglasses - necklace - ring ):</b><br>
+                        1- She can wear one on her neck. ( ........................ )<br>
+                        2- She can wear one on her finger. ( ........................ )<br>
+                        3- We can wear these when it's sunny. ( ........................ )
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                    <div class="q-title" contenteditable="true">Q5: Orthography</div>
+                    <div class="q-content" contenteditable="true">
+                        <b>A- Supply the missing letters:</b><br>
+                        1- It is a Bar......ain [ g - b - m ]<br>
+                        2- Be p......oud [ k - r - h ]<br>
+                        3- People get ill......esses [ h - n - w ]<br>
+                        4- Ignore ne......ative thing [ c - n - g ]<br><br>
+                        <b>B- Write the missing letter in the words:</b><br>
+                        1- Sh......rk &nbsp;&nbsp;&nbsp;&nbsp; 2- la......top &nbsp;&nbsp;&nbsp;&nbsp; 3- dia......ond &nbsp;&nbsp;&nbsp;&nbsp; 4- per......ume
+                    </div>
+                </div>
+
+                <div style="text-align: center; font-weight: bold; margin-top: 30px; font-size: 18px;" contenteditable="true">
+                    GOOD LUCK
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // دالة لرفع وعرض الشعار
+        function loadLogo(event) {
+            const logoImg = document.getElementById('schoolLogo');
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoImg.src = e.target.result;
+                    logoImg.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // دالة لإزالة الشعار
+        function removeLogo() {
+            const logoImg = document.getElementById('schoolLogo');
+            logoImg.src = "";
+            logoImg.style.display = 'none';
+            document.getElementById('logoUpload').value = "";
+        }
+
+        // دالة لإضافة سؤال جديد
+        let qCount = 6;
+        function addQuestion() {
+            const area = document.getElementById('questionsArea');
+            const newQ = document.createElement('div');
+            newQ.className = 'question-section';
+            newQ.innerHTML = `
+                <button class="delete-btn no-print" onclick="this.parentElement.remove()">X</button>
+                <div class="q-title" contenteditable="true">Q${qCount}: New Question</div>
+                <div class="q-content" contenteditable="true">
+                    اكتب سؤالك هنا...
+                </div>
+            `;
+            // Insert before the Good Luck message if exists
+            area.insertBefore(newQ, area.lastElementChild);
+            qCount++;
+        }
+    </script>
+</body>
+</html>

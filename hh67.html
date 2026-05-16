@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة نماذج المبادرات</title>
+<style>
+:root{
+  --bg:#f3f8fb; --ink:#15323d; --muted:#5f7280; --primary:#075e70; --primary2:#0a7f83; --line:#b8d8e3; --soft:#e8f5f7; --paper:#fff; --gold:#d9b15f;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#edf7fb,#f8fbfd);font-family:"Segoe UI",Tahoma,Arial,sans-serif;color:var(--ink)}
+.app{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100vh}
+.settings{position:sticky;top:0;height:100vh;overflow:auto;background:#083746;color:#fff;padding:18px;box-shadow:-8px 0 28px rgba(0,0,0,.12);z-index:5}
+.settings h1{font-size:21px;margin:0 0 6px;font-weight:900}.settings p{color:#d5eff4;margin:0 0 14px;line-height:1.7;font-size:13px}.group{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:13px;margin:12px 0}.group label{display:block;font-size:13px;margin:9px 0 5px;color:#e9fbff}.group input,.group select{width:100%;border:1px solid rgba(255,255,255,.24);border-radius:12px;padding:10px;background:rgba(255,255,255,.95);color:#102a32;font-family:inherit}.btn{border:0;border-radius:13px;padding:11px 13px;cursor:pointer;font-family:inherit;font-weight:800;background:#13a0a0;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.15);margin:5px 0;width:100%}.btn.alt{background:#fff;color:#083746}.btn.warn{background:#c77822}.credit{font-size:13px;color:#d8fbff;line-height:1.8;border-top:1px dashed rgba(255,255,255,.25);padding-top:12px;margin-top:12px}.credit a{color:#fff;text-decoration:underline}.stage{padding:22px;overflow:auto}.topbar{max-width:980px;margin:0 auto 14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap}.tab{border:1px solid var(--line);background:#fff;color:var(--primary);padding:11px 18px;border-radius:999px;cursor:pointer;font-weight:900;box-shadow:0 8px 20px rgba(11,65,80,.08)}.tab.active{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}.paper{width:210mm;min-height:297mm;margin:0 auto 18px;background:var(--paper);box-shadow:0 18px 45px rgba(7,51,67,.16);border-radius:8px;overflow:hidden;padding:10mm 11mm;position:relative}.paper.compact{min-height:auto}.header{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;gap:10px;border-bottom:3px solid var(--line);padding-bottom:7px;margin-bottom:12px}.ministry{text-align:right;line-height:1.55;font-weight:800;font-size:14px}.docmeta{text-align:left;line-height:1.8;font-weight:800;font-size:13px}.logoBox{width:104px;height:82px;border:2px dashed #aacdd8;border-radius:16px;display:flex;align-items:center;justify-content:center;text-align:center;color:#47717e;font-size:12px;background:#f8fcfd;overflow:hidden;margin:auto}.logoBox img{width:100%;height:100%;object-fit:contain}.title{background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;border-radius:16px;padding:10px 18px;text-align:center;font-size:21px;font-weight:900;margin:12px auto 16px;max-width:430px;box-shadow:0 10px 20px rgba(0,109,116,.16)}.section{margin:12px 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}.sectionTitle{background:var(--primary2);color:#fff;padding:9px 13px;font-weight:900;font-size:16px}.sectionBody{padding:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.field{display:grid;grid-template-columns:150px 1fr;border:1px solid var(--line);border-radius:11px;overflow:hidden;min-height:42px;background:#fff}.field b{background:var(--soft);padding:10px;border-left:1px solid var(--line);display:flex;align-items:center}.edit{padding:10px;min-height:40px;outline:none;white-space:pre-wrap}.edit:empty:before{content:attr(data-ph);color:#91a6af}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid var(--line);padding:8px;vertical-align:top}th{background:var(--soft);font-weight:900}.checkGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.checkItem{border:1px solid var(--line);border-radius:11px;padding:8px;background:#fbfeff;display:flex;gap:8px;align-items:center}.checkItem input{width:17px;height:17px}.textarea{min-height:90px;border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff;outline:none;white-space:pre-wrap}.textarea:empty:before{content:attr(data-ph);color:#91a6af}.sign{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:12px}.sigline{border-top:1px dotted #444;padding-top:7px;text-align:center;font-weight:800}.decor{position:absolute;inset:auto 0 0 0;height:18px;background:linear-gradient(90deg,#0a85b8,#50bd8b);opacity:.8}.toolsMini{display:flex;gap:8px;justify-content:flex-end;margin:8px 0}.mini{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 10px;font-family:inherit;cursor:pointer;color:var(--primary);font-weight:800}.coverNote{background:#f7fbfc;border:1px dashed var(--line);border-radius:14px;padding:9px;color:var(--muted);font-size:13px;margin-bottom:8px}.hidden{display:none}.dash{border-top:2px dashed #777;margin:12px 0}.printOnly{display:none}.small{font-size:12px;color:var(--muted)}
+@media(max-width:980px){.app{display:block}.settings{position:relative;height:auto}.stage{padding:12px}.paper{width:100%;min-height:auto;padding:12px}.header{grid-template-columns:1fr}.docmeta{text-align:right}.grid2,.grid3,.checkGrid{grid-template-columns:1fr}.field{grid-template-columns:120px 1fr}.logoBox{margin:0}}
+@page{size:A4 portrait;margin:8mm}
+@media print{
+  html,body{background:#fff;width:210mm;margin:0;overflow:visible}.settings,.topbar,.toolsMini,.noPrint{display:none!important}.app{display:block}.stage{padding:0}.paper{width:194mm;min-height:281mm;margin:0 auto 6mm;padding:7mm;box-shadow:none;border-radius:0;page-break-after:always;break-after:page;overflow:hidden}.paper.compact{min-height:281mm}.paper:last-child{page-break-after:auto;break-after:auto}.section{break-inside:avoid;page-break-inside:avoid;margin:8px 0}.sectionTitle{padding:7px 10px}.sectionBody{padding:8px}.title{margin:8px auto 10px;padding:8px;font-size:18px}.header{margin-bottom:8px;padding-bottom:5px}.field{min-height:34px}.field b,.edit,th,td{padding:6px;font-size:12px}.textarea{min-height:58px}.printOnly{display:block}.decor{height:10px}.coverNote{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="settings noPrint">
+    <h1>منصة نماذج المبادرات</h1>
+    <p>نموذج تقرير تنفيذ مبادرة + استمارة دراسة المبادرة. كل الحقول قابلة للتعديل والحفظ والطباعة.</p>
+    <div class="group">
+      <label>الإدارة العامة للتعليم بمنطقة</label><input id="eduDept" value=".....">
+      <label>اسم المدرسة</label><input id="schoolName" value="......">
+      <label>الرقم</label><input id="docNo" placeholder="اختياري">
+      <label>التاريخ</label><input id="docDate" placeholder="اختياري">
+      <label>المرفقات</label><input id="attach" placeholder="اختياري">
+      <label>استيراد الشعار</label><input id="logoInput" type="file" accept="image/*">
+    </div>
+    <div class="group">
+      <button class="btn" onclick="window.print()">طباعة / حفظ PDF</button>
+      <button class="btn alt" onclick="saveData()">حفظ البيانات داخل المتصفح</button>
+      <button class="btn alt" onclick="loadData()">استرجاع آخر حفظ</button>
+      <button class="btn warn" onclick="clearData()">تفريغ الحقول</button>
+    </div>
+    <div class="group">
+      <label>نمط العرض</label>
+      <select onchange="document.body.dataset.theme=this.value">
+        <option value="teal">تركوازي رسمي</option>
+      </select>
+      <p class="small">ملاحظة: عند الطباعة تختفي قائمة الإعدادات تلقائيًا وتبقى النماذج فقط.</p>
+    </div>
+    <div class="credit">تصميم د/فواز<br>تفضل للمزيد هنا<br><a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
+  </aside>
+  <main class="stage">
+    <div class="topbar noPrint">
+      <button class="tab active" data-show="report" onclick="switchTab(this)">نموذج تقرير تنفيذ مبادرة</button>
+      <button class="tab" data-show="study" onclick="switchTab(this)">استمارة دراسة المبادرة</button>
+      <button class="tab" data-show="all" onclick="switchTab(this)">عرض النموذجين</button>
+    </div>
+
+    <section class="doc reportDoc">
+      <div class="paper compact">
+        <div class="header sharedHeader">
+          <div class="ministry">
+            <div>المملكة العربية السعودية</div><div>وزارة التعليم</div><div>الإدارة العامة للتعليم بمنطقة <span class="syncDept" contenteditable="true">.....</span></div><div>اسم المدرسة : <span class="syncSchool" contenteditable="true">......</span></div>
+          </div>
+          <div class="logoBox logoTarget">استيراد<br>الشعار</div>
+          <div class="docmeta"><div>الرقم: <span class="syncNo" contenteditable="true"></span></div><div>التاريخ: <span class="syncDate" contenteditable="true"></span></div><div>المرفقات: <span class="syncAttach" contenteditable="true"></span></div></div>
+        </div>
+        <div class="title">تقرير تنفيذ مبادرة</div>
+        <div class="section">
+          <div class="sectionTitle">بيانات المعلم / المنفذ</div>
+          <div class="sectionBody grid3">
+            <div class="field"><b>اسم المعلم</b><div class="edit" contenteditable="true" data-ph="اكتب الاسم"></div></div>
+            <div class="field"><b>التخصص</b><div class="edit" contenteditable="true" data-ph="التخصص"></div></div>
+            <div class="field"><b>العام الدراسي</b><div class="edit" contenteditable="true" data-ph="1447هـ"></div></div>
+          </div>
+        </div>
+        <div class="section"><div class="sectionTitle">بيانات المبادرة</div><div class="sectionBody grid2">
+          <div class="field"><b>عنوان المبادرة</b><div class="edit" contenteditable="true" data-ph="عنوان المبادرة"></div></div>
+          <div class="field"><b>الفترة الزمنية للتنفيذ</b><div class="edit" contenteditable="true" data-ph="من ... إلى ..."></div></div>
+          <div class="field"><b>الفئة المستهدفة</b><div class="edit" contenteditable="true" data-ph="طلاب / معلمون / أولياء أمور..."></div></div>
+          <div class="field"><b>جهات مشاركة</b><div class="edit" contenteditable="true" data-ph="إدارة المدرسة، المعلمون، الطلاب..."></div></div>
+        </div></div>
+        <div class="section"><div class="sectionTitle">وصف المبادرة</div><div class="sectionBody"><div class="textarea" contenteditable="true" data-ph="اكتب وصفًا مختصرًا واضحًا للمبادرة..."></div></div></div>
+        <div class="section"><div class="sectionTitle">الأهداف العامة للمبادرة</div><div class="sectionBody"><table><tbody><tr><th style="width:42px">1</th><td contenteditable="true"></td></tr><tr><th>2</th><td contenteditable="true"></td></tr><tr><th>3</th><td contenteditable="true"></td></tr><tr><th>4</th><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="section"><div class="sectionTitle">مبررات المبادرة</div><div class="sectionBody"><div class="textarea" contenteditable="true" data-ph="اكتب المبررات والحاجة التي تعالجها المبادرة..."></div></div></div>
+        <div class="decor"></div>
+      </div>
+      <div class="paper compact">
+        <div class="header sharedHeader cloneHeader"></div><div class="title">تقرير تنفيذ مبادرة</div>
+        <div class="section"><div class="sectionTitle">آلية تنفيذ المبادرة</div><div class="sectionBody"><table><tbody><tr><th style="width:150px">الخطوة الأولى</th><td contenteditable="true"></td></tr><tr><th>الخطوة الثانية</th><td contenteditable="true"></td></tr><tr><th>الخطوة الثالثة</th><td contenteditable="true"></td></tr><tr><th>الخطوة الرابعة</th><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="section"><div class="sectionTitle">الأدوات والموارد المستخدمة</div><div class="sectionBody"><table><tbody><tr><th style="width:170px">الموارد التقنية</th><td contenteditable="true"></td></tr><tr><th>الموارد البشرية</th><td contenteditable="true"></td></tr><tr><th>الموارد المالية</th><td contenteditable="true"></td></tr><tr><th>موارد أخرى (كتب، أوراق عمل...)</th><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="section"><div class="sectionTitle">الجهات المشاركة في التنفيذ</div><div class="sectionBody checkGrid"><label class="checkItem"><input type="checkbox"> إدارة المدرسة</label><label class="checkItem"><input type="checkbox"> المعلمون</label><label class="checkItem"><input type="checkbox"> الطلاب</label><label class="checkItem"><input type="checkbox"> أخرى: <span contenteditable="true" style="min-width:120px;border-bottom:1px dotted #777"></span></label></div></div>
+        <div class="section"><div class="sectionTitle">النتائج المتوقع تحقيقها من المبادرة</div><div class="sectionBody"><table><tbody><tr><th style="width:42px">1</th><td contenteditable="true"></td></tr><tr><th>2</th><td contenteditable="true"></td></tr><tr><th>3</th><td contenteditable="true"></td></tr><tr><th>4</th><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="sign"><div class="sigline">اسم المعلم /</div><div class="sigline">مدير المدرسة /</div></div><div class="decor"></div>
+      </div>
+    </section>
+
+    <section class="doc studyDoc hidden">
+      <div class="paper compact">
+        <div class="header sharedHeader cloneHeader"></div><div class="title">استمارة دراسة مبادرة</div>
+        <div class="section"><div class="sectionTitle">1- بيانات صاحب المبادرة</div><div class="sectionBody grid2"><div class="field"><b>الاسم</b><div class="edit" contenteditable="true"></div></div><div class="field"><b>جهة العمل</b><div class="edit" contenteditable="true"></div></div><div class="field"><b>أرقام التواصل</b><div class="edit" contenteditable="true"></div></div><div class="field"><b>البريد الإلكتروني</b><div class="edit" contenteditable="true"></div></div></div></div>
+        <div class="section"><div class="sectionTitle">2- معلومات عامة عن المبادرة</div><div class="sectionBody grid2"><div class="field"><b>اسم المبادرة</b><div class="edit" contenteditable="true" data-ph="اسم المبادرة"></div></div><div class="field"><b>نوع المبادرة</b><div class="edit" contenteditable="true" data-ph="علاجية / تطويرية"></div></div></div></div>
+        <div class="section"><div class="sectionTitle">3- محور المبادرة</div><div class="sectionBody checkGrid"><label class="checkItem"><input type="checkbox"> الطالب</label><label class="checkItem"><input type="checkbox"> المعلم</label><label class="checkItem"><input type="checkbox"> المنهج</label><label class="checkItem"><input type="checkbox"> البيئة المدرسية</label><label class="checkItem"><input type="checkbox"> البيئة الإدارية</label><label class="checkItem"><input type="checkbox"> أخرى</label></div></div>
+        <div class="section"><div class="sectionTitle">4- علاقة المبادرة بأهداف وزارة التعليم الاستراتيجية</div><div class="sectionBody"><table><tbody>
+          <tr><td contenteditable="true">تعزيز القيم والمهارات الأساسية للطلبة</td><th style="width:44px"><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">إتاحة خدمات التعليم لكافة شرائح الطلبة</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">رفع مشاركة القطاع الأهلي والخاص في التعليم</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">تعزيز قدرة نظام التعليم لتلبية متطلبات التنمية واحتياجات سوق العمل</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">تحسين استقطاب المعلمين وأعضاء هيئة التدريس وإعدادهم وتأهيلهم وتطويرهم</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">تنويع مصادر تمويل مبتكرة وتحسين الكفاءة المالية لقطاع التعليم</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">تطوير المناهج وأساليب التعليم والتقويم</td><th><input type="checkbox"></th></tr>
+          <tr><td contenteditable="true">تحسين البيئة التعليمية المحفزة للإبداع والابتكار</td><th><input type="checkbox"></th></tr>
+        </tbody></table></div></div><div class="decor"></div>
+      </div>
+      <div class="paper compact"><div class="header sharedHeader cloneHeader"></div><div class="title">استمارة دراسة مبادرة</div>
+        <div class="section"><div class="sectionTitle">5- وصف المبادرة ومخرجاتها</div><div class="sectionBody"><b>وصف المبادرة:</b><div class="textarea" contenteditable="true"></div><b>المدة الزمنية المتوقعة لإتمام المبادرة:</b><div class="edit" contenteditable="true" style="border:1px solid var(--line);border-radius:12px;margin:8px 0"></div><b>النتائج المتوقعة من المبادرة:</b><div class="textarea" contenteditable="true"></div></div></div>
+        <div class="section"><div class="sectionTitle">6- خطوات تنفيذ المبادرة</div><div class="sectionBody"><table><tbody><tr><th style="width:42px">1</th><td contenteditable="true"></td></tr><tr><th>2</th><td contenteditable="true"></td></tr><tr><th>3</th><td contenteditable="true"></td></tr><tr><th>4</th><td contenteditable="true"></td></tr></tbody></table></div></div><div class="decor"></div>
+      </div>
+      <div class="paper compact"><div class="header sharedHeader cloneHeader"></div><div class="title">استمارة دراسة مبادرة</div>
+        <div class="section"><div class="sectionTitle">7- فريق العمل المشارك في المبادرة</div><div class="sectionBody"><table><thead><tr><th>الاسم</th><th>الوظيفة</th><th>المهمة</th></tr></thead><tbody><tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr><tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr><tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr><tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="section"><div class="sectionTitle">8- الجهات المساندة في تنفيذ المبادرة</div><div class="sectionBody"><table><thead><tr><th>الجهة</th><th>المهام المطلوبة</th></tr></thead><tbody><tr><td contenteditable="true"></td><td contenteditable="true"></td></tr><tr><td contenteditable="true"></td><td contenteditable="true"></td></tr><tr><td contenteditable="true"></td><td contenteditable="true"></td></tr></tbody></table></div></div>
+        <div class="sign"><div class="sigline">صاحب المبادرة<br>الاسم /</div><div class="sigline">التوقيع /</div></div><div class="decor"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function updateHeader(){ const dept=$('#eduDept').value, school=$('#schoolName').value, no=$('#docNo').value, date=$('#docDate').value, att=$('#attach').value; $$('.syncDept').forEach(e=>e.textContent=dept); $$('.syncSchool').forEach(e=>e.textContent=school); $$('.syncNo').forEach(e=>e.textContent=no); $$('.syncDate').forEach(e=>e.textContent=date); $$('.syncAttach').forEach(e=>e.textContent=att); cloneHeaders(); }
+['eduDept','schoolName','docNo','docDate','attach'].forEach(id=>$('#'+id).addEventListener('input',updateHeader));
+function cloneHeaders(){const source=document.querySelector('.sharedHeader:not(.cloneHeader)'); document.querySelectorAll('.cloneHeader').forEach(h=>{h.innerHTML=source.innerHTML});}
+function switchTab(btn){ $$('.tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const v=btn.dataset.show; $$('.doc').forEach(d=>d.classList.add('hidden')); if(v==='report') $('.reportDoc').classList.remove('hidden'); else if(v==='study') $('.studyDoc').classList.remove('hidden'); else $$('.doc').forEach(d=>d.classList.remove('hidden')); }
+$('#logoInput').addEventListener('change',e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{localStorage.setItem('initiativeLogo',r.result); renderLogo(r.result);}; r.readAsDataURL(f);});
+function renderLogo(src){$$('.logoTarget').forEach(b=>b.innerHTML='<img alt="الشعار" src="'+src+'">'); cloneHeaders();}
+function saveData(){const data={html:document.querySelector('.stage').innerHTML, dept:$('#eduDept').value, school:$('#schoolName').value,no:$('#docNo').value,date:$('#docDate').value,att:$('#attach').value,logo:localStorage.getItem('initiativeLogo')||''}; localStorage.setItem('initiativePlatformData',JSON.stringify(data)); alert('تم الحفظ بنجاح. يا سلام 👌');}
+function loadData(){const raw=localStorage.getItem('initiativePlatformData'); if(!raw){alert('لا يوجد حفظ سابق');return} const d=JSON.parse(raw); document.querySelector('.stage').innerHTML=d.html; $('#eduDept').value=d.dept||'.....'; $('#schoolName').value=d.school||'......'; $('#docNo').value=d.no||''; $('#docDate').value=d.date||''; $('#attach').value=d.att||''; if(d.logo) renderLogo(d.logo); updateHeader(); alert('تم الاسترجاع');}
+function clearData(){ if(!confirm('سيتم تفريغ الحقول المكتوبة فقط، هل أنت متأكد؟'))return; $$('[contenteditable="true"]').forEach(e=>{ if(!e.classList.contains('syncDept')&&!e.classList.contains('syncSchool')) e.textContent='';}); $$('input[type="checkbox"]').forEach(c=>c.checked=false);}
+window.addEventListener('beforeprint',()=>{document.querySelectorAll('.doc.hidden').forEach(d=>d.dataset.wasHidden='1');});
+updateHeader(); const savedLogo=localStorage.getItem('initiativeLogo'); if(savedLogo) renderLogo(savedLogo);
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منصة تهنئة الطلاب - قابلة للتعديل والطباعة</title>
+<style>
+:root{--green:#42c675;--blue:#2194c8;--ink:#111827;--muted:#6b7280;--line:#14947f;--paper:#fff}
+*{box-sizing:border-box} body{margin:0;background:#edf6f7;font-family:"Tahoma","Arial",sans-serif;color:var(--ink)}
+.app{display:grid;grid-template-columns:320px 1fr;gap:18px;max-width:1250px;margin:0 auto;padding:18px}
+.panel{background:#fff;border-radius:22px;padding:18px;box-shadow:0 12px 35px #0b49541c;position:sticky;top:14px;height:max-content}
+.panel h2{margin:0 0 14px;font-size:20px;color:#0f766e}.panel label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}
+input,textarea,select{width:100%;border:1px solid #d8e4e7;border-radius:12px;padding:10px;font:inherit;background:#fbfdfe}textarea{min-height:84px;resize:vertical;line-height:1.8}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.btn{border:0;border-radius:14px;padding:11px;font-weight:800;cursor:pointer;background:linear-gradient(90deg,var(--blue),var(--green));color:#fff}.btn.alt{background:#111827}.btn.light{background:#e8f7f3;color:#08705f}.credit{font-size:12px;text-align:center;color:#64748b;margin-top:14px;line-height:1.8}
+.stage{display:flex;justify-content:center}.card{width:720px;min-height:1018px;background:#fff;border-radius:4px;position:relative;overflow:hidden;box-shadow:0 20px 55px #0b495426;padding:42px 64px 30px}
+.card:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(17,148,127,.10) 0 1px,transparent 1px 13px);opacity:.55;pointer-events:none}.card>*{position:relative;z-index:1}.top{display:grid;grid-template-columns:1fr 190px;gap:22px;align-items:start;direction:rtl}.school{text-align:center;font-weight:900;font-size:21px;line-height:1.9}.school [contenteditable]{outline:0}.logoBox{border-right:3px solid var(--line);padding-right:16px;display:flex;align-items:center;justify-content:center;min-height:95px}.logoBox img{max-width:170px;max-height:95px;object-fit:contain}.logoText{color:#14947f;text-align:center;font-weight:800}.photoWrap{margin:62px auto 82px;width:320px;height:320px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;background:#eee}.photoWrap:before,.photoWrap:after{content:"";position:absolute;border:3px solid var(--line);border-top-color:transparent;border-radius:50%;inset:-24px}.photoWrap:after{inset:-30px;border-color:transparent}.studentPhoto{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}.photoHint{position:absolute;color:#6b7280;font-weight:700}.box{border:2px solid #108575;border-radius:22px;text-align:center;padding:18px 28px 24px;margin:0 auto;width:88%;background:#ffffffc7}.intro{font-size:30px;font-weight:900;margin-bottom:8px}.nameBand{margin:8px -62px 18px;background:linear-gradient(90deg,var(--blue),var(--green));color:#fff;border-radius:999px;padding:16px 26px;font-size:30px;font-weight:900;box-shadow:0 12px 25px #14857a33}.message{font-size:29px;font-weight:900;line-height:1.75;white-space:pre-wrap}.footWave{position:absolute;bottom:-40px;left:-35px;right:-35px;height:150px;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:42px 42px 0 0}.thinLine{position:absolute;bottom:108px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--green));opacity:.7}.editable{outline:0;border-radius:8px}.editable:focus{box-shadow:0 0 0 3px #3bd48b33;background:#fff}.hiddenInput{display:none}.tip{font-size:12px;color:#64748b;line-height:1.7;margin-top:8px}
+@media(max-width:900px){.app{display:block;padding:10px}.panel{position:relative;margin-bottom:12px}.card{width:100%;min-height:calc(100vw * 1.414);padding:28px 22px}.top{grid-template-columns:1fr 140px}.school{font-size:15px}.photoWrap{width:230px;height:230px;margin:42px auto 60px}.box{width:96%;padding:14px}.intro,.nameBand{font-size:22px}.message{font-size:21px}.nameBand{margin-left:-26px;margin-right:-26px}.logoBox img{max-width:120px}}
+@page{size:A4 portrait;margin:0} @media print{body{background:#fff}.app{display:block;padding:0;margin:0}.panel{display:none}.stage{display:block}.card{width:210mm;min-height:297mm;height:297mm;box-shadow:none;border-radius:0;margin:0;padding:13mm 18mm 9mm;overflow:hidden}.school{font-size:18pt}.logoBox img{max-width:45mm;max-height:25mm}.photoWrap{width:82mm;height:82mm;margin:20mm auto 25mm}.box{width:88%;padding:5mm 8mm}.intro{font-size:25pt}.nameBand{font-size:25pt;margin:3mm -20mm 6mm;padding:4mm}.message{font-size:23pt;line-height:1.65}.footWave{height:35mm}.thinLine{bottom:30mm}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="panel">
+    <h2>لوحة التعديل</h2>
+    <label>الإدارة العامة للتعليم</label><input id="edu" value="الإدارة العامة للتعليم بمنطقة....................">
+    <label>اسم المدرسة</label><input id="school" value="اسم المدرسة هنا">
+    <label>اسم الطالب/ـة</label><input id="student" value="الطالب محمد يحيى الحسن">
+    <label>الصف</label><input id="grade" value="الصف الثالث متوسط">
+    <label>نص التهنئة</label><textarea id="msg">بمناسبة نجاحه وتفوقه
+في الصف الثالث متوسط
+تتمنى لك التوفيق والنجاح
+كما تثمن إدارة المدرسة حرص أسرة الطالب</textarea>
+    <label>الشعار</label><input type="file" id="logoInput" accept="image/*">
+    <label>صورة الطالب/ـة</label><input type="file" id="photoInput" accept="image/*">
+    <div class="btns">
+      <button class="btn" onclick="window.print()">طباعة / حفظ PDF</button>
+      <button class="btn alt" onclick="downloadHTML()">حفظ HTML</button>
+      <button class="btn light" onclick="clearPhoto()">مسح الصورة</button>
+      <button class="btn light" onclick="resetAll()">استعادة</button>
+    </div>
+    <div class="tip">يمكن تعديل النص مباشرة من البطاقة أيضًا، ثم الطباعة أو نشرها كصورة عبر حفظ PDF.</div>
+    <div class="credit">تصميم د/فواز<br>تفضل للمزيد هنا<br>https://t.me/TAqhjT3MFVE1Yzk0</div>
+  </aside>
+  <main class="stage">
+    <section class="card" id="card">
+      <div class="top">
+        <div class="school">
+          <div id="eduText" class="editable" contenteditable>الإدارة العامة للتعليم بمنطقة....................</div>
+          <div id="schoolText" class="editable" contenteditable>اسم المدرسة هنا</div>
+        </div>
+        <div class="logoBox"><div id="logoText" class="logoText">وزارة التعليم<br><small>Ministry of Education</small></div><img id="logoImg" style="display:none" alt="الشعار"></div>
+      </div>
+      <div class="photoWrap" onclick="document.getElementById('photoInput').click()">
+        <span id="photoHint" class="photoHint">اضغط لإضافة الصورة</span>
+        <img id="studentPhoto" class="studentPhoto" style="display:none" alt="صورة الطالب">
+      </div>
+      <div class="box">
+        <div class="intro editable" contenteditable>بكل عبارات الفخر والفرح</div>
+        <div id="studentText" class="nameBand editable" contenteditable>بالطالب محمد يحيى الحسن</div>
+        <div id="msgText" class="message editable" contenteditable>بمناسبة نجاحه وتفوقه
+في الصف الثالث متوسط
+تتمنى لك التوفيق والنجاح
+كما تثمن إدارة المدرسة حرص أسرة الطالب</div>
+      </div>
+      <div class="thinLine"></div><div class="footWave"></div>
+    </section>
+  </main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function bind(input, target){$(input).addEventListener('input',()=>$(target).innerText=$(input).value);$(target).addEventListener('input',()=>$(input).value=$(target).innerText)}
+bind('edu','eduText'); bind('school','schoolText'); bind('student','studentText'); bind('msg','msgText');
+$('grade').addEventListener('input',()=>{const lines=$('msg').value.split('\n'); lines[1]='في '+$('grade').value; $('msg').value=lines.join('\n'); $('msgText').innerText=$('msg').value;});
+function loadImage(inp,img,txt){inp.addEventListener('change',e=>{const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{img.src=r.result; img.style.display='block'; if(txt)txt.style.display='none'; if(img.id==='logoImg')$('logoText').style.display='none'}; r.readAsDataURL(f);});}
+loadImage($('photoInput'),$('studentPhoto'),$('photoHint')); loadImage($('logoInput'),$('logoImg'));
+function clearPhoto(){$('studentPhoto').src='';$('studentPhoto').style.display='none';$('photoHint').style.display='block'}
+function resetAll(){location.reload()}
+function downloadHTML(){const blob=new Blob([document.documentElement.outerHTML],{type:'text/html;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='منصة-تهنئة-الطلاب.html';a.click();URL.revokeObjectURL(a.href)}
+</script>
+</body>
+</html>

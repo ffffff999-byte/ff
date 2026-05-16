@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>منصة تفريغ تقرير حضوري - تصميم د/فواز</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root{
+      --navy:#0b2240;
+      --blue:#1f5f99;
+      --sky:#dff2ff;
+      --gold:#d7a440;
+      --mint:#e9fff7;
+      --red:#c62828;
+      --red-bg:#fff0f0;
+      --green:#138a5e;
+      --ink:#18212f;
+      --muted:#6c7788;
+      --paper:#ffffff;
+      --bg:#f3f7fb;
+      --line:#dce7f2;
+      --shadow:0 18px 45px rgba(11,34,64,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Tahoma","Arial",sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(31,95,153,.16), transparent 34%),
+        radial-gradient(circle at 90% 5%, rgba(215,164,64,.18), transparent 30%),
+        linear-gradient(180deg,#f8fbff 0%,var(--bg) 100%);
+      min-height:100vh;
+    }
+    .app{display:grid;grid-template-columns:315px 1fr;gap:20px;padding:18px;max-width:1500px;margin:auto}
+    aside{
+      background:linear-gradient(180deg,var(--navy),#13365f 58%,#0c2748);
+      border-radius:28px;
+      min-height:calc(100vh - 36px);
+      color:white;
+      padding:20px;
+      box-shadow:var(--shadow);
+      position:sticky;top:18px;
+      overflow:hidden;
+    }
+    aside:before{content:"";position:absolute;inset:-80px -120px auto auto;width:260px;height:260px;border-radius:50%;background:rgba(215,164,64,.18)}
+    .brand{position:relative;z-index:1;border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:18px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+    .brand h1{font-size:22px;line-height:1.6;margin:0 0 6px;font-weight:900;color:#fff}
+    .brand p{margin:0;color:#d9e8f6;font-size:13px;line-height:1.8}
+    .danger{
+      margin:18px 0;
+      background:linear-gradient(135deg,#fff0f0,#ffe3e3);
+      color:var(--red);
+      border:2px solid #ffbaba;
+      border-radius:18px;
+      padding:14px 13px;
+      font-weight:900;
+      text-align:center;
+      box-shadow:0 10px 25px rgba(198,40,40,.15);
+    }
+    .menu-title{font-weight:900;color:#ffe2a3;margin:18px 0 10px;font-size:14px}
+    .btn,.tab-btn,label.file-btn{
+      width:100%;border:0;border-radius:16px;padding:13px 14px;margin:7px 0;
+      background:rgba(255,255,255,.11);color:#fff;font-weight:800;cursor:pointer;
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+      transition:.2s;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);
+    }
+    .btn:hover,.tab-btn:hover,label.file-btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+    .danger-btn{background:linear-gradient(135deg,#b71c1c,#e94b4b)!important;box-shadow:0 12px 24px rgba(198,40,40,.22)!important}
+    .tab-btn.active{background:linear-gradient(135deg,var(--gold),#f3ca6b);color:#13233a;box-shadow:0 12px 24px rgba(215,164,64,.23)}
+    .icon{font-size:20px;line-height:1}
+    input[type=file]{display:none}
+    .credit{position:absolute;bottom:18px;left:20px;right:20px;border-radius:18px;padding:13px;background:rgba(255,255,255,.10);font-size:12px;line-height:1.8;color:#dcecff;text-align:center;border:1px solid rgba(255,255,255,.13)}
+    .credit a{color:#ffe2a3;text-decoration:none;font-weight:900}
+    main{min-width:0}
+    .topbar{
+      background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:28px;padding:18px 22px;box-shadow:var(--shadow);
+      display:flex;justify-content:space-between;align-items:center;gap:16px;backdrop-filter:blur(10px);margin-bottom:18px;
+    }
+    .topbar h2{margin:0;font-size:25px;color:var(--navy);font-weight:900}
+    .topbar small{display:block;color:var(--muted);margin-top:6px;font-weight:700}
+    .mini-stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 13px;font-weight:900;color:var(--blue);box-shadow:0 8px 20px rgba(31,95,153,.08)}
+    .page{display:none}.page.active{display:block}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .section-title h3{margin:0;font-size:20px;color:var(--navy);font-weight:900}
+    .section-title span{color:var(--muted);font-size:13px;font-weight:800}
+    .actions{display:flex;gap:8px;flex-wrap:wrap}
+    .small-btn{border:0;background:linear-gradient(135deg,var(--blue),#2479bd);color:#fff;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;box-shadow:0 9px 18px rgba(31,95,153,.18)}
+    .small-btn.gold{background:linear-gradient(135deg,var(--gold),#f4c96e);color:#14243a}
+    .small-btn.red{background:linear-gradient(135deg,#c62828,#e95b5b)}
+    .table-wrap{overflow:auto;border-radius:20px;border:1px solid var(--line);background:#fff;max-height:62vh}
+    table{width:100%;border-collapse:collapse;min-width:980px;background:#fff}
+    th{position:sticky;top:0;z-index:2;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:13px 10px;text-align:center;font-size:13px;white-space:nowrap}
+    td{border-bottom:1px solid #edf2f7;padding:8px;text-align:center;background:#fff}
+    tr:hover td{background:#f8fbff}
+    input.cell,select.cell{width:100%;border:1px solid #d8e4ef;border-radius:10px;padding:9px 8px;font-family:inherit;background:#fbfdff;outline:none;text-align:center;min-width:120px}
+    input.cell:focus,select.cell:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(31,95,153,.11)}
+    tr.uncertain td{background:var(--red-bg)!important;border-bottom-color:#ffd0d0}
+    tr.uncertain input,tr.uncertain select{border-color:#ffaaaa;color:var(--red);font-weight:900;background:#fff7f7}
+    .dashboard-grid{display:grid;grid-template-columns:repeat(4,minmax(170px,1fr));gap:14px;margin-bottom:18px}
+    .kpi{background:linear-gradient(135deg,#fff,#f3f9ff);border:1px solid var(--line);border-radius:22px;padding:16px;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(11,34,64,.08)}
+    .kpi:after{content:"";position:absolute;left:-35px;top:-35px;width:95px;height:95px;border-radius:50%;background:rgba(31,95,153,.08)}
+    .kpi .label{color:var(--muted);font-weight:900;font-size:13px}.kpi .value{font-size:34px;font-weight:900;color:var(--navy);margin-top:6px}.kpi .hint{font-size:12px;color:var(--green);font-weight:900;margin-top:5px}
+    .charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}.chart-box{min-height:300px}.bar-row{display:grid;grid-template-columns:145px 1fr 45px;align-items:center;gap:10px;margin:12px 0;font-weight:800}.bar{height:18px;background:#edf3f9;border-radius:999px;overflow:hidden;border:1px solid #d8e4ef}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#56a6dd);border-radius:999px;min-width:0}.bar.red span{background:linear-gradient(90deg,#c62828,#ff8a8a)}.bar.gold span{background:linear-gradient(90deg,#d7a440,#ffde8a)}.summary-table{min-width:0}.summary-table th{position:static}.empty{padding:22px;text-align:center;color:var(--muted);font-weight:900;border:1px dashed #cfddea;border-radius:18px;background:#fbfdff}
+    @media (max-width:1000px){.app{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:stretch}aside{position:relative;top:auto;min-height:auto}.credit{position:relative;bottom:auto;left:auto;right:auto;margin-top:16px}.dashboard-grid{grid-template-columns:repeat(2,1fr)}.charts{grid-template-columns:1fr}}
+    @media print{
+      @page{size:A4 landscape;margin:8mm}
+      body{background:white}.app{display:block;padding:0;max-width:none}aside,.topbar .mini-stats,.actions,.no-print{display:none!important}.topbar{box-shadow:none;border:0;padding:0;margin-bottom:8px}.topbar h2{font-size:18px}.card{box-shadow:none;border:1px solid #ddd;border-radius:12px;padding:10px;margin:0}.page{display:none!important}.page.printing,.page.active{display:block!important}.table-wrap{max-height:none;overflow:visible;border:0}table{min-width:0;font-size:10px}th{position:static;padding:7px 4px}td{padding:4px}input.cell,select.cell{border:0;padding:2px;background:white;font-size:10px;color:#111}.dashboard-grid{grid-template-columns:repeat(4,1fr);gap:8px}.kpi{box-shadow:none;padding:10px}.kpi .value{font-size:20px}.charts{grid-template-columns:1fr 1fr;gap:10px}.chart-box{min-height:auto}.bar-row{grid-template-columns:100px 1fr 30px;margin:6px 0;font-size:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <h1>منصة تقرير حضوري</h1>
+        <p>تفريغ ذكي، حصر سريع، وإحصاء مباشر بلوحة قيادة أنيقة.</p>
+      </div>
+      <div class="danger">⚠️ الحالة غير المؤكدة لا تسجل</div>
+      <div class="menu-title">خانتان فقط</div>
+      <button class="tab-btn active" data-tab="capture"><span>حصر البيانات</span><span class="icon">🧾</span></button>
+      <button class="tab-btn" data-tab="stats"><span>الإحصاء والداش بورد</span><span class="icon">📊</span></button>
+      <div class="menu-title">قائمة الإعدادات</div>
+      <label class="file-btn" for="excelFile"><span>استيراد من Excel</span><span class="icon">📥</span></label>
+      <input id="excelFile" type="file" accept=".xlsx,.xls,.csv" />
+      <button class="btn" onclick="saveLocal()"><span>حفظ البيانات</span><span class="icon">💾</span></button>
+      <button class="btn" onclick="exportCSV()"><span>حفظ كملف CSV</span><span class="icon">⬇️</span></button>
+      <button class="btn" onclick="printCurrent()"><span>طباعة محكمة</span><span class="icon">🖨️</span></button>
+      <button class="btn danger-btn" onclick="clearAll()"><span>مسح وتفريغ</span><span class="icon">🧹</span></button>
+      <div class="credit">تصميم د/فواز<br><a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا</a></div>
+    </aside>
+    <main>
+      <div class="topbar">
+        <div>
+          <h2 id="pageTitle">حصر تقرير حضوري</h2>
+          
+        </div>
+        <div class="mini-stats">
+          <div class="pill">الإجمالي: <span id="miniTotal">0</span></div>
+          <div class="pill">المؤكد: <span id="miniConfirmed">0</span></div>
+          <div class="pill">غير المؤكد: <span id="miniUncertain">0</span></div>
+        </div>
+      </div>
+
+      <section id="capture" class="page active">
+        <div class="card">
+          <div class="section-title">
+            <div><h3>حصر الإدخالات</h3><span>أدخل البيانات يدويًا أو استورد ملف حضوري Excel.</span></div>
+            <div class="actions">
+              <button class="small-btn gold" onclick="addRows(5)">+ إضافة 5 صفوف</button>
+              <button class="small-btn" onclick="addRows(1)">+ صف واحد</button>
+              <button class="small-btn red" onclick="deleteLastRow()">حذف آخر صف</button>
+              <button class="small-btn red" onclick="clearAll()">مسح وتفريغ</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="dataTable">
+              <thead>
+                <tr>
+                  <th>#</th><th>السجل المدني</th><th>الإسم</th><th>اسم المستخدم</th><th>نوع الحركة</th><th>طريقة التحضير</th><th>الحالة</th><th>الوقت</th><th>اسم الموقع</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="stats" class="page">
+        <div class="card">
+          <div class="section-title"><div><h3>داش بورد الإحصاء</h3><span>ملخص فوري للحالات والحركات وطرق التحضير والمواقع.</span></div></div>
+          <div class="dashboard-grid">
+            <div class="kpi"><div class="label">إجمالي السجلات</div><div class="value" id="kpiTotal">0</div><div class="hint">كل الإدخالات</div></div>
+            <div class="kpi"><div class="label">الحالات المؤكدة</div><div class="value" id="kpiConfirmed">0</div><div class="hint">تسجل</div></div>
+            <div class="kpi"><div class="label">الحالات غير المؤكدة</div><div class="value" id="kpiUncertain">0</div><div class="hint" style="color:var(--red)">لا تسجل</div></div>
+            <div class="kpi"><div class="label">عدد المواقع</div><div class="value" id="kpiSites">0</div><div class="hint">مواقع مختلفة</div></div>
+          </div>
+          <div class="charts">
+            <div class="card chart-box"><h3>توزيع الحالة</h3><div id="statusBars"></div></div>
+            <div class="card chart-box"><h3>طرق التحضير</h3><div id="methodBars"></div></div>
+            <div class="card chart-box"><h3>أنواع الحركة</h3><div id="moveBars"></div></div>
+            <div class="card chart-box"><h3>أكثر المواقع تكرارًا</h3><div id="siteBars"></div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const headers = ['السجل المدني','الإسم','اسم المستخدم','نوع الحركة','طريقة التحضير','الحالة','الوقت','اسم الموقع'];
+const defaults = {
+  moves:['دخول','خروج','انصراف','عودة','استئذان'],
+  methods:['بصمة','تطبيق حضوري','يدوي','جهاز المدرسة','QR'],
+  statuses:['مؤكدة','غير مؤكدة','مكتملة','مرفوضة','قيد المراجعة']
+};
+let rows=[];
+function blankRow(){return {'السجل المدني':'','الإسم':'','اسم المستخدم':'','نوع الحركة':'','طريقة التحضير':'','الحالة':'','الوقت':'','اسم الموقع':''}}
+function addRows(n=1){for(let i=0;i<n;i++) rows.push(blankRow()); renderTable(); updateDashboard();}
+function deleteLastRow(){rows.pop(); if(rows.length===0) addRows(1); renderTable(); updateDashboard();}
+function renderTable(){
+  const tbody=document.getElementById('tableBody'); tbody.innerHTML='';
+  rows.forEach((row,i)=>{
+    const tr=document.createElement('tr');
+    if((row['الحالة']||'').includes('غير')) tr.classList.add('uncertain');
+    tr.innerHTML=`<td>${i+1}</td>` + headers.map(h=> cellHtml(i,h,row[h]||'')).join('');
+    tbody.appendChild(tr);
+  });
+}
+function cellHtml(i,h,val){
+  const safe=String(val).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+  if(h==='نوع الحركة') return `<td><select class="cell" onchange="setCell(${i},'${h}',this.value)"><option></option>${defaults.moves.map(x=>`<option ${x===safe?'selected':''}>${x}</option>`).join('')}</select></td>`;
+  if(h==='طريقة التحضير') return `<td><select class="cell" onchange="setCell(${i},'${h}',this.value)"><option></option>${defaults.methods.map(x=>`<option ${x===safe?'selected':''}>${x}</option>`).join('')}</select></td>`;
+  if(h==='الحالة') return `<td><select class="cell" onchange="setCell(${i},'${h}',this.value)"><option></option>${defaults.statuses.map(x=>`<option ${x===safe?'selected':''}>${x}</option>`).join('')}</select></td>`;
+  const type=h==='الوقت'?'datetime-local':'text';
+  return `<td><input class="cell" type="${type}" value="${safe}" oninput="setCell(${i},'${h}',this.value)" /></td>`;
+}
+function setCell(i,h,v){rows[i][h]=v; renderTable(); updateDashboard();}
+function validRows(){return rows.filter(r=>Object.values(r).some(v=>String(v||'').trim()!==''));}
+function countBy(key){const out={}; validRows().forEach(r=>{const v=(r[key]||'غير محدد').trim()||'غير محدد'; out[v]=(out[v]||0)+1}); return out;}
+function updateDashboard(){
+  const data=validRows();
+  const total=data.length, uncertain=data.filter(r=>(r['الحالة']||'').includes('غير')).length, confirmed=total-uncertain;
+  const sites=new Set(data.map(r=>(r['اسم الموقع']||'').trim()).filter(Boolean)).size;
+  ['miniTotal','kpiTotal'].forEach(id=>document.getElementById(id).textContent=total);
+  ['miniConfirmed','kpiConfirmed'].forEach(id=>document.getElementById(id).textContent=confirmed);
+  ['miniUncertain','kpiUncertain'].forEach(id=>document.getElementById(id).textContent=uncertain);
+  document.getElementById('kpiSites').textContent=sites;
+  drawBars('statusBars',countBy('الحالة'),total,'red');
+  drawBars('methodBars',countBy('طريقة التحضير'),total,'gold');
+  drawBars('moveBars',countBy('نوع الحركة'),total,'');
+  drawBars('siteBars',topN(countBy('اسم الموقع'),6),total,'');
+}
+function topN(obj,n){return Object.fromEntries(Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,n));}
+function drawBars(id,obj,total,cls){
+  const el=document.getElementById(id); const entries=Object.entries(obj).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){el.innerHTML='<div class="empty">لا توجد بيانات بعد</div>';return;}
+  el.innerHTML=entries.map(([k,v])=>`<div class="bar-row"><div>${k}</div><div class="bar ${cls}"><span style="width:${total?Math.max(5,(v/total)*100):0}%"></span></div><div>${v}</div></div>`).join('');
+}
+function saveLocal(){localStorage.setItem('hodoor_rows_v1',JSON.stringify(rows)); alert('تم حفظ البيانات داخل المتصفح بنجاح ✅');}
+function loadLocal(){try{const saved=JSON.parse(localStorage.getItem('hodoor_rows_v1')||'[]'); if(saved.length) rows=saved; else addRows(15);}catch(e){addRows(15)} renderTable(); updateDashboard();}
+function clearAll(){if(confirm('سيتم مسح وتفريغ جميع بيانات الحصر والإحصاء من المنصة. هل أنت متأكد؟')){rows=[blankRow()]; localStorage.removeItem('hodoor_rows_v1'); document.getElementById('excelFile').value=''; renderTable(); updateDashboard(); alert('تم مسح وتفريغ البيانات بنجاح ✅');}}
+function exportCSV(){
+  const data=validRows();
+  const csv=[headers.join(','),...data.map(r=>headers.map(h=>'"'+String(r[h]||'').replaceAll('"','""')+'"').join(','))].join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='تقرير_حضوري.csv'; a.click(); URL.revokeObjectURL(a.href);
+}
+function printCurrent(){document.querySelector('.page.active').classList.add('printing'); window.print(); setTimeout(()=>document.querySelectorAll('.printing').forEach(x=>x.classList.remove('printing')),500);}
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(btn.dataset.tab).classList.add('active');
+  document.getElementById('pageTitle').textContent=btn.dataset.tab==='capture'?'حصر تقرير حضوري':'إحصاء تقرير حضوري';
+  updateDashboard();
+}));
+document.getElementById('excelFile').addEventListener('change',async e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const buf=await file.arrayBuffer();
+  const wb=XLSX.read(buf,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]];
+  const json=XLSX.utils.sheet_to_json(ws,{defval:''});
+  rows=json.map(item=>{const r=blankRow(); headers.forEach(h=>r[h]=item[h]||item[h.replace('الإسم','الاسم')]||''); return r;}).filter(r=>Object.values(r).some(v=>String(v).trim()!==''));
+  if(rows.length===0) rows=[blankRow()]; renderTable(); updateDashboard(); alert('تم استيراد ملف Excel بنجاح ✅');
+});
+loadLocal();
+</script>
+</body>
+</html>

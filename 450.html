@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة اللجان والفرق المدرسية المخصصة</title>
+    <style>
+        /* الألوان الأساسية */
+        :root {
+            --primary: #1e3a8a; 
+            --secondary: #10b981; 
+            --accent: #d97706; 
+            --bg-color: #f3f4f6;
+            --surface: #ffffff;
+            --text-main: #1f2937;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover { background: #e5e7eb; }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header Style */
+        .official-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header-right, .header-left { flex: 1; line-height: 1.6; }
+        .header-right p, .header-left p { font-size: 1.05rem; font-weight: bold; margin: 0; color: var(--text-main); }
+        .header-left { text-align: left; align-items: flex-end; display: flex; flex-direction: column; }
+        
+        .header-center {
+            flex: 1.5;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-center h1 { color: var(--primary); font-size: 1.8rem; margin: 5px 0; border-bottom: 2px solid var(--secondary); padding-bottom: 5px; }
+        .header-center p { font-size: 1.2rem; font-weight: bold; }
+
+        /* Logo Upload */
+        .logo-upload-container { cursor: pointer; text-align: center; margin-bottom: 10px; }
+        .logo-placeholder {
+            width: 80px; height: 80px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #9ca3af; font-size: 0.8rem; background: #f9fafb; transition: 0.3s;
+        }
+        .logo-placeholder:hover { background-color: #e5e7eb; color: var(--primary); }
+        #logo-img { max-width: 80px; max-height: 80px; object-fit: contain; }
+
+        /* Elements Styling */
+        h1, h2, h3, h4 { color: var(--primary); margin-bottom: 10px; }
+        .section-title {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin: 10px 0 15px 0;
+            display: inline-block;
+        }
+        
+        .card {
+            background: #f9fafb;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            border-right: 4px solid var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        .meeting-card {
+            border-right: 4px solid var(--accent);
+        }
+
+        ul { padding-right: 20px; margin-bottom: 10px; }
+        li { margin-bottom: 5px; }
+        p { margin-bottom: 10px; }
+
+        /* Tables */
+        .table-responsive { overflow-x: auto; margin-bottom: 15px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid var(--border); padding: 10px; text-align: right; }
+        th { background: var(--primary); color: white; font-weight: bold; }
+        td[contenteditable="true"] { cursor: text; transition: background 0.2s; }
+        td[contenteditable="true"]:hover, td[contenteditable="true"]:focus { background: #f0fdf4; outline: none; }
+
+        .editable {
+            display: inline-block;
+            min-width: 50px;
+            border-bottom: 1px dashed var(--secondary);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 0 5px;
+            outline: none;
+        }
+        .editable:focus { background: #f0fdf4; border-bottom: 2px solid var(--primary); }
+
+        /* Controls */
+        .controls { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 15px; }
+        button.action-btn { background: var(--secondary); color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.9rem; }
+        button.action-btn:hover { opacity: 0.9; }
+        button.action-btn.delete-btn { background: #ef4444; }
+        button.action-btn.print-btn { background: var(--primary); font-size: 1rem; padding: 10px 20px; }
+
+        .footer { margin-top: auto; text-align: center; font-size: 0.9rem; color: #6b7280; border-top: 1px solid var(--border); padding-top: 15px; }
+
+        /* =========================================
+           إعدادات الطباعة - كل اجتماع بصفحة مستقلة
+           ========================================= */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 15mm; /* هوامش مثالية للطباعة */
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                font-size: 12pt;
+                color: #000;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .container {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                border: none;
+                box-shadow: none;
+                display: block;
+            }
+
+            /* إخفاء أدوات التحكم والرابط */
+            .no-print, .tabs-nav, .controls { display: none !important; }
+
+            .tab-content { display: none; }
+            .tab-content.active { display: block; }
+
+            /* رأس الصفحة */
+            .official-header {
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+                align-items: center;
+            }
+            .header-center h1 { font-size: 16pt; margin: 0 0 5px 0; border-bottom: 1px solid #000; color: #000; }
+            .header-center p { font-size: 12pt; margin: 0; color: #000; }
+            .header-right p, .header-left p { font-size: 10pt; margin: 3px 0; color: #000; }
+            .logo-placeholder { width: 70px; height: 70px; border: 1px solid #000; }
+            #logo-img { max-width: 70px; max-height: 70px; }
+
+            .section-title {
+                background: transparent !important;
+                color: #000 !important;
+                border: 2px solid #000;
+            }
+
+            .card {
+                background: transparent;
+                border: 1px solid #000;
+                border-right: 2px solid #000;
+                page-break-inside: avoid;
+            }
+
+            /* فصل الاجتماعات 
+               كل بطاقة اجتماع تبدأ في صفحة جديدة كلياً
+            */
+            .meetings-container {
+                display: block !important;
+            }
+            
+            .meeting-card {
+                page-break-before: always !important; /* إجبار الاجتماع على صفحة جديدة */
+                page-break-inside: avoid;
+                border: none !important; /* إزالة إطار البطاقة في الطباعة لتبدو كوثيقة رسمية */
+                padding: 0 !important;
+                margin-top: 20px;
+            }
+            
+            .meeting-card h2 {
+                text-align: center;
+                font-size: 18pt;
+                border-bottom: 2px solid #000;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                color: #000;
+            }
+
+            /* الجداول */
+            table { border: 1px solid #000; margin-bottom: 15px; }
+            th, td { border: 1px solid #000; padding: 8px; color: #000; }
+            th { background: #eaeaea !important; }
+
+            .editable { border-bottom: none !important; color: #000 !important; }
+            td[contenteditable="true"] { background: transparent !important; }
+
+            .footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                border-top: 1px solid #000;
+                padding-top: 5px;
+                font-size: 9pt;
+                color: #000;
+                text-align: center;
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="controls no-print" style="justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <div>
+            <button class="action-btn print-btn" onclick="window.print()">🖨️ طباعة النموذج / حفظ PDF</button>
+        </div>
+        <div>
+            <button class="action-btn delete-btn" onclick="clearData()">مسح البيانات المدخلة</button>
+        </div>
+    </div>
+
+    <div class="official-header">
+        <div class="header-right">
+            <p>المملكة العربية السعودية</p>
+            <p>وزارة التعليم</p>
+            <p>الإدارة العامة للتعليم بـ <span class="editable" contenteditable="true">[المنطقة]</span></p>
+            <p>مكتب التعليم بـ <span class="editable" contenteditable="true">[اسم المكتب]</span></p>
+            <p>مدرسة <span class="editable" contenteditable="true">[اسم المدرسة]</span></p>
+        </div>
+        
+        <div class="header-center">
+            <h1>اللجان والفرق المدرسية</h1>
+            <p>للعام الدراسي <span class="editable" contenteditable="true">١٤٤٦ هـ</span></p>
+        </div>
+        
+        <div class="header-left">
+            <div class="logo-upload-container" onclick="document.getElementById('logo-upload').click()">
+                <img id="logo-img" style="display:none;" />
+                <div class="logo-placeholder no-print" id="logo-text" title="انقر لرفع شعار المدرسة">
+                    <span>+ أضف الشعار</span>
+                </div>
+                <input type="file" id="logo-upload" accept="image/*" style="display:none;" onchange="loadLogo(event)">
+            </div>
+            <p>المدير/ة: <span class="editable" contenteditable="true" style="font-weight:normal;">[الاسم]</span></p>
+        </div>
+    </div>
+
+    <div class="tabs-nav no-print">
+        <button class="tab-btn active" onclick="openTab('tab-main')">الرؤية والرسالة</button>
+        <button class="tab-btn" onclick="openTab('tab-admin')">اللجنة الإدارية</button>
+        <button class="tab-btn" onclick="openTab('tab-excellence')">لجنة التميز</button>
+        <button class="tab-btn" onclick="openTab('tab-guidance')">لجنة التوجيه</button>
+        <button class="tab-btn" onclick="openTab('tab-achievement')">التحصيل الدراسي</button>
+        <button class="tab-btn" onclick="openTab('tab-fund')">الصندوق المدرسي</button>
+        <button class="tab-btn" onclick="openTab('tab-safety')">الأمن والسلامة</button>
+    </div>
+
+    <div id="tab-main" class="tab-content active">
+        <div class="card" style="text-align: center; padding: 50px 20px;">
+            <h2 style="font-size: 2rem;">الرؤية</h2>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <span class="editable" contenteditable="true">تنشئة جيل مؤمن مبني على القيم، متميز بخلقه وإنجازاته، محباً لوطنه</span>
+            </p>
+            <br><br>
+            <h2 style="font-size: 2rem;">الرسالة</h2>
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                <span class="editable" contenteditable="true">
+                تسعى إدارة مدرسة [اسم المدرسة] - بتوفيق الله - على تقديم العلم النافع، ومعلمين/ات حاملين/ات كفاءات بأساليب تربوية وتقنية حديثة، واستراتيجيات رائعة لبناء أجيال ذوي قيم تربوية، مقدرين/ات للمسؤولية، متفانين/ات في خدمة الوطن والرقي به.
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div id="tab-admin" class="tab-content">
+        <h2 class="section-title">أولاً: اللجنة الإدارية المدرسية</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>أهداف اللجنة:</h4>
+                    <ul>
+                        <li>إقرار خطة المدرسة التشغيلية ومتابعة العملية التربوية.</li>
+                        <li>تشجيع أوجه الإبداع والتميز المدرسي.</li>
+                        <li>مناقشة التحديات واتخاذ التوصيات اللازمة.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>قواعد تشكيل اللجنة:</h4>
+                    <ul>
+                        <li>معلم/ة خبير/ة على الأقل.</li>
+                        <li>أو معلم/ة متقدم/ة في حال عدم توفر الخبير.</li>
+                        <li>أو معلمين/ات ممارسين/ات يتم اختيارهم/ن.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: اعتماد تشكيل اللجنة الإدارية لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة الشؤون التعليمية</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">الموجه/ة الطلابي/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">معلم/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ إضافة صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- حذف صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>مناقشة الخطة التشغيلية للمدرسة وإقرارها ومتابعة تنفيذها.</li>
+                <li>إقرار الأنشطة والفعاليات السنوية.</li>
+                <li>متابعة تنفيذ الخطة التشغيلية للأنشطة.</li>
+                <li>إقرار الشراكات مع القطاعين الحكومي والخاصة.</li>
+                <li>مناقشة تقارير التحصيل الدراسي ونواتج تعلم الطلاب.</li>
+                <li>إقرار الشراكات مع مؤسسات المجتمع المحلي.</li>
+                <li>مناقشة التحديات واتخاذ القرارات اللازمة.</li>
+                <li>مراجعة التقارير الدورية لأنشطة الشراكة.</li>
+                <li>مناقشة الجوانب التطويرية والاحتياجات.</li>
+                <li>مناقشة القضايا والظواهر السلوكية.</li>
+            </ul>
+        </div>
+        
+        <div id="admin-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div id="tab-excellence" class="tab-content">
+        <h2 class="section-title">ثانياً: لجنة التميز</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>أهداف اللجنة:</h4>
+                    <ul>
+                        <li>إعداد الخطة التشغيلية للمدرسة.</li>
+                        <li>تشجيع أفضل الممارسات لضمان التميز.</li>
+                        <li>الارتقاء بكفاءة الأداء المؤسسي.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>قواعد تشكيل اللجنة:</h4>
+                    <ul>
+                        <li>معلمين/ات خبراء.</li>
+                        <li>أو معلمين/ات متقدمين/ات.</li>
+                        <li>أو معلمين/ات ممارسين/ات.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: التشكيل لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة تعليمي</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة طلابي</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">معلم/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>إعداد الخطة التشغيلية للمدرسة وربطها بالمؤشرات.</li>
+                <li>تشجيع المعلمين على تبادل أفضل الممارسات.</li>
+                <li>رصد اتجاهات الطلاب نحو المدرسة.</li>
+                <li>تقديم الدعم للتحول لمؤسسة متعلمة.</li>
+                <li>دراسة الملاحظات على برامج التعليم والتعلم.</li>
+                <li>دراسة الصعوبات والتحديات الميدانية.</li>
+                <li>إعداد معايير جوائز التميز والحوافز.</li>
+                <li>نشر ثقافة التميز في المدرسة.</li>
+                <li>الإشراف على عمليات التقويم الذاتي والتدقيق.</li>
+                <li>ترشيح المدرسة/منسوبيها لجوائز التميز.</li>
+            </ul>
+        </div>
+        <div id="excellence-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div id="tab-guidance" class="tab-content">
+        <h2 class="section-title">ثالثاً: لجنة التوجيه والإرشاد</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>أهداف اللجنة:</h4>
+                    <ul>
+                        <li>التخطيط لبرامج التوجيه والإرشاد ومتابعتها.</li>
+                        <li>اقتراح البرامج التي تتناسب مع حاجات المدرسة.</li>
+                        <li>النظر في قضايا الطلاب وحلها.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>قواعد تشكيل اللجنة:</h4>
+                    <ul>
+                        <li>يصدر التشكيل بقرار من مدير/ة المدرسة.</li>
+                        <li>يشارك في الاجتماع وفق المرئيات: (معلم، رائد، ولي أمر).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: التشكيل لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">الموجه/ة الطلابي/ة</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة تعليمي</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">معلم/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>إعداد الخطة السنوية للإرشاد الطلابي.</li>
+                <li>متابعة تطبيق قواعد السلوك والمواظبة.</li>
+                <li>توزيع الطلاب على الفصول بداية العام.</li>
+                <li>دراسة إضافة حصص علاجية.</li>
+                <li>دراسة سلوك الطلاب وتعزيز السلوك الإيجابي.</li>
+                <li>إعداد التقارير الفصلية واعتمادها.</li>
+                <li>دراسة أوضاع الطلاب المخالفين لإجراءات الاختبارات.</li>
+                <li>دراسة أعذار الطلاب الغائبين عن الاختبارات.</li>
+                <li>الإشراف على تنظيم لقاءات مع المجتمع المحلي.</li>
+                <li>معالجة حالات التأخر الدراسي.</li>
+            </ul>
+        </div>
+        <div id="guidance-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div id="tab-achievement" class="tab-content">
+        <h2 class="section-title">رابعاً: لجنة التحصيل الدراسي</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>أهداف اللجنة:</h4>
+                    <ul>
+                        <li>ضمان تطبيق اختبارات التحصيل وتجويد العمليات.</li>
+                        <li>الارتقاء بكفاءة الأداء ونواتج التعلم.</li>
+                        <li>تدقيق النتائج وفقاً للوائح.</li>
+                    </ul>
+                </div>
+                <div style="flex: 1; min-width: 250px;">
+                    <h4>قواعد التشكيل:</h4>
+                    <ul>
+                        <li>اختيار المعلمين/ات من قبل الإدارة.</li>
+                        <li>اعتماد قرار تشكيل من مدير/ة المدرسة.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: التشكيل لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة تعليمي</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">الموجه/ة الطلابي/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">معلم/ة</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>متابعة المستوى التحصيلي وتحليله دورياً.</li>
+                <li>مراجعة نتائج الاختبارات الوطنية.</li>
+                <li>اقتراح البرامج لرفع مستوى التحصيل.</li>
+                <li>دعم مفاهيم الاختبارات الدولية.</li>
+                <li>تشكيل فرق العمل للاختبارات الفصلية والنهائية.</li>
+                <li>إعداد جداول الاختبارات والسجلات المتعلقة بها.</li>
+                <li>إعداد الكشوفات وأرقام الجلوس.</li>
+                <li>الإشراف على سير الاختبارات.</li>
+                <li>متابعة التصحيح والمراجعة وتدقيق النتائج.</li>
+                <li>اقتراح برامج معالجة التأخر الدراسي.</li>
+                <li>قياس رضا أولياء الأمور وإشراكهم.</li>
+                <li>قياس فاعلية تحسين الأداء القرائي والكتابي.</li>
+            </ul>
+        </div>
+        <div id="achievement-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div id="tab-fund" class="tab-content">
+        <h2 class="section-title">خامساً: لجنة الصندوق المدرسي</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1;">
+                    <h4>الأهداف والقواعد:</h4>
+                    <ul>
+                        <li>الهدف: إدارة ومتابعة أعمال الصندوق المدرسي وتنمية موارده.</li>
+                        <li>التشكيل: يتم التكليف من قبل اللجنة الإدارية والرفع بالتقارير لها.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: التشكيل لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة الشؤون التعليمية</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>إعداد الميزانية التشغيلية والإيرادات المتوقعة.</li>
+                <li>الصرف وفقاً للبنود المحددة بعد الاعتماد.</li>
+                <li>قيد الإيرادات والمصروفات في السجلات.</li>
+                <li>مراقبة الصرف وتدقيق المستندات.</li>
+                <li>مراجعة التقارير الدورية للميزانية.</li>
+                <li>إعداد التقرير المالي الختامي السنوي.</li>
+                <li>العمل على تنمية موارد المدرسة.</li>
+                <li>حصر التبرعات وتوثيقها وفق الضوابط.</li>
+            </ul>
+        </div>
+        <div id="fund-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div id="tab-safety" class="tab-content">
+        <h2 class="section-title">سادساً: لجنة الأمن والسلامة</h2>
+        <div class="card">
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="flex: 1;">
+                    <h4>الأهداف والقواعد:</h4>
+                    <ul>
+                        <li>الهدف: إدارة ومتابعة عمليات الأمن والسلامة المدرسية وخطط الإخلاء.</li>
+                        <li>التشكيل: الالتزام بالأدلة المنظمة، والرفع بتقارير دورية للإدارة.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>قرار إداري: التشكيل لعام <span class="editable" contenteditable="true">١٤٤٦ هـ</span></h4>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مدير/ة المدرسة</td><td contenteditable="true">رئيس/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">وكيل/ة الشؤون التعليمية</td><td contenteditable="true">عضو/ة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">منسق/ة اللجنة</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">معلم/ة</td><td contenteditable="true">الموجه/ة الصحي</td><td contenteditable="true"></td></tr>
+                        <tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">مساعد/ة إداري/ة</td><td contenteditable="true">مقرر/ة اللجنة</td><td contenteditable="true"></td></tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print" style="margin-top:5px; margin-bottom:0;">
+                    <button class="action-btn" onclick="addRow(this)">+ صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- صف</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>مهام اللجنة:</h4>
+            <ul>
+                <li>تنفيذ البرامج والأنشطة المتعلقة بالأمن والسلامة.</li>
+                <li>تقويم وضع الأمن والسلامة وفق الاستمارات.</li>
+                <li>تكليف المنسق بمتابعة الأعمال المرتبطة.</li>
+                <li>تطبيق شروط وقواعد السلامة داخل المدرسة.</li>
+                <li>مراعاة احتياجات السلامة للطلاب ذوي الإعاقة.</li>
+                <li>إعداد التدريبات الدورية على خطة الإخلاء.</li>
+                <li>متابعة عمل حارس الأمن.</li>
+                <li>إقرار ومراجعة سجلات الأمن والسلامة والتنظيم للزوار.</li>
+            </ul>
+        </div>
+        <div id="safety-meetings-container" class="meetings-container"></div>
+    </div>
+
+
+    <div class="footer">
+        <p class="editable" contenteditable="true" style="margin-bottom: 10px;">النموذج التفاعلي الذكي - يُعتمد كوثيقة رسمية بعد اكتمال التوقيعات.</p>
+        <div class="no-print" style="margin-top: 15px;">
+            <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" style="text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.95rem; background-color: #f0fdf4; padding: 5px 10px; border-radius: 5px; display: inline-block; border: 1px dashed var(--secondary);">
+                تصميم د/فواز تفضل للمزيد هنا: https://t.me/TAqhjT3MFVE1Yzk0
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Logo upload
+    function loadLogo(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('logo-img').src = e.target.result;
+                document.getElementById('logo-img').style.display = 'block';
+                document.getElementById('logo-text').style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Dynamic Meeting Generator - Adjusted for Full Page Print
+    function generateMeeting(title, target, agenda, showNotImplemented = true) {
+        let html = `
+        <div class="card meeting-card">
+            <h2>${title}</h2>
+            <table style="margin-bottom: 20px;">
+                <tr>
+                    <td><strong>مقر الاجتماع:</strong> <span class="editable" contenteditable="true">إدارة المدرسة</span></td>
+                    <td><strong>موعد الاجتماع:</strong> <span class="editable" contenteditable="true">.... / .... / ١٤٤٦ هـ</span></td>
+                    <td><strong>المستهدفون:</strong> <span class="editable" contenteditable="true">${target}</span></td>
+                    <td><strong>الحضور:</strong> <span class="editable" contenteditable="true">....</span></td>
+                </tr>
+            </table>
+            
+            <h4 style="font-size: 1.1rem;">جدول الأعمال:</h4>
+            <ul style="margin-bottom: 20px; font-size: 1.05rem;">`;
+        agenda.forEach(item => { html += `<li>${item}</li>`; });
+        html += `
+            </ul>
+            
+            <p style="font-weight: bold; margin-bottom: 10px;">أنه في تمام الساعة (<span class="editable" contenteditable="true">..........</span>) تمت مناقشة الآراء والمقترحات وتمت التوصيات بالآتي:</p>
+            
+            <div class="table-responsive" style="margin-bottom: 25px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>التوصية</th>
+                            <th>الجهة المكلفة بالتنفيذ</th>
+                            <th>مدة التنفيذ</th>
+                            <th>جهة المتابعة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">تدوين التوصيات هنا...</td>
+                            <td contenteditable="true">........</td>
+                            <td contenteditable="true">فصل دراسي</td>
+                            <td contenteditable="true">إدارة المدرسة</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="controls no-print">
+                    <button class="action-btn" onclick="addRow(this)">+ إضافة صف</button>
+                    <button class="action-btn delete-btn" onclick="removeRow(this)">- حذف صف</button>
+                </div>
+            </div>`;
+            
+        if (showNotImplemented) {
+            html += `
+            <h4 style="font-size: 1.1rem;">ما لم ينفذ من التوصيات وأسباب عدم التنفيذ:</h4>
+            <div contenteditable="true" style="min-height: 80px; border: 1px dashed var(--border); padding: 15px; border-radius: 8px; margin-bottom: 20px; background: #fff;"></div>`;
+        }
+        
+        html += `
+            <p style="font-weight: bold; text-align: left; margin-top: 20px;">وانتهى الاجتماع بالشكر للجميع.</p>
+        </div>`;
+        return html;
+    }
+
+    function injectMeetings(containerId, targetGroup, meetingsList) {
+        let container = document.getElementById(containerId);
+        let html = '';
+        meetingsList.forEach(m => {
+            html += generateMeeting(m.title, targetGroup, m.agenda, true);
+        });
+        container.innerHTML = html;
+    }
+
+    // Injection Calls
+    injectMeetings('admin-meetings-container', 'اللجنة الإدارية', [
+        {title: 'الاجتماع الأول', agenda: ['الاستعداد المدرسي', 'الخطة التشغيلية للمدرسة واعتمادها', 'إقرار الشراكات والموارد']},
+        {title: 'الاجتماع الثاني', agenda: ['التحديات الميدانية التي تواجه الأهداف', 'دراسة الظواهر السلوكية', 'مراجعة تقارير الشراكة']},
+        {title: 'الاجتماع الطارئ', agenda: ['ما يستجد من أعمال طارئة تقتضي تدخل اللجنة']}
+    ]);
+
+    injectMeetings('excellence-meetings-container', 'أعضاء لجنة التميز', [
+        {title: 'الاجتماع الأول', agenda: ['الخطة التشغيلية والمؤشرات', 'اتجاهات الطلاب نحو المدرسة', 'تبادل أفضل الممارسات']},
+        {title: 'الاجتماع الثاني', agenda: ['معايير ومقترحات جوائز التميز', 'الترشيح للجوائز المحلية', 'تحديات العمل التربوي']},
+        {title: 'الاجتماع الثالث', agenda: ['تحليل تقارير الأداء المؤسسي واستثمارها', 'ما يستجد من أعمال']}
+    ]);
+
+    injectMeetings('guidance-meetings-container', 'أعضاء التوجيه والإرشاد', [
+        {title: 'الاجتماع الأول', agenda: ['إعداد الخطة السنوية للإرشاد', 'توزيع الطلاب على الفصول', 'بناء شراكات المجتمع']},
+        {title: 'الاجتماع الثاني', agenda: ['إضافة الحصص العلاجية والإثرائية', 'متابعة سلوك ومواظبة الطلاب', 'تفعيل المجالس الطلابية']},
+        {title: 'الاجتماع الثالث', agenda: ['النظر في مخالفات أنظمة الاختبارات', 'أعذار الطلاب الغائبين', 'حالات التأخر الدراسي']}
+    ]);
+
+    injectMeetings('achievement-meetings-container', 'لجنة التحصيل الدراسي', [
+        {title: 'الاجتماع الأول', agenda: ['تحليل المستوى التحصيلي للطلاب', 'مراجعة نتائج الاختبارات الوطنية', 'وضع برامج المعالجة']},
+        {title: 'الاجتماع الثاني', agenda: ['تشكيل فرق العمل للاختبارات الفصلية', 'إعداد الجداول والسجلات', 'الإشراف على سير الاختبار']},
+        {title: 'الاجتماع الثالث', agenda: ['تطوير آلية التقييم', 'قياس رضا أولياء الأمور', 'قياس فاعلية برامج تحسين الأداء القرائي']}
+    ]);
+
+    injectMeetings('fund-meetings-container', 'لجنة الصندوق المدرسي', [
+        {title: 'الاجتماع الأول', agenda: ['توزيع المهام بين الأعضاء', 'إعداد الميزانية التشغيلية']},
+        {title: 'الاجتماع الثاني', agenda: ['مراقبة الصرف وتدقيق المستندات', 'بحث سبل تنمية موارد المدرسة']},
+        {title: 'الاجتماع الثالث', agenda: ['اعتماد التقرير المالي الختامي السنوي']}
+    ]);
+
+    injectMeetings('safety-meetings-container', 'لجنة الأمن والسلامة', [
+        {title: 'الاجتماع الأول', agenda: ['تحديد مهام المنسق', 'تقويم حالة الأمن بالمدرسة', 'اعتماد خطة الإخلاء والتدريب']},
+        {title: 'الاجتماع الثاني', agenda: ['رصد نتائج المتابعة الميدانية', 'مراجعة سجلات دخول الزوار', 'التأكد من توفر أجهزة الأمن']},
+        {title: 'الاجتماع الثالث', agenda: ['التقارير الفصلية الدورية', 'ما يستجد من أمور تتعلق بالسلامة']}
+    ]);
+
+    // Tab Logic
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Table Add/Remove Rows
+    function addRow(btn) {
+        const table = btn.parentElement.previousElementSibling;
+        const tbody = table.querySelector('tbody');
+        if (tbody.rows.length > 0) {
+            const newRow = tbody.rows[0].cloneNode(true);
+            newRow.querySelectorAll('[contenteditable="true"]').forEach(cell => cell.textContent = '');
+            tbody.appendChild(newRow);
+        }
+    }
+
+    function removeRow(btn) {
+        const table = btn.parentElement.previousElementSibling;
+        const tbody = table.querySelector('tbody');
+        if (tbody.rows.length > 1) tbody.removeChild(tbody.lastElementChild);
+        else alert('لا يمكن حذف الصف الأخير.');
+    }
+
+    // Clear Text Data
+    function clearData() {
+        if(confirm('هل أنت متأكد من مسح البيانات المدخلة؟')) {
+            document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                if(!el.textContent.includes('١٤٤٦') && !el.textContent.includes('فصل')) {
+                    el.textContent = '';
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

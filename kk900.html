@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة قياس الأثر الذكية - د/فواز</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --secondary: #0369a1;
+            --ai-color: #7c3aed;
+            --danger: #e11d48;
+            --bg-color: #f0fdfa;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --border-color: #e5e7eb;
+        }
+
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px rgba(15, 118, 110, 0.2);
+        }
+
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #4b5563;
+            font-weight: 700;
+        }
+
+        .action-btn i {
+            font-size: 1.6rem;
+            padding: 12px;
+            border-radius: 12px;
+            background: #f3f4f6;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover i { transform: scale(1.1); }
+        .btn-ai i { background: #f5f3ff; color: var(--ai-color); border: 1px solid #ddd6fe; }
+        .btn-ai:hover i { background: var(--ai-color); color: white; }
+        .btn-pdf i { background: #fff1f2; color: #e11d48; }
+        .btn-print i { background: #f0f9ff; color: var(--secondary); }
+        .btn-clear i { background: #f9fafb; color: #6b7280; }
+
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+        .tab-btn {
+            background: white; border: 1px solid var(--border-color);
+            padding: 0.8rem 1.5rem; font-weight: 700; border-radius: 10px; cursor: pointer;
+        }
+        .tab-btn.active { background: var(--primary); color: white; }
+
+        /* Content */
+        .tab-content {
+            display: none; background: white; padding: 2rem; border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 0.5rem; color: var(--secondary); }
+        .form-control { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 10px; font-size: 1rem; }
+        
+        textarea.form-control { min-height: 120px; border-right: 4px solid var(--primary-light); }
+
+        /* Table specific */
+        .table-header-actions {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;
+        }
+        .btn-sm-ai {
+            background: #f5f3ff; color: var(--ai-color); border: 1px solid var(--ai-color);
+            padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; cursor: pointer;
+            transition: 0.3s; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-sm-ai:hover { background: var(--ai-color); color: white; }
+
+        /* Footer */
+        .footer { text-align: center; margin-top: 3rem; padding: 2rem; background: white; border-radius: 20px; }
+        .footer .designer { color: var(--primary); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+        .footer a { color: var(--secondary); text-decoration: none; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .generating { animation: pulse 1.5s infinite; opacity: 0.7; pointer-events: none; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        @media print {
+            .action-bar, .tabs, .btn-sm-ai { display: none !important; }
+            .tab-content { display: block !important; box-shadow: none; border: 1px solid #ccc; margin-bottom: 2rem;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>منصة قياس الأثر الذكية</h1>
+        <p>استمارة رقمية مدعومة بالذكاء الاصطناعي لمجتمعات التعلم المهنية</p>
+    </header>
+
+    <div class="action-bar">
+        <button class="action-btn btn-ai" onclick="runGeneralAI()" id="mainAiBtn">
+            <i class="fas fa-robot"></i>
+            <span>تحليل الأثر</span>
+        </button>
+        <button class="action-btn btn-pdf" onclick="window.print()">
+            <i class="fas fa-file-pdf"></i>
+            <span>حفظ PDF</span>
+        </button>
+        <button class="action-btn btn-print" onclick="window.print()">
+            <i class="fas fa-print"></i>
+            <span>طباعة</span>
+        </button>
+        <button class="action-btn btn-clear" onclick="clearForm()">
+            <i class="fas fa-trash-alt"></i>
+            <span>مسح البيانات</span>
+        </button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('tab1')">1. البيانات الأساسية</button>
+        <button class="tab-btn" onclick="openTab('tab2')">2. التقييم العام</button>
+        <button class="tab-btn" onclick="openTab('tab3')">3. سجل المستفيدات</button>
+    </div>
+
+    <form id="impactForm">
+        <!-- Tab 1 -->
+        <div id="tab1" class="tab-content active">
+            <div class="form-grid">
+                <div class="form-group"><label>اسم المنفذة</label><input type="text" class="form-control" placeholder="أدخل الاسم"></div>
+                <div class="form-group"><label>موضوع المجتمع المهني</label><input type="text" id="topic" class="form-control" placeholder="مثال: التعلم المدمج"></div>
+                <div class="form-group"><label>تاريخ التنفيذ</label><input type="date" class="form-control"></div>
+                <div class="form-group"><label>نوع التنفيذ</label><select class="form-control"><option>حضوري</option><option>عن بعد</option></select></div>
+            </div>
+        </div>
+
+        <!-- Tab 2 -->
+        <div id="tab2" class="tab-content">
+            <div class="form-group">
+                <label>مستوى أداء المستفيدات في العمل بعد تنفيذ المجتمع المهني:</label>
+                <select class="form-control" style="width: 200px;"><option>عالي</option><option>منخفض</option></select>
+            </div>
+            <div class="form-grid">
+                <div class="form-group"><label>جوانب القوة</label><textarea id="strengths" class="form-control"></textarea></div>
+                <div class="form-group"><label>جوانب الضعف</label><textarea id="weaknesses" class="form-control"></textarea></div>
+            </div>
+        </div>
+
+        <!-- Tab 3 -->
+        <div id="tab3" class="tab-content">
+            <div class="table-header-actions">
+                <h3 style="color: var(--secondary);">سجل المستفيدات والمهارات</h3>
+                <!-- زر التوليد الذكي الخاص بالمهارات -->
+                <button type="button" class="btn-sm-ai" onclick="generateSkillsAI()" id="skillsAiBtn">
+                    <i class="fas fa-magic"></i> توليد ذكي لاقتراح المهارات
+                </button>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; min-width: 900px;">
+                    <thead>
+                        <tr style="background: var(--secondary); color: white; text-align: right;">
+                            <th style="padding: 10px;">م</th>
+                            <th style="padding: 10px;">اسم المستفيدة</th>
+                            <th style="padding: 10px;">هل تم تطبيق المهارات؟</th>
+                            <th style="padding: 10px;">أسباب عدم التطبيق</th>
+                            <th style="padding: 10px;">الحاجة لمهارات أخرى؟</th>
+                            <th style="padding: 10px;">المهارات المقترحة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="beneficiaries-body">
+                        <!-- يتم التوليد بالجافاسكريبت -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+    <footer class="footer">
+        <div class="designer">تصميم د/فواز</div>
+        <p>تفضل للمزيد /</p>
+        <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" dir="ltr">https://t.me/TAqhjT3MFVE1Yzk0</a>
+    </footer>
+</div>
+
+<script>
+    // التنقل بين التبويبات
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // توليد صفوف الجدول
+    const tbody = document.getElementById('beneficiaries-body');
+    for(let i = 1; i <= 10; i++) {
+        tbody.innerHTML += `
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #eee;">${i}</td>
+                <td style="padding:8px; border-bottom:1px solid #eee;"><input type="text" class="form-control" placeholder="الاسم"></td>
+                <td style="padding:8px; border-bottom:1px solid #eee;">
+                    <select class="form-control apply-status" onchange="toggleReasons(this)">
+                        <option value="نعم">نعم طبقتها</option>
+                        <option value="إلى حد ما">إلى حد ما</option>
+                        <option value="لا">لم تطبقها</option>
+                    </select>
+                </td>
+                <td style="padding:8px; border-bottom:1px solid #eee;"><input type="text" class="form-control no-apply-reason" disabled></td>
+                <td style="padding:8px; border-bottom:1px solid #eee;">
+                    <select class="form-control need-skill">
+                        <option value="لا">لا</option>
+                        <option value="نعم">نعم</option>
+                    </select>
+                </td>
+                <td style="padding:8px; border-bottom:1px solid #eee;"><input type="text" class="form-control suggested-skill"></td>
+            </tr>
+        `;
+    }
+
+    // تفعيل/تعطيل خانة الأسباب بناءً على التطبيق
+    function toggleReasons(selectElement) {
+        const row = selectElement.closest('tr');
+        const reasonInput = row.querySelector('.no-apply-reason');
+        if(selectElement.value === 'لا' || selectElement.value === 'إلى حد ما') {
+            reasonInput.disabled = false;
+        } else {
+            reasonInput.disabled = true;
+            reasonInput.value = '';
+        }
+    }
+
+    // الذكاء الاصطناعي لتحليل الأثر (التبويب الثاني)
+    function runGeneralAI() {
+        const topic = document.getElementById('topic').value || "الموضوع المحدد";
+        const btn = document.getElementById('mainAiBtn');
+        btn.classList.add('generating');
+        
+        setTimeout(() => {
+            document.getElementById('strengths').value = `1. قدرة المستفيدات على استيعاب مفاهيم ${topic}.\n2. التفاعل الإيجابي والمشاركة الفاعلة أثناء المجتمع المهني.\n3. وجود رغبة في تطبيق المكتسبات في البيئة المدرسية.`;
+            document.getElementById('weaknesses').value = `1. تفاوت مستويات التطبيق العملي لـ ${topic}.\n2. الحاجة لوقت أطول للممارسة والتأمل الموجه.\n3. قلة توفر بعض الأدوات المساعدة للتطبيق الفوري.`;
+            btn.classList.remove('generating');
+            openTab('tab2');
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.querySelectorAll('.tab-btn')[0].classList.remove('active');
+        }, 1500);
+    }
+
+    // الذكاء الاصطناعي لاقتراح المهارات (التبويب الثالث)
+    function generateSkillsAI() {
+        const topic = document.getElementById('topic').value;
+        if(!topic) {
+            alert("يرجى كتابة 'موضوع المجتمع المهني' في التبويب الأول لكي تكون الاقتراحات دقيقة ومناسبة.");
+            return;
+        }
+
+        const btn = document.getElementById('skillsAiBtn');
+        btn.classList.add('generating');
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري التوليد...`;
+
+        // بنك مهارات مقترحة يبنى على الموضوع المدخل
+        const aiSkills = [
+            `تصميم أنشطة تفاعلية لـ ${topic}`,
+            `توظيف الذكاء الاصطناعي في ${topic}`,
+            `أساليب التقويم المرتبطة بـ ${topic}`,
+            `إدارة الوقت أثناء تطبيق ${topic}`,
+            `بناء خطط إجرائية مبنية على ${topic}`,
+            `مهارات التعامل مع التقنيات الداعمة لـ ${topic}`
+        ];
+
+        const reasons = [
+            "ضيق الوقت الحصصي",
+            "كثافة المنهج الدراسي",
+            "الحاجة لتدريب عملي إضافي",
+            "نقص التجهيزات التقنية بالفصل"
+        ];
+
+        setTimeout(() => {
+            const rows = document.querySelectorAll('#beneficiaries-body tr');
+            rows.forEach(row => {
+                const applyStatus = row.querySelector('.apply-status');
+                const reasonInput = row.querySelector('.no-apply-reason');
+                const needSkill = row.querySelector('.need-skill');
+                const suggestedSkill = row.querySelector('.suggested-skill');
+
+                // محاكاة ذكية لحالة المستفيدة
+                const randomState = Math.random();
+                
+                if(randomState > 0.6) {
+                    // تحتاج لمهارات أخرى
+                    applyStatus.value = "إلى حد ما";
+                    reasonInput.disabled = false;
+                    reasonInput.value = reasons[Math.floor(Math.random() * reasons.length)];
+                    needSkill.value = "نعم";
+                    // اختيار مهارة عشوائية من القائمة المبنية على الموضوع
+                    suggestedSkill.value = aiSkills[Math.floor(Math.random() * aiSkills.length)];
+                } else if(randomState > 0.4) {
+                    // لم تطبق وتحتاج مهارات
+                    applyStatus.value = "لا";
+                    reasonInput.disabled = false;
+                    reasonInput.value = reasons[Math.floor(Math.random() * reasons.length)];
+                    needSkill.value = "نعم";
+                    suggestedSkill.value = "التأسيس في " + topic;
+                } else {
+                    // طبقت بنجاح ولا تحتاج
+                    applyStatus.value = "نعم";
+                    reasonInput.disabled = true;
+                    reasonInput.value = "";
+                    needSkill.value = "لا";
+                    suggestedSkill.value = "";
+                }
+            });
+
+            btn.classList.remove('generating');
+            btn.innerHTML = `<i class="fas fa-magic"></i> توليد ذكي لاقتراح المهارات`;
+        }, 1500);
+    }
+
+    function clearForm() {
+        if(confirm("هل أنت متأكد من مسح جميع البيانات؟")) document.getElementById('impactForm').reset();
+    }
+</script>
+
+</body>
+</html>

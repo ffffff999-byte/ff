@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سجل قياس الأثر - المنصة التفاعلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                    colors: {
+                        primary: '#1e3a8a',
+                        secondary: '#d97706',
+                        light: '#f3f4f6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f9fafb; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        [contenteditable="true"]:hover { background-color: #fef3c7; border-radius: 0.25rem; cursor: text; outline: 1px dashed #d97706; padding: 0.25rem; }
+        [contenteditable="true"]:focus { background-color: #fff; outline: 2px solid #1e3a8a; padding: 0.25rem; }
+        input[type="text"], input[type="date"], input[type="number"], select, textarea {
+            width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background-color: transparent; font-family: 'Cairo', sans-serif;
+        }
+        canvas { border: 2px dashed #cbd5e1; border-radius: 0.5rem; background-color: #fff; cursor: crosshair; }
+
+        /* Tool form tabs inside tools */
+        .tool-form-tab { display: none; }
+        .tool-form-tab.active { display: block; animation: fadeIn 0.3s; }
+
+        /* Sidebar tool buttons */
+        .tool-nav-btn { transition: all 0.2s; }
+        .tool-nav-btn.active { background-color: #1e3a8a; color: white; }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: #fff; margin: 0; padding: 0; }
+            .print-section { page-break-after: always; }
+            .shadow-lg, .shadow-md, .shadow-sm { box-shadow: none !important; border: 1px solid #e5e7eb; }
+            .tab-content { display: block !important; }
+            .tool-form-tab { display: block !important; }
+        }
+
+        .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 4px; }
+        .star-rating input { display: none; }
+        .star-rating label { font-size: 1.8rem; color: #d1d5db; cursor: pointer; transition: color 0.2s; }
+        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #f59e0b; }
+
+        .progress-bar { height: 10px; background: #e5e7eb; border-radius: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #1e3a8a, #3b82f6); border-radius: 5px; transition: width 0.5s; }
+
+        .tool-card-btn:hover .tool-arrow { transform: translateX(-4px); }
+        .tool-arrow { transition: transform 0.2s; }
+
+        /* Signature block styling */
+        .sig-block { background: linear-gradient(135deg, #f0f4ff 0%, #fefce8 100%); border-radius: 10px; padding: 16px; }
+        .sig-canvas { touch-action: none; }
+        .approval-select, .approver-name, .approval-date { font-family: 'Cairo', sans-serif; }
+
+        /* Form action bar */
+        .form-action-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; padding: 12px 16px; background: #f8faff; border-radius: 10px; border: 1px solid #e0e7ff; }
+
+        @media print {
+            .sig-block { background: #f9fafb !important; border: 1px solid #e5e7eb; }
+            .sig-canvas { border: 1px solid #9ca3af !important; }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+<!-- ======= HEADER ======= -->
+<header class="bg-primary text-white p-5 shadow-md rounded-b-xl mb-6 mx-3 mt-2">
+    <div class="container mx-auto flex flex-wrap justify-between items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-bold mb-1">إدارة التعليم | Administration of Education</h1>
+            <h2 class="text-lg text-secondary font-semibold" contenteditable="true">اكتب اسم المدرسة هنا...</h2>
+        </div>
+        <div class="text-center">
+            <div class="text-4xl font-extrabold mb-1">سجل قياس الأثر</div>
+            <div class="text-sm bg-white text-primary px-3 py-1 rounded-full inline-block font-bold">عام ١٤٤٧هـ</div>
+        </div>
+        <div class="text-left">
+            <p class="text-base">إشراف مديرة المدرسة:</p>
+            <p class="text-xl font-bold text-secondary" contenteditable="true">اسم مديرة المدرسة</p>
+        </div>
+    </div>
+</header>
+
+<div class="container mx-auto flex flex-col md:flex-row gap-5 px-3 pb-12">
+
+    <!-- ======= SIDEBAR ======= -->
+    <aside class="w-full md:w-1/4 bg-white rounded-xl shadow-lg p-4 h-fit no-print sticky top-4">
+        <h3 class="text-lg font-bold text-primary border-b-2 border-secondary pb-2 mb-3">قائمة السجل</h3>
+        <ul class="space-y-1 font-semibold text-sm">
+            <li><button onclick="openTab('tab-intro')" class="w-full text-right p-3 rounded-lg bg-primary text-white hover:bg-blue-800 transition">📋 المقدمة والرؤية</button></li>
+            <li><button onclick="openTab('tab-tools')" class="w-full text-right p-3 rounded-lg text-gray-700 hover:bg-light transition">🛠 أدوات قياس الأثر (١٣ أداة)</button></li>
+            <li>
+                <button onclick="openTab('tab-tool-forms')" class="w-full text-right p-3 rounded-lg text-gray-700 hover:bg-light transition">📝 نماذج الأدوات</button>
+                <div id="tool-forms-submenu" class="hidden mt-1 mr-2 space-y-1 text-xs">
+                    <button onclick="openToolForm(0)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">1. استمارة المتابعة</button>
+                    <button onclick="openToolForm(1)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">2. الاستبانة</button>
+                    <button onclick="openToolForm(2)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">3. بطاقة ملاحظة</button>
+                    <button onclick="openToolForm(3)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">4. الرسوم البيانية</button>
+                    <button onclick="openToolForm(4)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">5. التقارير</button>
+                    <button onclick="openToolForm(5)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">6. قياس الأثر التدريبي</button>
+                    <button onclick="openToolForm(6)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">7. التقييم الذاتي</button>
+                    <button onclick="openToolForm(7)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">8. الملاحظة المباشرة</button>
+                    <button onclick="openToolForm(8)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">9. التغذية الراجعة</button>
+                    <button onclick="openToolForm(9)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">10. المقابلات</button>
+                    <button onclick="openToolForm(10)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">11. تحليل البيانات</button>
+                    <button onclick="openToolForm(11)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">12. دراسة الحالة</button>
+                    <button onclick="openToolForm(12)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">13. استطلاع الرأي</button>
+                    <button onclick="openToolForm(13)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">14. قياس الأثر القبلي</button>
+                    <button onclick="openToolForm(14)" class="tool-nav-btn w-full text-right p-2 rounded bg-gray-50 hover:bg-blue-50 border border-gray-200">15. قياس الأثر البعدي</button>
+                </div>
+            </li>
+            <li><button onclick="openTab('tab-auth')" class="w-full text-right p-3 rounded-lg text-gray-700 hover:bg-light transition">✅ الاعتماد والتوقيع</button></li>
+        </ul>
+
+    </aside>
+
+    <!-- ======= MAIN CONTENT ======= -->
+    <main class="w-full md:w-3/4 bg-white rounded-xl shadow-lg p-6">
+
+        <!-- TAB 1: Intro -->
+        <div id="tab-intro" class="tab-content active">
+            <h2 class="text-3xl font-bold text-primary border-b-4 border-secondary inline-block pb-2 mb-6">المقدمة والتأسيس</h2>
+            <div class="bg-blue-50 p-6 rounded-lg border-r-4 border-primary mb-8">
+                <p class="text-lg leading-relaxed text-gray-700" contenteditable="true">
+                    تعد المدرسة الركيزة الأساسية في منظومة التعليم، وهي البيئة التي تصنع فيها الكفاءات وتبنى فيها الشخصيات. إن قياس الأثر المدرسي ليس مجرد إجراء روتيني، بل هو منهجية علمية متكاملة تمكن القيادة المدرسية من اتخاذ قرارات مدروسة.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white border-2 border-gray-100 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-primary text-white p-2 rounded-full">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold">الرؤية</h3>
+                    </div>
+                    <p class="text-gray-600 font-medium" contenteditable="true">مدرسة رائدة في ثقافة التقييم والقياس، تُحوّل بياناتها إلى قرارات نهوضية ترتقي بمخرجاتها التعليمية وتسهم في بناء مجتمع معرفي متطور.</p>
+                </div>
+                <div class="bg-white border-2 border-gray-100 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="bg-secondary text-white p-2 rounded-full">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold">الرسالة</h3>
+                    </div>
+                    <p class="text-gray-600 font-medium" contenteditable="true">تطبيق منهجية علمية متكاملة لقياس أثر البرامج والأنشطة المدرسية، من خلال أدوات تقييم متنوعة وموثوقة، بما يحقق التطوير المستمر ويرفع جودة الأداء المؤسسي.</p>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-primary mb-4">الأهداف العامة</h3>
+            <ul class="list-disc list-inside space-y-2 text-gray-700 bg-gray-50 p-6 rounded-lg font-medium" contenteditable="true">
+                <li>قياس مدى تحقيق البرامج المدرسية لأهدافها المرسومة وفق معايير واضحة وقابلة للقياس.</li>
+                <li>تطوير كفاءات المقيمين والمدربين في التعامل مع أدوات القياس المختلفة.</li>
+                <li>تحديد نقاط القوة والتميز في الأداء المدرسي ورفع مستوى الفاعلية التنظيمية.</li>
+                <li>بناء ثقافة مؤسسية تُقدّر التقييم والمساءلة الذاتية البناءة لدى جميع العاملين.</li>
+            </ul>
+        </div>
+
+        <!-- TAB 2: Tools Overview -->
+        <div id="tab-tools" class="tab-content">
+            <h2 class="text-3xl font-bold text-primary border-b-4 border-secondary inline-block pb-2 mb-6">منصة أدوات قياس الأثر</h2>
+            <p class="mb-6 text-gray-600">يتناول هذا الدليل ثلاثة عشر أداة أساسية من أدوات قياس الأثر المدرسي. اضغط على أي أداة للانتقال لنموذجها:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div onclick="openToolFormFromCard(0)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">1. استمارة المتابعة</div>
+                    <div class="text-sm text-gray-500 mb-2">رصد تقدم تنفيذ البرامج والأنشطة بشكل دوري ومنتظم.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(1)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">2. الاستبانات</div>
+                    <div class="text-sm text-gray-500 mb-2">أداة منهجية لجمع البيانات من عينة واسعة.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(2)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">3. بطاقة ملاحظة الأداء</div>
+                    <div class="text-sm text-gray-500 mb-2">تعتمد على المشاهدة المباشرة لتوثيق الأداء الفعلي.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(3)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">4. الرسوم البيانية</div>
+                    <div class="text-sm text-gray-500 mb-2">تحويل البيانات الرقمية إلى تمثيلات بصرية.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(4)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">5. التقارير</div>
+                    <div class="text-sm text-gray-500 mb-2">وثيقة رسمية تلخص المعلومات والتحليلات.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(5)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">6. قياس الأثر التدريبي</div>
+                    <div class="text-sm text-gray-500 mb-2">تحديد مدى تأثير التدريب على السلوك والأداء.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(6)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">7. التقييم الذاتي</div>
+                    <div class="text-sm text-gray-500 mb-2">أداة تعكسية لتقييم الكفاءات الشخصية.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(7)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">8. الملاحظة المباشرة</div>
+                    <div class="text-sm text-gray-500 mb-2">مشاهدة الأحداث في بيئتها الطبيعية.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(8)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">9. التغذية الراجعة</div>
+                    <div class="text-sm text-gray-500 mb-2">معلومات لتعزيز الإيجابيات ومعالجة نقاط الضعف.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(9)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">10. المقابلات الشخصية</div>
+                    <div class="text-sm text-gray-500 mb-2">حوار موجه لاستيعاب المواقف بعمق.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(10)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">11. تحليل البيانات</div>
+                    <div class="text-sm text-gray-500 mb-2">تحويل الأرقام إلى رؤى استراتيجية.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(11)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">12. دراسة الحالة</div>
+                    <div class="text-sm text-gray-500 mb-2">منهج تفصيلي لظاهرة أو برنامج محدد.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(12)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary sm:col-span-2 md:col-span-3 cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">13. استطلاع الرأي</div>
+                    <div class="text-sm text-gray-500 mb-2">قياس توجهات المجتمع المدرسي حول قضية معينة.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(13)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-secondary cursor-pointer hover:bg-yellow-50">
+                    <div class="font-bold text-lg mb-2">14. قياس الأثر القبلي</div>
+                    <div class="text-sm text-gray-500 mb-2">تقييم المعرفة والمهارات قبل تنفيذ البرنامج أو النشاط.</div>
+                    <span class="text-secondary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+                <div onclick="openToolFormFromCard(14)" class="tool-card-btn bg-white border p-4 rounded-lg shadow-sm hover:shadow-md transition text-center border-t-4 border-t-primary cursor-pointer hover:bg-blue-50">
+                    <div class="font-bold text-lg mb-2">15. قياس الأثر البعدي</div>
+                    <div class="text-sm text-gray-500 mb-2">تقييم المعرفة والمهارات بعد تنفيذ البرنامج وقياس مدى التحسن.</div>
+                    <span class="text-primary text-xs font-bold tool-arrow inline-block">← فتح النموذج</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Tool Forms (13 forms) -->
+        <div id="tab-tool-forms" class="tab-content">
+            <!-- Navigation within forms -->
+            <div class="flex items-center justify-between mb-4 no-print">
+                <h2 class="text-2xl font-bold text-primary">نماذج أدوات قياس الأثر</h2>
+                <div class="flex gap-2">
+                    <button onclick="prevToolForm()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-4 py-2 rounded-lg text-sm transition">→ السابق</button>
+                    <button onclick="nextToolForm()" class="bg-primary hover:bg-blue-800 text-white font-bold px-4 py-2 rounded-lg text-sm transition">← التالي</button>
+                </div>
+            </div>
+            <!-- Tool selector pills -->
+            <div class="flex flex-wrap gap-2 mb-6 no-print" id="tool-pills">
+                <button onclick="openToolForm(0)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">1</button>
+                <button onclick="openToolForm(1)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">2</button>
+                <button onclick="openToolForm(2)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">3</button>
+                <button onclick="openToolForm(3)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">4</button>
+                <button onclick="openToolForm(4)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">5</button>
+                <button onclick="openToolForm(5)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">6</button>
+                <button onclick="openToolForm(6)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">7</button>
+                <button onclick="openToolForm(7)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">8</button>
+                <button onclick="openToolForm(8)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">9</button>
+                <button onclick="openToolForm(9)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">10</button>
+                <button onclick="openToolForm(10)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">11</button>
+                <button onclick="openToolForm(11)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">12</button>
+                <button onclick="openToolForm(12)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">13</button>
+                <button onclick="openToolForm(13)" class="tool-pill text-xs px-3 py-1 rounded-full border border-secondary text-secondary hover:bg-secondary hover:text-white transition font-bold">14</button>
+                <button onclick="openToolForm(14)" class="tool-pill text-xs px-3 py-1 rounded-full border border-primary text-primary hover:bg-primary hover:text-white transition font-bold">15</button>
+            </div>
+
+            <!-- ===== FORM 1: استمارة المتابعة ===== -->
+            <div id="tool-form-0" class="tool-form-tab active print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">1. نموذج استمارة المتابعة</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-0','نموذج استمارة المتابعة')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-0','نموذج استمارة المتابعة')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: رصد تقدم تنفيذ البرامج والأنشطة بشكل دوري ومنتظم للتحقق من سير العمل وفق الخطة الموضوعة.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم البرنامج / النشاط</label><input type="text" placeholder="أدخل الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">المسؤول عن التنفيذ</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ المتابعة</label><input type="date"></div>
+                    </div>
+                    <h4 class="font-bold text-primary mt-2">جدول المتابعة الدورية</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border p-2">م</th>
+                                    <th class="border p-2">المهمة / النشاط</th>
+                                    <th class="border p-2">الموعد المخطط</th>
+                                    <th class="border p-2">الموعد الفعلي</th>
+                                    <th class="border p-2 text-center">نسبة الإنجاز %</th>
+                                    <th class="border p-2">الملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">5</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="date"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">المعوقات التي واجهت التنفيذ</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">التوصيات والإجراءات التصحيحية</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <div class="flex items-center gap-6 mt-2">
+                        <div class="flex-1"><label class="block text-sm font-bold mb-1">توقيع المتابِع</label><input type="text" placeholder="الاسم"></div>
+                        <div class="flex-1"><label class="block text-sm font-bold mb-1">توقيع المديرة / الاعتماد</label><input type="text" placeholder="الاسم"></div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 2: الاستبانة ===== -->
+            <div id="tool-form-1" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">2. نموذج الاستبانة</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-1','نموذج الاستبانة')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-1','نموذج الاستبانة')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: جمع البيانات من عينة واسعة من المستفيدين بطريقة منهجية وموثوقة.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عنوان الاستبانة</label><input type="text" placeholder="عنوان الاستبانة"></div>
+                        <div><label class="block text-sm font-bold mb-1">الفئة المستهدفة</label><select><option>المعلمات</option><option>الطالبات</option><option>أولياء الأمور</option><option>الإدارة</option></select></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التطبيق</label><input type="date"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">محاور الاستبانة (مقياس ليكرت)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border p-2">م</th>
+                                    <th class="border p-2">العبارة</th>
+                                    <th class="border p-2 text-center">موافق بشدة</th>
+                                    <th class="border p-2 text-center">موافق</th>
+                                    <th class="border p-2 text-center">محايد</th>
+                                    <th class="border p-2 text-center">غير موافق</th>
+                                    <th class="border p-2 text-center">غير موافق بشدة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center font-bold">1</td><td class="border p-2"><input type="text" placeholder="اكتب العبارة..."></td><td class="border p-2 text-center"><input type="radio" name="q1"></td><td class="border p-2 text-center"><input type="radio" name="q1"></td><td class="border p-2 text-center"><input type="radio" name="q1"></td><td class="border p-2 text-center"><input type="radio" name="q1"></td><td class="border p-2 text-center"><input type="radio" name="q1"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center font-bold">2</td><td class="border p-2"><input type="text" placeholder="اكتب العبارة..."></td><td class="border p-2 text-center"><input type="radio" name="q2"></td><td class="border p-2 text-center"><input type="radio" name="q2"></td><td class="border p-2 text-center"><input type="radio" name="q2"></td><td class="border p-2 text-center"><input type="radio" name="q2"></td><td class="border p-2 text-center"><input type="radio" name="q2"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center font-bold">3</td><td class="border p-2"><input type="text" placeholder="اكتب العبارة..."></td><td class="border p-2 text-center"><input type="radio" name="q3"></td><td class="border p-2 text-center"><input type="radio" name="q3"></td><td class="border p-2 text-center"><input type="radio" name="q3"></td><td class="border p-2 text-center"><input type="radio" name="q3"></td><td class="border p-2 text-center"><input type="radio" name="q3"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center font-bold">4</td><td class="border p-2"><input type="text" placeholder="اكتب العبارة..."></td><td class="border p-2 text-center"><input type="radio" name="q4"></td><td class="border p-2 text-center"><input type="radio" name="q4"></td><td class="border p-2 text-center"><input type="radio" name="q4"></td><td class="border p-2 text-center"><input type="radio" name="q4"></td><td class="border p-2 text-center"><input type="radio" name="q4"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center font-bold">5</td><td class="border p-2"><input type="text" placeholder="اكتب العبارة..."></td><td class="border p-2 text-center"><input type="radio" name="q5"></td><td class="border p-2 text-center"><input type="radio" name="q5"></td><td class="border p-2 text-center"><input type="radio" name="q5"></td><td class="border p-2 text-center"><input type="radio" name="q5"></td><td class="border p-2 text-center"><input type="radio" name="q5"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">ملاحظات واقتراحات إضافية</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عدد المستجيبين</label><input type="number" placeholder="0"></div>
+                        <div><label class="block text-sm font-bold mb-1">نسبة الاستجابة %</label><input type="number" min="0" max="100" placeholder="0-100"></div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 3: بطاقة ملاحظة الأداء ===== -->
+            <div id="tool-form-2" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">3. بطاقة ملاحظة الأداء</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-2','بطاقة ملاحظة الأداء')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-2','بطاقة ملاحظة الأداء')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: توثيق الأداء الفعلي من خلال المشاهدة المباشرة بأسلوب موضوعي ومنهجي.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم الملاحِظ</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">اسم الملاحَظ</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ الملاحظة</label><input type="date"></div>
+                        <div><label class="block text-sm font-bold mb-1">موضوع الملاحظة</label><input type="text" placeholder="الحصة / النشاط"></div>
+                        <div><label class="block text-sm font-bold mb-1">المرحلة الدراسية</label><input type="text" placeholder="مثال: ثانوي - أول"></div>
+                        <div><label class="block text-sm font-bold mb-1">مدة الملاحظة</label><input type="text" placeholder="مثال: 45 دقيقة"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">معايير الأداء الملاحَظ</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border p-2">م</th>
+                                    <th class="border p-2">معيار الأداء</th>
+                                    <th class="border p-2 text-center">ممتاز (4)</th>
+                                    <th class="border p-2 text-center">جيد (3)</th>
+                                    <th class="border p-2 text-center">مقبول (2)</th>
+                                    <th class="border p-2 text-center">يحتاج تطوير (1)</th>
+                                    <th class="border p-2">الملاحظة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="إدارة الوقت"></td><td class="border p-2 text-center"><input type="radio" name="obs1"></td><td class="border p-2 text-center"><input type="radio" name="obs1"></td><td class="border p-2 text-center"><input type="radio" name="obs1"></td><td class="border p-2 text-center"><input type="radio" name="obs1"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="التفاعل مع المستفيدين"></td><td class="border p-2 text-center"><input type="radio" name="obs2"></td><td class="border p-2 text-center"><input type="radio" name="obs2"></td><td class="border p-2 text-center"><input type="radio" name="obs2"></td><td class="border p-2 text-center"><input type="radio" name="obs2"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="استخدام التقنية"></td><td class="border p-2 text-center"><input type="radio" name="obs3"></td><td class="border p-2 text-center"><input type="radio" name="obs3"></td><td class="border p-2 text-center"><input type="radio" name="obs3"></td><td class="border p-2 text-center"><input type="radio" name="obs3"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="التقييم والتغذية الراجعة"></td><td class="border p-2 text-center"><input type="radio" name="obs4"></td><td class="border p-2 text-center"><input type="radio" name="obs4"></td><td class="border p-2 text-center"><input type="radio" name="obs4"></td><td class="border p-2 text-center"><input type="radio" name="obs4"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">نقاط القوة الملاحَظة</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">جوانب تحتاج تطوير</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 4: الرسوم البيانية ===== -->
+            <div id="tool-form-3" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">4. نموذج الرسوم البيانية</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-3','نموذج الرسوم البيانية')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-3','نموذج الرسوم البيانية')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: تحويل البيانات الرقمية إلى تمثيلات بصرية واضحة تسهل فهم الاتجاهات والأنماط.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عنوان الرسم البياني</label><input type="text" placeholder="عنوان الرسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">نوع الرسم البياني</label><select><option>عمودي</option><option>دائري</option><option>خطي</option><option>شريطي</option><option>مبعثر</option></select></div>
+                    </div>
+                    <h4 class="font-bold text-primary">إدخال بيانات الرسم</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr><th class="border p-2">الفئة / المحور الأفقي</th><th class="border p-2 text-center">القيمة</th><th class="border p-2">اللون</th></tr>
+                            </thead>
+                            <tbody id="chart-data-table">
+                                <tr class="bg-white"><td class="border p-2"><input type="text" placeholder="الفئة الأولى"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="color" value="#1e3a8a" class="h-8 w-16 rounded cursor-pointer"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2"><input type="text" placeholder="الفئة الثانية"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="color" value="#d97706" class="h-8 w-16 rounded cursor-pointer"></td></tr>
+                                <tr class="bg-white"><td class="border p-2"><input type="text" placeholder="الفئة الثالثة"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="color" value="#16a34a" class="h-8 w-16 rounded cursor-pointer"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2"><input type="text" placeholder="الفئة الرابعة"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="color" value="#dc2626" class="h-8 w-16 rounded cursor-pointer"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">تفسير الرسم البياني والاستنتاجات</label><textarea rows="4" placeholder="اكتب هنا تفسير البيانات الممثلة في الرسم..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">المصدر / مرجع البيانات</label><input type="text" placeholder="مصدر البيانات"></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 5: التقارير ===== -->
+            <div id="tool-form-4" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">5. نموذج التقرير</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-4','نموذج التقرير')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-4','نموذج التقرير')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: إعداد وثيقة رسمية تلخص المعلومات والتحليلات وتُقدّم نتائج واضحة.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عنوان التقرير</label><input type="text" placeholder="عنوان التقرير"></div>
+                        <div><label class="block text-sm font-bold mb-1">اسم معد التقرير</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التقرير</label><input type="date"></div>
+                        <div><label class="block text-sm font-bold mb-1">الفترة الزمنية المُغطاة</label><input type="text" placeholder="مثال: الفصل الأول 1447هـ"></div>
+                        <div><label class="block text-sm font-bold mb-1">الجهة المُرسَل إليها</label><input type="text" placeholder="مثال: مديرة المدرسة"></div>
+                        <div><label class="block text-sm font-bold mb-1">نوع التقرير</label><select><option>دوري</option><option>ختامي</option><option>طارئ</option><option>إنجازي</option></select></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">المقدمة / الخلفية</label><textarea rows="3" placeholder="اكتب مقدمة التقرير..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">الأهداف المُحددة للتقرير</label><textarea rows="2" placeholder="اكتب الأهداف..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">الإنجازات والنتائج</label><textarea rows="4" placeholder="سرد الإنجازات والنتائج المحققة..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">التحديات والمعوقات</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">التوصيات والمقترحات</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">توقيع معد التقرير</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">اعتماد المديرة</label><input type="text" placeholder="الاسم"></div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 6: قياس الأثر التدريبي (كيرك باتريك) ===== -->
+            <div id="tool-form-5" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">6. نموذج قياس الأثر التدريبي</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-5','نموذج قياس الأثر التدريبي')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-5','نموذج قياس الأثر التدريبي')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: تحديد مدى تأثير التدريب على السلوك والأداء وفق نموذج كيرك باتريك الرباعي.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم البرنامج التدريبي</label><input type="text" placeholder="أدخل اسم البرنامج"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التنفيذ</label><input type="date"></div>
+                        <div><label class="block text-sm font-bold mb-1">اسم المنفذ / المدرب</label><input type="text" placeholder="اسم المنفذ"></div>
+                        <div><label class="block text-sm font-bold mb-1">الفئة المستهدفة / عدد الحضور</label><input type="text" placeholder="مثال: المعلمات - 20"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">مستويات قياس الأثر التدريبي (نموذج كيرك باتريك المطور)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr><th class="border p-2 w-1/4">المستوى</th><th class="border p-2">السؤال التقييمي</th><th class="border p-2 w-1/4 text-center">الدرجة (من 5)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 font-bold text-primary">المستوى الأول: التفاعل والرضا</td><td class="border p-2">ما مدى رضاك عن البرنامج التدريبي بشكل عام؟</td><td class="border p-2"><input type="number" min="1" max="5" class="w-full text-center" placeholder="1-5"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 font-bold text-primary">المستوى الثاني: اكتساب المعرفة</td><td class="border p-2">هل اكتسبت معلومات ومهارات جديدة لم تكن تمتلكها؟</td><td class="border p-2"><input type="number" min="1" max="5" class="w-full text-center" placeholder="1-5"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 font-bold text-primary">المستوى الثالث: تغيير السلوك</td><td class="border p-2">هل طبقت ما تعلمته في بيئة العمل الفعلية؟</td><td class="border p-2"><input type="number" min="1" max="5" class="w-full text-center" placeholder="1-5"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 font-bold text-primary">المستوى الرابع: الأثر على النتائج</td><td class="border p-2">كيف أثر البرنامج على جودة أدائك ومخرجاتك؟</td><td class="border p-2"><input type="number" min="1" max="5" class="w-full text-center" placeholder="1-5"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">نقاط القوة بعد التطوير</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">جوانب تحتاج متابعة إضافية</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 7: التقييم الذاتي ===== -->
+            <div id="tool-form-6" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">7. نموذج التقييم الذاتي</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-6','نموذج التقييم الذاتي')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-6','نموذج التقييم الذاتي')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: تمكين الفرد من تقييم كفاءاته الشخصية والمهنية بأسلوب تعكسي موضوعي.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم المقيِّم</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">المسمى الوظيفي</label><input type="text" placeholder="المسمى"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التقييم</label><input type="date"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">محاور التقييم الذاتي</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr><th class="border p-2">الكفاءة / المجال</th><th class="border p-2 text-center">متميز (5)</th><th class="border p-2 text-center">متقدم (4)</th><th class="border p-2 text-center">متوسط (3)</th><th class="border p-2 text-center">مبتدئ (2)</th><th class="border p-2 text-center">يحتاج دعم (1)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 font-semibold">إدارة الوقت</td><td class="border p-2 text-center"><input type="radio" name="s1"></td><td class="border p-2 text-center"><input type="radio" name="s1"></td><td class="border p-2 text-center"><input type="radio" name="s1"></td><td class="border p-2 text-center"><input type="radio" name="s1"></td><td class="border p-2 text-center"><input type="radio" name="s1"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 font-semibold">التواصل والعلاقات</td><td class="border p-2 text-center"><input type="radio" name="s2"></td><td class="border p-2 text-center"><input type="radio" name="s2"></td><td class="border p-2 text-center"><input type="radio" name="s2"></td><td class="border p-2 text-center"><input type="radio" name="s2"></td><td class="border p-2 text-center"><input type="radio" name="s2"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 font-semibold">استخدام التقنية</td><td class="border p-2 text-center"><input type="radio" name="s3"></td><td class="border p-2 text-center"><input type="radio" name="s3"></td><td class="border p-2 text-center"><input type="radio" name="s3"></td><td class="border p-2 text-center"><input type="radio" name="s3"></td><td class="border p-2 text-center"><input type="radio" name="s3"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 font-semibold">التطوير المهني</td><td class="border p-2 text-center"><input type="radio" name="s4"></td><td class="border p-2 text-center"><input type="radio" name="s4"></td><td class="border p-2 text-center"><input type="radio" name="s4"></td><td class="border p-2 text-center"><input type="radio" name="s4"></td><td class="border p-2 text-center"><input type="radio" name="s4"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 font-semibold">التخطيط والتنظيم</td><td class="border p-2 text-center"><input type="radio" name="s5"></td><td class="border p-2 text-center"><input type="radio" name="s5"></td><td class="border p-2 text-center"><input type="radio" name="s5"></td><td class="border p-2 text-center"><input type="radio" name="s5"></td><td class="border p-2 text-center"><input type="radio" name="s5"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">ما الذي أنجزته بشكل جيد خلال هذه الفترة؟</label><textarea rows="2" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">ما الذي تحتاج لتطويره؟ وما خطتك للتحسين؟</label><textarea rows="2" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 8: الملاحظة المباشرة ===== -->
+            <div id="tool-form-7" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">8. نموذج الملاحظة المباشرة</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-7','نموذج الملاحظة المباشرة')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-7','نموذج الملاحظة المباشرة')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: مشاهدة الأحداث والسلوكيات في بيئتها الطبيعية وتسجيلها بدقة وموضوعية.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">المكان / البيئة</label><input type="text" placeholder="مثال: الفصل الدراسي"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ ووقت الملاحظة</label><input type="datetime-local"></div>
+                        <div><label class="block text-sm font-bold mb-1">المدة الزمنية</label><input type="text" placeholder="مثال: 30 دقيقة"></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">هدف الملاحظة</label><textarea rows="2" placeholder="ما الذي تريد ملاحظته تحديداً؟" class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <h4 class="font-bold text-primary">سجل الملاحظات الميدانية</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr><th class="border p-2 w-1/6">الوقت</th><th class="border p-2">الحدث / السلوك الملاحَظ</th><th class="border p-2 w-1/5">التصنيف</th><th class="border p-2 w-1/5">التكرار</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2"><input type="time"></td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><select><option>إيجابي</option><option>سلبي</option><option>محايد</option></select></td><td class="border p-2"><input type="number" min="1" placeholder="1" class="text-center"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2"><input type="time"></td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><select><option>إيجابي</option><option>سلبي</option><option>محايد</option></select></td><td class="border p-2"><input type="number" min="1" placeholder="1" class="text-center"></td></tr>
+                                <tr class="bg-white"><td class="border p-2"><input type="time"></td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><select><option>إيجابي</option><option>سلبي</option><option>محايد</option></select></td><td class="border p-2"><input type="number" min="1" placeholder="1" class="text-center"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2"><input type="time"></td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><select><option>إيجابي</option><option>سلبي</option><option>محايد</option></select></td><td class="border p-2"><input type="number" min="1" placeholder="1" class="text-center"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">الانطباعات العامة والاستنتاجات</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 9: التغذية الراجعة ===== -->
+            <div id="tool-form-8" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">9. نموذج التغذية الراجعة</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-8','نموذج التغذية الراجعة')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-8','نموذج التغذية الراجعة')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: جمع معلومات تعزيزية لتحسين الأداء وتقوية جوانب الضعف وتعزيز الإيجابيات.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">البرنامج / الحدث المقيَّم</label><input type="text" placeholder="..."></div>
+                        <div><label class="block text-sm font-bold mb-1">مقدم التغذية الراجعة</label><input type="text" placeholder="الاسم (اختياري)"></div>
+                        <div><label class="block text-sm font-bold mb-1">التاريخ</label><input type="date"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">نموذج التغذية الراجعة (SBI - الموقف / السلوك / الأثر)</h4>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <label class="block text-sm font-bold mb-2 text-green-800">🟢 الموقف (Situation) - متى وأين؟</label>
+                            <textarea rows="2" placeholder="صف الموقف الذي لاحظت فيه السلوك..." class="w-full border border-green-300 rounded p-2"></textarea>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <label class="block text-sm font-bold mb-2 text-blue-800">🔵 السلوك (Behavior) - ماذا فعل / قال؟</label>
+                            <textarea rows="2" placeholder="صف السلوك الملاحظ بموضوعية..." class="w-full border border-blue-300 rounded p-2"></textarea>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <label class="block text-sm font-bold mb-2 text-yellow-800">🟡 الأثر (Impact) - ما الأثر الناتج؟</label>
+                            <textarea rows="2" placeholder="صف الأثر على الفريق أو المستفيدين..." class="w-full border border-yellow-300 rounded p-2"></textarea>
+                        </div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">المقترحات للتحسين</label><textarea rows="3" placeholder="اكتب مقترحاتك هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div class="flex items-center gap-4">
+                        <label class="font-bold text-sm">التقييم العام للبرنامج:</label>
+                        <div class="flex gap-1 text-2xl">
+                            <span class="cursor-pointer hover:text-yellow-400" onclick="setRating(this,1)">☆</span>
+                            <span class="cursor-pointer hover:text-yellow-400" onclick="setRating(this,2)">☆</span>
+                            <span class="cursor-pointer hover:text-yellow-400" onclick="setRating(this,3)">☆</span>
+                            <span class="cursor-pointer hover:text-yellow-400" onclick="setRating(this,4)">☆</span>
+                            <span class="cursor-pointer hover:text-yellow-400" onclick="setRating(this,5)">☆</span>
+                        </div>
+                    </div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 10: المقابلات الشخصية ===== -->
+            <div id="tool-form-9" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">10. نموذج المقابلة الشخصية</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-9','نموذج المقابلة الشخصية')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-9','نموذج المقابلة الشخصية')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: إجراء حوار موجه ومنظم للحصول على معلومات عميقة ودقيقة حول موضوع محدد.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم المُحاوِر</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">اسم المُحاوَر (اختياري)</label><input type="text" placeholder="الاسم أو الرمز"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ ووقت المقابلة</label><input type="datetime-local"></div>
+                        <div><label class="block text-sm font-bold mb-1">موضوع المقابلة</label><input type="text" placeholder="موضوع المقابلة"></div>
+                        <div><label class="block text-sm font-bold mb-1">نوع المقابلة</label><select><option>مقابلة مقننة</option><option>مقابلة شبه مقننة</option><option>مقابلة مفتوحة</option></select></div>
+                        <div><label class="block text-sm font-bold mb-1">مدة المقابلة</label><input type="text" placeholder="مثال: 30 دقيقة"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">أسئلة المقابلة وإجاباتها</h4>
+                    <div class="space-y-3">
+                        <div class="border border-gray-200 rounded-lg p-3"><label class="block text-sm font-bold mb-1 text-primary">السؤال الأول</label><input type="text" placeholder="أدخل نص السؤال..." class="mb-2"><label class="block text-sm font-semibold mb-1">الإجابة</label><textarea rows="2" placeholder="دوّن الإجابة هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div class="border border-gray-200 rounded-lg p-3"><label class="block text-sm font-bold mb-1 text-primary">السؤال الثاني</label><input type="text" placeholder="أدخل نص السؤال..." class="mb-2"><label class="block text-sm font-semibold mb-1">الإجابة</label><textarea rows="2" placeholder="دوّن الإجابة هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div class="border border-gray-200 rounded-lg p-3"><label class="block text-sm font-bold mb-1 text-primary">السؤال الثالث</label><input type="text" placeholder="أدخل نص السؤال..." class="mb-2"><label class="block text-sm font-semibold mb-1">الإجابة</label><textarea rows="2" placeholder="دوّن الإجابة هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">الملاحظات العامة والاستنتاجات</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 11: تحليل البيانات ===== -->
+            <div id="tool-form-10" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">11. نموذج تحليل البيانات</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-10','نموذج تحليل البيانات')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-10','نموذج تحليل البيانات')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: تحويل البيانات الكمية إلى رؤى استراتيجية مفيدة لاتخاذ القرار.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عنوان التحليل</label><input type="text" placeholder="موضوع التحليل"></div>
+                        <div><label class="block text-sm font-bold mb-1">المحلل</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التحليل</label><input type="date"></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">مصادر البيانات المستخدمة</label><textarea rows="2" placeholder="اذكر مصادر البيانات..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <h4 class="font-bold text-primary">جدول البيانات المُحللة</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr><th class="border p-2">المؤشر</th><th class="border p-2 text-center">القيمة المستهدفة</th><th class="border p-2 text-center">القيمة الفعلية</th><th class="border p-2 text-center">الفجوة</th><th class="border p-2">تفسير الفجوة</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2"><input type="text" placeholder="المؤشر 1"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center" readonly></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2"><input type="text" placeholder="المؤشر 2"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center" readonly></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2"><input type="text" placeholder="المؤشر 3"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center"></td><td class="border p-2"><input type="number" placeholder="0" class="text-center" readonly></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">الاستنتاجات الرئيسية</label><textarea rows="3" placeholder="اكتب الاستنتاجات المستخلصة..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">التوصيات المبنية على البيانات</label><textarea rows="3" placeholder="اكتب التوصيات..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 12: دراسة الحالة ===== -->
+            <div id="tool-form-11" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">12. نموذج دراسة الحالة</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-11','نموذج دراسة الحالة')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-11','نموذج دراسة الحالة')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: دراسة تفصيلية ومعمّقة لظاهرة أو برنامج أو موقف محدد لاستخلاص دروس مستفادة.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">عنوان دراسة الحالة</label><input type="text" placeholder="عنوان الدراسة"></div>
+                        <div><label class="block text-sm font-bold mb-1">الباحث / المحلل</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ الدراسة</label><input type="date"></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">وصف الحالة / الظاهرة</label><textarea rows="3" placeholder="صف الحالة أو الظاهرة موضع الدراسة..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">السياق والخلفية</label><textarea rows="2" placeholder="السياق الزمني والمكاني والظرفي..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">الأدوات المستخدمة في جمع البيانات</label><textarea rows="2" placeholder="مثال: مقابلات، وثائق، ملاحظات..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">المشاركون في الدراسة</label><textarea rows="2" placeholder="من شارك في الدراسة؟" class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">النتائج والتحليل</label><textarea rows="4" placeholder="اكتب نتائج دراسة الحالة وتحليلك..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <div><label class="block text-sm font-bold mb-1">الدروس المستفادة والتوصيات</label><textarea rows="3" placeholder="ما الدروس التي يمكن تعميمها؟" class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 13: استطلاع الرأي ===== -->
+            <div id="tool-form-12" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">13. نموذج استطلاع الرأي</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                    <button onclick="printForm('tool-form-12','نموذج استطلاع الرأي')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        🖨 طباعة النموذج
+                    </button>
+                    <button onclick="saveFormHTML('tool-form-12','نموذج استطلاع الرأي')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        💾 حفظ النموذج
+                    </button>
+                </div>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-lg text-sm text-blue-800 mb-4 font-medium">📌 الهدف: قياس توجهات وآراء المجتمع المدرسي حول قضية أو برنامج معين.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">موضوع الاستطلاع</label><input type="text" placeholder="موضوع الاستطلاع"></div>
+                        <div><label class="block text-sm font-bold mb-1">الفئة المستهدفة</label><select><option>المعلمات</option><option>الطالبات</option><option>أولياء الأمور</option><option>جميع الفئات</option></select></div>
+                        <div><label class="block text-sm font-bold mb-1">مدة الاستطلاع</label><input type="text" placeholder="مثال: أسبوع واحد"></div>
+                    </div>
+                    <h4 class="font-bold text-primary">أسئلة الاستطلاع</h4>
+                    <div class="space-y-3">
+                        <div class="border rounded-lg p-3 bg-white">
+                            <div class="flex justify-between mb-2"><label class="text-sm font-bold text-primary">السؤال الأول (اختيار من متعدد)</label></div>
+                            <input type="text" placeholder="نص السؤال..." class="mb-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="flex gap-2"><input type="radio" name="poll1"> <input type="text" placeholder="الخيار أ" class="flex-1"></div>
+                                <div class="flex gap-2"><input type="radio" name="poll1"> <input type="text" placeholder="الخيار ب" class="flex-1"></div>
+                                <div class="flex gap-2"><input type="radio" name="poll1"> <input type="text" placeholder="الخيار ج" class="flex-1"></div>
+                                <div class="flex gap-2"><input type="radio" name="poll1"> <input type="text" placeholder="الخيار د" class="flex-1"></div>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-white">
+                            <label class="text-sm font-bold text-primary block mb-2">السؤال الثاني (مقياس رقمي)</label>
+                            <input type="text" placeholder="نص السؤال..." class="mb-2">
+                            <div class="flex items-center gap-3">
+                                <span class="text-sm text-gray-500">لا أوافق (1)</span>
+                                <input type="range" min="1" max="5" value="3" class="flex-1">
+                                <span class="text-sm text-gray-500">أوافق بشدة (5)</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-3 bg-white">
+                            <label class="text-sm font-bold text-primary block mb-2">السؤال الثالث (إجابة مفتوحة)</label>
+                            <input type="text" placeholder="نص السؤال..." class="mb-2">
+                            <textarea rows="2" placeholder="مساحة الإجابة..." class="w-full border border-gray-300 rounded p-2"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div><label class="block text-sm font-bold mb-1">عدد المشاركين المستهدفين</label><input type="number" placeholder="0"></div>
+                        <div><label class="block text-sm font-bold mb-1">عدد المشاركين الفعلي</label><input type="number" placeholder="0"></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">نتائج الاستطلاع وتحليلها</label><textarea rows="3" placeholder="اكتب ملخص النتائج..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ===== FORM 14: قياس الأثر القبلي ===== -->
+            <div id="tool-form-13" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">14. نموذج قياس الأثر القبلي</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                        <button onclick="printForm('tool-form-13','نموذج قياس الأثر القبلي')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            🖨 طباعة النموذج
+                        </button>
+                        <button onclick="saveFormHTML('tool-form-13','نموذج قياس الأثر القبلي')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            💾 حفظ النموذج
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg text-sm text-yellow-800 mb-4 font-medium border border-yellow-200">📌 الهدف: تقييم مستوى المعرفة والمهارات والاتجاهات لدى المستفيدين <strong>قبل</strong> تنفيذ البرنامج أو النشاط، لتحديد نقطة الانطلاق وقياس الفجوة المراد تجسيرها.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم البرنامج / النشاط</label><input type="text" placeholder="أدخل اسم البرنامج"></div>
+                        <div><label class="block text-sm font-bold mb-1">المسؤول عن التطبيق</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التطبيق القبلي</label><input type="date"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">الفئة المستهدفة</label><select><option>المعلمات</option><option>الطالبات</option><option>أولياء الأمور</option><option>الإدارة</option><option>أخرى</option></select></div>
+                        <div><label class="block text-sm font-bold mb-1">عدد المشاركين</label><input type="number" placeholder="0"></div>
+                        <div><label class="block text-sm font-bold mb-1">مكان التطبيق</label><input type="text" placeholder="..."></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">الأهداف المتوقع تحقيقها من البرنامج</label><textarea rows="2" placeholder="اكتب الأهداف المرجوة..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+
+                    <h4 class="font-bold text-primary mt-2">أولاً: تقييم المعرفة القبلية (اختيار من متعدد / صح وخطأ)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border p-2 w-8">م</th>
+                                    <th class="border p-2">السؤال / العبارة</th>
+                                    <th class="border p-2 text-center w-24">صحيح</th>
+                                    <th class="border p-2 text-center w-24">خطأ</th>
+                                    <th class="border p-2 text-center w-24">لا أعلم</th>
+                                    <th class="border p-2">الملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_q1"></td><td class="border p-2 text-center"><input type="radio" name="pre_q1"></td><td class="border p-2 text-center"><input type="radio" name="pre_q1"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_q2"></td><td class="border p-2 text-center"><input type="radio" name="pre_q2"></td><td class="border p-2 text-center"><input type="radio" name="pre_q2"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_q3"></td><td class="border p-2 text-center"><input type="radio" name="pre_q3"></td><td class="border p-2 text-center"><input type="radio" name="pre_q3"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_q4"></td><td class="border p-2 text-center"><input type="radio" name="pre_q4"></td><td class="border p-2 text-center"><input type="radio" name="pre_q4"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">5</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_q5"></td><td class="border p-2 text-center"><input type="radio" name="pre_q5"></td><td class="border p-2 text-center"><input type="radio" name="pre_q5"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">ثانياً: تقييم المهارات القبلية (مقياس ليكرت 1-5)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-secondary text-white">
+                                <tr>
+                                    <th class="border p-2 w-8">م</th>
+                                    <th class="border p-2">المهارة / الكفاءة</th>
+                                    <th class="border p-2 text-center">1 ضعيف جداً</th>
+                                    <th class="border p-2 text-center">2 ضعيف</th>
+                                    <th class="border p-2 text-center">3 متوسط</th>
+                                    <th class="border p-2 text-center">4 جيد</th>
+                                    <th class="border p-2 text-center">5 ممتاز</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_skill1"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill1"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill1"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill1"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill1"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_skill2"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill2"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill2"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill2"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill2"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_skill3"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill3"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill3"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill3"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill3"></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_skill4"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill4"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill4"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill4"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill4"></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">5</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="pre_skill5"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill5"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill5"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill5"></td><td class="border p-2 text-center"><input type="radio" name="pre_skill5"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">ثالثاً: الاتجاهات والتوقعات القبلية</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">ما الذي تتوقع تعلمه من هذا البرنامج؟</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">ما التحديات التي تواجهها حالياً في هذا المجال؟</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">الدرجة الإجمالية للتقييم القبلي (من 100)</label><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></div>
+                        <div><label class="block text-sm font-bold mb-1">مستوى الجاهزية (تقدير المسؤول)</label><select><option>-- اختر --</option><option>مرتفع</option><option>متوسط</option><option>منخفض</option><option>يحتاج دعم مكثف</option></select></div>
+                    </div>
+                    <div><label class="block text-sm font-bold mb-1">ملاحظات المُقيِّم على التقييم القبلي</label><textarea rows="3" placeholder="ملاحظات عامة..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FORM 15: قياس الأثر البعدي ===== -->
+            <div id="tool-form-14" class="tool-form-tab print-section">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-primary border-r-4 border-secondary pr-3">15. نموذج قياس الأثر البعدي</h3>
+                    <div class="no-print flex gap-2 flex-wrap">
+                        <button onclick="printForm('tool-form-14','نموذج قياس الأثر البعدي')" class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-yellow-600 transition shadow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                            🖨 طباعة النموذج
+                        </button>
+                        <button onclick="saveFormHTML('tool-form-14','نموذج قياس الأثر البعدي')" class="flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-800 transition shadow">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            💾 حفظ النموذج
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-green-50 p-3 rounded-lg text-sm text-green-800 mb-4 font-medium border border-green-200">📌 الهدف: تقييم مستوى المعرفة والمهارات والاتجاهات لدى المستفيدين <strong>بعد</strong> تنفيذ البرنامج أو النشاط، وقياس مدى التغيير والتحسن مقارنةً بالتقييم القبلي.</div>
+                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">اسم البرنامج / النشاط</label><input type="text" placeholder="أدخل اسم البرنامج"></div>
+                        <div><label class="block text-sm font-bold mb-1">المسؤول عن التطبيق</label><input type="text" placeholder="الاسم"></div>
+                        <div><label class="block text-sm font-bold mb-1">تاريخ التطبيق البعدي</label><input type="date"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">الفئة المستهدفة</label><select><option>المعلمات</option><option>الطالبات</option><option>أولياء الأمور</option><option>الإدارة</option><option>أخرى</option></select></div>
+                        <div><label class="block text-sm font-bold mb-1">عدد المشاركين</label><input type="number" placeholder="0"></div>
+                        <div><label class="block text-sm font-bold mb-1">مدة البرنامج</label><input type="text" placeholder="مثال: أسبوعان"></div>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">أولاً: تقييم المعرفة البعدية (اختيار من متعدد / صح وخطأ)</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="border p-2 w-8">م</th>
+                                    <th class="border p-2">السؤال / العبارة</th>
+                                    <th class="border p-2 text-center w-24">صحيح</th>
+                                    <th class="border p-2 text-center w-24">خطأ</th>
+                                    <th class="border p-2 text-center w-24">لا أعلم</th>
+                                    <th class="border p-2">الملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="post_q1"></td><td class="border p-2 text-center"><input type="radio" name="post_q1"></td><td class="border p-2 text-center"><input type="radio" name="post_q1"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="post_q2"></td><td class="border p-2 text-center"><input type="radio" name="post_q2"></td><td class="border p-2 text-center"><input type="radio" name="post_q2"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="post_q3"></td><td class="border p-2 text-center"><input type="radio" name="post_q3"></td><td class="border p-2 text-center"><input type="radio" name="post_q3"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="post_q4"></td><td class="border p-2 text-center"><input type="radio" name="post_q4"></td><td class="border p-2 text-center"><input type="radio" name="post_q4"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">5</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2 text-center"><input type="radio" name="post_q5"></td><td class="border p-2 text-center"><input type="radio" name="post_q5"></td><td class="border p-2 text-center"><input type="radio" name="post_q5"></td><td class="border p-2"><input type="text" placeholder="..."></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">ثانياً: تقييم المهارات البعدية مع المقارنة بالقبلي</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse border border-gray-300 text-sm">
+                            <thead class="bg-green-700 text-white">
+                                <tr>
+                                    <th class="border p-2 w-8">م</th>
+                                    <th class="border p-2">المهارة / الكفاءة</th>
+                                    <th class="border p-2 text-center">الدرجة القبلية</th>
+                                    <th class="border p-2 text-center">الدرجة البعدية</th>
+                                    <th class="border p-2 text-center">نسبة التحسن %</th>
+                                    <th class="border p-2">مستوى الأثر</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white"><td class="border p-2 text-center">1</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="%" class="text-center"></td><td class="border p-2"><select><option>--</option><option>أثر عالٍ</option><option>أثر متوسط</option><option>أثر ضعيف</option><option>لا أثر</option></select></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">2</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="%" class="text-center"></td><td class="border p-2"><select><option>--</option><option>أثر عالٍ</option><option>أثر متوسط</option><option>أثر ضعيف</option><option>لا أثر</option></select></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">3</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="%" class="text-center"></td><td class="border p-2"><select><option>--</option><option>أثر عالٍ</option><option>أثر متوسط</option><option>أثر ضعيف</option><option>لا أثر</option></select></td></tr>
+                                <tr class="bg-gray-50"><td class="border p-2 text-center">4</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="%" class="text-center"></td><td class="border p-2"><select><option>--</option><option>أثر عالٍ</option><option>أثر متوسط</option><option>أثر ضعيف</option><option>لا أثر</option></select></td></tr>
+                                <tr class="bg-white"><td class="border p-2 text-center">5</td><td class="border p-2"><input type="text" placeholder="..."></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></td><td class="border p-2"><input type="number" min="0" max="100" placeholder="%" class="text-center"></td><td class="border p-2"><select><option>--</option><option>أثر عالٍ</option><option>أثر متوسط</option><option>أثر ضعيف</option><option>لا أثر</option></select></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">ثالثاً: مؤشرات الأثر الإجمالية</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">الدرجة الإجمالية القبلية (من 100)</label><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></div>
+                        <div><label class="block text-sm font-bold mb-1">الدرجة الإجمالية البعدية (من 100)</label><input type="number" min="0" max="100" placeholder="0-100" class="text-center"></div>
+                        <div><label class="block text-sm font-bold mb-1">مستوى الأثر الكلي للبرنامج</label><select><option>-- اختر --</option><option>أثر عالٍ جداً (80%+)</option><option>أثر عالٍ (60-79%)</option><option>أثر متوسط (40-59%)</option><option>أثر ضعيف (أقل من 40%)</option></select></div>
+                    </div>
+
+                    <h4 class="font-bold text-primary mt-2">رابعاً: انعكاسات الأثر على الممارسة الفعلية</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><label class="block text-sm font-bold mb-1">التغييرات الملحوظة في السلوك والأداء</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">الأثر على بيئة التعلم / العمل</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">نقاط القوة التي أفرزها البرنامج</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                        <div><label class="block text-sm font-bold mb-1">التوصيات للاستمرارية والتطوير</label><textarea rows="3" placeholder="اكتب هنا..." class="w-full border border-gray-300 rounded p-2"></textarea></div>
+                    </div>
+
+                    <!-- ===== قسم التوقيع والاعتماد ===== -->
+                    <div class="mt-6 pt-5 border-t-2 border-dashed border-primary sig-block">
+                        <h4 class="font-bold text-primary text-base mb-4">التوقيع والاعتماد</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">قرار الاعتماد</label>
+                                <select class="approval-select">
+                                    <option value="">-- اختر --</option>
+                                    <option value="معتمد">معتمد - تطور واضح</option>
+                                    <option value="جزئي">تطور جزئي - يحتاج متابعة</option>
+                                    <option value="غير معتمد">غير معتمد - يحتاج مراجعة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">اسم المدير/ة المعتمِد/ة</label>
+                                <input type="text" placeholder="الاسم الكامل" class="approver-name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold mb-1">تاريخ الاعتماد</label>
+                                <input type="date" class="approval-date">
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">التوقيع الإلكتروني للمدير/ة</label>
+                                <div class="sig-canvas-wrap relative inline-block">
+                                    <canvas class="sig-canvas" width="300" height="110" style="border:2px dashed #1e3a8a; border-radius:8px; background:#fff; cursor:crosshair; display:block;"></canvas>
+                                    <div class="no-print flex gap-2 mt-1">
+                                        <button type="button" onclick="clearSig(this)" class="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded hover:bg-gray-300">مسح</button>
+                                        <button type="button" onclick="saveSigImg(this)" class="text-xs bg-primary text-white px-2 py-1 rounded hover:bg-blue-800">حفظ التوقيع</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold mb-2">ملاحظات الاعتماد</label>
+                                <textarea rows="4" placeholder="أي ملاحظات أو تعليقات عند الاعتماد..." class="w-full border border-gray-300 rounded p-2 text-sm"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- end tab-tool-forms -->
+
+        <!-- TAB 4: Authentication -->
+        <div id="tab-auth" class="tab-content">
+            <h2 class="text-3xl font-bold text-primary border-b-4 border-secondary inline-block pb-2 mb-6">الاعتماد والتوقيع</h2>
+            <div class="bg-white p-6 rounded-xl border-2 border-dashed border-gray-300 text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">قرار الاعتماد النهائي</h3>
+                <div class="flex justify-center gap-6 my-6">
+                    <label class="flex items-center gap-2 cursor-pointer text-lg font-semibold text-green-700">
+                        <input type="radio" name="approval" class="w-5 h-5"> معتمد - تم ملاحظة تطور واضح
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer text-lg font-semibold text-yellow-600">
+                        <input type="radio" name="approval" class="w-5 h-5"> تطور جزئي - يحتاج متابعة
+                    </label>
+                </div>
+                <div class="mt-8 border-t pt-6 max-w-md mx-auto text-center">
+                    <p class="text-lg font-bold mb-2">توقيع مديرة المدرسة</p>
+                    <p class="text-gray-500 font-semibold mb-4 text-xl" contenteditable="true">اسم مديرة المدرسة</p>
+                    <div class="bg-gray-50 p-2 rounded-lg inline-block">
+                        <canvas id="signature-pad" width="350" height="150"></canvas>
+                    </div>
+                    <div class="mt-3 no-print">
+                        <button onclick="clearSignature()" class="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300">مسح التوقيع</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center text-gray-400 font-bold" contenteditable="true">
+                الخاتمة: قياس الأثر ليس رفاهية، بل هو ضرورة استراتيجية في عالم يُقدّر المحاسبية والشفافية.
+            </div>
+
+            <!-- رابط المزيد -->
+            <div class="mt-10 text-center no-print">
+                <p class="text-primary font-bold text-lg mb-3">✨ تفضل للمزيد</p>
+                <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank"
+                   class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold text-base hover:bg-blue-800 transition shadow-md">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    https://t.me/TAqhjT3MFVE1Yzk0
+                </a>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    let currentToolIndex = 0;
+
+    // ========== Tab Navigation ==========
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('aside > ul button').forEach(b => {
+            b.classList.remove('bg-primary','text-white');
+            b.classList.add('text-gray-700');
+        });
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.remove('text-gray-700');
+        event.currentTarget.classList.add('bg-primary','text-white');
+        const submenu = document.getElementById('tool-forms-submenu');
+        submenu.classList.toggle('hidden', tabId !== 'tab-tool-forms');
+    }
+
+    function openToolForm(index) {
+        currentToolIndex = index;
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-tool-forms').classList.add('active');
+        document.getElementById('tool-forms-submenu').classList.remove('hidden');
+        document.querySelectorAll('.tool-form-tab').forEach(f => f.classList.remove('active'));
+        document.getElementById('tool-form-' + index).classList.add('active');
+        document.querySelectorAll('.tool-pill').forEach((p, i) => {
+            p.classList.toggle('bg-primary', i === index);
+            p.classList.toggle('text-white', i === index);
+            p.classList.toggle('text-primary', i !== index);
+        });
+        document.querySelectorAll('.tool-nav-btn').forEach((b, i) => b.classList.toggle('active', i === index));
+        document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+    }
+    function openToolFormFromCard(i) { openToolForm(i); }
+    function prevToolForm() { if (currentToolIndex > 0) openToolForm(currentToolIndex - 1); }
+    function nextToolForm() { if (currentToolIndex < 14) openToolForm(currentToolIndex + 1); }
+
+    // ========== Signature Canvases (for forms) ==========
+    function initSigCanvas(canvas) {
+        let drawing = false;
+        function pos(e) {
+            const r = canvas.getBoundingClientRect();
+            const src = e.touches ? e.touches[0] : e;
+            return { x: src.clientX - r.left, y: src.clientY - r.top };
+        }
+        function start(e) { drawing = true; const ctx = canvas.getContext('2d'); ctx.beginPath(); const p = pos(e); ctx.moveTo(p.x, p.y); e.preventDefault(); }
+        function move(e) {
+            if (!drawing) return; e.preventDefault();
+            const ctx = canvas.getContext('2d'); const p = pos(e);
+            ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.strokeStyle = '#1e3a8a';
+            ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+        }
+        function stop() { drawing = false; }
+        canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); canvas.addEventListener('mouseup', stop); canvas.addEventListener('mouseleave', stop);
+        canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', stop);
+    }
+
+    function clearSig(btn) {
+        const c = btn.closest('.sig-canvas-wrap').querySelector('.sig-canvas');
+        c.getContext('2d').clearRect(0, 0, c.width, c.height);
+    }
+
+    function saveSigImg(btn) {
+        const c = btn.closest('.sig-canvas-wrap').querySelector('.sig-canvas');
+        const a = document.createElement('a');
+        a.download = 'توقيع_المدير.png';
+        a.href = c.toDataURL('image/png');
+        a.click();
+    }
+
+    // Init all sig canvases on load
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.sig-canvas').forEach(initSigCanvas);
+    });
+
+    // ========== Main signature pad (tab-auth) ==========
+    const mainCanvas = document.getElementById('signature-pad');
+    if (mainCanvas) {
+        let isDrawing = false;
+        function getPos(cv, e) {
+            const r = cv.getBoundingClientRect();
+            return { x: (e.clientX || (e.touches&&e.touches[0].clientX)) - r.left, y: (e.clientY || (e.touches&&e.touches[0].clientY)) - r.top };
+        }
+        function drawMain(e) {
+            if (!isDrawing) return; e.preventDefault();
+            const ctx = mainCanvas.getContext('2d'); const p = getPos(mainCanvas, e);
+            ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.strokeStyle = '#1e3a8a';
+            ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
+        }
+        mainCanvas.addEventListener('mousedown', e => { isDrawing = true; drawMain(e); });
+        mainCanvas.addEventListener('mouseup', () => { isDrawing = false; mainCanvas.getContext('2d').beginPath(); });
+        mainCanvas.addEventListener('mousemove', drawMain);
+        mainCanvas.addEventListener('touchstart', e => { isDrawing = true; drawMain(e); }, {passive:false});
+        mainCanvas.addEventListener('touchend', () => { isDrawing = false; mainCanvas.getContext('2d').beginPath(); });
+        mainCanvas.addEventListener('touchmove', drawMain, {passive:false});
+    }
+    function clearSignature() { if(mainCanvas) mainCanvas.getContext('2d').clearRect(0,0,mainCanvas.width,mainCanvas.height); }
+
+    // ========== Star rating ==========
+    function setRating(el, val) {
+        const stars = el.parentElement.querySelectorAll('span');
+        stars.forEach((s, i) => { s.textContent = i < val ? '★' : '☆'; s.style.color = i < val ? '#f59e0b' : '#d1d5db'; });
+    }
+
+    // ========== Collect form values (inputs/textareas/selects → text) ==========
+    function collectFormHTML(formEl) {
+        const clone = formEl.cloneNode(true);
+        // Replace input/textarea/select with their values as spans
+        clone.querySelectorAll('input[type="text"], input[type="date"], input[type="datetime-local"], input[type="number"], input[type="time"]').forEach(el => {
+            const orig = formEl.querySelector(`[name="${el.name}"]`) || formEl.querySelectorAll(`input[type="${el.type}"]`)[Array.from(clone.querySelectorAll(`input[type="${el.type}"]`)).indexOf(el)];
+            const span = document.createElement('span');
+            span.style.cssText = 'display:inline-block; min-width:80px; border-bottom:1px solid #9ca3af; padding:0 4px;';
+            span.textContent = el.value || '';
+            el.replaceWith(span);
+        });
+        clone.querySelectorAll('textarea').forEach((el, idx) => {
+            const origTextareas = formEl.querySelectorAll('textarea');
+            const span = document.createElement('div');
+            span.style.cssText = 'border:1px solid #d1d5db; border-radius:4px; padding:6px; min-height:50px; white-space:pre-wrap; font-size:0.85rem;';
+            span.textContent = origTextareas[idx] ? origTextareas[idx].value : '';
+            el.replaceWith(span);
+        });
+        clone.querySelectorAll('select').forEach((el, idx) => {
+            const origSelects = formEl.querySelectorAll('select');
+            const span = document.createElement('span');
+            span.style.cssText = 'display:inline-block; border-bottom:1px solid #9ca3af; padding:0 4px; font-weight:600;';
+            const origSel = origSelects[idx];
+            const rawText = origSel ? (origSel.options[origSel.selectedIndex]?.text || '') : '';
+            span.textContent = rawText.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+            el.replaceWith(span);
+        });
+        // Embed canvas signatures as images
+        const cloneCanvases = clone.querySelectorAll('.sig-canvas');
+        const origCanvases = formEl.querySelectorAll('.sig-canvas');
+        cloneCanvases.forEach((cc, idx) => {
+            const img = document.createElement('img');
+            img.src = origCanvases[idx]?.toDataURL('image/png') || '';
+            img.style.cssText = 'display:block; border:1px solid #9ca3af; border-radius:6px; max-width:300px; height:110px; background:#fff;';
+            cc.replaceWith(img);
+        });
+        // Remove no-print elements
+        clone.querySelectorAll('.no-print').forEach(el => el.remove());
+        return clone.innerHTML;
+    }
+
+    // ========== Print single form ==========
+    function printForm(formId, title) {
+        const formEl = document.getElementById(formId);
+        const formContent = collectFormHTML(formEl);
+        const schoolName = document.querySelector('h2[contenteditable]')?.innerText || '';
+        const principalName = document.querySelector('header .text-secondary[contenteditable]')?.innerText || '';
+
+        const printWindow = window.open('', '_blank', 'width=950,height=800');
+        printWindow.document.write(`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>${title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Cairo', sans-serif; padding: 18px; background: #fff; color: #1f2937; font-size: 0.88rem; }
+  .prt-header { background: #1e3a8a; color: white; padding: 14px 18px; border-radius: 8px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+  .prt-header .gold { color: #fbbf24; font-weight: 700; }
+  .prt-header .big { font-size: 1.3rem; font-weight: 800; text-align: center; }
+  input, textarea, select { border: 1px solid #d1d5db; border-radius: 4px; padding: 5px 7px; font-family: inherit; font-size: 0.85rem; width: 100%; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #1e3a8a; color: white; padding: 7px 9px; text-align: right; border: 1px solid #c7d2fe; font-size: 0.83rem; }
+  td { padding: 6px 8px; border: 1px solid #d1d5db; vertical-align: top; }
+  tr:nth-child(even) td { background: #f8faff; }
+  label { font-weight: 700; font-size: 0.83rem; display: block; margin-bottom: 3px; color: #374151; }
+  h3 { color: #1e3a8a; font-size: 1.1rem; margin-bottom: 10px; }
+  h4 { color: #1e3a8a; font-size: 0.95rem; margin: 10px 0 6px; }
+  .no-print { display: none !important; }
+  .bg-gray-50 { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
+  .bg-blue-50 { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px; color: #1e40af; font-size: 0.83rem; margin-bottom: 12px; }
+  .bg-green-50 { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 10px; }
+  .bg-yellow-50 { background: #fefce8; border: 1px solid #fde68a; border-radius: 6px; padding: 10px; }
+  .text-primary { color: #1e3a8a; }
+  .text-secondary { color: #d97706; }
+  .font-bold { font-weight: 700; }
+  .border-r-4 { border-right: 4px solid #d97706; padding-right: 8px; }
+  .grid { display: grid; gap: 10px; }
+  .grid-cols-2 { grid-template-columns: 1fr 1fr; }
+  .grid-cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .gap-4 { gap: 10px; }
+  .space-y-4 > * + * { margin-top: 10px; }
+  .space-y-3 > * + * { margin-top: 8px; }
+  .overflow-x-auto { overflow: visible; }
+  .sig-block { background: linear-gradient(135deg, #f0f4ff, #fefce8); border: 1px dashed #6366f1; border-radius: 10px; padding: 14px; margin-top: 14px; }
+  .sig-canvas-wrap { display: block; }
+  .flex { display: flex; gap: 10px; }
+  .flex-1 { flex: 1; }
+  .items-start { align-items: flex-start; }
+  .items-center { align-items: center; }
+  .flex-col { flex-direction: column; }
+  .prt-footer { margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 10px; display: flex; justify-content: space-between; font-size: 0.75rem; color: #6b7280; }
+  @media print { body { padding: 8px; } }
+</style>
+</head>
+<body>
+<div class="prt-header">
+  <div><div style="font-size:0.8rem;opacity:0.9">إدارة التعليم | Administration of Education</div><div class="gold">${schoolName}</div></div>
+  <div class="big">سجل قياس الأثر<br><span style="font-size:0.8rem;font-weight:400">عام ١٤٤٧هـ</span></div>
+  <div style="text-align:left"><div style="font-size:0.8rem;opacity:0.9">إشراف المدير/ة</div><div class="gold">${principalName}</div></div>
+</div>
+${formContent}
+<div class="prt-footer">
+  <span>سجل قياس الأثر المدرسي | ${title}</span>
+  <span>تاريخ الطباعة: ${new Date().toLocaleDateString('ar-SA')} — ${new Date().toLocaleTimeString('ar-SA')}</span>
+</div>
+<div class="no-print" style="margin-top:16px; display:flex; gap:10px; justify-content:center;">
+  <button onclick="window.print()" style="background:#1e3a8a;color:white;padding:8px 20px;border:none;border-radius:6px;font-family:Cairo,sans-serif;font-size:0.9rem;cursor:pointer;font-weight:700;">🖨 طباعة</button>
+  <button onclick="window.close()" style="background:#6b7280;color:white;padding:8px 20px;border:none;border-radius:6px;font-family:Cairo,sans-serif;font-size:0.9rem;cursor:pointer;">إغلاق</button>
+</div>
+</body></html>`);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 900);
+    }
+
+    // ========== Save form as HTML file ==========
+    function saveFormHTML(formId, title) {
+        const formEl = document.getElementById(formId);
+        const formContent = collectFormHTML(formEl);
+        const schoolName = document.querySelector('h2[contenteditable]')?.innerText || '';
+        const principalName = document.querySelector('header .text-secondary[contenteditable]')?.innerText || '';
+        const html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>${title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; } body { font-family: 'Cairo', sans-serif; padding: 20px; background: #fff; color: #1f2937; }
+  .prt-header { background: #1e3a8a; color: white; padding: 14px 18px; border-radius: 8px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; }
+  .prt-header .gold { color: #fbbf24; font-weight: 700; } .prt-header .big { font-size: 1.3rem; font-weight: 800; text-align: center; }
+  table { width: 100%; border-collapse: collapse; } th { background: #1e3a8a; color: white; padding: 8px; text-align: right; border: 1px solid #d1d5db; }
+  td { padding: 6px 8px; border: 1px solid #d1d5db; } tr:nth-child(even) td { background: #f9fafb; }
+  label { font-weight: 700; font-size: 0.85rem; display: block; margin-bottom: 3px; }
+  h3,h4 { color: #1e3a8a; } .bg-gray-50 { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
+  .bg-blue-50 { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px; }
+  .bg-green-50 { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 10px; }
+  .bg-yellow-50 { background: #fefce8; border: 1px solid #fde68a; border-radius: 6px; padding: 10px; }
+  .text-primary { color: #1e3a8a; } .font-bold { font-weight: 700; }
+  .border-r-4 { border-right: 4px solid #d97706; padding-right: 8px; }
+  .grid { display: grid; gap: 10px; } .grid-cols-2 { grid-template-columns: 1fr 1fr; } .grid-cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .flex { display: flex; gap: 10px; } .flex-1 { flex: 1; }
+  .sig-block { background: linear-gradient(135deg,#f0f4ff,#fefce8); border: 1px dashed #6366f1; border-radius: 10px; padding: 14px; margin-top: 14px; }
+  .no-print { display: none; }
+</style></head><body>
+<div class="prt-header">
+  <div><div style="font-size:0.8rem">إدارة التعليم | Administration of Education</div><div class="gold">${schoolName}</div></div>
+  <div class="big">سجل قياس الأثر<br><span style="font-size:0.8rem;font-weight:400">عام ١٤٤٧هـ</span></div>
+  <div style="text-align:left"><div style="font-size:0.8rem">إشراف المدير/ة</div><div class="gold">${principalName}</div></div>
+</div>
+${formContent}
+<div style="margin-top:20px;border-top:1px solid #e5e7eb;padding-top:10px;display:flex;justify-content:space-between;font-size:0.75rem;color:#6b7280">
+  <span>سجل قياس الأثر | ${title}</span>
+  <span>تاريخ الحفظ: ${new Date().toLocaleDateString('ar-SA')}</span>
+</div>
+</body></html>`;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `${title}.html`; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        // Show confirmation
+        const msg = document.createElement('div');
+        msg.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#166534;color:white;padding:10px 24px;border-radius:8px;font-family:Cairo,sans-serif;font-weight:700;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2)';
+        msg.textContent = `تم حفظ "${title}" بنجاح`;
+        document.body.appendChild(msg);
+        setTimeout(() => msg.remove(), 3000);
+    }
+</script>
+</body>
+</html>

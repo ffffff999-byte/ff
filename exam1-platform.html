@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة نماذج الاختبارات</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1a3a5c;
+    --primary-light: #2563a8;
+    --accent: #c8960c;
+    --accent-light: #f0b429;
+    --bg: #f0f4f8;
+    --white: #ffffff;
+    --gray-100: #f7f9fc;
+    --gray-200: #e8edf4;
+    --gray-300: #c8d3e0;
+    --gray-400: #8fa3ba;
+    --text: #1a2a3a;
+    --text-muted: #5a7a9a;
+    --success: #1a7a4a;
+    --danger: #c0392b;
+    --shadow: 0 4px 24px rgba(26,58,92,0.10);
+    --shadow-lg: 0 8px 40px rgba(26,58,92,0.18);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    position: fixed;
+    right: 0; top: 0; bottom: 0;
+    width: 270px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+    transition: width 0.3s;
+  }
+  .sidebar-logo {
+    padding: 28px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .sidebar-logo .logo-icon {
+    width: 48px; height: 48px;
+    background: var(--accent);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .sidebar-logo .logo-text { font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .sidebar-logo .logo-sub { font-size: 11px; color: var(--accent-light); margin-top: 2px; }
+
+  .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+  .nav-label {
+    font-size: 10px; font-weight: 700;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 10px 6px;
+    display: block;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(255,255,255,0.78);
+    transition: all 0.2s;
+    margin-bottom: 3px;
+    border: none; background: none; width: 100%; text-align: right;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.10); color: white; }
+  .nav-item.active { background: var(--accent); color: var(--primary); font-weight: 700; }
+  .nav-item .icon { font-size: 17px; flex-shrink: 0; }
+
+  .sidebar-footer {
+    padding: 16px 18px;
+    border-top: 1px solid rgba(255,255,255,0.10);
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+  }
+  .sidebar-footer .credit-name { color: var(--accent-light); font-weight: 700; font-size: 12px; }
+  .sidebar-footer a { color: var(--accent-light); text-decoration: none; }
+  .sidebar-footer a:hover { text-decoration: underline; }
+
+  /* ===== MAIN ===== */
+  .main-area {
+    margin-right: 270px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky; top: 0; z-index: 50;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .topbar-title { font-size: 18px; font-weight: 700; color: var(--primary); }
+  .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    padding: 9px 20px;
+    border-radius: var(--radius-sm);
+    border: none; cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 7px;
+    transition: all 0.18s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
+  .btn-accent { background: var(--accent); color: var(--primary); }
+  .btn-accent:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--primary);
+    border: 1.5px solid var(--gray-300);
+  }
+  .btn-outline:hover { border-color: var(--primary); background: var(--gray-100); }
+  .btn-danger { background: var(--danger); color: white; }
+  .btn-success { background: var(--success); color: white; }
+
+  /* ===== CONTENT ===== */
+  .content { padding: 28px 32px; flex: 1; }
+
+  /* ===== TABS ===== */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== SETTINGS PANEL ===== */
+  .settings-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .settings-card h3 {
+    font-size: 16px; font-weight: 700; color: var(--primary);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gray-200);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px; color: var(--text);
+    background: var(--gray-100);
+    transition: border-color 0.2s;
+    direction: rtl;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--primary-light);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37,99,168,0.10);
+  }
+
+  /* ===== LOGO UPLOAD ===== */
+  .logo-upload-area {
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--gray-100);
+  }
+  .logo-upload-area:hover { border-color: var(--primary-light); background: rgba(37,99,168,0.04); }
+  .logo-preview {
+    width: 90px; height: 90px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 0 auto 10px;
+    display: block;
+    border: 1px solid var(--gray-200);
+    background: white;
+  }
+  .logo-placeholder { font-size: 36px; margin-bottom: 8px; }
+  .logo-upload-area p { font-size: 12px; color: var(--text-muted); }
+
+  /* ===== EXAM EDITOR ===== */
+  .exam-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .exam-section-header {
+    background: var(--primary);
+    color: white;
+    padding: 12px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px; font-weight: 700;
+  }
+  .exam-section-body { padding: 20px; }
+
+  .question-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--gray-100);
+    border: 1.5px solid var(--gray-200);
+    transition: border-color 0.2s;
+  }
+  .question-row:hover { border-color: var(--gray-300); }
+  .question-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 4px;
+  }
+  .question-row input {
+    flex: 1;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    background: white;
+    direction: rtl;
+  }
+  .question-row input:focus { outline: none; border-color: var(--primary-light); }
+
+  /* MCQ options */
+  .mcq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+  .option-input {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px;
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+  }
+  .option-label {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--primary); font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .option-input input {
+    flex: 1; border: none; font-size: 12px; font-family: 'Cairo', sans-serif;
+    direction: rtl; outline: none; background: transparent;
+  }
+
+  /* True/False rows */
+  .tf-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    background: var(--gray-100); border-radius: var(--radius-sm);
+    margin-bottom: 6px; border: 1px solid var(--gray-200);
+  }
+  .tf-badges { display: flex; gap: 6px; }
+  .tf-badge {
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    transition: all 0.15s;
+    border: 1.5px solid transparent;
+  }
+  .tf-badge.true-badge { background: #e8f5e9; color: var(--success); border-color: #a5d6a7; }
+  .tf-badge.false-badge { background: #ffebee; color: var(--danger); border-color: #ef9a9a; }
+  .tf-badge.selected { opacity: 1; transform: scale(1.05); }
+  .tf-badge:not(.selected) { opacity: 0.45; }
+
+  /* Match table */
+  .match-table { width: 100%; border-collapse: collapse; }
+  .match-table th {
+    background: var(--primary); color: white;
+    padding: 8px 14px; font-size: 12px; font-weight: 700;
+    text-align: center;
+  }
+  .match-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-200); }
+  .match-table tr:last-child td { border-bottom: none; }
+  .match-table tr:nth-child(even) td { background: var(--gray-100); }
+  .match-input {
+    width: 100%; border: 1px solid var(--gray-300);
+    border-radius: 6px; padding: 7px 10px;
+    font-size: 13px; font-family: 'Cairo', sans-serif;
+    direction: rtl; background: white;
+  }
+  .match-input:focus { outline: none; border-color: var(--primary-light); }
+
+  /* ===== DEGREE TABLE ===== */
+  .degree-table { width: 100%; border-collapse: collapse; }
+  .degree-table th {
+    background: var(--primary); color: white;
+    padding: 10px 8px; font-size: 12px; text-align: center;
+  }
+  .degree-table td { padding: 8px; border: 1px solid var(--gray-200); text-align: center; }
+  .degree-table input {
+    width: 60px; border: 1px solid var(--gray-300);
+    border-radius: 6px; padding: 6px; text-align: center;
+    font-family: 'Cairo', sans-serif; font-size: 13px;
+  }
+
+  /* ===== PREVIEW ===== */
+  .preview-frame {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  #print-area {
+    padding: 0;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    direction: rtl;
+    color: #111;
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    .sidebar, .main-area > .topbar { display: none !important; }
+    .main-area { margin-right: 0 !important; }
+    .content { padding: 0 !important; }
+    .tab-panel { display: block !important; }
+    .tab-panel:not(#tab-preview) { display: none !important; }
+    #tab-preview { display: block !important; }
+    .preview-frame { box-shadow: none; border-radius: 0; }
+    #print-area { padding: 0; }
+    .no-print { display: none !important; }
+    @page { margin: 1cm; size: A4; }
+  }
+
+  /* ===== PAPER ===== */
+  .paper {
+    max-width: 820px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    min-height: 297mm;
+  }
+
+  .paper-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #1a3a5c;
+    margin-bottom: 0;
+  }
+  .paper-header-table td {
+    padding: 8px 12px;
+    font-size: 12px;
+    vertical-align: middle;
+    border: 1px solid #1a3a5c;
+  }
+  .paper-header-table .logo-cell {
+    width: 80px; text-align: center;
+    vertical-align: middle;
+  }
+  .paper-header-table .logo-cell img {
+    max-width: 70px; max-height: 70px;
+    object-fit: contain;
+  }
+  .paper-header-table .info-cell { text-align: center; }
+  .paper-header-table .title-cell {
+    text-align: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .paper-header-table .student-cell { font-size: 12px; }
+
+  .basmala {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    padding: 10px 0 6px;
+  }
+  .doaa {
+    text-align: center;
+    font-size: 11px;
+    color: #555;
+    padding: 4px 0 10px;
+    font-style: italic;
+  }
+
+  .exam-title-bar {
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    border-radius: 4px;
+  }
+
+  .deg-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+    font-size: 12px;
+  }
+  .deg-table th, .deg-table td {
+    border: 1px solid #1a3a5c;
+    padding: 6px 8px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .deg-table th { background: #1a3a5c; color: white; font-size: 11px; }
+  .deg-table .empty-cell { height: 24px; }
+
+  .q-block { margin-bottom: 18px; }
+  .q-title {
+    font-size: 14px; font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    background: linear-gradient(90deg, #e8edf4, transparent);
+    border-right: 4px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+  }
+  .q-content { padding: 0 8px; }
+
+  .mcq-print-row { margin-bottom: 10px; font-size: 13px; }
+  .mcq-print-choices {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; margin-top: 5px; padding-right: 16px;
+  }
+  .mcq-print-choice { font-size: 12px; }
+
+  .tf-print-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 7px; font-size: 13px;
+  }
+  .tf-box {
+    width: 20px; height: 20px;
+    border: 1.5px solid #333;
+    border-radius: 3px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+
+  .match-print-table { width: 100%; border-collapse: collapse; }
+  .match-print-table th {
+    background: #1a3a5c; color: white;
+    padding: 7px 12px; font-size: 12px; text-align: center;
+    border: 1px solid #1a3a5c;
+  }
+  .match-print-table td {
+    border: 1px solid #aaa; padding: 7px 12px;
+    font-size: 12px; vertical-align: middle;
+  }
+  .match-print-table .answer-col { width: 80px; text-align: center; }
+
+  .essay-lines { margin-top: 8px; }
+  .essay-line {
+    border-bottom: 1px solid #bbb;
+    margin-bottom: 10px;
+    height: 24px;
+  }
+
+  .paper-footer {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    font-size: 12px;
+  }
+
+  /* ===== NOTIFICATIONS ===== */
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 30px;
+    background: var(--primary);
+    color: white;
+    padding: 13px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    z-index: 9999;
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s ease;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ===== BADGES ===== */
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 700;
+    background: rgba(200,150,12,0.15);
+    color: var(--accent);
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--gray-200); }
+  ::-webkit-scrollbar-thumb { background: var(--gray-400); border-radius: 3px; }
+
+  /* ===== DIVIDER ===== */
+  .divider { height: 1px; background: var(--gray-200); margin: 18px 0; }
+
+  /* ===== TEMPLATE SELECT ===== */
+  .template-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 24px;
+  }
+  .template-card {
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    background: white;
+  }
+  .template-card:hover { border-color: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .template-card.selected { border-color: var(--accent); background: rgba(200,150,12,0.06); }
+  .template-card .tpl-icon { font-size: 32px; margin-bottom: 10px; }
+  .template-card .tpl-name { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .template-card .tpl-desc { font-size: 11px; color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sidebar { width: 210px; }
+    .main-area { margin-right: 210px; }
+    .form-grid, .form-grid-3 { grid-template-columns: 1fr; }
+    .template-cards { grid-template-columns: 1fr 1fr; }
+  }
+
+  .separator-double {
+    border: none;
+    border-top: 3px double var(--primary);
+    margin: 10px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">📋</div>
+    <div>
+      <div class="logo-text">منصة نماذج الاختبارات</div>
+      <div class="logo-sub">نظام إعداد وطباعة الأسئلة</div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <span class="nav-label">قوالب الاختبارات</span>
+    <button class="nav-item active" onclick="switchTemplate('t1')">
+      <span class="icon">📄</span> النموذج الأول (الكليشة البسيطة)
+    </button>
+    <button class="nav-item" onclick="switchTemplate('t2')">
+      <span class="icon">📝</span> النموذج الثاني (متكامل)
+    </button>
+    <button class="nav-item" onclick="switchTemplate('t3')">
+      <span class="icon">🗒️</span> النموذج الثالث (نهائي)
+    </button>
+    <span class="nav-label" style="margin-top:16px">الأقسام</span>
+    <button class="nav-item" onclick="showTab('tab-settings')">
+      <span class="icon">⚙️</span> الإعدادات والبيانات
+    </button>
+    <button class="nav-item" onclick="showTab('tab-editor')">
+      <span class="icon">✏️</span> محرر الأسئلة
+    </button>
+    <button class="nav-item" onclick="showTab('tab-degrees')">
+      <span class="icon">🔢</span> جدول الدرجات
+    </button>
+    <button class="nav-item" onclick="buildPreview(); showTab('tab-preview')">
+      <span class="icon">👁️</span> معاينة الاختبار
+    </button>
+  </div>
+  <div class="sidebar-footer">
+    <div>إعداد: <span class="credit-name">عبدالرحمن الزهراني</span></div>
+    <div>تصميم: <span class="credit-name">د/ فواز</span></div>
+    <div style="margin-top:6px">
+      <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">📲 تفضل للمزيد هنا</a>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN AREA -->
+<div class="main-area">
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">⚙️ الإعدادات والبيانات</div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline no-print" onclick="saveData()">💾 حفظ البيانات</button>
+      <button class="btn btn-accent no-print" onclick="buildPreview(); showTab('tab-preview')">👁️ معاينة</button>
+      <button class="btn btn-primary no-print" onclick="printExam()">🖨️ طباعة</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ========== SETTINGS TAB ========== -->
+    <div class="tab-panel active" id="tab-settings">
+      <div class="settings-card">
+        <h3>🏫 بيانات المدرسة والاختبار</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>الإدارة التعليمية</label>
+            <input type="text" id="s_idara" placeholder="إدارة التعليم بـ...">
+          </div>
+          <div class="form-group">
+            <label>مكتب التعليم</label>
+            <input type="text" id="s_maktab" placeholder="مكتب تعليم...">
+          </div>
+          <div class="form-group">
+            <label>اسم المدرسة</label>
+            <input type="text" id="s_school" placeholder="مدرسة...">
+          </div>
+          <div class="form-group">
+            <label>المنطقة / المحافظة</label>
+            <input type="text" id="s_region" placeholder="منطقة...">
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label>المادة الدراسية</label>
+            <input type="text" id="s_subject" placeholder="اسم المادة">
+          </div>
+          <div class="form-group">
+            <label>الصف الدراسي</label>
+            <input type="text" id="s_grade" placeholder="مثل: الأول المتوسط">
+          </div>
+          <div class="form-group">
+            <label>الفصل / الفترة</label>
+            <input type="text" id="s_period" placeholder="الفصل الأول">
+          </div>
+          <div class="form-group">
+            <label>الزمن</label>
+            <input type="text" id="s_time" placeholder="ساعة واحدة">
+          </div>
+          <div class="form-group">
+            <label>العام الدراسي</label>
+            <input type="text" id="s_year" value="1446 / 1447هـ">
+          </div>
+          <div class="form-group">
+            <label>الدرجة الكاملة</label>
+            <input type="number" id="s_total" placeholder="100">
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="form-group">
+          <label>اسم معلم المادة</label>
+          <input type="text" id="s_teacher" placeholder="اسم المعلم">
+        </div>
+        <div class="form-group" style="margin-top:12px">
+          <label>نوع الاختبار / العنوان</label>
+          <input type="text" id="s_examtitle" value="اختبار نهاية الفصل الدراسي الثالث" placeholder="عنوان الاختبار">
+        </div>
+      </div>
+
+      <!-- Logo Upload -->
+      <div class="settings-card">
+        <h3>🖼️ شعار المدرسة / الوزارة</h3>
+        <div class="logo-upload-area" onclick="document.getElementById('logoInput').click()">
+          <img id="logoPreviewImg" class="logo-preview" src="" style="display:none">
+          <div id="logoPlaceholder">
+            <div class="logo-placeholder">🏛️</div>
+            <p>انقر لاستيراد الشعار</p>
+            <p style="font-size:10px; margin-top:4px; color:#aaa">PNG / JPG / SVG</p>
+          </div>
+        </div>
+        <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="uploadLogo(this)">
+        <button class="btn btn-outline" style="margin-top:10px; font-size:12px" onclick="clearLogo()">🗑️ إزالة الشعار</button>
+      </div>
+
+      <!-- Settings credits -->
+      <div class="settings-card" style="background: linear-gradient(135deg, #1a3a5c, #2563a8); color:white">
+        <h3 style="color:white; border-bottom-color: rgba(255,255,255,0.2)">ℹ️ معلومات النظام</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:13px; line-height:2">
+          <div>
+            <div>⚙️ <strong>إعداد:</strong> عبدالرحمن الزهراني</div>
+            <div>🎨 <strong>تصميم:</strong> د/ فواز</div>
+          </div>
+          <div>
+            <div>📲 <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" style="color:#f0b429">تفضل للمزيد هنا</a></div>
+            <div>🔢 <strong>الإصدار:</strong> 1.0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== EDITOR TAB ========== -->
+    <div class="tab-panel" id="tab-editor">
+
+      <!-- Question 1: MCQ -->
+      <div class="exam-section">
+        <div class="exam-section-header">
+          <span>السؤال الأول: أختر الإجابة الصحيحة</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge">اختيار من متعدد</span>
+            <button class="btn btn-accent" style="padding:5px 12px;font-size:12px" onclick="addMCQ()">+ إضافة سؤال</button>
+          </div>
+        </div>
+        <div class="exam-section-body" id="mcq-container">
+          <!-- MCQ rows injected -->
+        </div>
+        <div style="padding:0 20px 16px">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>تعليمات السؤال الأول</label>
+              <input type="text" id="q1_instructions" value="اختر الإجابة الصحيحة فيما يأتي:">
+            </div>
+            <div class="form-group">
+              <label>درجة السؤال الأول</label>
+              <input type="number" id="q1_degree" placeholder="الدرجة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 2: True/False -->
+      <div class="exam-section">
+        <div class="exam-section-header">
+          <span>السؤال الثاني: صح أم خطأ</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge">صح / خطأ</span>
+            <button class="btn btn-accent" style="padding:5px 12px;font-size:12px" onclick="addTF()">+ إضافة عبارة</button>
+          </div>
+        </div>
+        <div class="exam-section-body" id="tf-container"></div>
+        <div style="padding:0 20px 16px">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>تعليمات السؤال الثاني</label>
+              <input type="text" id="q2_instructions" value="ضع إشارة (✓) أمام العبارة الصحيحة وإشارة (✗) أمام العبارة الخاطئة:">
+            </div>
+            <div class="form-group">
+              <label>درجة السؤال الثاني</label>
+              <input type="number" id="q2_degree" placeholder="الدرجة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 3: Match -->
+      <div class="exam-section">
+        <div class="exam-section-header">
+          <span>السؤال الثالث: صل بين العمودين</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge">مطابقة</span>
+            <button class="btn btn-accent" style="padding:5px 12px;font-size:12px" onclick="addMatch()">+ إضافة زوج</button>
+          </div>
+        </div>
+        <div class="exam-section-body" id="match-container">
+          <table class="match-table">
+            <thead>
+              <tr>
+                <th style="width:40px">#</th>
+                <th>العمود (أ)</th>
+                <th>الإجابة</th>
+                <th>العمود (ب)</th>
+                <th style="width:36px"></th>
+              </tr>
+            </thead>
+            <tbody id="match-tbody"></tbody>
+          </table>
+        </div>
+        <div style="padding:0 20px 16px">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>تعليمات السؤال الثالث</label>
+              <input type="text" id="q3_instructions" value="صل بين ما في العمود (أ) وما يناسبه في العمود (ب):">
+            </div>
+            <div class="form-group">
+              <label>درجة السؤال الثالث</label>
+              <input type="number" id="q3_degree" placeholder="الدرجة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 4: Essay -->
+      <div class="exam-section">
+        <div class="exam-section-header">
+          <span>السؤال الرابع: أسئلة مقالية / إجابة قصيرة</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge">مقالي</span>
+            <button class="btn btn-accent" style="padding:5px 12px;font-size:12px" onclick="addEssay()">+ إضافة سؤال</button>
+          </div>
+        </div>
+        <div class="exam-section-body" id="essay-container"></div>
+        <div style="padding:0 20px 16px">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>تعليمات السؤال الرابع</label>
+              <input type="text" id="q4_instructions" value="أجب عما يأتي:">
+            </div>
+            <div class="form-group">
+              <label>درجة السؤال الرابع</label>
+              <input type="number" id="q4_degree" placeholder="الدرجة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 5: Custom -->
+      <div class="exam-section">
+        <div class="exam-section-header">
+          <span>السؤال الخامس: سؤال إضافي</span>
+          <div style="display:flex;gap:8px">
+            <span class="badge">إضافي</span>
+          </div>
+        </div>
+        <div class="exam-section-body">
+          <div class="form-group">
+            <label>نص السؤال الخامس</label>
+            <textarea id="q5_text" rows="4" style="width:100%;border:1.5px solid var(--gray-300);border-radius:8px;padding:12px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl;resize:vertical" placeholder="اكتب نص السؤال الخامس هنا..."></textarea>
+          </div>
+          <div class="form-grid" style="margin-top:12px">
+            <div class="form-group">
+              <label>تعليمات السؤال الخامس</label>
+              <input type="text" id="q5_instructions" placeholder="تعليمات اختيارية">
+            </div>
+            <div class="form-group">
+              <label>درجة السؤال الخامس</label>
+              <input type="number" id="q5_degree" placeholder="الدرجة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== DEGREES TAB ========== -->
+    <div class="tab-panel" id="tab-degrees">
+      <div class="settings-card">
+        <h3>📊 جدول الدرجات</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px">حدد عدد الأسئلة في جدول الدرجات حسب النموذج المختار</p>
+        <div class="form-grid" style="margin-bottom:20px">
+          <div class="form-group">
+            <label>عدد الأسئلة في الجدول</label>
+            <select id="deg_count" onchange="buildDegTable()">
+              <option value="4">4 أسئلة</option>
+              <option value="5" selected>5 أسئلة</option>
+              <option value="6">6 أسئلة</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>نمط الجدول</label>
+            <select id="deg_style" onchange="buildDegTable()">
+              <option value="simple">بسيط (مصحح فقط)</option>
+              <option value="full" selected>كامل (مصحح + مراجع + مدقق)</option>
+            </select>
+          </div>
+        </div>
+        <div id="deg-table-container"></div>
+      </div>
+    </div>
+
+    <!-- ========== PREVIEW TAB ========== -->
+    <div class="tab-panel" id="tab-preview">
+      <div class="preview-frame">
+        <div id="print-area">
+          <!-- Built dynamically -->
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main-area -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ====== STATE ======
+let logoDataUrl = '';
+let currentTemplate = 't1';
+let mcqRows = [], tfRows = [], matchRows = [], essayRows = [];
+
+// ====== INIT ======
+document.addEventListener('DOMContentLoaded', () => {
+  // Add initial rows
+  for(let i=0;i<5;i++) addMCQ(false);
+  for(let i=0;i<4;i++) addTF(false);
+  for(let i=0;i<5;i++) addMatch(false);
+  for(let i=0;i<2;i++) addEssay(false);
+  buildDegTable();
+  loadSaved();
+});
+
+// ====== NAV ======
+function showTab(tabId) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const titles = {
+    'tab-settings': '⚙️ الإعدادات والبيانات',
+    'tab-editor': '✏️ محرر الأسئلة',
+    'tab-degrees': '🔢 جدول الدرجات',
+    'tab-preview': '👁️ معاينة الاختبار'
+  };
+  document.getElementById('page-title').textContent = titles[tabId] || '';
+}
+
+function switchTemplate(tpl) {
+  currentTemplate = tpl;
+  document.querySelectorAll('.nav-item').forEach((n,i) => {
+    if(i < 3) n.classList.remove('active');
+  });
+  const tplMap = {'t1':0,'t2':1,'t3':2};
+  document.querySelectorAll('.nav-item')[tplMap[tpl]].classList.add('active');
+  showToast('تم تحديد النموذج: ' + ({'t1':'النموذج الأول','t2':'النموذج الثاني','t3':'النموذج الثالث'}[tpl]));
+}
+
+// ====== LOGO ======
+function uploadLogo(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    logoDataUrl = e.target.result;
+    const img = document.getElementById('logoPreviewImg');
+    img.src = logoDataUrl;
+    img.style.display = 'block';
+    document.getElementById('logoPlaceholder').style.display = 'none';
+    showToast('✅ تم استيراد الشعار بنجاح');
+  };
+  reader.readAsDataURL(file);
+}
+function clearLogo() {
+  logoDataUrl = '';
+  document.getElementById('logoPreviewImg').style.display = 'none';
+  document.getElementById('logoPlaceholder').style.display = 'block';
+  document.getElementById('logoInput').value = '';
+}
+
+// ====== MCQ ======
+function addMCQ(animate=true) {
+  const id = Date.now() + Math.random();
+  mcqRows.push(id);
+  const idx = mcqRows.length;
+  const div = document.createElement('div');
+  div.className = 'question-row';
+  div.id = 'mcq_' + id;
+  div.style.flexDirection = 'column';
+  div.innerHTML = `
+    <div style="display:flex;align-items:flex-start;gap:10px;width:100%">
+      <div class="question-num">${idx}</div>
+      <input type="text" placeholder="نص السؤال..." style="flex:1;border:1px solid var(--gray-300);border-radius:6px;padding:8px 12px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl">
+      <button onclick="removeRow('mcq_${id}',mcqRows,'${id}')" style="background:#fee;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;margin-top:2px">🗑️</button>
+    </div>
+    <div class="mcq-options" style="margin-top:8px;padding-right:38px;width:100%">
+      <div class="option-input"><div class="option-label">أ</div><input type="text" placeholder="الخيار أ"></div>
+      <div class="option-input"><div class="option-label">ب</div><input type="text" placeholder="الخيار ب"></div>
+      <div class="option-input"><div class="option-label">ج</div><input type="text" placeholder="الخيار ج"></div>
+      <div class="option-input"><div class="option-label">د</div><input type="text" placeholder="الخيار د"></div>
+    </div>
+  `;
+  document.getElementById('mcq-container').appendChild(div);
+  if(animate) div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ====== TF ======
+function addTF(animate=true) {
+  const id = Date.now() + Math.random();
+  tfRows.push(id);
+  const idx = tfRows.length;
+  const div = document.createElement('div');
+  div.className = 'tf-row';
+  div.id = 'tf_' + id;
+  div.innerHTML = `
+    <div class="question-num" style="flex-shrink:0">${idx}</div>
+    <input type="text" placeholder="نص العبارة..." style="flex:1;border:1px solid var(--gray-300);border-radius:6px;padding:8px 12px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl">
+    <div class="tf-badges">
+      <span class="tf-badge true-badge selected" onclick="selectTF(this,'true')">✓ صح</span>
+      <span class="tf-badge false-badge" onclick="selectTF(this,'false')">✗ خطأ</span>
+    </div>
+    <button onclick="removeRow('tf_${id}',tfRows,'${id}')" style="background:#fee;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px">🗑️</button>
+  `;
+  document.getElementById('tf-container').appendChild(div);
+  if(animate) div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function selectTF(el, val) {
+  const row = el.closest('.tf-row');
+  row.querySelectorAll('.tf-badge').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ====== MATCH ======
+function addMatch(animate=true) {
+  const id = Date.now() + Math.random();
+  matchRows.push(id);
+  const idx = matchRows.length;
+  const tr = document.createElement('tr');
+  tr.id = 'match_' + id;
+  tr.innerHTML = `
+    <td style="text-align:center;font-weight:700;font-size:13px;color:var(--primary)">${idx}</td>
+    <td><input class="match-input" type="text" placeholder="العمود أ..."></td>
+    <td style="text-align:center">
+      <input type="text" style="width:60px;border:1px solid var(--gray-300);border-radius:6px;padding:5px;text-align:center;font-family:'Cairo',sans-serif" placeholder="—">
+    </td>
+    <td><input class="match-input" type="text" placeholder="العمود ب..."></td>
+    <td><button onclick="removeMatchRow('${id}')" style="background:#fee;border:none;border-radius:4px;width:24px;height:24px;cursor:pointer;font-size:12px">🗑️</button></td>
+  `;
+  document.getElementById('match-tbody').appendChild(tr);
+}
+function removeMatchRow(id) {
+  const tr = document.getElementById('match_' + id);
+  if(tr) tr.remove();
+  matchRows = matchRows.filter(r => r != id);
+}
+
+// ====== ESSAY ======
+function addEssay(animate=true) {
+  const id = Date.now() + Math.random();
+  essayRows.push(id);
+  const idx = essayRows.length;
+  const div = document.createElement('div');
+  div.className = 'question-row';
+  div.id = 'essay_' + id;
+  div.innerHTML = `
+    <div class="question-num">${idx}</div>
+    <textarea placeholder="نص السؤال المقالي..." rows="2" style="flex:1;border:1px solid var(--gray-300);border-radius:6px;padding:8px 12px;font-family:'Cairo',sans-serif;font-size:13px;direction:rtl;resize:vertical"></textarea>
+    <button onclick="removeRow('essay_${id}',essayRows,'${id}')" style="background:#fee;border:none;border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;margin-top:2px">🗑️</button>
+  `;
+  document.getElementById('essay-container').appendChild(div);
+  if(animate) div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function removeRow(elemId, arr, id) {
+  const el = document.getElementById(elemId);
+  if(el) el.remove();
+  const idx = arr.indexOf(parseFloat(id));
+  if(idx>-1) arr.splice(idx,1);
+}
+
+// ====== DEGREES TABLE ======
+function buildDegTable() {
+  const count = parseInt(document.getElementById('deg_count').value);
+  const style = document.getElementById('deg_style').value;
+  const nums = ['الأول','الثاني','الثالث','الرابع','الخامس','السادس'];
+  let html = '';
+  if(style === 'simple') {
+    html = `<table class="degree-table"><thead><tr>
+      <th>رقم السؤال</th><th>الدرجة رقماً</th><th>الدرجة كتابة</th><th>اسم المصحح</th><th>توقيعه</th>
+    </tr></thead><tbody>`;
+    for(let i=0;i<count;i++) html += `<tr>
+      <td><strong>${nums[i]}</strong></td>
+      <td><input class="degree-table td input" type="text" style="width:70px;border:1px solid var(--gray-300);border-radius:5px;padding:5px;text-align:center;font-family:'Cairo',sans-serif"></td>
+      <td><input type="text" style="width:90px;border:1px solid var(--gray-300);border-radius:5px;padding:5px;text-align:center;font-family:'Cairo',sans-serif"></td>
+      <td><input type="text" style="width:120px;border:1px solid var(--gray-300);border-radius:5px;padding:5px;font-family:'Cairo',sans-serif"></td>
+      <td><input type="text" style="width:80px;border:1px solid var(--gray-300);border-radius:5px;padding:5px;font-family:'Cairo',sans-serif"></td>
+    </tr>`;
+    html += `<tr style="background:#f0f4f8"><td><strong>المجموع</strong></td><td></td><td></td><td></td><td></td></tr>`;
+    html += '</tbody></table>';
+  } else {
+    html = `<table class="degree-table"><thead>
+      <tr><th rowspan="2">رقم السؤال</th>
+        <th colspan="2">المصحح</th>
+        <th colspan="2">المراجع</th>
+        <th colspan="2">المدقق</th>
+      </tr>
+      <tr><th>رقماً</th><th>كتابة</th><th>رقماً</th><th>كتابة</th><th>رقماً</th><th>كتابة</th></tr>
+    </thead><tbody>`;
+    for(let i=0;i<count;i++) html += `<tr>
+      <td><strong>${nums[i]}</strong></td>
+      ${[0,1,2,3,4,5].map(()=>`<td><input type="text" style="width:60px;border:1px solid var(--gray-300);border-radius:5px;padding:5px;text-align:center;font-family:'Cairo',sans-serif"></td>`).join('')}
+    </tr>`;
+    html += `<tr style="background:#f0f4f8"><td><strong>المجموع</strong></td>${[0,1,2,3,4,5].map(()=>'<td></td>').join('')}</tr>`;
+    html += '</tbody></table>';
+  }
+  document.getElementById('deg-table-container').innerHTML = html;
+}
+
+// ====== BUILD PREVIEW ======
+function buildPreview() {
+  const g = id => (document.getElementById(id)||{}).value || '';
+  const logo = logoDataUrl ? `<img src="${logoDataUrl}" style="max-width:72px;max-height:72px;object-fit:contain">` : `<div style="width:72px;height:72px;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#aaa">شعار</div>`;
+  
+  // Collect MCQ
+  let mcqHtml = '';
+  document.querySelectorAll('#mcq-container .question-row').forEach((row,i) => {
+    const inputs = row.querySelectorAll('input');
+    const qText = inputs[0] ? inputs[0].value : '';
+    const opts = ['أ','ب','ج','د'];
+    let choicesHtml = '<div class="mcq-print-choices">';
+    for(let j=1;j<=4;j++) {
+      const val = inputs[j] ? inputs[j].value : '';
+      choicesHtml += `<div class="mcq-print-choice">${opts[j-1]}) ${val}</div>`;
+    }
+    choicesHtml += '</div>';
+    mcqHtml += `<div class="mcq-print-row">${i+1}/ ${qText}${choicesHtml}</div>`;
+  });
+
+  // Collect TF
+  let tfHtml = '';
+  document.querySelectorAll('#tf-container .tf-row').forEach((row,i) => {
+    const input = row.querySelector('input[type="text"]');
+    const text = input ? input.value : '';
+    const isTrue = row.querySelector('.true-badge.selected');
+    const answer = isTrue ? '✓' : '✗';
+    tfHtml += `<div class="tf-print-row">
+      <div class="tf-box">${answer}</div>
+      <div style="flex:1">${i+1}/ ${text}</div>
+    </div>`;
+  });
+
+  // Collect Match
+  let matchHtml = `<table class="match-print-table"><thead>
+    <tr><th style="width:40px">#</th><th>العمود (أ)</th><th class="answer-col">الإجابة</th><th>العمود (ب)</th></tr>
+  </thead><tbody>`;
+  document.querySelectorAll('#match-tbody tr').forEach((tr,i) => {
+    const inputs = tr.querySelectorAll('input');
+    const a = inputs[0]?inputs[0].value:'';
+    const ans = inputs[1]?inputs[1].value:'';
+    const b = inputs[2]?inputs[2].value:'';
+    matchHtml += `<tr><td style="text-align:center;font-weight:700">${i+1}</td><td>${a}</td><td class="answer-col">${ans}</td><td>${b}</td></tr>`;
+  });
+  matchHtml += '</tbody></table>';
+
+  // Collect Essay
+  let essayHtml = '';
+  document.querySelectorAll('#essay-container .question-row').forEach((row,i) => {
+    const ta = row.querySelector('textarea');
+    const text = ta ? ta.value : '';
+    essayHtml += `<div class="mcq-print-row">${i+1}/ ${text}
+      <div class="essay-lines">
+        <div class="essay-line"></div>
+        <div class="essay-line"></div>
+        <div class="essay-line"></div>
+      </div>
+    </div>`;
+  });
+
+  const q5text = g('q5_text');
+  const q5inst = g('q5_instructions');
+
+  // Degree table for print
+  const degStyle = g('deg_style');
+  const degCount = parseInt(g('deg_count')) || 5;
+  const nums = ['الأول','الثاني','الثالث','الرابع','الخامس','السادس'];
+  let degHtml = '';
+  if(currentTemplate === 't1') {
+    // Simple 5-question table
+    degHtml = `<table class="deg-table" style="margin-bottom:12px">
+      <tr><th>رقم السؤال</th><th>الدرجة رقماً</th><th>الدرجة كتابة</th><th>اسم المصحح</th><th>توقيعه</th><th>اسم المراجع</th><th>توقيعه</th><th>اسم المدقق</th><th>توقيعه</th></tr>
+      ${nums.slice(0,5).map(n=>`<tr><td><b>${n}</b></td>${[0,1,2,3,4,5,6,7].map(()=>'<td class="empty-cell"></td>').join('')}</tr>`).join('')}
+    </table>`;
+  } else if(currentTemplate === 't2') {
+    degHtml = `<table class="deg-table" style="margin-bottom:12px">
+      <tr><th rowspan="2">رقم السؤال</th><th colspan="2">المصحح</th><th colspan="2">المراجع</th><th colspan="2">المدقق</th></tr>
+      <tr><th>رقماً</th><th>كتابة</th><th>رقماً</th><th>كتابة</th><th>رقماً</th><th>كتابة</th></tr>
+      ${nums.slice(0,6).map(n=>`<tr><td><b>${n}</b></td>${[0,1,2,3,4,5].map(()=>'<td class="empty-cell"></td>').join('')}</tr>`).join('')}
+    </table>
+    <div style="display:flex;gap:30px;font-size:12px;margin-bottom:10px">
+      <span>اسم المصحح: ........................   التوقيع: ..............</span>
+      <span>اسم المراجع: ........................   التوقيع: ..............</span>
+      <span>اسم المدقق: ........................   التوقيع: ..............</span>
+    </div>`;
+  } else {
+    degHtml = `<table class="deg-table" style="margin-bottom:12px">
+      <tr><th>السؤال الأول</th><th>السؤال الثاني</th><th>السؤال الثالث</th><th>السؤال الرابع</th><th>المجموع</th></tr>
+      <tr>${[0,1,2,3,4].map(()=>'<td class="empty-cell" style="height:30px"></td>').join('')}</tr>
+      <tr><th colspan="5">اسم المعلم / ................   التوقيع / ................</th></tr>
+    </table>`;
+  }
+
+  // Header per template
+  let headerHtml = '';
+  if(currentTemplate === 't1') {
+    headerHtml = `
+      <div class="basmala">بسم الله الرحمن الرحيم</div>
+      <table class="paper-header-table">
+        <tr>
+          <td class="logo-cell" rowspan="4">${logo}</td>
+          <td class="info-cell"><b>المملكة العربية السعودية</b><br>وزارة التعليم<br>الإدارة التعليمية بـ ${g('s_idara')}<br>مكتب تعليم ${g('s_maktab')}<br>مدرسة ${g('s_school')}</td>
+          <td class="student-cell">
+            اسم الطالب: ................................<br>
+            الصف: ............. المادة: ..............<br>
+            الزمن: ............. رقم الجلوس: ............
+          </td>
+        </tr>
+      </table>
+      <div class="exam-title-bar">${g('s_examtitle')} للعام الدراسي ${g('s_year')}</div>
+    `;
+  } else if(currentTemplate === 't2') {
+    headerHtml = `
+      <table class="paper-header-table">
+        <tr>
+          <td class="logo-cell" rowspan="3">${logo}</td>
+          <td class="info-cell" style="font-size:11px">
+            <b>المملكة العربية السعودية</b><br>
+            وزارة التعليم<br>
+            إدارة التعليم بـ ${g('s_idara')}<br>
+            مكتب تعليم ${g('s_maktab')}<br>
+            مدرسة ${g('s_school')}
+          </td>
+          <td class="student-cell" style="font-size:11px">
+            <b>اسم الطالب الرباعي:</b> ................................<br>
+            رقم الجلوس: ....................<br>
+            الصف: ............. المادة: ..............<br>
+            الفترة: ............. الزمن: ..............
+          </td>
+        </tr>
+      </table>
+      <div class="basmala" style="margin-top:8px">بسم الله الرحمن الرحيم</div>
+      <div class="doaa">اللهم لا سهل إلا ما جعلته سهلاً وأنت تجعل الحزن إذا شئت سهلاً يا أرحم الراحمين</div>
+      <div class="exam-title-bar">${g('s_examtitle')} ${g('s_year')}</div>
+    `;
+  } else {
+    headerHtml = `
+      <table class="paper-header-table">
+        <tr>
+          <td class="logo-cell" rowspan="2">${logo}</td>
+          <td class="info-cell">
+            <b>بسم الله الرحمن الرحيم</b><br>
+            <b>المملكة العربية السعودية</b><br>
+            وزارة التعليم<br>
+            الإدارة العامة للتعليم بمنطقة ${g('s_region')}<br>
+            مدرسة ${g('s_school')}
+          </td>
+          <td class="student-cell">
+            التاريخ: ...............<br>
+            المادة: ${g('s_subject')}<br>
+            الصف: ${g('s_grade')}<br>
+            زمن الإجابة: ${g('s_time')}<br>
+            اسم الطالب: ................................<br>
+            رقم الجلوس: ..............
+          </td>
+        </tr>
+      </table>
+      <div class="doaa" style="margin-top:8px">( اللهم لا سهل إلا ما جعلته سهلاً وأنت تجعل الحزن إذا شئت سهلاً )</div>
+      <div class="exam-title-bar">اختبار مادة ${g('s_subject')} للصف ${g('s_grade')} ( الدور الأول ) الفصل الدراسي الأول للعام الدراسي ${g('s_year')}</div>
+    `;
+  }
+
+  const html = `<div class="paper">
+    ${headerHtml}
+    ${degHtml}
+    <hr class="separator-double">
+    ${mcqHtml.trim() ? `<div class="q-block"><div class="q-title">السؤال الأول: ${g('q1_instructions')}</div><div class="q-content">${mcqHtml}</div></div><hr class="separator-double">` : ''}
+    ${tfHtml.trim() ? `<div class="q-block"><div class="q-title">السؤال الثاني: ${g('q2_instructions')}</div><div class="q-content">${tfHtml}</div></div><hr class="separator-double">` : ''}
+    ${matchHtml ? `<div class="q-block"><div class="q-title">السؤال الثالث: ${g('q3_instructions')}</div><div class="q-content">${matchHtml}</div></div><hr class="separator-double">` : ''}
+    ${essayHtml.trim() ? `<div class="q-block"><div class="q-title">السؤال الرابع: ${g('q4_instructions')}</div><div class="q-content">${essayHtml}</div></div><hr class="separator-double">` : ''}
+    ${q5text.trim() ? `<div class="q-block"><div class="q-title">السؤال الخامس: ${q5inst}</div><div class="q-content">${q5text}<div class="essay-lines"><div class="essay-line"></div><div class="essay-line"></div><div class="essay-line"></div></div></div></div>` : ''}
+    <div class="paper-footer">
+      <div>دعائي لأبنائي الطلاب بالتوفيق والنجاح 🌟</div>
+      <div>معلم المادة / ${g('s_teacher')}</div>
+    </div>
+  </div>`;
+
+  document.getElementById('print-area').innerHTML = html;
+}
+
+// ====== SAVE ======
+function saveData() {
+  const data = {
+    s_idara: v('s_idara'), s_maktab: v('s_maktab'), s_school: v('s_school'),
+    s_region: v('s_region'), s_subject: v('s_subject'), s_grade: v('s_grade'),
+    s_period: v('s_period'), s_time: v('s_time'), s_year: v('s_year'),
+    s_total: v('s_total'), s_teacher: v('s_teacher'), s_examtitle: v('s_examtitle'),
+    logoDataUrl, currentTemplate
+  };
+  try {
+    // Store in memory only (no localStorage)
+    window._savedData = data;
+    showToast('✅ تم حفظ البيانات في الجلسة الحالية');
+  } catch(e) {
+    showToast('⚠️ حدث خطأ في الحفظ');
+  }
+}
+
+function loadSaved() {
+  const data = window._savedData;
+  if(!data) return;
+  Object.keys(data).forEach(k => {
+    const el = document.getElementById(k);
+    if(el && data[k]) el.value = data[k];
+  });
+  if(data.logoDataUrl) {
+    logoDataUrl = data.logoDataUrl;
+    const img = document.getElementById('logoPreviewImg');
+    img.src = logoDataUrl; img.style.display = 'block';
+    document.getElementById('logoPlaceholder').style.display = 'none';
+  }
+  if(data.currentTemplate) switchTemplate(data.currentTemplate);
+}
+
+function v(id) { return (document.getElementById(id)||{}).value || ''; }
+
+// ====== PRINT ======
+function printExam() {
+  buildPreview();
+  setTimeout(() => {
+    const printContent = document.getElementById('print-area').innerHTML;
+    const printWindow = window.open('', '_blank', 'width=900,height=700');
+    printWindow.document.write(`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>طباعة الاختبار</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Cairo', sans-serif; direction: rtl; color: #111; }
+  @page { margin: 1cm; size: A4; }
+  .paper {
+    max-width: 100%;
+    padding: 14px;
+    border: 3px solid #000;
+    outline: 6px double #000;
+    outline-offset: -10px;
+    min-height: calc(297mm - 2cm);
+    position: relative;
+  }
+  table { border-collapse: collapse; width: 100%; }
+  .paper-header-table td { border: 1px solid #1a3a5c; padding: 7px 10px; font-size: 11px; vertical-align: middle; }
+  .paper-header-table .logo-cell { width: 75px; text-align: center; }
+  .paper-header-table .logo-cell img { max-width: 65px; max-height: 65px; object-fit: contain; }
+  .basmala { text-align: center; font-size: 15px; font-weight: 700; color: #1a3a5c; padding: 8px 0 5px; }
+  .doaa { text-align: center; font-size: 11px; color: #555; padding: 3px 0 8px; }
+  .exam-title-bar { background: #1a3a5c; color: white; text-align: center; padding: 8px; font-size: 14px; font-weight: 700; margin: 6px 0 10px; border-radius: 3px; }
+  .deg-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
+  .deg-table th, .deg-table td { border: 1px solid #1a3a5c; padding: 5px 7px; text-align: center; vertical-align: middle; }
+  .deg-table th { background: #1a3a5c; color: white; font-size: 10px; }
+  .deg-table .empty-cell { height: 22px; }
+  .separator-double { border: none; border-top: 3px double #1a3a5c; margin: 8px 0; }
+  .q-block { margin-bottom: 14px; page-break-inside: avoid; }
+  .q-title { font-size: 13px; font-weight: 700; color: #1a3a5c; margin-bottom: 8px; padding: 5px 10px; background: linear-gradient(90deg, #e8edf4, transparent); border-right: 4px solid #c8960c; }
+  .q-content { padding: 0 6px; }
+  .mcq-print-row { margin-bottom: 9px; font-size: 12px; }
+  .mcq-print-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 4px; padding-right: 14px; }
+  .mcq-print-choice { font-size: 11px; }
+  .tf-print-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 12px; }
+  .tf-box { width: 18px; height: 18px; border: 1.5px solid #333; border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+  .match-print-table { width: 100%; border-collapse: collapse; }
+  .match-print-table th { background: #1a3a5c; color: white; padding: 6px 10px; font-size: 11px; text-align: center; border: 1px solid #1a3a5c; }
+  .match-print-table td { border: 1px solid #aaa; padding: 6px 10px; font-size: 11px; vertical-align: middle; }
+  .match-print-table .answer-col { width: 70px; text-align: center; }
+  .essay-lines { margin-top: 7px; }
+  .essay-line { border-bottom: 1px solid #bbb; margin-bottom: 9px; height: 22px; }
+  .paper-footer { display: flex; justify-content: space-between; margin-top: 16px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 11px; }
+</style>
+</head>
+<body>${printContent}</body>
+</html>`);
+    printWindow.document.close();
+    printWindow.focus();
+    setTimeout(() => printWindow.print(), 800);
+  }, 300);
+}
+
+// ====== TOAST ======
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

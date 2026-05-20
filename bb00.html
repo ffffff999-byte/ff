@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القاعدة السادسة - التقويم في التعليم الإلكتروني</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-deep:   #0a4fa0;
+    --blue-mid:    #1565c0;
+    --blue-soft:   #2196f3;
+    --blue-light:  #bbdefb;
+    --blue-pale:   #e3f2fd;
+    --blue-bg:     #f0f7ff;
+    --white:       #ffffff;
+    --text-dark:   #0d2b5e;
+    --text-mid:    #1a4a8a;
+    --text-soft:   #3a6fa8;
+    --accent:      #0277bd;
+    --sky:         #29b6f6;
+    --border:      #90caf9;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    font-family:'Tajawal', sans-serif;
+    background: var(--blue-bg);
+    color: var(--text-dark);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ── BACKGROUND SHAPES ── */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 50% at 5% 0%,   rgba(33,150,243,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 95% 100%, rgba(10,79,160,0.12)  0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%,  rgba(187,222,251,0.3)  0%, transparent 70%);
+  }
+
+  /* ── DECORATIVE TOP WAVE ── */
+  .wave-top {
+    position:relative; z-index:1;
+    width:100%; height:220px; overflow:hidden;
+    background:linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 50%, var(--blue-soft) 100%);
+  }
+  .wave-top svg {
+    position:absolute; bottom:-2px; left:0; width:100%;
+  }
+
+  .wrap {
+    position:relative; z-index:2;
+    max-width:1100px; margin:0 auto;
+    padding:0 28px 100px;
+  }
+
+  /* ════════ HERO ════════ */
+  .hero {
+    text-align:center;
+    margin-top:-120px;
+    padding-bottom:50px;
+    position:relative;
+  }
+
+  .hero-card {
+    background:var(--white);
+    border-radius:32px;
+    padding:50px 40px 44px;
+    box-shadow:
+      0 4px 6px rgba(10,79,160,0.06),
+      0 20px 60px rgba(10,79,160,0.12),
+      0 0 0 1px rgba(10,79,160,0.08);
+    position:relative; overflow:hidden;
+    animation: rise .9s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .hero-card::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background:linear-gradient(90deg, var(--blue-deep), var(--blue-soft), var(--sky));
+    border-radius:32px 32px 0 0;
+  }
+
+  .hero-card::after {
+    content:'٦';
+    font-family:'Cairo',sans-serif;
+    font-size:280px; font-weight:900;
+    color:rgba(33,150,243,0.05);
+    position:absolute; left:50%; top:-40px;
+    transform:translateX(-50%);
+    line-height:1; pointer-events:none; user-select:none;
+  }
+
+  @keyframes rise {
+    from{opacity:0; transform:translateY(30px)}
+    to{opacity:1; transform:translateY(0)}
+  }
+
+  .ministry-tag {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--blue-pale);
+    border:2px solid var(--border);
+    border-radius:50px;
+    padding:8px 22px;
+    margin-bottom:24px;
+    animation:rise .8s ease both .1s;
+  }
+
+  .ministry-tag .dot {
+    width:9px; height:9px;
+    background:var(--blue-soft); border-radius:50%;
+    box-shadow:0 0 0 3px rgba(33,150,243,0.25);
+    animation:pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100%{box-shadow:0 0 0 3px rgba(33,150,243,0.25)}
+    50%{box-shadow:0 0 0 7px rgba(33,150,243,0.08)}
+  }
+
+  .ministry-tag span {
+    font-size:13px; font-weight:800;
+    color:var(--blue-mid); letter-spacing:.5px;
+  }
+
+  .rule-badge {
+    display:inline-block;
+    background:linear-gradient(135deg, var(--blue-deep), var(--blue-mid));
+    color:var(--white);
+    font-family:'Cairo',sans-serif;
+    font-size:14px; font-weight:900;
+    padding:6px 24px; border-radius:6px;
+    letter-spacing:2px; text-transform:uppercase;
+    margin-bottom:20px;
+    box-shadow:0 6px 20px rgba(10,79,160,0.35);
+    animation:rise .8s ease both .15s;
+  }
+
+  .hero-title {
+    font-family:'Cairo',sans-serif;
+    font-size:clamp(28px,5vw,50px);
+    font-weight:900; line-height:1.25;
+    color:var(--text-dark);
+    margin-bottom:16px;
+    animation:rise .9s ease both .2s;
+  }
+
+  .hero-title span {
+    color:var(--blue-mid);
+    position:relative;
+  }
+
+  .hero-title span::after {
+    content:'';
+    position:absolute; bottom:0; right:0; left:0; height:4px;
+    background:linear-gradient(90deg,var(--blue-soft),var(--sky));
+    border-radius:4px;
+  }
+
+  .hero-sub {
+    font-size:16px; line-height:1.9;
+    color:var(--text-soft);
+    font-weight:500;
+    max-width:580px; margin:0 auto;
+    animation:rise .9s ease both .25s;
+  }
+
+  /* ════════ STATS ════════ */
+  .stats {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:16px; margin:40px 0 70px;
+    animation:rise 1s ease both .3s;
+  }
+
+  .stat {
+    background:var(--white);
+    border:3px solid var(--blue-light);
+    border-radius:22px;
+    padding:28px 18px; text-align:center;
+    box-shadow:0 4px 20px rgba(10,79,160,0.08);
+    transition:transform .3s,border-color .3s,box-shadow .3s;
+    position:relative; overflow:hidden;
+  }
+
+  .stat::before {
+    content:'';
+    position:absolute; bottom:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,var(--blue-deep),var(--blue-soft));
+    border-radius:0 0 20px 20px;
+  }
+
+  .stat:hover {
+    transform:translateY(-6px);
+    border-color:var(--blue-soft);
+    box-shadow:0 12px 40px rgba(33,150,243,0.18);
+  }
+
+  .stat-n {
+    font-family:'Cairo',sans-serif;
+    font-size:52px; font-weight:900; line-height:1;
+    color:var(--blue-mid);
+  }
+
+  .stat-l {
+    font-size:12px; font-weight:700;
+    color:var(--text-soft);
+    margin-top:8px; line-height:1.5;
+  }
+
+  /* ════════ SECTION HEADER ════════ */
+  .sec-head {
+    display:flex; align-items:center; gap:16px;
+    margin:65px 0 26px;
+  }
+
+  .sec-ico {
+    width:54px; height:54px; border-radius:16px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; flex-shrink:0;
+    background:linear-gradient(135deg,var(--blue-mid),var(--blue-soft));
+    box-shadow:0 6px 20px rgba(21,101,192,0.35);
+  }
+
+  .sec-title {
+    font-family:'Cairo',sans-serif;
+    font-size:22px; font-weight:900;
+    color:var(--text-dark);
+  }
+
+  .sec-line {
+    flex:1; height:3px;
+    background:linear-gradient(90deg,var(--blue-soft),var(--blue-light),transparent);
+    border-radius:3px;
+  }
+
+  /* ════════ MAIN BOX ════════ */
+  .hbox {
+    background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));
+    border-radius:22px; padding:30px 32px;
+    position:relative; overflow:hidden; margin-bottom:20px;
+    box-shadow:0 8px 32px rgba(10,79,160,0.25);
+  }
+
+  .hbox::before {
+    content:'';
+    position:absolute; top:-60px; left:-60px;
+    width:200px; height:200px;
+    background:rgba(255,255,255,0.06); border-radius:50%;
+  }
+
+  .hbox::after {
+    content:'';
+    position:absolute; bottom:-40px; right:-40px;
+    width:160px; height:160px;
+    background:rgba(255,255,255,0.04); border-radius:50%;
+  }
+
+  .hbox-title {
+    font-family:'Cairo',sans-serif;
+    font-size:18px; font-weight:900;
+    color:var(--white); margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+    position:relative; z-index:1;
+  }
+
+  .hbox-title::before {
+    content:''; display:inline-block;
+    width:5px; height:22px;
+    background:var(--sky); border-radius:3px;
+  }
+
+  .hbox p {
+    font-size:15px; line-height:2;
+    color:rgba(255,255,255,0.88);
+    font-weight:500; position:relative; z-index:1;
+  }
+
+  .hbox p strong { color:var(--white); font-weight:900; }
+
+  /* ════════ FEATURE LIST ════════ */
+  .flist { list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:10px; }
+
+  .flist li {
+    display:flex; align-items:flex-start; gap:16px;
+    font-size:15px; color:var(--text-mid); line-height:1.9; font-weight:600;
+    background:var(--white);
+    border:3px solid var(--blue-light);
+    border-radius:16px; padding:16px 20px;
+    transition:border-color .3s,box-shadow .3s,transform .3s;
+    box-shadow:0 2px 12px rgba(10,79,160,0.06);
+  }
+
+  .flist li:hover {
+    border-color:var(--blue-soft);
+    box-shadow:0 8px 28px rgba(33,150,243,0.15);
+    transform:translateX(-4px);
+  }
+
+  .flist li strong { color:var(--blue-deep); font-weight:900; }
+
+  .fl-ico {
+    width:38px; height:38px; flex-shrink:0;
+    background:linear-gradient(135deg,var(--blue-mid),var(--blue-soft));
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; margin-top:1px;
+    box-shadow:0 4px 12px rgba(21,101,192,0.3);
+  }
+
+  /* ════════ CARDS GRID ════════ */
+  .grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+    gap:16px;
+  }
+
+  .card {
+    background:var(--white);
+    border:3px solid var(--blue-light);
+    border-radius:20px; padding:24px 24px 22px;
+    position:relative; overflow:hidden;
+    box-shadow:0 2px 12px rgba(10,79,160,0.06);
+    transition:transform .3s,border-color .3s,box-shadow .3s;
+    animation:rise .5s ease both;
+  }
+
+  .card::before {
+    content:'';
+    position:absolute; top:0; right:0; left:0; height:5px;
+    background:linear-gradient(90deg,var(--blue-deep),var(--blue-soft));
+    border-radius:20px 20px 0 0;
+    transform:scaleX(0); transform-origin:right;
+    transition:transform .3s;
+  }
+
+  .card:hover {
+    transform:translateY(-5px);
+    border-color:var(--blue-soft);
+    box-shadow:0 16px 48px rgba(33,150,243,0.18);
+  }
+
+  .card:hover::before { transform:scaleX(1); }
+
+  .card-full { grid-column:1/-1; }
+
+  .cid {
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:12px; font-weight:900;
+    color:var(--blue-mid);
+    background:var(--blue-pale);
+    border:2px solid var(--border);
+    border-radius:8px; padding:4px 12px;
+    margin-bottom:14px; letter-spacing:.5px;
+  }
+
+  .cid::before {
+    content:'';
+    width:7px; height:7px;
+    background:var(--blue-soft); border-radius:50%;
+  }
+
+  .ctxt { font-size:14px; line-height:1.95; color:var(--text-soft); font-weight:500; }
+  .ctxt strong { color:var(--blue-deep); font-weight:900; }
+
+  .card:nth-child(1){animation-delay:.04s} .card:nth-child(2){animation-delay:.08s}
+  .card:nth-child(3){animation-delay:.12s} .card:nth-child(4){animation-delay:.16s}
+  .card:nth-child(5){animation-delay:.20s} .card:nth-child(6){animation-delay:.24s}
+  .card:nth-child(7){animation-delay:.28s} .card:nth-child(8){animation-delay:.32s}
+  .card:nth-child(9){animation-delay:.36s} .card:nth-child(10){animation-delay:.40s}
+
+  /* ════════ GRADES ════════ */
+  .grades {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:20px; margin:20px 0;
+  }
+
+  .grade-c {
+    background:var(--white);
+    border-radius:24px; padding:40px 28px; text-align:center;
+    position:relative; overflow:hidden;
+    box-shadow:0 4px 24px rgba(10,79,160,0.1);
+    transition:transform .3s,box-shadow .3s;
+  }
+
+  .grade-c:hover { transform:scale(1.04); box-shadow:0 20px 60px rgba(33,150,243,0.2); }
+
+  .gc-a {
+    border:4px solid var(--blue-soft);
+    background:linear-gradient(160deg,var(--blue-pale),var(--white));
+  }
+
+  .gc-b {
+    border:4px solid var(--sky);
+    background:linear-gradient(160deg,#e1f5fe,var(--white));
+  }
+
+  .gval {
+    font-family:'Cairo',sans-serif;
+    font-size:80px; font-weight:900; line-height:1;
+    color:var(--blue-mid);
+  }
+
+  .gc-b .gval { color:#0277bd; }
+
+  .glabel { font-size:14px; font-weight:700; color:var(--text-soft); margin-top:12px; line-height:1.6; }
+  .glabel small { font-size:12px; opacity:.7; font-weight:500; }
+
+  /* ════════ TIMELINE ════════ */
+  .tl { position:relative; padding-right:36px; }
+
+  .tl::before {
+    content:'';
+    position:absolute; right:0; top:10px; bottom:10px; width:4px;
+    background:linear-gradient(to bottom, var(--blue-mid), var(--blue-light));
+    border-radius:4px;
+  }
+
+  .tl-item {
+    position:relative;
+    padding:20px 32px 20px 0;
+    border-bottom:2px solid var(--blue-pale);
+  }
+
+  .tl-item:last-child { border-bottom:none; }
+
+  .tl-item::before {
+    content:'';
+    position:absolute; right:-10px; top:26px;
+    width:16px; height:16px;
+    background:var(--white);
+    border:4px solid var(--blue-mid); border-radius:50%;
+    box-shadow:0 0 0 4px rgba(21,101,192,0.15);
+    transition:background .3s, border-color .3s;
+  }
+
+  .tl-item:hover::before {
+    background:var(--blue-mid);
+    border-color:var(--blue-deep);
+  }
+
+  .tl-lbl {
+    font-family:'Cairo',sans-serif;
+    font-size:12px; font-weight:900;
+    color:var(--blue-soft); letter-spacing:.5px;
+    text-transform:uppercase; margin-bottom:8px;
+    display:inline-block;
+    background:var(--blue-pale); border:2px solid var(--border);
+    border-radius:6px; padding:3px 10px;
+  }
+
+  .tl-txt { font-size:15px; color:var(--text-mid); line-height:1.9; font-weight:600; }
+
+  /* ════════ DIVIDER ════════ */
+  .div {
+    margin:60px 0;
+    display:flex; align-items:center; gap:20px;
+  }
+
+  .div-line {
+    flex:1; height:3px;
+    background:linear-gradient(90deg,transparent,var(--blue-light));
+    border-radius:3px;
+  }
+
+  .div-line.r {
+    background:linear-gradient(90deg,var(--blue-light),transparent);
+  }
+
+  .div-icon {
+    width:44px; height:44px;
+    background:linear-gradient(135deg,var(--blue-mid),var(--blue-soft));
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+    box-shadow:0 4px 16px rgba(21,101,192,0.3);
+    flex-shrink:0;
+  }
+
+  /* ════════ COMPLETION BOX ════════ */
+  .comp-box {
+    background:linear-gradient(135deg,#0277bd,var(--blue-mid));
+    border-radius:22px; padding:30px 32px; margin-bottom:20px;
+    box-shadow:0 8px 32px rgba(2,119,189,0.3);
+    position:relative; overflow:hidden;
+  }
+
+  .comp-box::before {
+    content:'🔄';
+    position:absolute; left:20px; bottom:10px;
+    font-size:90px; opacity:.06; user-select:none; line-height:1;
+  }
+
+  .comp-box .hbox-title { color:var(--white); }
+  .comp-box .hbox-title::before { background:#81d4fa; }
+  .comp-box p { font-size:15px; line-height:2; color:rgba(255,255,255,0.88); font-weight:500; position:relative; z-index:1; }
+  .comp-box p strong { color:var(--white); font-weight:900; }
+
+  /* ════════ FOOTER ════════ */
+  .footer {
+    margin-top:80px; text-align:center;
+    padding:50px 20px 30px;
+    position:relative;
+  }
+
+  .footer::before {
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:300px; height:4px;
+    background:linear-gradient(90deg,transparent,var(--blue-mid),var(--blue-soft),transparent);
+    border-radius:4px;
+  }
+
+  .footer-by {
+    font-size:12px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--text-soft); font-weight:700; margin-bottom:10px;
+  }
+
+  .footer-name {
+    font-family:'Cairo',sans-serif;
+    font-size:30px; font-weight:900;
+    color:var(--text-dark); margin-bottom:28px;
+  }
+
+  .footer-name span { color:var(--blue-mid); }
+
+  .footer-hint {
+    font-size:14px; font-weight:700;
+    color:var(--text-soft); margin-bottom:16px;
+  }
+
+  .tg-btn {
+    display:inline-flex; align-items:center; gap:12px;
+    background:linear-gradient(135deg,var(--blue-deep),var(--blue-mid));
+    color:var(--white);
+    text-decoration:none; font-weight:900; font-size:15px;
+    padding:16px 36px; border-radius:50px;
+    box-shadow:0 8px 28px rgba(10,79,160,0.35);
+    transition:transform .3s, box-shadow .3s;
+    letter-spacing:.5px;
+    border:3px solid rgba(255,255,255,0.2);
+  }
+
+  .tg-btn:hover {
+    transform:translateY(-4px);
+    box-shadow:0 16px 44px rgba(10,79,160,0.45);
+  }
+
+  .tg-btn svg { width:20px; height:20px; }
+
+  .foot-copy {
+    margin-top:36px; font-size:12px; font-weight:600;
+    color:var(--text-soft); opacity:.6;
+  }
+
+  @media(max-width:640px){
+    .grid{grid-template-columns:1fr}
+    .grades{grid-template-columns:1fr}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .gval{font-size:64px}
+    .hero-card{padding:36px 20px 30px}
+    .wave-top{height:160px}
+    .hero{margin-top:-80px}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP WAVE BANNER -->
+<div class="wave-top">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" fill="var(--blue-bg)">
+    <path d="M0,40 C360,90 1080,0 1440,50 L1440,80 L0,80 Z"/>
+  </svg>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO CARD -->
+  <div class="hero">
+    <div class="hero-card">
+      <div class="ministry-tag">
+        <div class="dot"></div>
+        <span>وزارة التعليم — المملكة العربية السعودية</span>
+      </div>
+
+      <div class="rule-badge">القاعدة السادسة</div>
+
+      <h1 class="hero-title">
+        التقويم في <span>التعليم الإلكتروني</span><br>والتعليم عن بُعد
+      </h1>
+
+      <p class="hero-sub">
+        الضوابط والشروط والآليات المنظِّمة للتقويم التربوي<br>
+        للطلاب الملتحقين بالتعليم الإلكتروني أو التعليم عن بُعد
+      </p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">٨٠</div>
+      <div class="stat-l">درجة المهام الأدائية</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">٢٠</div>
+      <div class="stat-l">درجة الاختبار النهائي</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">١٠٠</div>
+      <div class="stat-l">اختبار تحريري لمواد التعثر</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">٥</div>
+      <div class="stat-l">أيام عمل للتغذية الراجعة</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="sec-head">
+    <div class="sec-ico">👤</div>
+    <h2 class="sec-title">من يستحق التعليم الإلكتروني والتعلم عن بُعد؟</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="hbox">
+    <div class="hbox-title">المبدأ العام</div>
+    <p>
+      الأصل في العملية التعليمية أن تتم في المدرسة حضورياً. يُستثنى من ذلك
+      <strong>الملتحقون بالتعليم الإلكتروني</strong> والطلاب الذين يدرسون مواداً اختيارية
+      إلكترونية ذاتية التعلم. تتم الموافقة على الالتحاق في حالات خاصة يتعذر
+      فيها تواجد الطالب في المدرسة من قِبَل جهة الاختصاص.
+    </p>
+  </div>
+
+  <ul class="flist">
+    <li>
+      <div class="fl-ico">🏥</div>
+      <span><strong>الحالات المرضية المُبرَّرة</strong> التي تحول دون حضور الطالب المدرسة</span>
+    </li>
+    <li>
+      <div class="fl-ico">✈️</div>
+      <span><strong>الطلاب خارج المملكة</strong> بسبب مشاركات أو مهام رسمية معتمدة</span>
+    </li>
+    <li>
+      <div class="fl-ico">📋</div>
+      <span><strong>حالات أخرى</strong> تُقدِّرها جهة الاختصاص وفق الضوابط والأنظمة المعتمدة</span>
+    </li>
+  </ul>
+
+  <!-- SECTION 2 -->
+  <div class="sec-head">
+    <div class="sec-ico">⚙️</div>
+    <h2 class="sec-title">شروط وضوابط تقويم الطالب الملتحق</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="cid">المادة ١-١-٦</div><div class="ctxt">تلتزم المدرسة بتنفيذ <strong>كامل أنشطة برامج التعليم الإلكتروني</strong> عبر المنصات المعتمدة.</div></div>
+    <div class="card"><div class="cid">المادة ٢-١-٦</div><div class="ctxt">تُتاح <strong>أدوات تقويم متنوعة ومناسبة</strong> في منصات التعليم الإلكتروني التفاعلية: بنوك أسئلة، واجبات، اختبارات إلكترونية، أنشطة، مشاريع.</div></div>
+    <div class="card"><div class="cid">المادة ٣-١-٦</div><div class="ctxt">يلتزم المعلم بإعداد <strong>أدوات تقويم إلكترونية متنوعة</strong> لكل وحدة دراسية متوافقة مع الأهداف التعليمية.</div></div>
+    <div class="card"><div class="cid">المادة ٤-١-٦</div><div class="ctxt">يلتزم المعلم بإعداد <strong>أدوات تقويم ذاتية إثرائية</strong> لتمكين الطالب من تقييم تعلمه والحصول على التغذية الراجعة.</div></div>
+    <div class="card"><div class="cid">المادة ٥-١-٦</div><div class="ctxt">يلتزم المعلم بإتاحة <strong>نتائج التقويم والتغذية الراجعة</strong> للطالب وولي أمره خلال خمسة أيام عمل كحد أقصى.</div></div>
+    <div class="card"><div class="cid">المادة ٦-١-٦</div><div class="ctxt">تلتزم المدرسة بتزويد ولي الأمر بـ<strong>التقارير الدورية</strong> التي تعرض تقدم الطالب في كل مقرر دراسي.</div></div>
+    <div class="card"><div class="cid">المادة ٧-١-٦</div><div class="ctxt">يُقوَّم <strong>التحصيل الدراسي</strong> في التعليم الإلكتروني وفق ما ورد في القاعدة الثانية والثالثة والرابعة.</div></div>
+    <div class="card"><div class="cid">المادة ٨-١-٦</div><div class="ctxt">تُعقد <strong>الاختبارات القصيرة والتقويمات الختامية حضورياً</strong> إلا في حالات خاصة تقدرها إدارة التعليم.</div></div>
+    <div class="card"><div class="cid">المادة ٩-١-٦</div><div class="ctxt">تُطبَّق <strong>قواعد النجاح والرسوب</strong> وفق ما ورد في القاعدة الثانية والثالثة والرابعة.</div></div>
+    <div class="card card-full"><div class="cid">المادة ١٠-١-٦</div><div class="ctxt">تلتزم المدرسة بتطبيق طرق التقويم وتهيئة البيئة المناسبة لذوي الحالات الخاصة مثل: <strong>تمديد مدة التقييم، توفير بدائل التقييم، تسهيل اللغة المستخدمة، واستخدام التقنيات المساعدة.</strong></div></div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="div">
+    <div class="div-line"></div>
+    <div class="div-icon">📊</div>
+    <div class="div-line r"></div>
+  </div>
+
+  <!-- SECTION 3: GRADES -->
+  <div class="sec-head">
+    <div class="sec-ico">🎯</div>
+    <h2 class="sec-title">توزيع الدرجات — نمط التعلم الذاتي الإلكتروني</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="grades">
+    <div class="grade-c gc-a">
+      <div class="gval">٨٠</div>
+      <div class="glabel">درجة المهام الأدائية<br><small>مهام وتطبيقات وموارد مضمّنة في الدروس</small></div>
+    </div>
+    <div class="grade-c gc-b">
+      <div class="gval">٢٠</div>
+      <div class="glabel">درجة الاختبار النهائي<br><small>اختبار إلكتروني نهائي للمقرر</small></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: TIMELINE -->
+  <div class="sec-head">
+    <div class="sec-ico">📌</div>
+    <h2 class="sec-title">إجراءات خاصة وضوابط تنظيمية</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="tl">
+    <div class="tl-item"><div class="tl-lbl">المادة ١١-١-٦</div><div class="tl-txt">يُقوَّم الطلاب ذوو الإعاقة في التعليم الإلكتروني بنفس آلية التقويم الواردة في القاعدة السابعة.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٢-١-٦</div><div class="tl-txt">تُطبَّق "قواعد السلوك والمواظبة لطلاب وطالبات التعليم العام" في التعليم الإلكتروني.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٣-١-٦ و ١٤-١-٦</div><div class="tl-txt">يُحتسب السلوك والمواظبة وفق ما ورد في القاعدة الثانية والثالثة والرابعة.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٥-١-٦</div><div class="tl-txt">يُعتمد التوقيت الزمني للمملكة عند جدولة الاختبار الإلكتروني للطلاب السعوديين في الخارج مع مراعاة فارق التوقيت العالمي.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٦-١-٦</div><div class="tl-txt">الالتزام بالتقويم الدراسي والإجازات الرسمية في المملكة العربية السعودية.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٧-١-٦</div><div class="tl-txt">ما لم يرد بشأن التعليم الإلكتروني يُرجع فيه للتعاميم المنظِّمة والأدلة المعتمدة من الجهات المختصة بالوزارة.</div></div>
+    <div class="tl-item"><div class="tl-lbl">المادة ١٨-١-٦</div><div class="tl-txt">العمليات الإجرائية والتنظيمية المتعلقة بالتعليم بشكل عام تُطبَّق مالم تتعارض مع ما ورد في هذه القاعدة.</div></div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="div">
+    <div class="div-line"></div>
+    <div class="div-icon">🔄</div>
+    <div class="div-line r"></div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="sec-head">
+    <div class="sec-ico">✅</div>
+    <h2 class="sec-title">فرصة الإكمال في التعلم الذاتي الإلكتروني</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="comp-box">
+    <div class="hbox-title">المادة ٥-٢-٦ — فرصة الإكمال وإعادة التقويم</div>
+    <p>
+      عند إكمال الطالب المقرر، يُمنح <strong>فرصة لاستكمال النواقص</strong> ويقدمها مع اختبارات الدور الثاني.
+      وفي حال عدم نجاحه، يُجرى له <strong>اختبار تحريري من (١٠٠) درجة</strong> في موعد اختبار مواد التعثر،
+      كما يُسمح للطالب المكمِّل <strong>باختيار مجال آخر يتناسب مع ميوله.</strong>
+    </p>
+  </div>
+
+  <div class="grid" style="margin-top:16px">
+    <div class="card"><div class="cid">المادة ١-٢-٦</div><div class="ctxt">يُقوَّم الطالب <strong>آلياً في النظام الإلكتروني المعتمد</strong> دون تدخل المعلم، وبإشراف عام من المدرسة ونموذج التزام من الطالب لفترة محددة.</div></div>
+    <div class="card"><div class="cid">المادة ٢-٢-٦</div><div class="ctxt">تقوم المدرسة <strong>بمتابعة تقدم الطالب</strong> ومعالجة أي مشكلات يواجهها، ورصد الدرجات على النظام الإلكتروني المعتمد.</div></div>
+    <div class="card"><div class="cid">المادة ٣-٢-٦</div><div class="ctxt">يُخصَّص <strong>(٨٠) درجة للمهام الأدائية</strong>؛ تتضمن عدداً من المهام والتطبيقات والموارد المضمنة في دروس المقرر.</div></div>
+    <div class="card"><div class="cid">المادة ٤-٢-٦</div><div class="ctxt">يُخصَّص <strong>(٢٠) درجة للاختبار النهائي</strong> الإلكتروني للمقرر.</div></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-by">تصميم وإعداد</div>
+    <div class="footer-name">د / <span>فواز</span></div>
+    <div class="footer-hint">تفضل هنا 👇</div>
+    <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener" class="tg-btn">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.94 8.19l-2.02 9.52c-.15.67-.54.83-1.09.52l-3-2.21-1.45 1.39c-.16.16-.3.3-.61.3l.22-3.07 5.59-5.05c.24-.22-.05-.34-.38-.12L7.45 14.73 4.5 13.82c-.66-.21-.67-.66.14-.97l11.62-4.48c.55-.2 1.03.13.68.82z"/>
+      </svg>
+      انضم للقناة على تيليجرام
+    </a>
+    <div class="foot-copy">جميع الحقوق محفوظة · وزارة التعليم · المملكة العربية السعودية</div>
+  </div>
+
+</div>
+</body>
+</html>

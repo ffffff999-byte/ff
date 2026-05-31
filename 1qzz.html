@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة التقويم — وزارة التعليم</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --surface3: #212d42;
+    --gold: #f0c040;
+    --gold2: #d4a010;
+    --emerald: #10b981;
+    --emerald2: #059669;
+    --sky: #38bdf8;
+    --rose: #fb7185;
+    --text: #f0f4ff;
+    --text2: #a8b8d0;
+    --text3: #6b7fa0;
+    --border: rgba(255,255,255,0.07);
+    --glow-gold: 0 0 30px rgba(240,192,64,0.2);
+    --glow-em: 0 0 30px rgba(16,185,129,0.2);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ═══ ANIMATED BG ═══ */
+  .bg-mesh {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(16,185,129,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 80%, rgba(240,192,64,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(56,189,248,0.04) 0%, transparent 70%);
+  }
+  .bg-grid {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  /* ═══ HEADER ═══ */
+  header {
+    position: relative; z-index: 10;
+    padding: 40px 40px 0;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(240,192,64,0.1);
+    border: 1px solid rgba(240,192,64,0.25);
+    border-radius: 50px; padding: 6px 18px;
+    font-size: 13px; color: var(--gold);
+    margin-bottom: 20px;
+    animation: fadeDown 0.6s ease both;
+  }
+  .header-badge::before { content: '✦'; font-size: 10px; }
+  h1.main-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 900;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--emerald) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+  .header-sub {
+    color: var(--text2); font-size: 16px;
+    animation: fadeDown 0.6s 0.2s ease both;
+    margin-bottom: 36px;
+  }
+
+  /* ═══ STATS BAR ═══ */
+  .stats-bar {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+    padding: 0 40px; margin-bottom: 40px; position: relative; z-index: 10;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .stat-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 24px;
+    display: flex; align-items: center; gap: 12px;
+    min-width: 160px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-pill:hover { transform: translateY(-3px); box-shadow: var(--glow-em); }
+  .stat-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .stat-icon.gold { background: rgba(240,192,64,0.15); }
+  .stat-icon.em { background: rgba(16,185,129,0.15); }
+  .stat-icon.sky { background: rgba(56,189,248,0.15); }
+  .stat-num { font-size: 22px; font-weight: 800; color: var(--text); }
+  .stat-lbl { font-size: 12px; color: var(--text3); }
+
+  /* ═══ MAIN TABS ═══ */
+  .tabs-wrapper {
+    position: relative; z-index: 10;
+    padding: 0 40px; margin-bottom: 32px;
+    display: flex; justify-content: center;
+  }
+  .tabs {
+    display: flex; gap: 6px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px; padding: 6px;
+  }
+  .tab-btn {
+    padding: 12px 28px; border-radius: 12px;
+    background: transparent; border: none; cursor: pointer;
+    font-family: 'Tajawal', sans-serif; font-size: 15px; font-weight: 700;
+    color: var(--text3); transition: all 0.25s;
+    position: relative;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--emerald2), #0d9488);
+    color: white;
+    box-shadow: 0 4px 20px rgba(16,185,129,0.35);
+  }
+  .tab-btn:not(.active):hover { color: var(--text); background: var(--surface2); }
+
+  /* ═══ CONTENT ═══ */
+  .content-area {
+    position: relative; z-index: 10;
+    padding: 0 40px 20px;
+    max-width: 1300px; margin: 0 auto;
+  }
+  .tab-panel { display: none; animation: fadeUp 0.4s ease both; }
+  .tab-panel.active { display: block; }
+
+  /* ═══ SECTION TITLE ═══ */
+  .section-head {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 24px;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--emerald2), transparent);
+  }
+  .section-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 20px; font-weight: 800;
+    color: var(--emerald);
+  }
+
+  /* ═══ SUBJECTS GRID ═══ */
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px; margin-bottom: 40px;
+  }
+  .subject-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 18px 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+    transition: all 0.25s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .subject-card::before {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, var(--emerald), transparent);
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .subject-card:hover { transform: translateY(-3px); border-color: rgba(16,185,129,0.25); box-shadow: var(--glow-em); }
+  .subject-card:hover::before { opacity: 1; }
+  .subject-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    background: rgba(16,185,129,0.1);
+  }
+  .subject-name {
+    font-size: 14.5px; font-weight: 600; color: var(--text);
+    line-height: 1.5;
+  }
+  .subject-tag {
+    display: inline-block; margin-top: 6px;
+    background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.2);
+    color: var(--gold); border-radius: 6px; padding: 2px 8px; font-size: 11px;
+  }
+
+  /* ═══ SCORE TABLES ═══ */
+  .rules-section { margin-bottom: 40px; }
+  .score-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; overflow: hidden; margin-bottom: 20px;
+  }
+  .score-card-header {
+    background: linear-gradient(135deg, var(--surface2), var(--surface3));
+    padding: 16px 24px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .score-card-header:hover { background: var(--surface3); }
+  .score-card-header .icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    flex-shrink: 0;
+  }
+  .icon-gold { background: rgba(240,192,64,0.15); }
+  .icon-em { background: rgba(16,185,129,0.15); }
+  .icon-rose { background: rgba(251,113,133,0.15); }
+  .icon-rose { background: rgba(251,113,133,0.15); }
+  .score-card-header h3 {
+    font-size: 16px; font-weight: 700; color: var(--text); flex: 1;
+  }
+  .score-card-header .badge-level {
+    font-size: 11px; color: var(--text3);
+    background: rgba(255,255,255,0.05); border-radius: 6px; padding: 3px 10px;
+  }
+  .chevron {
+    color: var(--text3); transition: transform 0.3s; font-size: 14px;
+  }
+  .score-card.open .chevron { transform: rotate(180deg); }
+
+  .score-card-body {
+    display: none; padding: 20px 24px;
+  }
+  .score-card.open .score-card-body { display: block; animation: fadeUp 0.3s ease; }
+
+  /* Score breakdown table */
+  .score-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 20px;
+    border-radius: 12px; overflow: hidden;
+  }
+  .score-table th {
+    background: var(--surface3); padding: 12px 16px;
+    text-align: center; font-size: 13px; color: var(--text2);
+    font-weight: 700; border-bottom: 1px solid var(--border);
+  }
+  .score-table td {
+    padding: 14px 16px; text-align: center;
+    border-bottom: 1px solid var(--border); font-size: 15px;
+  }
+  .score-table tr:last-child td { border-bottom: none; }
+  .score-big {
+    font-size: 24px; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--emerald));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .score-num { font-weight: 800; font-size: 18px; }
+  .score-em { color: var(--emerald); }
+  .score-gold { color: var(--gold); }
+  .score-sky { color: var(--sky); }
+  .score-rose { color: var(--rose); }
+
+  /* Rules list */
+  .rules-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .rule-item {
+    background: var(--surface2); border-radius: 12px; padding: 14px 18px;
+    display: flex; gap: 12px; align-items: flex-start;
+    border-right: 3px solid var(--emerald2);
+    font-size: 14px; line-height: 1.7; color: var(--text2);
+    transition: border-color 0.2s;
+  }
+  .rule-item:hover { border-right-color: var(--gold); color: var(--text); }
+  .rule-num {
+    min-width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(16,185,129,0.15); color: var(--emerald);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .rule-item strong { color: var(--gold); font-weight: 700; }
+
+  /* ═══ SPECIAL CASES ═══ */
+  .special-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px; margin-top: 16px;
+  }
+  .special-card {
+    background: var(--surface2); border-radius: 14px; padding: 16px 18px;
+    border: 1px solid rgba(251,113,133,0.15);
+    transition: all 0.25s;
+  }
+  .special-card:hover { border-color: rgba(251,113,133,0.35); transform: translateY(-2px); }
+  .special-card h4 {
+    font-size: 14px; font-weight: 700; color: var(--rose);
+    margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .special-card h4::before { content: '⚠'; font-size: 13px; }
+  .special-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .special-card p strong { color: var(--gold); }
+  .special-card .scores {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+  }
+  .score-tag {
+    background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.2);
+    color: var(--gold); border-radius: 8px; padding: 4px 10px;
+    font-size: 12px; font-weight: 700;
+  }
+  .score-tag.em {
+    background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.2);
+    color: var(--emerald);
+  }
+  .score-tag.sky {
+    background: rgba(56,189,248,0.1); border-color: rgba(56,189,248,0.2);
+    color: var(--sky);
+  }
+
+  /* ═══ BEHAVIOR SECTION ═══ */
+  .behavior-ring-wrap {
+    display: flex; align-items: center; justify-content: center;
+    gap: 40px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .ring-card {
+    text-align: center; padding: 24px;
+    background: var(--surface2); border-radius: 20px;
+    border: 1px solid var(--border); min-width: 160px;
+    transition: transform 0.2s;
+  }
+  .ring-card:hover { transform: translateY(-4px); }
+  .ring-num {
+    font-family: 'Cairo', sans-serif;
+    font-size: 48px; font-weight: 900; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .ring-lbl { font-size: 14px; color: var(--text2); }
+  .ring-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    position: relative; z-index: 10;
+    text-align: center; padding: 32px 40px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+  .footer-credit {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .designer-name {
+    font-size: 15px; font-weight: 700;
+    color: var(--gold);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .designer-name::before { content: '✦'; font-size: 10px; opacity: 0.7; }
+  .tg-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.25);
+    color: var(--sky); border-radius: 50px; padding: 8px 20px;
+    text-decoration: none; font-size: 14px; font-weight: 600;
+    transition: all 0.25s;
+  }
+  .tg-link:hover { background: rgba(56,189,248,0.2); box-shadow: 0 0 20px rgba(56,189,248,0.2); transform: translateY(-2px); }
+  .tg-icon { width: 20px; height: 20px; }
+
+  /* ═══ ANIMATIONS ═══ */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 768px) {
+    header, .content-area, .stats-bar, .tabs-wrapper, footer { padding-right: 20px; padding-left: 20px; }
+    .tabs { flex-wrap: wrap; }
+    .subjects-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ═══ SCROLLBAR ═══ */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-badge">وزارة التعليم — نظام التقويم</div>
+  <h1 class="main-title">منصة التقويم المدرسي</h1>
+  <p class="header-sub">التقويم التكويني · التقويم الختامي — الابتدائي · المتوسط · الثانوي</p>
+</header>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-pill">
+    <div class="stat-icon em">📚</div>
+    <div><div class="stat-num">٣</div><div class="stat-lbl">مراحل دراسية</div></div>
+  </div>
+  <div class="stat-pill">
+    <div class="stat-icon gold">📊</div>
+    <div><div class="stat-num">١٠٠</div><div class="stat-lbl">إجمالي الدرجات</div></div>
+  </div>
+  <div class="stat-pill">
+    <div class="stat-icon sky">✅</div>
+    <div><div class="stat-num">تكويني</div><div class="stat-lbl">+ ختامي</div></div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('subjects')">📘 مواد التقويم التكويني</button>
+    <button class="tab-btn" onclick="switchTab('khatami')">📗 مواد التقويم الختامي</button>
+    <button class="tab-btn" onclick="switchTab('scores')">📊 توزيع الدرجات</button>
+    <button class="tab-btn" onclick="switchTab('special')">⚠ الحالات الخاصة</button>
+    <button class="tab-btn" onclick="switchTab('behavior')">💎 السلوك والمواظبة</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-area">
+
+  <!-- ══ TAB 1: SUBJECTS ══ -->
+  <div id="tab-subjects" class="tab-panel active">
+
+    <!-- IBTIDAI -->
+    <div class="section-head">
+      <span class="section-title">🏫 المرحلة الابتدائية</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="subjects-grid">
+      <div class="subject-card"><div class="subject-icon">📖</div><div><div class="subject-name">القرآن الكريم وتفسيره</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">☪</div><div><div class="subject-name">القرآن الكريم والدراسات الإسلامية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🎨</div><div><div class="subject-name">التربية الفنية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🌍</div><div><div class="subject-name">الدراسات الاجتماعية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🏡</div><div><div class="subject-name">التربية الأسرية والمنزلية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">⚽</div><div><div class="subject-name">التربية البدنية والدفاع عن النفس</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🔤</div><div><div class="subject-name">التجويد (تحفيظ القرآن الكريم)</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">💻</div><div><div class="subject-name">المهارات الرقمية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🎯</div><div><div class="subject-name">برامج الأنشطة الطلابية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+    </div>
+
+    <!-- MUTAWASIT -->
+    <div class="section-head">
+      <span class="section-title">🏛 المرحلة المتوسطة</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="subjects-grid">
+      <div class="subject-card"><div class="subject-icon">☪</div><div><div class="subject-name">القرآن الكريم والدراسات الإسلامية "عام"</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">📖</div><div><div class="subject-name">القرآن الكريم والدراسات الإسلامية "تحفيظ القرآن الكريم"</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🌍</div><div><div class="subject-name">الدراسات الاجتماعية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🏡</div><div><div class="subject-name">التربية الأسرية والمنزلية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🧠</div><div><div class="subject-name">التفكير الناقد</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">📜</div><div><div class="subject-name">علوم الحديث</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">✏</div><div><div class="subject-name">النصوص الأدبية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">📝</div><div><div class="subject-name">القواعد الكتابية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🎨</div><div><div class="subject-name">التربية الفنية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">⚽</div><div><div class="subject-name">التربية البدنية والدفاع عن النفس</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">💻</div><div><div class="subject-name">المهارات الرقمية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🎯</div><div><div class="subject-name">برامج الأنشطة الطلابية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+    </div>
+
+    <!-- THANAWI -->
+    <div class="section-head">
+      <span class="section-title">🎓 المرحلة الثانوية</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="subjects-grid">
+      <div class="subject-card"><div class="subject-icon">☪</div><div><div class="subject-name">القرآن الكريم والدراسات الإسلامية "عام"</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">📖</div><div><div class="subject-name">القراءات + القرآن الكريم</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🧠</div><div><div class="subject-name">التفكير الناقد + الدراسات الأدبية + الأدب العربي وتاريخه</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">💼</div><div><div class="subject-name">التربية المهنية + البحث ومصادر المعلومات</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">💰</div><div><div class="subject-name">المعرفة المالية + مقدمة في الأعمال + مبادئ الاقتصاد</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🏢</div><div><div class="subject-name">الإدارة المالية + مبادئ الإدارة + المواطنة الرقمية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">📜</div><div><div class="subject-name">علوم القرآن + تخريج الحديث + التوحيد + الفقه + التفسير</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🌍</div><div><div class="subject-name">الدراسات الاجتماعية + الجغرافيا + الفنون</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">⚖</div><div><div class="subject-name">مبادئ القانون + تطبيقات في القانون الثانوية</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🤖</div><div><div class="subject-name">الذكاء الاصطناعي + علم البيانات + إنترنت الأشياء</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🔧</div><div><div class="subject-name">هندسة البرمجيات + التصميم الهندسي + الأمن السيبراني</div><span class="subject-tag">تقويم تكويني</span></div></div>
+      <div class="subject-card"><div class="subject-icon">🎯</div><div><div class="subject-name">برامج الأنشطة الطلابية + المجال الاختياري + مشروع التخرج</div><span class="subject-tag">تقويم تكويني</span></div></div>
+    </div>
+  </div><!-- end tab-subjects -->
+
+  <!-- ══ TAB 2: SCORES ══ -->
+  <div id="tab-scores" class="tab-panel">
+
+    <!-- Card 1: General -->
+    <div class="score-card open">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-em">📊</div>
+        <h3>التوزيع العام للتقويم التكويني</h3>
+        <span class="badge-level">جميع المراحل</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th>المهام الأدائية والمشاركة والتفاعل</th>
+            <th>التقويمات الشفهية والتحريرية</th>
+            <th>المجموع</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-gold">٦٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يتم إجراء التقويمات الشفهية والتحريرية خلال الفترة الدراسية <strong>بعد كل وحدة دراسية</strong> أو مجموعة من الدروس.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>يتم احتساب الدرجة المخصصة بجمع درجات التقويمات التي حصل عليها الطالب ورصدها في النظام الإلكتروني <strong>بما لا يقل عن مرتين</strong> خلال الفترة الدراسية الواحدة.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Card 2: Quran Thanawi -->
+    <div class="score-card">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-gold">📖</div>
+        <h3>القرآن الكريم — الثانوية</h3>
+        <span class="badge-level">الثانوية</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th>أدوات تقويم متنوعة</th>
+            <th>صحة القراءة</th>
+            <th>الحفظ</th>
+            <th>المجموع</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">✔</span><span>عند إخفاق الطالب في المادة ودخوله الدور الثاني فإنه يحتفظ بجميع درجاته <strong>ماعدا صحة القراءة والحفظ</strong>، ويؤدي اختبار الدور الثاني من <strong>٦٠ درجة تقويمات شفهية</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Card 3: Nashat -->
+    <div class="score-card">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-sky">🎯</div>
+        <h3>برامج النشاط الطلابي</h3>
+        <span class="badge-level">جميع المراحل</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th>المشاركة والتفاعل</th>
+            <th>المهام الأدائية</th>
+            <th>المجموع</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٥٠</span></td>
+            <td><span class="score-num score-gold">٥٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>تُخصص <strong>١٠٠ درجة</strong> لكل برنامج نشاط تستهدف مجموعة من المعارف والمهارات والقيم.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>يُحتسب متوسط درجات الطالب في جميع برامج النشاط التي شارك فيها من ١٠٠ درجة، وتُرصد الدرجة النهائية في النظام الإلكتروني <strong>بما لا يقل عن مرتين</strong> خلال الفترة الدراسية.</span></li>
+          <li class="rule-item"><span class="rule-num">٣</span><span>في المدارس التي لا يظهر لها النشاط كمادة مستقلة، يتم احتساب درجة برامج النشاط على النحو التالي: تُحتسب درجة الطالب في كل برنامج نشاط من <strong>١٠٠ درجة</strong>، ويُحسب متوسط درجاته في جميع البرامج ويُعادل وفق الوزن النسبي <strong>٥٪</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end tab-scores -->
+
+  <!-- ══ TAB 3: SPECIAL CASES ══ -->
+  <div id="tab-special" class="tab-panel">
+    <div class="section-head">
+      <span class="section-title">⚠ حالات الإخفاق والدور الثاني</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="special-grid">
+
+      <div class="special-card">
+        <h4>الدراسات الإسلامية "عام" — إخفاق</h4>
+        <p>عند إخفاق الطالب ودخوله الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة) ويختبر من:</p>
+        <div class="scores">
+          <span class="score-tag">١٥ تقويمات شفهية</span>
+          <span class="score-tag em">٤٥ اختبار تحريري</span>
+          <span class="score-tag sky">= ٦٠</span>
+        </div>
+      </div>
+
+      <div class="special-card">
+        <h4>تحفيظ القرآن الكريم / القراءات — إخفاق</h4>
+        <p>عند الإخفاق ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> ويختبر من:</p>
+        <div class="scores">
+          <span class="score-tag">٣٠ تقويمات شفهية</span>
+          <span class="score-tag em">٣٠ اختبار تحريري</span>
+          <span class="score-tag sky">= ٦٠</span>
+        </div>
+      </div>
+
+      <div class="special-card">
+        <h4>القرآن الكريم وتفسيره — إخفاق</h4>
+        <p>عند الإخفاق ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> ويختبر من:</p>
+        <div class="scores">
+          <span class="score-tag">٤٠ تقويمات شفهية</span>
+          <span class="score-tag em">٢٠ اختبار تحريري</span>
+          <span class="score-tag sky">= ٦٠</span>
+        </div>
+      </div>
+
+      <div class="special-card">
+        <h4>باقي المواد — إخفاق عام</h4>
+        <p>عند إخفاق الطالب ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة) ويختبر من <strong>٦٠ درجة</strong>.</p>
+      </div>
+
+      <div class="special-card">
+        <h4>مادة واحدة — إخفاق بدون دور ثانٍ</h4>
+        <p>عند إخفاق الطالب في المادة وعدم دخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة) ويختبر من <strong>٦٠ درجة</strong>.</p>
+      </div>
+
+      <div class="special-card">
+        <h4>التربية البدنية / الصحية — إخفاق</h4>
+        <p>عند الإخفاق ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> ويختبر من <strong>٦٠ درجة في التطبيقات العملية</strong>.</p>
+      </div>
+
+      <div class="special-card">
+        <h4>الإدارة الكتبية / السكرتارية — إخفاق</h4>
+        <p>عند الإخفاق ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong> ويختبر من:</p>
+        <div class="scores">
+          <span class="score-tag">٢٠ تطبيقات عملية</span>
+          <span class="score-tag em">٤٠ اختبار تحريري</span>
+          <span class="score-tag sky">= ٦٠</span>
+        </div>
+      </div>
+
+      <div class="special-card">
+        <h4>مادة أخرى — إخفاق + دور ثانٍ</h4>
+        <p>عند الإخفاق ودخول الدور الثاني يحتفظ بـ<strong>٤٠ درجة</strong>، يُخصص من ٦٠ درجة:</p>
+        <div class="scores">
+          <span class="score-tag">٣٥ تطبيقات عملية</span>
+          <span class="score-tag em">٢٥ اختبار تحريري</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end tab-special -->
+
+  <!-- ══ TAB 4: BEHAVIOR ══ -->
+  <div id="tab-behavior" class="tab-panel">
+
+    <!-- SULUK -->
+    <div class="section-head">
+      <span class="section-title">💎 مادة السلوك</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="score-card open" style="margin-bottom:24px;">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-em">🌟</div>
+        <h3>توزيع درجات السلوك</h3>
+        <span class="badge-level">جميع المراحل</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <div class="behavior-ring-wrap">
+          <div class="ring-card">
+            <div class="ring-num" style="color: var(--emerald);">٨٠</div>
+            <div class="ring-lbl">السلوك الإيجابي</div>
+            <div class="ring-sub">٨٠٪ من إجمالي درجة السلوك</div>
+          </div>
+          <div class="ring-card">
+            <div class="ring-num" style="color: var(--gold);">٢٠</div>
+            <div class="ring-lbl">السلوك المتميز</div>
+            <div class="ring-sub">٢٠٪ من إجمالي درجة السلوك</div>
+          </div>
+          <div class="ring-card">
+            <div class="ring-num" style="background: linear-gradient(135deg, var(--gold), var(--emerald)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">١٠٠</div>
+            <div class="ring-lbl">المجموع الكلي</div>
+            <div class="ring-sub">يظهر في المعدل الفصلي</div>
+          </div>
+        </div>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يُخصص لمادة السلوك <strong>١٠٠ درجة</strong> تحتسب ضمن مجموع درجات الطالب بالمعدل الدراسي الفصلي من الصف الثالث الابتدائي إلى الصف الثالث الثانوي.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span><strong>السلوك الإيجابي:</strong> يُعدّ كل طالب مستحقاً لدرجة السلوك الإيجابي <strong>٨٠ درجة</strong> بشكل تلقائي في بداية كل فصل دراسي، وعند قيام الطالب بمشكلة سلوكية تحسم إدارة المدرسة من درجاته وفقاً للإجراءات المنصوص عليها.</span></li>
+          <li class="rule-item"><span class="rule-num">٣</span><span><strong>السلوك المتميز:</strong> يخصص له <strong>٢٠٪</strong> من إجمالي درجة السلوك، ويُتاح للطالب فرص تعويض الدرجات المحسومة من السلوك الإيجابي خلال الفصل الدراسي من خلال تنفيذ ممارسات السلوك المتميز المقترحة.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MUWATHABAH -->
+    <div class="section-head">
+      <span class="section-title">📅 مادة المواظبة</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="score-card open">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-sky">🏫</div>
+        <h3>توزيع درجات المواظبة</h3>
+        <span class="badge-level">جميع المراحل</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th>الالتزام بالحضور المنتظم للمدرسة حسب المواعيد الرسمية المحددة</th>
+            <th>المجموع</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-sky">١٠٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يُخصص لمادة المواظبة <strong>١٠٠ درجة</strong> عن كل فترة دراسية، من الصف الثالث الابتدائي إلى الصف الثالث الثانوي، وتظهر في شهادته وتمثل في المعدل عند احتسابها بـ<strong>٥ حصص دراسية</strong>.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>عند بلوغ غياب الطالب <strong>بدون عذر</strong> أكثر من <strong>١٠٪</strong> من عدد الأيام الدراسية للعام الدراسي يُحرم من دخول الاختبار وعليه <strong>إعادة الصف الدراسي</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- end tab-behavior -->
+
+  <!-- ══ TAB: KHATAMI ══ -->
+  <div id="tab-khatami" class="tab-panel">
+
+    <!-- Intro banner -->
+    <div style="background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(16,185,129,0.08)); border: 1px solid rgba(240,192,64,0.2); border-radius: 16px; padding: 18px 24px; margin-bottom: 32px; display:flex; align-items:center; gap:14px;">
+      <span style="font-size:28px;">🏆</span>
+      <div>
+        <div style="font-family:'Cairo',sans-serif; font-weight:800; font-size:17px; color:var(--gold); margin-bottom:4px;">التقويم الختامي — نماذج توزيع الدرجات</div>
+        <div style="font-size:13px; color:var(--text2);">يشمل اختبار نهاية الفترة إلى جانب أدوات التقويم التكويني لقياس مستوى الطالب النهائي</div>
+      </div>
+    </div>
+
+    <!-- ── نموذج 2: الرياضيات والعلوم ── -->
+    <div class="section-head">
+      <span class="section-title">📐 نموذج رقم (٢) — الرياضيات والعلوم</span>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Subjects -->
+    <div class="subjects-grid" style="margin-bottom:20px;">
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(240,192,64,0.1);">➕</div><div><div class="subject-name">الرياضيات</div><span class="subject-tag">ابتدائية · متوسطة · ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(240,192,64,0.1);">🔬</div><div><div class="subject-name">العلوم</div><span class="subject-tag">ابتدائية · متوسطة</span></div></div>
+    </div>
+
+    <div class="score-card open" style="margin-bottom:32px;">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-gold">📊</div>
+        <h3>توزيع درجات النموذج الثاني</h3>
+        <span class="badge-level">ابتدائية · متوسطة · ثانوية</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th colspan="2" style="background:rgba(16,185,129,0.15); color:var(--emerald);">أدوات تقويم تكويني</th>
+            <th rowspan="2" style="background:rgba(240,192,64,0.15); color:var(--gold); vertical-align:middle;">اختبار نهاية الفترة</th>
+            <th rowspan="2" style="vertical-align:middle;">المجموع</th>
+          </tr>
+          <tr>
+            <th>المهام الأدائية والمشاركة والتفاعل</th>
+            <th>تقويمات تحريرية</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يتم إجراء التقويمات التحريرية خلال الفترة الدراسية بعد كل وحدة دراسية أو مجموعة من الدروس، ويتم احتساب الدرجة المخصصة بجمع درجات التقويمات ورصدها في النظام الإلكتروني <strong>بما لا يقل عن مرتين</strong> خلال الفترة الدراسية الواحدة.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>عند إخفاق الطالب في المادة ودخوله الدور الثاني يحتفظ بـ <strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة والتفاعل) ويختبر الدور الثاني من <strong>٦٠ درجة اختبار تحريري</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── نموذج 3: اللغات ── -->
+    <div class="section-head">
+      <span class="section-title">🗣 نموذج رقم (٣) — اللغات</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="subjects-grid" style="margin-bottom:20px;">
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">🔤</div><div><div class="subject-name">اللغة العربية</div><span class="subject-tag">ابتدائية · متوسطة</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">📖</div><div><div class="subject-name">الدراسات اللغوية</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">🇨🇳</div><div><div class="subject-name">اللغة الصينية</div><span class="subject-tag">متوسطة · ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">💬</div><div><div class="subject-name">المهارات اللغوية</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">✏</div><div><div class="subject-name">الكفايات اللغوية</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">📝</div><div><div class="subject-name">النحو والصرف</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(56,189,248,0.1);">🇬🇧</div><div><div class="subject-name">اللغة الإنجليزية</div><span class="subject-tag">ابتدائية · متوسطة · ثانوية</span></div></div>
+    </div>
+
+    <div class="score-card open" style="margin-bottom:32px;">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-sky">📊</div>
+        <h3>توزيع درجات النموذج الثالث</h3>
+        <span class="badge-level">ابتدائية · متوسطة · ثانوية</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th colspan="2" style="background:rgba(16,185,129,0.15); color:var(--emerald);">أدوات تقويم تكويني</th>
+            <th rowspan="2" style="background:rgba(240,192,64,0.15); color:var(--gold); vertical-align:middle;">اختبار نهاية الفترة</th>
+            <th rowspan="2" style="vertical-align:middle;">المجموع</th>
+          </tr>
+          <tr>
+            <th>المهام الأدائية والمشاركة والتفاعل</th>
+            <th>تقويمات شفهية وتحريرية</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يتم إجراء التقويمات الشفهية والتحريرية خلال الفترة الدراسية بعد كل وحدة دراسية أو مجموعة من الدروس، ورصدها في النظام الإلكتروني <strong>بما لا يقل عن مرتين</strong> خلال الفترة الدراسية الواحدة.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>عند إخفاق الطالب في المادة ودخوله الدور الثاني يحتفظ بـ <strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة والتفاعل) ويختبر الدور الثاني من <strong>٦٠ درجة</strong>؛ يُخصص منها <strong>٣٠ درجة تقويمات شفهية</strong> و<strong>٣٠ درجة اختبار تحريري</strong>.</span></li>
+          <li class="rule-item"><span class="rule-num">٣</span><span>يكون التركيز على <strong>مهارتي القراءة والكتابة</strong> في تقويم مادة اللغة العربية للصفين الأول والثاني الابتدائي وذلك في التقويم التكويني والختامي.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── نموذج 7: العلوم الثانوية ── -->
+    <div class="section-head">
+      <span class="section-title">🔭 نموذج رقم (٧) — العلوم التطبيقية (ثانوي)</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="subjects-grid" style="margin-bottom:20px;">
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🏥</div><div><div class="subject-name">مبادئ العلوم الصحية</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🧬</div><div><div class="subject-name">الأحياء</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🌿</div><div><div class="subject-name">علم البيئة</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🌍</div><div><div class="subject-name">علوم الأرض والفضاء</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">⚡</div><div><div class="subject-name">الفيزياء</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">⚙</div><div><div class="subject-name">الهندسة</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🫀</div><div><div class="subject-name">أنظمة جسم الإنسان</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">🧪</div><div><div class="subject-name">الكيمياء</div><span class="subject-tag">ثانوية</span></div></div>
+      <div class="subject-card"><div class="subject-icon" style="background:rgba(251,113,133,0.1);">💊</div><div><div class="subject-name">الرعاية الصحية</div><span class="subject-tag">ثانوية</span></div></div>
+    </div>
+
+    <div class="score-card open" style="margin-bottom:32px;">
+      <div class="score-card-header" onclick="toggleCard(this)">
+        <div class="icon icon-rose">📊</div>
+        <h3>توزيع درجات النموذج السابع</h3>
+        <span class="badge-level">ثانوية</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th colspan="2" style="background:rgba(16,185,129,0.15); color:var(--emerald);">أدوات تقويم تكويني</th>
+            <th rowspan="2" style="background:rgba(240,192,64,0.15); color:var(--gold); vertical-align:middle;">اختبار نهاية الفترة</th>
+            <th rowspan="2" style="vertical-align:middle;">المجموع</th>
+          </tr>
+          <tr>
+            <th>المهام الأدائية والمشاركة والتفاعل</th>
+            <th>تقويمات تحريرية وتطبيقات عملية</th>
+          </tr>
+          <tr>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big">١٠٠</span></td>
+          </tr>
+        </table>
+        <ul class="rules-list">
+          <li class="rule-item"><span class="rule-num">١</span><span>يتم إجراء التقويمات التحريرية خلال الفترة الدراسية بعد كل وحدة دراسية أو مجموعة من الدروس، ورصدها في النظام الإلكتروني <strong>بما لا يقل عن مرتين</strong> خلال الفترة الدراسية الواحدة.</span></li>
+          <li class="rule-item"><span class="rule-num">٢</span><span>عند إخفاق الطالب في المادة ودخوله الدور الثاني يحتفظ بـ <strong>٤٠ درجة</strong> (المهام الأدائية والمشاركة والتفاعل) ويختبر الدور الثاني من <strong>٦٠ درجة</strong>؛ يُخصص منها <strong>٢٠ درجة تطبيقات عملية</strong>، و<strong>٤٠ درجة اختبار تحريري</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Summary comparison table -->
+    <div class="section-head">
+      <span class="section-title">📋 ملخص مقارن — نماذج التقويم الختامي</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="score-card" style="margin-bottom:8px;">
+      <div class="score-card-header" onclick="toggleCard(this)" style="cursor:pointer;">
+        <div class="icon icon-gold">📋</div>
+        <h3>جدول المقارنة الشامل</h3>
+        <span class="badge-level">جميع النماذج</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="score-card-body">
+        <table class="score-table">
+          <tr>
+            <th>النموذج</th>
+            <th>المواد</th>
+            <th>مهام أدائية</th>
+            <th>تقويم تكويني</th>
+            <th>اختبار ختامي</th>
+            <th>المجموع</th>
+          </tr>
+          <tr>
+            <td style="color:var(--gold); font-weight:700;">نموذج ٢</td>
+            <td style="font-size:13px; color:var(--text2);">الرياضيات / العلوم</td>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big" style="font-size:18px;">١٠٠</span></td>
+          </tr>
+          <tr>
+            <td style="color:var(--sky); font-weight:700;">نموذج ٣</td>
+            <td style="font-size:13px; color:var(--text2);">اللغات (عربي / إنجليزي / صيني)</td>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big" style="font-size:18px;">١٠٠</span></td>
+          </tr>
+          <tr>
+            <td style="color:var(--rose); font-weight:700;">نموذج ٧</td>
+            <td style="font-size:13px; color:var(--text2);">العلوم التطبيقية الثانوية</td>
+            <td><span class="score-num score-em">٤٠</span></td>
+            <td><span class="score-num score-sky">٢٠</span></td>
+            <td><span class="score-num score-gold">٤٠</span></td>
+            <td><span class="score-big" style="font-size:18px;">١٠٠</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end tab-khatami -->
+
+</div><!-- end content-area -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-credit">
+    <span class="designer-name">تصميم د/فواز</span>
+    <a class="tg-link" href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">
+      <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.617l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.942z"/>
+      </svg>
+      تفضل للمزيد هنا
+    </a>
+  </div>
+</footer>
+
+<script>
+  function switchTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function toggleCard(header) {
+    header.parentElement.classList.toggle('open');
+  }
+
+  // Staggered card entrance
+  window.addEventListener('load', () => {
+    const cards = document.querySelectorAll('.subject-card, .score-card, .special-card, .stat-pill, .ring-card');
+    cards.forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        c.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        c.style.opacity = '1';
+        c.style.transform = 'translateY(0)';
+      }, 80 + i * 30);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قواعد السلوك والمواظبة - الإصدار الخامس 1447هـ</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0a6e80;--secondary:#0ea8a0;--accent:#f5a623;--bg:#f0f4f6;--white:#ffffff;--text:#1a2e35;--text-light:#4a6670;--border:#cce0e6;--shadow:0 2px 12px rgba(10,110,128,0.10);--shadow-lg:0 6px 28px rgba(10,110,128,0.18);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+.hdr{background:linear-gradient(135deg,#0a3d50,#0a6e80,#0ea8a0);position:sticky;top:0;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+.hdr-top{display:flex;align-items:center;gap:12px;padding:12px 20px;}
+.hdr-badge{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:10px;padding:5px 12px;color:#fff;font-size:12px;font-weight:700;white-space:nowrap;}
+.hdr-title{flex:1;text-align:center;}
+.hdr-title h1{font-size:clamp(13px,2.6vw,20px);font-weight:900;color:#fff;}
+.hdr-title p{font-size:11px;color:rgba(255,255,255,0.82);margin-top:2px;}
+.hdr-ed{background:linear-gradient(135deg,#f5a623,#e0880a);border-radius:10px;padding:6px 14px;text-align:center;box-shadow:0 3px 10px rgba(245,166,35,0.45);}
+.hdr-ed b{display:block;font-size:20px;font-weight:900;color:#fff;line-height:1;}
+.hdr-ed span{font-size:9px;color:rgba(255,255,255,0.92);}
+.nav{display:flex;overflow-x:auto;background:rgba(0,0,0,0.22);scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;padding:9px 14px;cursor:pointer;font-size:12.5px;font-weight:600;color:rgba(255,255,255,0.68);border:none;background:none;border-bottom:3px solid transparent;font-family:'Tajawal',sans-serif;transition:all 0.25s;white-space:nowrap;}
+.ntab:hover{color:#fff;background:rgba(255,255,255,0.1);}
+.ntab.active{color:#fff;border-bottom-color:#f5a623;background:rgba(255,255,255,0.14);}
+.pbar{position:fixed;top:0;right:0;height:3px;background:linear-gradient(to left,#f5a623,#0ea8a0);z-index:2000;width:0;transition:width 0.1s;}
+.content{max-width:1100px;margin:0 auto;padding:20px 16px;}
+.page{display:none;animation:fadeUp 0.35s ease;}
+.page.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card{background:#fff;border-radius:14px;padding:20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:16px;}
+.card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid var(--border);}
+.card-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.card-title{font-size:16px;font-weight:800;color:var(--primary);}
+.stitle{font-size:17px;font-weight:800;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.stitle::after{content:'';flex:1;height:2px;background:linear-gradient(to left,transparent,var(--secondary));border-radius:2px;}
+.hero{background:linear-gradient(135deg,#0a3d50,#0a6e80,#0d9080);border-radius:18px;padding:26px;color:#fff;margin-bottom:20px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-50px;left:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent);border-radius:50%;}
+.hero-c{position:relative;z-index:1;}
+.hero h2{font-size:clamp(15px,3.2vw,23px);font-weight:900;margin-bottom:8px;}
+.hero p{font-size:13.5px;opacity:0.9;line-height:1.7;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px;}
+.stat{background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);border-radius:11px;padding:12px;text-align:center;}
+.stat b{display:block;font-size:22px;font-weight:900;color:#7ee8d8;}
+.stat span{font-size:11px;opacity:0.88;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;}
+@media(max-width:768px){.g2{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.g3{grid-template-columns:1fr}}
+.al{border-radius:11px;padding:12px 15px;display:flex;align-items:flex-start;gap:10px;margin-bottom:11px;font-size:13px;line-height:1.65;}
+.al-i{background:#e3f2fd;border:1px solid #90caf9;color:#0d3c6e;}
+.al-s{background:#e8f5e9;border:1px solid #a5d6a7;color:#1b5e20;}
+.al-w{background:#fff8e1;border:1px solid #ffe082;color:#7a4a00;}
+.al-d{background:#ffebee;border:1px solid #ef9a9a;color:#7a1212;}
+.al-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.dcard{background:#fff;border-radius:11px;padding:14px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(10,110,128,0.06);transition:all 0.2s;height:100%;}
+.dcard:hover{border-color:var(--secondary);box-shadow:0 4px 16px rgba(14,168,160,0.14);transform:translateY(-2px);}
+.dnum{width:26px;height:26px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-bottom:7px;}
+.dterm{font-size:14.5px;font-weight:800;color:var(--primary);margin-bottom:5px;}
+.ddesc{font-size:12.5px;color:var(--text);line-height:1.7;}
+.olist{display:flex;flex-direction:column;gap:8px;}
+.oitem{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:#fff;border-radius:10px;border-right:4px solid var(--secondary);box-shadow:0 2px 7px rgba(10,110,128,0.06);transition:all 0.2s;}
+.oitem:hover{border-right-color:var(--accent);transform:translateX(-3px);}
+.onum{width:26px;height:26px;background:linear-gradient(135deg,var(--secondary),var(--primary));color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.otext{font-size:13px;color:var(--text);line-height:1.65;padding-top:2px;}
+.acc{background:#fff;border-radius:12px;margin-bottom:8px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);}
+.acc-hdr{padding:13px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:background 0.2s;user-select:none;}
+.acc-hdr:hover{background:#f0f9fb;}
+.acc-ttl{font-size:14px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:8px;}
+.acc-arrow{font-size:11px;color:var(--text-light);transition:transform 0.3s;}
+.acc.open .acc-arrow{transform:rotate(180deg);}
+.acc-body{display:none;padding:0 16px 16px;}
+.acc.open .acc-body{display:block;animation:fadeUp 0.3s;}
+.ritem{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px dashed rgba(10,110,128,0.12);font-size:13px;color:var(--text);line-height:1.65;}
+.ritem:last-child{border-bottom:none;}
+.rdot{width:7px;height:7px;border-radius:50%;background:var(--secondary);flex-shrink:0;margin-top:6px;}
+.tbl{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.tbl th{background:linear-gradient(135deg,var(--primary),#0d9080);color:#fff;padding:12px 14px;text-align:center;font-size:13px;font-weight:700;}
+.tbl td{padding:10px 14px;text-align:center;border-bottom:1px solid rgba(10,110,128,0.08);font-size:13px;color:var(--text);}
+.tbl tr:nth-child(even) td{background:#f0f9fb;}
+.tbl tr:hover td{background:#e4f5f8;}
+.d1{background:#e8f5e9;color:#1b5e20;border:1px solid #a5d6a7;}
+.d2{background:#e3f2fd;color:#0d3c6e;border:1px solid #90caf9;}
+.d3{background:#fff8e1;color:#7a4a00;border:1px solid #ffe082;}
+.d4{background:#ffebee;color:#7a1212;border:1px solid #ef9a9a;}
+.d5{background:#f3e5f5;color:#3d1580;border:1px solid #ce93d8;}
+.dbadge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:12.5px;font-weight:700;}
+.pg{margin-bottom:18px;}
+.pg-hdr{display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:12px 12px 0 0;color:#fff;font-size:13.5px;font-weight:700;}
+.pg-body{background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;overflow:hidden;}
+.prow{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px dashed rgba(10,110,128,0.1);transition:background 0.15s;}
+.prow:last-child{border-bottom:none;}
+.prow:hover{background:#f0f9fb;}
+.pno{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#fff;}
+.ptxt{flex:1;font-size:12.5px;color:var(--text);line-height:1.65;}
+.proc-box{background:#fff;border-radius:12px;border:1px solid var(--border);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);}
+.proc-hdr{padding:12px 16px;font-size:13.5px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;}
+.proc-body{padding:14px 16px;}
+.proc-step{margin-bottom:14px;padding:12px 14px;border-radius:10px;background:#f8fafb;border-right:4px solid var(--secondary);}
+.proc-step-title{font-size:13.5px;font-weight:800;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.proc-item{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:12.5px;color:var(--text);line-height:1.65;}
+.proc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+.evbox{border-radius:14px;padding:20px;color:#fff;text-align:center;position:relative;overflow:hidden;}
+.evbox::before{content:'';position:absolute;top:-25px;right:-25px;width:90px;height:90px;background:rgba(255,255,255,0.1);border-radius:50%;}
+.evpct{font-size:44px;font-weight:900;display:block;}
+.evtype{font-size:15px;font-weight:700;margin-top:4px;}
+.evpts{font-size:28px;font-weight:900;margin:4px 0;}
+.evnote{font-size:12px;opacity:0.9;line-height:1.55;margin-top:6px;}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.bar-lbl{min-width:115px;font-size:12px;font-weight:600;color:var(--text);text-align:right;}
+.bar-bg{flex:1;height:22px;background:rgba(10,110,128,0.09);border-radius:11px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:11px;display:flex;align-items:center;padding-right:8px;font-size:11px;font-weight:700;color:#fff;transition:width 1.2s ease;}
+.bar-val{min-width:55px;font-size:13px;font-weight:700;color:var(--primary);}
+.qcard{background:#fff;border-radius:13px;padding:16px;text-align:center;cursor:pointer;border:1px solid var(--border);box-shadow:var(--shadow);transition:all 0.25s;display:flex;flex-direction:column;align-items:center;gap:7px;}
+.qcard:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--secondary);}
+.qcard-ico{font-size:30px;}
+.qcard-ttl{font-size:12.5px;font-weight:700;color:var(--primary);line-height:1.4;}
+.qcard-sub{font-size:11px;color:var(--text-light);}
+.fitem{background:#fff;border-radius:11px;padding:13px;border:1px solid var(--border);display:flex;align-items:center;gap:11px;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow);}
+.fitem:hover{border-color:var(--secondary);transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.fico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.fname{font-size:13px;font-weight:700;color:var(--primary);}
+.fnum{font-size:11px;color:var(--text-light);margin-top:1px;}
+.eitem{background:#fff;border-radius:11px;padding:13px;border:1px solid var(--border);text-align:center;transition:all 0.2s;box-shadow:var(--shadow);}
+.eitem:hover{border-color:var(--secondary);transform:translateY(-3px);}
+.eico{font-size:26px;display:block;margin-bottom:7px;}
+.etxt{font-size:12px;color:var(--text);line-height:1.6;font-weight:500;}
+.tline{position:relative;padding-right:28px;}
+.tline::before{content:'';position:absolute;right:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--secondary),var(--primary));border-radius:2px;}
+.titem{position:relative;margin-bottom:18px;padding-right:20px;}
+.tdot{position:absolute;right:-26px;top:5px;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--secondary);box-shadow:0 0 0 4px rgba(14,168,160,0.1);}
+.tcontent{background:#fff;border-radius:11px;padding:12px 15px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.ttitle{font-size:13.5px;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.ttxt{font-size:12.5px;color:var(--text);line-height:1.65;}
+.asteps{display:flex;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin:14px 0;}
+.astep{flex:1;padding:14px 10px;text-align:center;color:#fff;}
+.astep b{display:block;font-size:24px;font-weight:900;}
+.astep small{font-size:10px;opacity:0.9;margin-top:3px;display:block;}
+.astep p{font-size:10.5px;opacity:0.88;margin-top:5px;line-height:1.4;}
+.vtbl{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.vtbl th{background:linear-gradient(135deg,var(--primary),#0d9080);color:#fff;padding:11px 14px;font-size:13px;font-weight:700;text-align:right;}
+.vtbl td{padding:10px 14px;font-size:12.5px;border-bottom:1px solid rgba(10,110,128,0.08);color:var(--text);line-height:1.6;}
+.vtbl tr:nth-child(even) td{background:#f0f9fb;}
+.vtbl .vname{font-weight:800;color:var(--primary);}
+.etbl{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.etbl th{background:linear-gradient(135deg,var(--primary),#0d9080);color:#fff;padding:11px 14px;text-align:center;font-size:13px;font-weight:700;}
+.etbl td{padding:10px 12px;border-bottom:1px solid rgba(10,110,128,0.08);font-size:12.5px;color:var(--text);}
+.etbl tr:nth-child(even) td{background:#f0f9fb;}
+.bg-g{background:linear-gradient(135deg,#1a6b35,#27a24f);}
+.bg-t{background:linear-gradient(135deg,#0a6e80,#0ea8a0);}
+.bg-a{background:linear-gradient(135deg,#a06400,#d4880a);}
+.bg-o{background:linear-gradient(135deg,#b84400,#e05a10);}
+.bg-r{background:linear-gradient(135deg,#9b1212,#cc2222);}
+.bg-p{background:linear-gradient(135deg,#4a1282,#7b2ab5);}
+.ic-g{background:#e8f5e9;}
+.ic-t{background:#e0f4f4;}
+.ic-a{background:#fff8e1;}
+.ic-o{background:#fdeede;}
+.ic-r{background:#ffebee;}
+.ic-p{background:#f3e5f5;}
+.ic-b{background:#e3eeff;}
+.stbtn{position:fixed;bottom:70px;left:14px;width:42px;height:42px;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;box-shadow:0 4px 14px rgba(10,110,128,0.35);font-size:16px;z-index:999;border:none;opacity:0;transform:translateY(20px);transition:all 0.3s;}
+.stbtn.vis{opacity:1;transform:translateY(0);}
+footer{background:linear-gradient(135deg,#0a1e28,#0a3d50);padding:18px 20px;text-align:center;margin-top:20px;border-top:1px solid rgba(14,168,160,0.2);}
+footer p{font-size:13.5px;color:rgba(255,255,255,0.78);margin-bottom:8px;}
+.ftlink{display:inline-flex;align-items:center;gap:8px;background:rgba(14,168,160,0.18);border:1px solid rgba(14,168,160,0.45);border-radius:20px;padding:8px 20px;color:#7ee8d8;text-decoration:none;font-size:13px;font-weight:600;transition:all 0.3s;}
+.ftlink:hover{background:rgba(14,168,160,0.32);color:#fff;}
+</style>
+</head>
+<body>
+<div class="pbar" id="pbar"></div>
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-badge">🏫 وزارة التعليم</div>
+    <div class="hdr-title"><h1>قواعد السلوك والمواظبة لطلبة التعليم العام</h1><p>المملكة العربية السعودية · الإصدار الخامس 1447هـ</p></div>
+    <div class="hdr-ed"><b>5</b><span>الإصدار الخامس</span></div>
+  </div>
+  <nav class="nav" id="nav">
+    <button class="ntab active" onclick="goPage('home',this)">🏠 الرئيسية</button>
+    <button class="ntab" onclick="goPage('defs',this)">📖 التعريفات</button>
+    <button class="ntab" onclick="goPage('obj',this)">🎯 الأهداف</button>
+    <button class="ntab" onclick="goPage('roles',this)">👥 الأدوار</button>
+    <button class="ntab" onclick="goPage('eval',this)">📊 التقييم</button>
+    <button class="ntab" onclick="goPage('prob1',this)">⚠️ مشكلات الابتدائي</button>
+    <button class="ntab" onclick="goPage('prob2',this)">⚠️ مشكلات المتوسطة/الثانوية</button>
+    <button class="ntab" onclick="goPage('digital',this)">💻 السلوك الرقمي</button>
+    <button class="ntab" onclick="goPage('attend',this)">📅 المواظبة</button>
+    <button class="ntab" onclick="goPage('protect',this)">🛡️ الحماية</button>
+    <button class="ntab" onclick="goPage('general',this)">📋 الأحكام العامة</button>
+    <button class="ntab" onclick="goPage('forms',this)">📄 النماذج</button>
+  </nav>
+</header>
+<main class="content">
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero"><div class="hero-c">
+    <h2>قواعد السلوك والمواظبة لطلبة التعليم العام</h2>
+    <p>الإصدار الخامس 1447هـ – 2025م | وثيقة شاملة تنظم السلوك والمواظبة في مدارس التعليم العام بما يتوافق مع المبادئ الإسلامية والقيم الأخلاقية</p>
+    <div class="stats">
+      <div class="stat"><b>35</b><span>مادة تنظيمية</span></div>
+      <div class="stat"><b>5</b><span>درجات المشكلات</span></div>
+      <div class="stat"><b>17</b><span>نموذج رسمي</span></div>
+      <div class="stat"><b>100</b><span>درجة السلوك</span></div>
+    </div>
+  </div></div>
+  <div class="stitle">🚀 الوصول السريع</div>
+  <div class="g4" style="margin-bottom:20px">
+    <div class="qcard" onclick="goPage('defs',document.querySelectorAll('.ntab')[1])"><span class="qcard-ico">📖</span><span class="qcard-ttl">التعريفات الأساسية</span><span class="qcard-sub">22 تعريف</span></div>
+    <div class="qcard" onclick="goPage('eval',document.querySelectorAll('.ntab')[4])"><span class="qcard-ico">📊</span><span class="qcard-ttl">نظام التقييم</span><span class="qcard-sub">100 درجة</span></div>
+    <div class="qcard" onclick="goPage('prob1',document.querySelectorAll('.ntab')[5])"><span class="qcard-ico">⚠️</span><span class="qcard-ttl">مشكلات الابتدائي</span><span class="qcard-sub">4 درجات</span></div>
+    <div class="qcard" onclick="goPage('prob2',document.querySelectorAll('.ntab')[6])"><span class="qcard-ico">⚠️</span><span class="qcard-ttl">مشكلات المتوسطة/الثانوية</span><span class="qcard-sub">5 درجات</span></div>
+    <div class="qcard" onclick="goPage('digital',document.querySelectorAll('.ntab')[7])"><span class="qcard-ico">💻</span><span class="qcard-ttl">السلوك الرقمي</span><span class="qcard-sub">19 آداب</span></div>
+    <div class="qcard" onclick="goPage('attend',document.querySelectorAll('.ntab')[8])"><span class="qcard-ico">📅</span><span class="qcard-ttl">المواظبة والغياب</span><span class="qcard-sub">إجراءات مفصلة</span></div>
+    <div class="qcard" onclick="goPage('protect',document.querySelectorAll('.ntab')[9])"><span class="qcard-ico">🛡️</span><span class="qcard-ttl">حماية الطفل</span><span class="qcard-sub">إجراءات عاجلة</span></div>
+    <div class="qcard" onclick="goPage('forms',document.querySelectorAll('.ntab')[11])"><span class="qcard-ico">📄</span><span class="qcard-ttl">النماذج الرسمية</span><span class="qcard-sub">17 نموذج</span></div>
+  </div>
+  <div class="stitle">📊 ملخص درجات المشكلات</div>
+  <div class="card">
+    <div class="bar-row"><div class="bar-lbl">الدرجة الأولى</div><div class="bar-bg"><div class="bar-fill bg-g" style="width:10%">1</div></div><div class="bar-val">1 درجة</div></div>
+    <div class="bar-row"><div class="bar-lbl">الدرجة الثانية</div><div class="bar-bg"><div class="bar-fill bg-t" style="width:20%">2</div></div><div class="bar-val">2 درجتان</div></div>
+    <div class="bar-row"><div class="bar-lbl">الدرجة الثالثة</div><div class="bar-bg"><div class="bar-fill bg-a" style="width:30%">3</div></div><div class="bar-val">3 درجات</div></div>
+    <div class="bar-row"><div class="bar-lbl">الدرجة الرابعة</div><div class="bar-bg"><div class="bar-fill bg-o" style="width:67%">10</div></div><div class="bar-val">10 درجات</div></div>
+    <div class="bar-row"><div class="bar-lbl">الدرجة الخامسة</div><div class="bar-bg"><div class="bar-fill bg-r" style="width:100%">15</div></div><div class="bar-val">15 درجة</div></div>
+  </div>
+  <div class="g2">
+    <div class="al al-i"><span class="al-icon">ℹ️</span><div><strong>التدرج في الإجراءات:</strong> تُطبَّق الإجراءات بالتدرج، وعند تكرار المشكلة يُطبق الإجراء التالي مباشرة.</div></div>
+    <div class="al al-s"><span class="al-icon">✅</span><div><strong>فرص التعويض:</strong> يحق للطالب المخالف تعويض الدرجات المحسومة من خلال ممارسات السلوك المتميز.</div></div>
+    <div class="al al-w"><span class="al-icon">⚠️</span><div><strong>حماية البيانات:</strong> الحفاظ على سرية معلومات الطالب المخالف والإجراءات المتخذة بحقه.</div></div>
+    <div class="al al-d"><span class="al-icon">🚫</span><div><strong>محظور تماماً:</strong> الإيذاء الجسدي أو النفسي، حرمان الطالب من التعليم، السخرية من شخصية الطالب.</div></div>
+  </div>
+</div>
+
+<!-- DEFINITIONS -->
+<div id="defs" class="page">
+  <div class="stitle">📖 المادة (1): التعريفات</div>
+  <div class="al al-i"><span class="al-icon">ℹ️</span><div>يقصد بالألفاظ والعبارات الآتية المعاني المبينة أمام كل منها.</div></div>
+  <div class="g3" style="margin-top:14px">
+    <div class="dcard"><div class="dnum">1</div><div class="dterm">الطالب</div><div class="ddesc">كل من يتلقى التعليم العام.</div></div>
+    <div class="dcard"><div class="dnum">2</div><div class="dterm">منسوبو المدرسة</div><div class="ddesc">جميع العاملين في المدرسة (المدير، الوكيل، المعلم، الموجه، رائد النشاط، الإداري، المستخدم، الحارس، سائق الحافلة، المراسل).</div></div>
+    <div class="dcard"><div class="dnum">3</div><div class="dterm">الزيّ المدرسي</div><div class="ddesc">الزيّ المعتمد من الوزارة للتعليم الحكومي أو الخاص.</div></div>
+    <div class="dcard"><div class="dnum">4</div><div class="dterm">السلوك</div><div class="ddesc">كل ما يصدر من الطالب من أقوال أو أفعال حركية أو لفظية أثناء تعامله مع منسوبي المدرسة وعناصر البيئة المدرسية.</div></div>
+    <div class="dcard"><div class="dnum">5</div><div class="dterm">السلوك الإيجابي</div><div class="ddesc">السلوك المتوقع من الطالب الذي يتسق مع الأهداف والقيم واللوائح والنظم التربوية والأعراف السائدة في المجتمع التعليمي.</div></div>
+    <div class="dcard"><div class="dnum">6</div><div class="dterm">السلوك المتميز</div><div class="ddesc">السلوك الذي يعكس الممارسات المتميزة المتسقة مع القيم الإسلامية والهوية الوطنية، ويُظهرها الطالب من خلال حسن تصرف وأخلاق ومبادرات في المجتمع المدرسي.</div></div>
+    <div class="dcard"><div class="dnum">7</div><div class="dterm">تعزيز السلوك</div><div class="ddesc">الإجراء التربوي الذي يتخذ بعد حدوث سلوك معين بهدف دعمه إذا كان إيجابياً وتصحيح أثره إذا كان سلبياً.</div></div>
+    <div class="dcard"><div class="dnum">8</div><div class="dterm">تعديل السلوك</div><div class="ddesc">الإجراءات التربوية والعلاجية التي تهدف إلى ضبط وتقويم سلوك الطلبة الذين يجدون صعوبة في التكيف مع البيئة المدرسية.</div></div>
+    <div class="dcard"><div class="dnum">9</div><div class="dterm">التنمر</div><div class="ddesc">استهداف طالب معين بصورة متكررة بأساليب غير مرغوبة ذات طبيعة نفسية أو جسدية تلحق الأذى الشديد به، سواء بشكل مباشر أو عبر وسائل التقنية الحديثة.</div></div>
+    <div class="dcard"><div class="dnum">10</div><div class="dterm">الابتزاز</div><div class="ddesc">تهديد طالب بفضح أو كشف معلومات تؤثر على حياته أو أسرته على أن يستجيب للطالب المبتز مقابل مبلغ مادي أو غرض معنوي أو مادي.</div></div>
+    <div class="dcard"><div class="dnum">11</div><div class="dterm">التحرش الجسدي</div><div class="ddesc">كل قول أو فعل أو إشارة ذات مدلول جسدي، تصدر من طالب تجاه آخر، تمس جسده أو عرضه، أو تخدش حياءه، بأي وسيلة كانت.</div></div>
+    <div class="dcard"><div class="dnum">12</div><div class="dterm">المواظبة</div><div class="ddesc">التزام الطالب بالحضور إلى المدرسة حسب المواعيد الرسمية من بداية اليوم الدراسي إلى نهايته.</div></div>
+    <div class="dcard"><div class="dnum">13</div><div class="dterm">التأخر الصباحي</div><div class="ddesc">تأخر الطالب عن الحضور إلى المدرسة في الوقت المحدد.</div></div>
+    <div class="dcard"><div class="dnum">14</div><div class="dterm">التعليم عن بعد</div><div class="ddesc">نمط تعليمي تستخدم فيه وسائل وتقنيات إلكترونية في العملية التعليمية، يتصف بالانفصال بين المعلم والمتعلم.</div></div>
+    <div class="dcard"><div class="dnum">15</div><div class="dterm">إساءة استخدام المنصات</div><div class="ddesc">استخدام المنصات التعليمية بهدف الإساءة للفرد أو المجتمع أو الرموز الدينية أو الوطنية أو التسويق للحسابات الشخصية.</div></div>
+    <div class="dcard"><div class="dnum">16</div><div class="dterm">التنمر الإلكتروني</div><div class="ddesc">التنمر باستخدام التقنيات الرقمية عبر وسائل التواصل الاجتماعي ومنصات المراسلة والهواتف المحمولة بهدف إخافة أو استفزاز المستهدفين.</div></div>
+    <div class="dcard"><div class="dnum">17</div><div class="dterm">الحضور الإلكتروني</div><div class="ddesc">توثيق حضور الطالب من خلال مشاركته الفعالة في المقرر الإلكتروني.</div></div>
+    <div class="dcard"><div class="dnum">18</div><div class="dterm">الحالات عالية الخطورة</div><div class="ddesc">أي حدث غير متوقع يمثل تهديداً مباشراً على سلامة الطلبة ويتطلب سرعة التدخل، مثل محاولات إيذاء الذات.</div></div>
+    <div class="dcard"><div class="dnum">19</div><div class="dterm">الإيذاء</div><div class="ddesc">كل شكل من أشكال الاستغلال أو إساءة المعاملة الجسدية أو النفسية أو الجنسية أو التهديد بها، يرتكبه شخص تجاه آخر.</div></div>
+    <div class="dcard"><div class="dnum">20</div><div class="dterm">الإهمال</div><div class="ddesc">عدم توفير حاجات الطالب الأساسية أو التقصير في ذلك، وتشمل الحاجات الجسدية والصحية والعاطفية والنفسية والتربوية.</div></div>
+    <div class="dcard"><div class="dnum">21</div><div class="dterm">مركز الحماية</div><div class="ddesc">وحدة إدارية وميدانية متخصصة في مباشرة بلاغات الحماية من الإيذاء ضد الطفل.</div></div>
+    <div class="dcard"><div class="dnum">22</div><div class="dterm">مركز البلاغات</div><div class="ddesc">وحدة تابعة لوزارة الموارد البشرية والتنمية الاجتماعية، مختصة بتلقي البلاغات المتعلقة بحالات الإيذاء أو الإهمال.</div></div>
+  </div>
+</div>
+
+<!-- OBJECTIVES -->
+<div id="obj" class="page">
+  <div class="stitle">🎯 المادة (2): الأهداف</div>
+  <div class="card" style="background:linear-gradient(135deg,#eef7fa,#e4f5f5);text-align:center"><div style="font-size:15px;font-weight:800;color:var(--primary);line-height:1.8">الهدف العام: ضبط السلوك والمواظبة لدى طلبة التعليم العام بما يتوافق مع المبادئ الإسلامية والقيم الأخلاقية وثقافة المجتمع</div></div>
+  <div class="stitle">📌 الأهداف التفصيلية</div>
+  <div class="olist">
+    <div class="oitem"><div class="onum">1</div><div class="otext">ترسيخ المبادئ الإسلامية وتعزيز الهوية الوطنية لدى الطلبة.</div></div>
+    <div class="oitem"><div class="onum">2</div><div class="otext">تعزيز القيم وتنمية الاتجاهات السلوكية الإيجابية لدى الطلبة.</div></div>
+    <div class="oitem"><div class="onum">3</div><div class="otext">تعزيز قيم التعامل الرقمي لدى الطلبة والالتزام بالسلوك الإيجابي أثناء تعلمهم عن بعد.</div></div>
+    <div class="oitem"><div class="onum">4</div><div class="otext">تهيئة البيئة التعليمية والتربوية المناسبة للطلبة ومنسوبي المدرسة.</div></div>
+    <div class="oitem"><div class="onum">5</div><div class="otext">تحديد المسؤوليات والأدوار لتحقيق التكامل داخل المجتمع المدرسي.</div></div>
+    <div class="oitem"><div class="onum">6</div><div class="otext">إيجاد مرجعية ضابطة للعاملين في الميدان التربوي تحدد القواعد والإجراءات الواجب اتخاذها.</div></div>
+    <div class="oitem"><div class="onum">7</div><div class="otext">تعريف الطلبة وأولياء أمورهم بالأنظمة والتعليمات الخاصة بقواعد السلوك والمواظبة وأهمية الالتزام بها.</div></div>
+  </div>
+  <div class="stitle" style="margin-top:20px">📋 المادة (4): واجبات الطالب</div>
+  <div class="g2">
+    <div class="oitem"><div class="onum">1</div><div class="otext">الاعتزاز بالقيم الإسلامية والانتماء والمواطنة والولاء للقيادة الرشيدة.</div></div>
+    <div class="oitem"><div class="onum">2</div><div class="otext">الالتزام بتعليمات المدرسة وقواعدها وأنظمتها.</div></div>
+    <div class="oitem"><div class="onum">3</div><div class="otext">التحلي بالوسطية والاعتدال الفكري.</div></div>
+    <div class="oitem"><div class="onum">4</div><div class="otext">تقدير التنوع الثقافي واحترام وتقبل الآخرين.</div></div>
+    <div class="oitem"><div class="onum">5</div><div class="otext">الالتزام بآداب التعامل الرقمي.</div></div>
+    <div class="oitem"><div class="onum">6</div><div class="otext">الالتزام بالسلوك الإيجابي داخل المدرسة وخارجها.</div></div>
+    <div class="oitem"><div class="onum">7</div><div class="otext">التحلي بالانضباط الذاتي وتحمل المسؤولية.</div></div>
+    <div class="oitem"><div class="onum">8</div><div class="otext">الحرص على الحضور المدرسي المنتظم والالتزام بحضور الحصص في الوقت المحدد.</div></div>
+    <div class="oitem"><div class="onum">9</div><div class="otext">التعامل مع التحديات والمشكلات بطريقة واعية وتفكير إيجابي.</div></div>
+    <div class="oitem"><div class="onum">10</div><div class="otext">المحافظة على ممتلكات الطلبة والمدرسة.</div></div>
+    <div class="oitem"><div class="onum">11</div><div class="otext">التواصل مع إدارة المدرسة أو الموجه عند تعرضه أو أحد زملائه لمشكلة سلوكية.</div></div>
+  </div>
+</div>
+<!-- ROLES -->
+<div id="roles" class="page">
+  <div class="stitle">👥 المادة (3): أدوار المعنيين</div>
+  <div class="acc" id="a1">
+    <div class="acc-hdr" onclick="tog('a1')"><div class="acc-ttl">🏫 دور إدارة المدرسة</div><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="ritem"><div class="rdot"></div><div>تعزيز القيم الإسلامية لدى الطلبة والانتماء والمواطنة والولاء للقيادة الرشيدة والمحافظة على أمن الوطن وممتلكاته.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تعزيز التنوع الثقافي والوسطية والاعتدال الفكري والتأكد من سلامة البيئة التعليمية من الفكر المتطرف والظواهر السلبية.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تعزيز قيم التعامل الرقمي لدى الطلبة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توفير بيئة تعليمية آمنة وجاذبة للطلبة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إطلاع منسوبي المدرسة على قواعد السلوك والمواظبة وتوضيح مضامينها وأدوارهم فيها وأخذ توقيعاتهم بذلك.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إطلاع الطلبة وأولياء أمورهم على قواعد السلوك والمواظبة وتسليمهم نسخة منها وتوعيتهم بها وأخذ توقيعاتهم وفق نموذج الالتزام المدرسي يُجدد بداية كل عام دراسي.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إحالة الطلبة المتغيبين بدون عذر والمخالفين سلوكياً إلى لجنة التوجيه الطلابي واعتماد التوصيات الصادرة عنها ومتابعة تنفيذها.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توثيق ورصد درجات السلوك وتحديثها في نظام نور.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توثيق المشكلات السلوكية والإجراءات المتخذة في نظام نور.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توثيق الغياب وحسم درجات المواظبة في نظام نور بشكل يومي.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إطلاع منسوبي المدرسة على اللائحة التنفيذية لنظامَي الحماية من الإيذاء وحماية الطفل وإيضاح ما يترتب على ذلك من عقوبات وكيفية تبليغ مركز بلاغات الإيذاء (1919).</div></div>
+      <div class="ritem"><div class="rdot"></div><div>التنسيق مع قسم ذوي الإعاقة في إدارة التعليم لدراسة المشكلات التي تصدر من الطلبة ذوي الإعاقة.</div></div>
+    </div>
+  </div>
+  <div class="acc" id="a2">
+    <div class="acc-hdr" onclick="tog('a2')"><div class="acc-ttl">👨‍🏫 دور المعلم</div><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="ritem"><div class="rdot"></div><div>تعزيز القيم الإسلامية لدى الطلبة والانتماء والمواطنة والولاء للقيادة الرشيدة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تعزيز السلوك الإيجابي والانضباط الذاتي وتمثيل القدوة الحسنة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>العمل على تعديل السلوك غير المرغوب لدى الطلبة والاستفادة من أدلة وبرامج التوجيه الطلابي.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>القيام مباشرة بالإجراءات الثلاثة الأولى من مشكلات الدرجة الأولى وإحالة أسماء الطلبة غير المتجاوبين إلى إدارة المدرسة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>رصد المشكلات السلوكية من الدرجة الثانية فأعلى وتسليم الأسماء لإدارة المدرسة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تمكين الطالب من ممارسة الفرص التعويضية عند رغبته.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توثيق حضور الطلبة للحصة الدراسية في المنصات المعتمدة وتسليمها لإدارة المدرسة.</div></div>
+    </div>
+  </div>
+  <div class="acc" id="a3">
+    <div class="acc-hdr" onclick="tog('a3')"><div class="acc-ttl">🧭 دور الموجه الطلابي</div><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="ritem"><div class="rdot"></div><div>تطبيق فنيات الإرشاد النفسي وأساليب تعديل السلوك لمساعدة الطلبة الذين لديهم مشكلات سلوكية.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>حصر وتحديث ومتابعة المشكلات السلوكية والحالات الخاصة وتخطيط التدخلات المناسبة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توعية الطلبة المخالفين بحقهم في فرص تعويض درجات السلوك الإيجابي المحسومة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>متابعة حالات الطلبة متكرري الغياب واتخاذ الإجراءات التصحيحية بالتنسيق مع الوكيل.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تفعيل قرارات وتوصيات لجنة التوجيه الطلابي ومتابعة تنفيذها.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توعية أولياء الأمور بأهمية دورهم في متابعة وعلاج مشكلات أبنائهم السلوكية.</div></div>
+    </div>
+  </div>
+  <div class="acc" id="a4">
+    <div class="acc-hdr" onclick="tog('a4')"><div class="acc-ttl">👨‍👩‍👦 دور الأسرة</div><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="ritem"><div class="rdot"></div><div>تعزيز القيم الإسلامية لدى الأبناء والانتماء والمواطنة والولاء للقيادة الرشيدة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تعزيز السلوك الإيجابي والانضباط الذاتي لدى الأبناء.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>الاطلاع على جميع أنظمة المدرسة وقواعدها وتعليماتها ومناقشتها مع الأبناء.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>التزام ولي أمر الطالب بحضور الاجتماعات ومجالس أولياء الأمور والفعاليات التثقيفية.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>التواصل الفوري مع المدرسة عند تغيّب الابن مع توضيح سبب الغياب.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إبلاغ الموجه الطلابي عند تعرض الأبناء لمشكلات سلوكية لتوثيق الحالة واتخاذ الإجراءات اللازمة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>متابعة الأبناء وتوجيههم نحو التفاعل الرقمي المسؤول.</div></div>
+    </div>
+  </div>
+  <div class="acc" id="a5">
+    <div class="acc-hdr" onclick="tog('a5')"><div class="acc-ttl">🏛️ دور لجنة التوجيه الطلابي</div><span class="acc-arrow">▼</span></div>
+    <div class="acc-body">
+      <div class="ritem"><div class="rdot"></div><div>إعداد خطة إجرائية لتفعيل قواعد السلوك والمواظبة تستهدف الهيئة التعليمية والإدارية والطلبة وأولياء أمورهم.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>دراسة سلوك الطلبة ومواظبتهم والعمل على تعزيز السلوك الإيجابي ومعالجة السلبي.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>دراسة المشكلات السلوكية والحالات عالية الخطورة وتقدير الإجراءات ورفع التوصيات لمدير المدرسة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>استلام الشواهد التي تثبت قيام الطالب بممارسات السلوك المتميز وتقدير الدرجة المستحقة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>توفير فرص تحسين درجات السلوك وتقدير الدرجات التعويضية.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>تصنيف المشكلات السلوكية التي لم ترد في القواعد حسب حدتها وملابساتها بما لا تتجاوز الدرجة الثالثة.</div></div>
+      <div class="ritem"><div class="rdot"></div><div>إحالة مشكلات الطلبة السلوكية والنفسية والاجتماعية للجهات ذات العلاقة.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EVALUATION -->
+<div id="eval" class="page">
+  <div class="stitle">📊 المادة (5): تقييم السلوك</div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="evbox bg-t"><span class="evpct">80%</span><div class="evtype">السلوك الإيجابي</div><div class="evpts">80 درجة</div><div class="evnote">السلوك المتوقع من جميع الطلبة بدون ارتكاب مشكلات. يُعدّ كل طالب مستحقاً لها تلقائياً بداية كل فصل دراسي.</div></div>
+    <div class="evbox bg-a"><span class="evpct">20%</span><div class="evtype">السلوك المتميز</div><div class="evpts">20 درجة</div><div class="evnote">السلوك الذي يعكس الممارسات المتميزة المتسقة مع القيم الإسلامية والهوية الوطنية.</div></div>
+  </div>
+  <div class="stitle">📉 توزيع درجات الحسم</div>
+  <table class="tbl">
+    <thead><tr><th>درجة المشكلة</th><th>درجات الحسم</th></tr></thead>
+    <tbody>
+      <tr><td><span class="dbadge d1">الدرجة الأولى</span></td><td style="font-weight:800;color:#1b5e20">1 درجة</td></tr>
+      <tr><td><span class="dbadge d2">الدرجة الثانية</span></td><td style="font-weight:800;color:#0d3c6e">2 درجتان</td></tr>
+      <tr><td><span class="dbadge d3">الدرجة الثالثة</span></td><td style="font-weight:800;color:#7a4a00">3 درجات</td></tr>
+      <tr><td><span class="dbadge d4">الدرجة الرابعة</span></td><td style="font-weight:800;color:#7a1212">10 درجات</td></tr>
+      <tr><td><span class="dbadge d5">الدرجة الخامسة</span></td><td style="font-weight:800;color:#3d1580">15 درجة</td></tr>
+    </tbody>
+  </table>
+  <div class="stitle" style="margin-top:18px">🏆 ممارسات السلوك المتميز</div>
+  <table class="tbl">
+    <thead><tr><th>الممارسة</th><th>الدرجة</th></tr></thead>
+    <tbody>
+      <tr><td style="text-align:right">انضباط الطالب وعدم غيابه بدون عذر خلال الفصل الدراسي</td><td style="font-weight:800;color:#1b5e20">6 درجات</td></tr>
+      <tr><td style="text-align:right">المشاركة في الخدمة المجتمعية / تقديم فعالية حوارية / المشاركة في حملة توعوية / الالتحاق ببرنامج أو دورة</td><td style="font-weight:800;color:#1b5e20">6 درجات لكل مشاركة</td></tr>
+      <tr><td style="text-align:right">المشاركة في أنشطة مجالات (مهارات الاتصال، القيادة، الرقمية، إدارة الوقت)</td><td style="font-weight:800;color:#7a4a00">4 درجات لكل مشاركة</td></tr>
+      <tr><td style="text-align:right">كتابة رسالة شكر / المشاركة في الإذاعة / تقديم مقترح لصالح المجتمع المدرسي</td><td style="font-weight:800;color:#0d3c6e">2 درجتان لكل مشاركة</td></tr>
+      <tr><td style="text-align:right">سلوك متميز غير مذكور في الممارسات المقترحة</td><td style="font-weight:800;color:#3d1580">تقدّر المدرسة (لا تتجاوز 6 درجات)</td></tr>
+    </tbody>
+  </table>
+  <div class="g2" style="margin-top:16px">
+    <div class="al al-i"><span class="al-icon">ℹ️</span><div><strong>للصفين الأول والثاني ابتدائي:</strong> يُستخدم التقدير الكيفي (عبارات لفظية تصف مستوى السلوك).</div></div>
+    <div class="al al-s"><span class="al-icon">✅</span><div><strong>فرص التعويض:</strong> يُتاح للطالب فرص تعويض الدرجات المحسومة خلال الفصل الدراسي عبر ممارسات السلوك المتميز.</div></div>
+    <div class="al al-w"><span class="al-icon">⚠️</span><div><strong>لا تتجاوز 100 درجة:</strong> يحق للطالب تكرار السلوك المتميز بحيث لا تتجاوز درجاته مئة درجة.</div></div>
+    <div class="al al-d"><span class="al-icon">📋</span><div><strong>مادة مستقلة:</strong> السلوك مادة تُحسب ضمن مجموع درجات الطالب بالمعدل الدراسي الفصلي من الصف الثالث ابتدائي.</div></div>
+  </div>
+</div>
+<!-- PRIMARY PROBLEMS -->
+<div id="prob1" class="page">
+  <div class="stitle">⚠️ مشكلات المرحلة الابتدائية</div>
+  <div class="al al-i"><span class="al-icon">ℹ️</span><div>إذا ارتكب الطالب مشكلة سلوكية يطبق عليه الإجراء الأول، وإذا كرر المشكلة نفسها يطبق عليه الإجراء الذي يليه.</div></div>
+
+  <!-- D1 -->
+  <div class="pg">
+    <div class="pg-hdr bg-g">🟢 الدرجة الأولى – حسم درجة واحدة</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-g">1</div><div class="ptxt">عدم التقيد بالزي المدرسي.</div></div>
+      <div class="prow"><div class="pno bg-g">2</div><div class="ptxt">التأخر الصباحي.</div></div>
+      <div class="prow"><div class="pno bg-g">3</div><div class="ptxt">عدم حضور الاصطفاف الصباحي في حال كان الطالب متواجداً داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-g">4</div><div class="ptxt">التأخر عن الاصطفاف الصباحي أو العبث أثناءه.</div></div>
+      <div class="prow"><div class="pno bg-g">5</div><div class="ptxt">التأخر في الدخول إلى الحصص.</div></div>
+      <div class="prow"><div class="pno bg-g">6</div><div class="ptxt">تناول الأطعمة أو المشروبات أثناء الدرس بدون استئذان.</div></div>
+      <div class="prow"><div class="pno bg-g">7</div><div class="ptxt">النوم داخل الفصل.</div></div>
+      <div class="prow"><div class="pno bg-g">8</div><div class="ptxt">تكرار خروج ودخول الطلبة من البوابة قبل وقت الحضور والانصراف.</div></div>
+      <div class="prow"><div class="pno bg-g">9</div><div class="ptxt">التجمهر أمام بوابة المدرسة.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-g">📋 إجراءات الدرجة الأولى (ابتدائي) – 4 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الأول:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>التنبيه الشفهي الأول من المعلم أو إدارة المدرسة للطالب عن السلوك والأضرار المترتبة عليه، وكونه سلوكاً غير مرغوب، بأسلوب تربوي حكيم.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الثاني:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>التنبيه الشفهي الثاني من المعلم أو إدارة المدرسة بأسلوب تربوي حكيم مع تعزيز السلوك الإيجابي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>ملاحظة الطالب وحصر السلوكيات السلبية والإيجابية ومسبباتها، والبدء بالحد من مسببات السلوك السلبي وتعزيز السلوك الإيجابي.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الثالث:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تدوين المشكلة السلوكية من المعلم المباشر في سجل المشكلات وتوقيع الطالب عليها.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>إشعار ولي أمر الطالب هاتفياً بمشكلة الطالب السلوكية.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>حسم درجة من درجات السلوك الإيجابي من قِبل إدارة المدرسة مع تمكين الطالب من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الرابع:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>دعوة ولي أمر الطالب حضورياً وإخطاره بسلوك الطالب غير المرغوب والاتفاق على خطة لتعديل السلوك بين الأسرة والمدرسة يقوم بها الموجه الطلابي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>حسم درجة من درجات السلوك الإيجابي مع تمكين الطالب من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تحويل الطالب إلى لجنة التوجيه الطلابي لبحث أسباب عدم استجابته وإيجاد الحلول وفق تقرير دراسة الحالة من الموجه الطلابي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>متابعة الطالب من الموجه الطلابي لتقديم الخدمات التربوية.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-t">🔵 الدرجة الثانية – حسم درجتين</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-t">1</div><div class="ptxt">عدم حضور الحصة الدراسية أو الهروب منها.</div></div>
+      <div class="prow"><div class="pno bg-t">2</div><div class="ptxt">الدخول أو الخروج من الفصل دون استئذان.</div></div>
+      <div class="prow"><div class="pno bg-t">3</div><div class="ptxt">دخول فصل آخر دون استئذان.</div></div>
+      <div class="prow"><div class="pno bg-t">4</div><div class="ptxt">إثارة الفوضى داخل الفصل أو المدرسة أو وسائل النقل المدرسي.</div></div>
+      <div class="prow"><div class="pno bg-t">5</div><div class="ptxt">الشجار أو الاشتراك في مضاربة جماعية.</div></div>
+      <div class="prow"><div class="pno bg-t">6</div><div class="ptxt">الإشارة بحركات مخلة بالأدب تجاه الطلبة.</div></div>
+      <div class="prow"><div class="pno bg-t">7</div><div class="ptxt">التلفظ بكلمات نابية على الطلبة أو تهديدهم أو السخرية منهم.</div></div>
+      <div class="prow"><div class="pno bg-t">8</div><div class="ptxt">إلحاق الضرر المتعمد بممتلكات الطلبة.</div></div>
+      <div class="prow"><div class="pno bg-t">9</div><div class="ptxt">العبث بتجهيزات المدرسة أو مبانيها (أجهزة الحاسوب، معدات الأمن والسلامة، الكهرباء، المعامل، الحافلة، الكتابة على الجدران).</div></div>
+      <div class="prow"><div class="pno bg-t">10</div><div class="ptxt">امتهان الكتب الدراسية.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-t">📋 إجراءات الدرجة الثانية (ابتدائي) – 3 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الأول: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>إشعار ولي الأمر هاتفياً بمشكلة الطالب السلوكية والإجراءات المتخذة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>حسم درجتين من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>الاعتذار إلى من أساء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>إصلاح ما أتلفه الطالب أو إحضار بديل عنه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>إحالة الطالب للموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الثاني: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>جميع ما ذُكر في الإجراء الأول مع تغيير إجراءات خطة تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>دعوة ولي أمر الطالب حضورياً ومناقشته خطة تعديل السلوك ووضع برنامج وقائي مشترك مع الأسرة وأخذ تعهد خطي على الطالب بعدم التكرار وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>متابعة الطالب من الموجه الطلابي لتقديم الخدمات التربوية.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الثالث: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>جميع ما ذُكر في الإجراء الثاني مع تغيير إجراءات خطة تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>تحويل الطالب إلى لجنة التوجيه الطلابي لبحث أسباب عدم استجابته وإيجاد الحلول وفق تقرير دراسة الحالة من الموجه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>نقل الطالب إلى فصل آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="al al-w" style="margin-top:8px"><span class="al-icon">⚠️</span><div>في جميع الإجراءات: استدعاء الهلال الأحمر لنقل الطالب المصاب إذا تطلب الأمر ذلك، وتبليغ الجهات الأمنية فور وقوع المشكلة بعد إشعار ولي الأمر.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-a">🟡 الدرجة الثالثة – حسم ثلاث درجات</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-a">1</div><div class="ptxt">إلحاق الضرر المتعمد بتجهيزات المدرسة أو مبانيها (أجهزة الحاسوب، معدات الأمن والسلامة، المعامل، الحافلة).</div></div>
+      <div class="prow"><div class="pno bg-a">2</div><div class="ptxt">سرقة شيء من ممتلكات الطلبة أو المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-a">3</div><div class="ptxt">التعرض لأحد الطلبة بالضرب.</div></div>
+      <div class="prow"><div class="pno bg-a">4</div><div class="ptxt">التصوير أو التسجيل الصوتي للطلبة.</div></div>
+      <div class="prow"><div class="pno bg-a">5</div><div class="ptxt">الهروب من المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-a">6</div><div class="ptxt">التوقيع عن ولي الأمر من غير علمه على المكاتبات بين المدرسة وولي الأمر.</div></div>
+      <div class="prow"><div class="pno bg-a">7</div><div class="ptxt">إحضار أو استخدام المواد أو الألعاب الخطرة (الألعاب النارية، البخاخات الغازية، المواد الكيماوية).</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-a">📋 إجراءات الدرجة الثالثة (ابتدائي) – 3 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الأول: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>دعوة ولي أمر الطالب ومناقشته خطة تعديل السلوك ووضع برنامج وقائي مشترك مع الأسرة وأخذ تعهد خطي على الطالب بعدم التكرار وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>حسم ثلاث درجات من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>الاعتذار إلى من أساء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>إصلاح ما أتلفه الطالب أو إحضار بديل عنه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>مصادرة ما بحوزة الطالب من مواد ممنوعة وإتلافها من قِبل لجنة التوجيه فيما لم يرد في نص نظامي وإعداد محضر بذلك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>إحالة الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الثاني: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>جميع ما ذُكر في الإجراء الأول مع تغيير إجراءات خطة تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>نقل الطالب إلى فصل آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>متابعة الطالب من الموجه الطلابي لتقديم الخدمات التربوية.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الثالث: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>جميع ما ذُكر في الإجراء الثاني مع تغيير إجراءات خطة تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>ترفع إدارة المدرسة رسمياً وبصفة عاجلة لإدارة التعليم محضر اجتماع لجنة التوجيه بالمدرسة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>يصدر مدير التعليم قرار بنقل الطالب إلى مدرسة أخرى مع استمراره بالدراسة حتى النقل، مع الأخذ برأي ولي الأمر في المدرسة المختارة (وإن لم يوافق يُنقل إلى أقرب مدرسة لمقر سكنه).</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>إحالة الحالة للموجه الطلابي بالمدرسة المنقول إليها لتقديم برنامج تربوي يشتمل على جلسات تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>يُكتب تعهد خطي من الطالب بحضور ولي الأمر بالالتزام بالانضباط والسلوك الحسن بعد استكمال البرنامج التربوي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها لتقديم الخدمات التربوية.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D4 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-o">🟠 الدرجة الرابعة – حسم عشر درجات</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-o">1</div><div class="ptxt">الإساءة أو الاستهزاء بشيء من شعائر الإسلام.</div></div>
+      <div class="prow"><div class="pno bg-o">2</div><div class="ptxt">الإساءة للدولة أو رموزها.</div></div>
+      <div class="prow"><div class="pno bg-o">3</div><div class="ptxt">التحرش الجسدي.</div></div>
+      <div class="prow"><div class="pno bg-o">4</div><div class="ptxt">إشعال النار داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-o">5</div><div class="ptxt">حيازة السجائر بأنواعها.</div></div>
+      <div class="prow"><div class="pno bg-o">6</div><div class="ptxt">التدخين بأنواع داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-o">7</div><div class="ptxt">حيازة آلة حادة (مثل السكاكين).</div></div>
+      <div class="prow"><div class="pno bg-o">8</div><div class="ptxt">الجرائم المعلوماتية بكافة أنواعها.</div></div>
+      <div class="prow"><div class="pno bg-o">9</div><div class="ptxt">المظاهر أو الصور أو الشعارات التي تدل على الشذوذ الجنسي أو الترويج لها.</div></div>
+      <div class="prow"><div class="pno bg-o">10</div><div class="ptxt">التنمر بجميع أنواعه وأشكاله.</div></div>
+      <div class="prow"><div class="pno bg-o">11</div><div class="ptxt">حيازة أو عرض المواد الإعلامية الممنوعة المقروءة أو المسموعة أو المرئية.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-o">📋 إجراءات الدرجة الرابعة (ابتدائي) – نقل إلى مدرسة أخرى</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#e05a10">
+        <div class="proc-step-title">🔵 الإجراء: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>دعوة ولي أمر الطالب وتوضيح الإجراءات المترتبة على هذا السلوك ومناقشته خطة تعديل السلوك ووضع برنامج وقائي مشترك مع الأسرة وأخذ تعهد خطي على الطالب وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>حسم عشر درجات من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>الاعتذار إلى من أساء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>ترفع إدارة المدرسة رسمياً وبصفة عاجلة لإدارة التعليم محضر اجتماع لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>يصدر مدير التعليم قرار بنقل الطالب إلى مدرسة أخرى مع استمراره بالدراسة حتى النقل، مع الأخذ برأي ولي الأمر في المدرسة المختارة (وإن لم يوافق يُنقل إلى أقرب مدرسة لمقر سكنه).</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>إحالة الحالة للموجه بالمدرسة المنقول إليها لتقديم برنامج تربوي يشتمل على جلسات تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>يُكتب تعهد خطي من الطالب بحضور ولي الأمر بالالتزام بالانضباط والسلوك الحسن بعد استكمال البرنامج التربوي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها لتقديم الخدمات التربوية.</div></div>
+        <div class="al al-d" style="margin-top:10px"><span class="al-icon">🚨</span><div>في حال تصنيف المشكلة ضمن حالات الإيذاء أو الإهمال يتم التواصل مع مركز تلقي البلاغات <strong>1919</strong> للتبليغ وإكمال اللازم. تبليغ الجهات الأمنية فور وقوع المشكلة بعد إشعار ولي الأمر وتوثيق الإجراءات.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- SECONDARY PROBLEMS -->
+<div id="prob2" class="page">
+  <div class="stitle">⚠️ مشكلات المرحلة المتوسطة والثانوية</div>
+  <div class="al al-i"><span class="al-icon">ℹ️</span><div>تُطبَّق الإجراءات بالتدرج المنصوص عليه. عند تكرار المشكلة يُطبق الإجراء التالي مباشرة.</div></div>
+
+  <!-- D1 -->
+  <div class="pg">
+    <div class="pg-hdr bg-g">🟢 الدرجة الأولى – حسم درجة واحدة</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-g">1</div><div class="ptxt">التأخر الصباحي.</div></div>
+      <div class="prow"><div class="pno bg-g">2</div><div class="ptxt">عدم حضور الاصطفاف الصباحي في حال كان الطالب متواجداً داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-g">3</div><div class="ptxt">التأخر عن الاصطفاف الصباحي أو العبث أثناءه.</div></div>
+      <div class="prow"><div class="pno bg-g">4</div><div class="ptxt">التأخر في الدخول إلى الحصص.</div></div>
+      <div class="prow"><div class="pno bg-g">5</div><div class="ptxt">إعاقة سير الحصص الدراسية (الحديث الجانبي، المقاطعة المستمرة، تناول الأطعمة أثناء الدرس).</div></div>
+      <div class="prow"><div class="pno bg-g">6</div><div class="ptxt">النوم داخل الفصل.</div></div>
+      <div class="prow"><div class="pno bg-g">7</div><div class="ptxt">تكرار خروج ودخول الطلبة من البوابة قبل وقت الحضور والانصراف.</div></div>
+      <div class="prow"><div class="pno bg-g">8</div><div class="ptxt">التجمهر أمام بوابة المدرسة.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-g">📋 إجراءات الدرجة الأولى (متوسطة/ثانوية) – 4 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الأول:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>التنبيه الشفهي الأول من المعلم أو إدارة المدرسة عن السلوك وأضراره، وكونه سلوكاً غير مرغوب، بأسلوب تربوي حكيم.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الثاني:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>التنبيه الشفهي الثاني بأسلوب تربوي حكيم مع تعزيز السلوك الإيجابي.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>ملاحظة الطالب وحصر السلوكيات السلبية والإيجابية ومسبباتها والبدء بالحد من مسببات السلوك السلبي.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الثالث:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تدوين المشكلة السلوكية من المعلم وتوقيع الطالب عليها إلكترونياً.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>إشعار ولي أمر الطالب هاتفياً بمشكلة الطالب والتنسيق معه لتعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>حسم درجة من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#27a24f">
+        <div class="proc-step-title">🔵 الإجراء الرابع:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>دعوة ولي أمر الطالب حضورياً وإخطاره بالسلوك غير المرغوب والاتفاق على خطة تعديل السلوك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>حسم درجة من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>تحويل الطالب إلى لجنة التوجيه لبحث أسباب عدم استجابته وإيجاد الحلول وفق تقرير دراسة الحالة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#27a24f"></div><div>متابعة الطالب من الموجه الطلابي لتقديم الخدمات التربوية.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D2 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-t">🔵 الدرجة الثانية – حسم درجتين</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-t">1</div><div class="ptxt">عدم حضور الحصة الدراسية أو الهروب منها.</div></div>
+      <div class="prow"><div class="pno bg-t">2</div><div class="ptxt">الدخول أو الخروج من الفصل دون استئذان.</div></div>
+      <div class="prow"><div class="pno bg-t">3</div><div class="ptxt">دخول فصل آخر دون استئذان.</div></div>
+      <div class="prow"><div class="pno bg-t">4</div><div class="ptxt">إثارة الفوضى داخل الفصل أو المدرسة أو في وسائل النقل المدرسي.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-t">📋 إجراءات الدرجة الثانية (متوسطة/ثانوية) – 3 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الأول: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>إشعار ولي الأمر هاتفياً بمشكلة الطالب والإجراءات المتخذة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>حسم درجتين من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>أخذ تعهد خطي على الطالب بعدم تكرار المخالفة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الثاني:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>جميع ما ذُكر في الإجراء الأول.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>دعوة ولي أمر الطالب حضورياً ومناقشته خطة تعديل السلوك ووضع برنامج وقائي مشترك مع الأسرة وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>متابعة الطالب من الموجه الطلابي لتقديم الخدمات التربوية.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#0ea8a0">
+        <div class="proc-step-title">🔵 الإجراء الثالث:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>تنفيذ جميع ما ورد في الإجراء الثاني.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>نقل الطالب إلى فصل آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#0ea8a0"></div><div>تحويل الطالب إلى لجنة التوجيه لوضع الحلول المناسبة وفق تقرير دراسة الحالة من الموجه.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D3 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-a">🟡 الدرجة الثالثة – حسم ثلاث درجات</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-a">1</div><div class="ptxt">عدم التقيد بالزي المدرسي.</div></div>
+      <div class="prow"><div class="pno bg-a">2</div><div class="ptxt">الشجار أو الاشتراك في مضاربة جماعية.</div></div>
+      <div class="prow"><div class="pno bg-a">3</div><div class="ptxt">الإشارة بحركات مخلة بالأدب تجاه الطلبة.</div></div>
+      <div class="prow"><div class="pno bg-a">4</div><div class="ptxt">التلفظ بكلمات نابية على الطلبة أو تهديدهم أو السخرية منهم.</div></div>
+      <div class="prow"><div class="pno bg-a">5</div><div class="ptxt">إلحاق الضرر المتعمد بممتلكات الطلبة.</div></div>
+      <div class="prow"><div class="pno bg-a">6</div><div class="ptxt">العبث بتجهيزات المدرسة أو مبانيها (أجهزة الحاسوب، معدات الأمن والسلامة، المعامل، الحافلة، الكتابة على الجدران).</div></div>
+      <div class="prow"><div class="pno bg-a">7</div><div class="ptxt">إحضار المواد أو الألعاب الخطرة دون استخدامها (الألعاب النارية، البخاخات الغازية، المواد الكيماوية).</div></div>
+      <div class="prow"><div class="pno bg-a">8</div><div class="ptxt">حيازة السجائر بأنواعها.</div></div>
+      <div class="prow"><div class="pno bg-a">9</div><div class="ptxt">حيازة المواد الإعلامية الممنوعة المقروءة أو المسموعة أو المرئية.</div></div>
+      <div class="prow"><div class="pno bg-a">10</div><div class="ptxt">التوقيع عن ولي الأمر من غير علمه على المكاتبات بين المدرسة وأولياء الأمور.</div></div>
+      <div class="prow"><div class="pno bg-a">11</div><div class="ptxt">امتهان الكتب الدراسية.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-a">📋 إجراءات الدرجة الثالثة (متوسطة/ثانوية) – 3 إجراءات</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الأول: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>دعوة ولي أمر الطالب وتوضيح الإجراءات المترتبة على السلوك حال تكراره ومناقشته خطة تعديل السلوك ووضع برنامج وقائي مشترك وأخذ تعهد خطي وتوقيع ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>حسم ثلاث درجات من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>الاعتذار إلى من أساء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>إصلاح ما أتلفه أو إحضار بديل عنه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>مصادرة ما بحوزة الطالب من مواد ممنوعة وإتلافها وإعداد محضر بذلك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الثاني: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>تنفيذ جميع ما ورد في الإجراء الأول.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>دعوة ولي أمر الطالب وإنذار الطالب كتابياً بالنقل إلى مدرسة أخرى حال تكرار المخالفة وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>تحويل الحالة إلى لجنة التوجيه لوضع الحلول المناسبة وفق تقرير دراسة الحالة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>نقل الطالب إلى فصل آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>متابعة الطالب من الموجه لتقديم الخدمات التربوية.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#d4880a">
+        <div class="proc-step-title">🔵 الإجراء الثالث: تحويل الطالب إلى إدارة المدرسة لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>تنفيذ جميع ما ورد في الإجراء الأول.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>ترفع إدارة المدرسة رسمياً وبصفة عاجلة لإدارة التعليم محضر اجتماع لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>يصدر مدير التعليم قرار بنقل الطالب إلى مدرسة أخرى (الصفين الثاني والثالث الثانوي وفق نظام المسارات)، مع استمراره بالدراسة حتى النقل وأخذ رأي ولي الأمر (وإن لم يوافق يُنقل لأقرب مدرسة لمقر سكنه).</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#d4880a"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها لتقديم الخدمات التربوية.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D4 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-o">🟠 الدرجة الرابعة – حسم عشر درجات</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-o">1</div><div class="ptxt">تعمد إصابة أحد الطلبة بالضرب باليد أو أدوات غير حادة تحدث إصابة (جرح أو نزف أو كسر).</div></div>
+      <div class="prow"><div class="pno bg-o">2</div><div class="ptxt">سرقة شيء من ممتلكات الطلبة أو المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-o">3</div><div class="ptxt">التصوير أو التسجيل الصوتي للطلبة.</div></div>
+      <div class="prow"><div class="pno bg-o">4</div><div class="ptxt">إلحاق الضرر المتعمد بتجهيزات المدرسة أو مبانيها.</div></div>
+      <div class="prow"><div class="pno bg-o">5</div><div class="ptxt">التدخين بأنواع داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-o">6</div><div class="ptxt">الهروب من المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-o">7</div><div class="ptxt">إحضار أو استخدام المواد أو الألعاب الخطرة (الألعاب النارية، البخاخات الغازية، المواد الكيماوية).</div></div>
+      <div class="prow"><div class="pno bg-o">8</div><div class="ptxt">عرض أو توزيع المواد الإعلامية الممنوعة.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-o">📋 إجراءات الدرجة الرابعة (متوسطة/ثانوية) – 2 إجراء</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#e05a10">
+        <div class="proc-step-title">🔵 الإجراء الأول: إحالة الطالب إلى لجنة التوجيه لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>دعوة ولي أمر الطالب وتوضيح الإجراءات المترتبة حال التكرار ومناقشته خطة تعديل السلوك وأخذ تعهد خطي وإنذاره بالنقل حال إعادة المشكلة وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>حسم عشر درجات من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>تقديم الاعتذار لمن أُسيء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>إصلاح ما أتلفه أو إحضار بديل عنه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>مصادرة ما بحوزة الطالب من مواد ممنوعة وإتلافها وإعداد محضر بذلك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>نقل الطالب من فصل إلى آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>متابعة الحالة من الموجه وتقديم الخدمات التربوية.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#e05a10">
+        <div class="proc-step-title">🔵 الإجراء الثاني:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>تنفيذ جميع ما ورد في الإجراء الأول باستثناء نقل الطالب من الفصل.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>رفع محضر اجتماع لجنة التوجيه إلى إدارة التعليم رسمياً وبصفة عاجلة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>إصدار قرار من مدير التعليم بنقل الطالب إلى مدرسة أخرى (الثاني والثالث الثانوي وفق نظام المسارات)، مع استمراره بالدراسة حتى النقل وأخذ رأي ولي الأمر (وإن لم يوافق يُنقل لأقرب مدرسة).</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>تمكين الطالب من فرص التعويض في المدرسة المنقول إليها وإشعار ولي أمره.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#e05a10"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- D5 -->
+  <div class="pg" style="margin-top:18px">
+    <div class="pg-hdr bg-r">🔴 الدرجة الخامسة – حسم خمس عشرة درجة</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-r">1</div><div class="ptxt">الإساءة أو الاستهزاء بشيء من شعائر الإسلام.</div></div>
+      <div class="prow"><div class="pno bg-r">2</div><div class="ptxt">الإساءة للدولة أو رموزها.</div></div>
+      <div class="prow"><div class="pno bg-r">3</div><div class="ptxt">بث أو ترويج أفكار ومعتقدات متطرفة أو تكفيرية أو إلحادية أو مسيئة للنظم المجتمعية.</div></div>
+      <div class="prow"><div class="pno bg-r">4</div><div class="ptxt">الإساءة إلى الأديان السماوية أو إثارة ما يسبب العنصرية أو الفتن القبلية أو الطائفية أو المذهبية.</div></div>
+      <div class="prow"><div class="pno bg-r">5</div><div class="ptxt">التزوير أو الاستخدام غير المشروع للوثائق أو الأختام الرسمية.</div></div>
+      <div class="prow"><div class="pno bg-r">6</div><div class="ptxt">التحرش الجسدي.</div></div>
+      <div class="prow"><div class="pno bg-r">7</div><div class="ptxt">المظاهر أو الصور أو الشعارات التي تدل على الشذوذ الجنسي أو الترويج لها.</div></div>
+      <div class="prow"><div class="pno bg-r">8</div><div class="ptxt">إشعال النار داخل المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-r">9</div><div class="ptxt">حيازة أو استخدام أو تهديد الطلبة بالأسلحة النارية أو ما يكافئها (السكاكين والأدوات الحادة).</div></div>
+      <div class="prow"><div class="pno bg-r">10</div><div class="ptxt">حيازة أو تعاطي أو ترويج المخدرات أو المسكرات.</div></div>
+      <div class="prow"><div class="pno bg-r">11</div><div class="ptxt">الجرائم المعلوماتية بكافة أنواعها.</div></div>
+      <div class="prow"><div class="pno bg-r">12</div><div class="ptxt">ابتزاز الطلبة.</div></div>
+      <div class="prow"><div class="pno bg-r">13</div><div class="ptxt">التنمر بجميع أنواعه وأشكاله.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-r">📋 إجراءات الدرجة الخامسة (متوسطة/ثانوية) – نقل فوري</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#cc2222">
+        <div class="proc-step-title">🔴 الإجراءات الكاملة:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>تُدوّن إدارة المدرسة محضر لإثبات الواقعة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>دعوة ولي أمر الطالب وتبليغه بمشكلة الطالب والإجراءات المترتبة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>حسم خمس عشرة درجة من درجات السلوك الإيجابي مع تمكينه من فرص التعويض في المدرسة المنقول إليها وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>اجتماع لجنة التوجيه الطلابي بعد وقوع القضية مباشرة لدراسة ظروفها وملابساتها.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>متابعة الحالة من الموجه وتقديم الخدمات التربوية.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>رفع محضر اجتماع لجنة التوجيه إلى إدارة التعليم رسمياً وبصفة عاجلة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>إصدار قرار من مدير التعليم بنقل الطالب إلى مدرسة أخرى (الثاني والثالث الثانوي وفق نظام المسارات)، مع استمراره بالدراسة حتى النقل وأخذ رأي ولي الأمر (وإن لم يوافق يُنقل لأقرب مدرسة).</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها وتقديم الخدمات التربوية.</div></div>
+        <div class="al al-d" style="margin-top:10px"><span class="al-icon">🚨</span><div>في حال تصنيف المشكلة ضمن حالات الإيذاء والإهمال يتم التواصل مع مركز تلقي البلاغات <strong>1919</strong> وإبلاغ الجهات الأمنية المختصة فوراً بعد إشعار ولي الأمر وتوثيق الإجراءات.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Against staff -->
+  <div class="stitle" style="margin-top:22px">👩‍🏫 مشكلات تجاه الهيئة التعليمية والإدارية</div>
+  <div class="pg">
+    <div class="pg-hdr bg-p">🟣 الدرجة الرابعة تجاه الهيئة – حسم عشر درجات</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-p">1</div><div class="ptxt">تهديد المعلمين أو الإداريين أو من يكافئهم من منسوبي المدرسة.</div></div>
+      <div class="prow"><div class="pno bg-p">2</div><div class="ptxt">التلفظ بألفاظ غير لائقة تجاههم.</div></div>
+      <div class="prow"><div class="pno bg-p">3</div><div class="ptxt">السخرية منهم قولاً أو فعلاً.</div></div>
+      <div class="prow"><div class="pno bg-p">4</div><div class="ptxt">التوقيع عن أحد منسوبي المدرسة على المكاتبات بين المدرسة وأولياء الأمور.</div></div>
+      <div class="prow"><div class="pno bg-p">5</div><div class="ptxt">تصويرهم أو التسجيل الصوتي لهم بدون إذن خطي صريح.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-p">📋 إجراءات الدرجة الرابعة تجاه الهيئة – 2 إجراء</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#7b2ab5">
+        <div class="proc-step-title">🔵 الإجراء الأول: إحالة الطالب إلى لجنة التوجيه لاتخاذ ما يلي:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>دعوة ولي أمر الطالب وتوضيح الإجراءات المترتبة حال التكرار ومناقشته خطة تعديل السلوك وأخذ تعهد خطي وإنذاره بالنقل وتوقيع ولي الأمر بالعلم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>حسم عشر درجات من درجات السلوك الإيجابي مع تمكينه من فرص التعويض وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>مصادرة ما بحوزة الطالب من مواد وإتلافها وإعداد محضر بذلك.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>الاعتذار لمن أساء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>نقل الطالب إلى فصل آخر وفقاً لقرار لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>تحويل الطالب إلى الموجه الطلابي لدراسة حالته.</div></div>
+      </div>
+      <div class="proc-step" style="border-right-color:#7b2ab5">
+        <div class="proc-step-title">🔵 الإجراء الثاني:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>تنفيذ جميع ما ورد في الإجراء الأول باستثناء نقل الطالب من الفصل.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>ترفع إدارة المدرسة رسمياً وبصفة عاجلة لإدارة التعليم محضر اجتماع لجنة التوجيه.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>يصدر مدير التعليم قرار بنقل الطالب إلى مدرسة أخرى (الثاني والثالث الثانوي وفق نظام المسارات)، مع استمراره بالدراسة حتى النقل وأخذ رأي ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>تمكين الطالب من فرص التعويض في المدرسة المنقول إليها وإشعار ولي أمره.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#7b2ab5"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها وتقديم الخدمات التربوية.</div></div>
+        <div class="al al-d" style="margin-top:8px"><span class="al-icon">📌</span><div>تبليغ الجهات الأمنية المختصة فور وقوع المشكلة بعد إشعار ولي الأمر وتوثيق الإجراءات.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" style="margin-top:16px">
+    <div class="pg-hdr bg-r">🔴 الدرجة الخامسة تجاه الهيئة – حسم خمس عشرة درجة</div>
+    <div class="pg-body">
+      <div class="prow"><div class="pno bg-r">1</div><div class="ptxt">إلحاق الضرر بممتلكاتهم أو سرقتها.</div></div>
+      <div class="prow"><div class="pno bg-r">2</div><div class="ptxt">الإشارة بحركات مخلة بالأدب تجاههم.</div></div>
+      <div class="prow"><div class="pno bg-r">3</div><div class="ptxt">الاعتداء بالضرب عليهم.</div></div>
+      <div class="prow"><div class="pno bg-r">4</div><div class="ptxt">ابتزازهم.</div></div>
+      <div class="prow"><div class="pno bg-r">5</div><div class="ptxt">الجرائم المعلوماتية تجاههم.</div></div>
+    </div>
+  </div>
+  <div class="proc-box">
+    <div class="proc-hdr bg-r">📋 إجراءات الدرجة الخامسة تجاه الهيئة</div>
+    <div class="proc-body">
+      <div class="proc-step" style="border-right-color:#cc2222">
+        <div class="proc-step-title">🔴 الإجراءات الكاملة:</div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>تُدوّن إدارة المدرسة محضر لإثبات الواقعة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>دعوة ولي أمر الطالب وتبليغه بمشكلة الطالب والإجراءات المترتبة.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>حسم خمس عشرة درجة مع تمكينه من فرص التعويض في المدرسة المنقول إليها وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>اجتماع لجنة التوجيه بعد وقوع القضية مباشرة لدراسة ظروفها.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>إصلاح ما أتلفه أو إحضار بديل عنه وإشعار ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>تقديم الاعتذار لمن أُسيء إليهم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>رفع محضر اجتماع لجنة التوجيه رسمياً وبصفة عاجلة إلى إدارة التعليم.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>إصدار قرار من مدير التعليم بنقل الطالب إلى مدرسة أخرى (الثاني والثالث الثانوي وفق نظام المسارات)، مع استمراره بالدراسة حتى النقل وأخذ رأي ولي الأمر.</div></div>
+        <div class="proc-item"><div class="proc-dot" style="background:#cc2222"></div><div>متابعة الحالة من الموجه بالمدرسة المنقول إليها وتقديم الخدمات التربوية.</div></div>
+        <div class="al al-d" style="margin-top:10px"><span class="al-icon">🚨</span><div>تبليغ الجهات الأمنية المختصة فوراً بعد إشعار ولي الأمر وتوثيق الإجراءات.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- DIGITAL -->
+<div id="digital" class="page">
+  <div class="stitle">💻 المادة (17): الآداب العامة للسلوك الرقمي</div>
+  <div class="g3">
+    <div class="eitem"><span class="eico">☪️</span><div class="etxt">التمسك بالقيم الإسلامية وتعاليم الدين الحنيف</div></div>
+    <div class="eitem"><span class="eico">🏛️</span><div class="etxt">طاعة ولاة الأمر واحترام الرموز الوطنية وعدم مخالفة قوانين الدولة وأنظمتها</div></div>
+    <div class="eitem"><span class="eico">🔒</span><div class="etxt">تجنب نشر البيانات الشخصية كالأسماء وبيانات الاتصال والعناوين</div></div>
+    <div class="eitem"><span class="eico">📱</span><div class="etxt">استخدام وسائل التواصل الرسمية المعتمدة من الوزارة للتواصل مع المعلمين والإدارة</div></div>
+    <div class="eitem"><span class="eico">🦠</span><div class="etxt">تجنب تحميل أي مادة تحتوي على فيروسات أو شفرات تؤثر على المنصات والأجهزة</div></div>
+    <div class="eitem"><span class="eico">🚫</span><div class="etxt">تجنب تغيير أو إتلاف أو شطب أي محتوى على منصات التعليم الإلكترونية</div></div>
+    <div class="eitem"><span class="eico">🎣</span><div class="etxt">الحذر من الروابط المجهولة التي قد تؤدي إلى محاولات تصيّد إلكتروني</div></div>
+    <div class="eitem"><span class="eico">🔑</span><div class="etxt">الحفاظ على سرية اسم المستخدم وكلمة المرور وعدم مشاركتها مع الآخرين</div></div>
+    <div class="eitem"><span class="eico">🔐</span><div class="etxt">التأكد من إغلاق المنصة التعليمية بالكامل بعد الانتهاء من الحصص حفاظاً على الخصوصية</div></div>
+    <div class="eitem"><span class="eico">📚</span><div class="etxt">احترام قوانين وحقوق الملكية الفكرية وتوضيح المراجع والمصادر المستخدمة</div></div>
+    <div class="eitem"><span class="eico">🎓</span><div class="etxt">تقديم الأعمال والاختبارات الإلكترونية من الطالب نفسه ورفض الأعمال المقدمة من آخرين</div></div>
+    <div class="eitem"><span class="eico">🌐</span><div class="etxt">التأكد من الاتصال بشبكات الإنترنت الآمنة</div></div>
+  </div>
+  <div class="stitle" style="margin-top:20px">📺 المادة (18): آداب السلوك الرقمي في الفصل الافتراضي</div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-icon ic-t"><span>⏰</span></div><div><div class="card-title">أ. الحضور والانصراف</div></div></div>
+    <div class="olist">
+      <div class="oitem"><div class="onum">1</div><div class="otext">حضور الفصول الافتراضية في الوقت المحدد.</div></div>
+      <div class="oitem"><div class="onum">2</div><div class="otext">الانصراف بعد انتهاء وقت الحصة والانتقال للحصة التالية.</div></div>
+      <div class="oitem"><div class="onum">3</div><div class="otext">تجنب فتح أكثر من نافذة رقمية أثناء الحصة لمنع التشتت وتفادي بطء الجهاز.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-icon ic-a"><span>💬</span></div><div><div class="card-title">ب. المشاركة الصفية</div></div></div>
+    <div class="olist">
+      <div class="oitem"><div class="onum">1</div><div class="otext">احترام مشاركات الطلبة والتعامل معهم بلطف وتقبل النقد البناء.</div></div>
+      <div class="oitem"><div class="onum">2</div><div class="otext">الابتعاد عن الألفاظ البذيئة أو إرسال وسائط مخلة بالآداب أو عبارات تحفز على العنصرية.</div></div>
+      <div class="oitem"><div class="onum">3</div><div class="otext">رفض أي شكل من أشكال التنمر الإلكتروني على المعلمين أو الطلبة.</div></div>
+      <div class="oitem"><div class="onum">4</div><div class="otext">عدم تسجيل أو تصوير ما يحدث داخل الفصل الافتراضي ونشره في وسائل التواصل الاجتماعي.</div></div>
+      <div class="oitem"><div class="onum">5</div><div class="otext">الاستئذان قبل المشاركة برفع اليد إلكترونياً والحديث بعد الإذن.</div></div>
+      <div class="oitem"><div class="onum">6</div><div class="otext">إغلاق مكبر الصوت أو الكاميرا وعدم فتحها إلا بإذن المعلم.</div></div>
+      <div class="oitem"><div class="onum">7</div><div class="otext">ارتداء الملابس اللائقة والرسمية عند المشاركة من خلال الكاميرا.</div></div>
+      <div class="oitem"><div class="onum">8</div><div class="otext">مراعاة استخدام اللغة العربية وقواعد الإملاء في المشاركة الإلكترونية.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ATTENDANCE -->
+<div id="attend" class="page">
+  <div class="stitle">📅 المادة (31): تقييم المواظبة</div>
+  <div class="olist">
+    <div class="oitem"><div class="onum">1</div><div class="otext"><strong>الصفين الأول والثاني ابتدائي:</strong> تقييم كيفي بعبارات لفظية تصف مستوى مواظبة الطالب.</div></div>
+    <div class="oitem"><div class="onum">2</div><div class="otext"><strong>من الصف الثالث ابتدائي إلى الثالث الثانوي:</strong> تخصيص 100 درجة للمواظبة تُحتسب ضمن مجموع درجات الطالب.</div></div>
+    <div class="oitem"><div class="onum">3</div><div class="otext"><strong>الحرمان من الانتقال:</strong> يُحرم الطالب من الانتقال إذا تجاوز نسبة غيابه بدون عذر 10% خلال العام الدراسي.</div></div>
+    <div class="oitem"><div class="onum">4</div><div class="otext">إدخال الغياب يومياً في المنصات المعتمدة (نظام نور – منصة مدرستي).</div></div>
+    <div class="oitem"><div class="onum">5</div><div class="otext">تقديم العذر خلال ثلاثة أيام عمل، وفي حال وجود مبرر مقبول يجوز القبول حتى عشرة أيام. ولمدير المدرسة صلاحية تمديد القبول حتى نهاية الفصل.</div></div>
+    <div class="oitem"><div class="onum">6</div><div class="otext">تُحسم درجة واحدة من درجات المواظبة عن غياب كل يوم دراسي بدون عذر.</div></div>
+  </div>
+
+  <div class="stitle" style="margin-top:18px">🔄 إجراءات الغياب بدون عذر (المادة 34)</div>
+  <div class="al al-i"><span class="al-icon">📌</span><div>يتم التواصل مع ولي الأمر في نفس يوم الغياب من خلال الرسالة النصية أو المكالمة الهاتفية للاستفسار عن سبب الغياب.</div></div>
+  <div class="asteps">
+    <div class="astep bg-g"><b>3</b><small>أيام غياب</small><p>تحويل للموجه + استدعاء ولي الأمر حضورياً + إبلاغه بالإجراءات المترتبة</p></div>
+    <div class="astep bg-a"><b>5</b><small>أيام غياب</small><p>استدعاء ولي الأمر + إحالة للجنة التوجيه + مراجعة الخطة العلاجية + أخذ التعهد الخطي</p></div>
+    <div class="astep bg-r"><b>10</b><small>أيام غياب</small><p>مخاطبة الجهات ذات الاختصاص لتطبيق نظام حماية الطفل ونظام الحماية من الإيذاء</p></div>
+  </div>
+
+  <div class="stitle" style="margin-top:18px">✅ المادة (32): حالات الغياب والاستئذان بعذر</div>
+  <table class="etbl">
+    <thead><tr><th>م</th><th>الحالة</th><th>المستند</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>الإجازة المرضية</td><td>تقرير من منصة صحتي</td></tr>
+      <tr><td>2</td><td>مراجعة المستشفيات والمراكز الصحية</td><td>إشعار مراجعة من صحتي</td></tr>
+      <tr><td>3</td><td>حدوث الكوارث (حريق وغيره)</td><td>مشهد من الدفاع المدني</td></tr>
+      <tr><td>4</td><td>وفاة أحد الأقارب إلى الدرجة الثالثة</td><td>شهادة الوفاة</td></tr>
+      <tr><td>5</td><td>مرافقة صحية لأحد الأقارب الدرجة الأولى</td><td>إشعار مرافقة</td></tr>
+      <tr><td>6</td><td>مرافقة صحية لأحد الأقارب إلى الدرجة الثالثة</td><td>إشعار مرافقة (للمدرسة تقييم العذر)</td></tr>
+      <tr><td>7</td><td>مراجعة الجهات الرسمية</td><td>إشعار مراجعة</td></tr>
+      <tr><td>8</td><td>مرافقة الأقارب الدرجة الأولى للجهات الرسمية</td><td>إشعار مراجعة</td></tr>
+      <tr><td>9</td><td>المشاركات في المسابقات المحلية والدولية</td><td>مشهد المشاركة</td></tr>
+      <tr><td>10</td><td>ظروف صحية خاصة (أمراض مزمنة وغيرها)</td><td>تقرير طبي</td></tr>
+      <tr><td>11</td><td>ما تقرره الأنظمة واللوائح لحماية الطفل</td><td>—</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PROTECTION -->
+<div id="protect" class="page">
+  <div class="stitle">🛡️ المادة (29): إجراءات التعامل مع حالات الإيذاء أو الإهمال</div>
+  <div class="al al-d"><span class="al-icon">🚨</span><div>الإجراءات لا تتطلب التدرج بل تُتخذ وفقاً لخطورة الحالة بشكل عاجل وسري.</div></div>
+  <div class="tline" style="margin-top:16px">
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">1. إبلاغ مدير المدرسة فوراً وبشكل سري</div><div class="ttxt">عند اكتشاف حالة إيذاء جسدي أو نفسي أو جنسي أو إهمال أو وجود اشتباه بخطر محدد.</div></div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">2. إحالة الحالة إلى لجنة التوجيه الطلابي</div><div class="ttxt">للتثبت منها ودراستها وتقييم درجة خطورتها وتحديد مستوى الخدمة اللازمة، مع استمرار الدعم النفسي من الموجه وتصميم خطة تدخل مناسبة.</div></div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">3. تدوين محضر رسمي لإثبات الواقعة</div><div class="ttxt"></div></div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">4. استدعاء ولي أمر الطالب وإبلاغه</div><div class="ttxt">مع مراعاة رغبة الطالب في تحديد الشخص المناسب إذا كان ولي الأمر هو من قام بالإيذاء.</div></div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">5. التنسيق الفوري مع أقرب مركز صحي</div><div class="ttxt">عند وجود آثار جسدية واضحة لتقييم الحالة طبياً وإعداد تقرير طبي.</div></div></div>
+    <div class="titem"><div class="tdot" style="border-color:#cc2222"></div><div class="tcontent" style="border-color:rgba(204,34,34,0.25)">
+      <div class="ttitle" style="color:#b71c1c">6. إبلاغ مركز بلاغات وزارة الموارد البشرية</div>
+      <div style="background:#ffebee;border-radius:8px;padding:10px;margin:8px 0;display:flex;align-items:center;gap:10px">
+        <span style="font-size:22px">📞</span>
+        <span style="font-size:28px;font-weight:900;color:#b71c1c">1919</span>
+        <span style="font-size:12px;color:#7a1212">مركز بلاغات وزارة الموارد البشرية والتنمية الاجتماعية</span>
+      </div>
+      <div class="ttxt">فوراً وعاجلاً في حال تطلبت الحالة تدخلاً عاجلاً، مع إبلاغ الجهات الأمنية إذا اقتضى الأمر.</div>
+    </div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">7. رفع الحالة إلى الجهات المختصة في إدارة التعليم</div><div class="ttxt">إذا كان مصدر الإيذاء أحد منسوبي المدرسة لاتخاذ الإجراءات النظامية.</div></div></div>
+    <div class="titem"><div class="tdot"></div><div class="tcontent"><div class="ttitle">8. الاستمرار في تقديم الرعاية والدعم</div><div class="ttxt">الاستمرار في الدعم النفسي والاجتماعي من الموجه ومتابعة خطة التأهيل حتى استقرار الحالة.</div></div></div>
+  </div>
+
+  <div class="stitle" style="margin-top:20px">🚨 المادة (30): إجراءات الحالات عالية الخطورة</div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-hdr"><div class="card-icon ic-r"><span>🆘</span></div><div><div class="card-title">أرقام الطوارئ</div></div></div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#ffebee;border-radius:10px"><span style="font-size:20px">📞</span><div><div style="font-weight:900;color:#b71c1c;font-size:20px">911</div><div style="font-size:12px;color:#666">الجهات الأمنية</div></div></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#fff8e1;border-radius:10px"><span style="font-size:20px">📞</span><div><div style="font-weight:900;color:#a06400;font-size:20px">1919</div><div style="font-size:12px;color:#666">حماية الطفل والعنف الأسري</div></div></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:#e8f5e9;border-radius:10px"><span style="font-size:20px">📞</span><div><div style="font-weight:900;color:#1b5e20;font-size:20px">937</div><div style="font-size:12px;color:#666">وزارة الصحة</div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><div class="card-icon ic-t"><span>📋</span></div><div><div class="card-title">إجراءات التعامل مع الحالة</div></div></div>
+      <div class="olist">
+        <div class="oitem"><div class="onum">1</div><div class="otext">التعامل مع الحالة بهدوء وأخذ أقوالها بجدية وتقديم الدعم النفسي المناسب.</div></div>
+        <div class="oitem"><div class="onum">2</div><div class="otext">تجنب إرباك الحالة أو الضغط عليها بكثرة الأسئلة أو الإلحاح.</div></div>
+        <div class="oitem"><div class="onum">3</div><div class="otext">وضع الحالة في مكان آمن وعدم تركها بمفردها حتى وصول الجهات الداعمة.</div></div>
+        <div class="oitem"><div class="onum">4</div><div class="otext">مراعاة خصوصية الحالة والامتناع عن نشر أي معلومات شخصية عنها.</div></div>
+        <div class="oitem"><div class="onum">5</div><div class="otext">تبليغ الجهات ذات العلاقة فوراً (إدارة التعليم، 911، 1919، 937).</div></div>
+        <div class="oitem"><div class="onum">6</div><div class="otext">التواصل مع الأسرة لإشعارها وأهمية تقديم الدعم النفسي.</div></div>
+        <div class="oitem"><div class="onum">7</div><div class="otext">عقد اجتماع طارئ للجنة التوجيه بمشاركة الموجه الصحي ومنسق الأمن والسلامة لدراسة الحالة.</div></div>
+        <div class="oitem"><div class="onum">8</div><div class="otext">رصد الحالة في نظام نور والأنظمة المعتمدة ورفع تقرير مفصل لإدارة التعليم.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GENERAL -->
+<div id="general" class="page">
+  <div class="stitle">📋 المادة (28): الأحكام العامة</div>
+  <div class="card">
+    <div class="card-hdr"><div class="card-icon ic-r"><span>🚫</span></div><div><div class="card-title">الممارسات غير التربوية المحظورة تماماً</div></div></div>
+    <div class="g2">
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">أ</div><div class="otext">الإيذاء الجسدي أو النفسي بجميع أنواعه.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">ب</div><div class="otext">التسبب في انقطاع الطالب عن العملية التعليمية.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">ج</div><div class="otext">حرمان الطالب من وجبة الإفطار في وقتها.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">د</div><div class="otext">تكليف الطالب بنسخ الواجب المدرسي عدة مرات كعقاب.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">هـ</div><div class="otext">استفزاز الطالب ودفعه إلى ارتكاب السلوك الخاطئ أو الغياب.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">و</div><div class="otext">السخرية والاستهزاء بشخصية الطالب.</div></div>
+      <div class="oitem" style="border-color:#cc2222"><div class="onum" style="background:linear-gradient(135deg,#9b1212,#cc2222)">ز</div><div class="otext">إقصاء الطالب خارج الصف الدراسي.</div></div>
+    </div>
+  </div>
+  <div class="stitle">📌 أبرز الأحكام العامة</div>
+  <div class="olist">
+    <div class="oitem"><div class="onum">1</div><div class="otext">تطبيق القواعد في مدارس التعليم الحكومي والخاص والمستمر والسعودية في الخارج.</div></div>
+    <div class="oitem"><div class="onum">2</div><div class="otext">تطبيق القواعد على المشكلات داخل المدرسة أو التعليم الإلكتروني أو الأنشطة الخارجية أو الحافلات المدرسية.</div></div>
+    <div class="oitem"><div class="onum">3</div><div class="otext">مراعاة مناسبة الإجراء للمرحلة العمرية وظروف المشكلة السلوكية.</div></div>
+    <div class="oitem"><div class="onum">4</div><div class="otext">اتخاذ إجراءات المشكلة الأعلى درجة عند ارتكاب الطالب أكثر من مشكلة سلوكية في وقت واحد.</div></div>
+    <div class="oitem"><div class="onum">5</div><div class="otext">الالتزام بالتدرج في تنفيذ الإجراءات وتطبيق الإجراء التالي عند تكرار المشكلة.</div></div>
+    <div class="oitem"><div class="onum">6</div><div class="otext">إبلاغ إدارة المدرسة ولي أمر الطالب بما اتُّخذ من إجراءات.</div></div>
+    <div class="oitem"><div class="onum">7</div><div class="otext">إعادة الطالب إلى مدرسته السابقة بعد أمضى في المدرسة المنقول إليها فصلاً دراسياً كاملاً وتحقق تحسّن في سلوكه.</div></div>
+    <div class="oitem"><div class="onum">8</div><div class="otext">تأجيل قرار النقل إلى بداية الفصل القادم إذا ارتكب الطالب المشكلة خلال الأسبوع الأخير أو أثناء الاختبارات النهائية.</div></div>
+    <div class="oitem"><div class="onum">9</div><div class="otext">التزام المدرسة بمسؤولياتها بدقة وموضوعية، وأي تقصير يُعد خروجاً عن الواجب الوظيفي ويستوجب المساءلة.</div></div>
+    <div class="oitem"><div class="onum">10</div><div class="otext">تلغي هذه القواعد لما سبقها من قواعد للسلوك والمواظبة.</div></div>
+  </div>
+</div>
+
+<!-- FORMS -->
+<div id="forms" class="page">
+  <div class="stitle">📄 النماذج الرسمية – 17 نموذجاً قابلاً للتعبئة والحفظ والطباعة</div>
+  <div class="al al-i"><span class="al-icon">📋</span><div>انقر على أي نموذج لفتحه وتعبئته وحفظه محلياً، وطباعته عند الحاجة. البيانات تُحفظ تلقائياً في المتصفح.</div></div>
+
+  <!-- Forms Grid -->
+  <div class="g2" style="margin-top:14px" id="forms-list">
+    <div class="fitem" onclick="openForm(1)"><div class="fico ic-t"><span>📝</span></div><div><div class="fname">نموذج الالتزام المدرسي</div><div class="fnum">نموذج 1 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(2)"><div class="fico ic-a"><span>⭐</span></div><div><div class="fname">نموذج رصد درجات السلوك المتميز</div><div class="fnum">نموذج 2 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(3)"><div class="fico ic-o"><span>📊</span></div><div><div class="fname">نموذج خطة تعديل السلوك</div><div class="fnum">نموذج 3 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(4)"><div class="fico ic-p"><span>👁️</span></div><div><div class="fname">نموذج رصد المعلم لمشكلة سلوكية</div><div class="fnum">نموذج 4 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(5)"><div class="fico ic-r"><span>⚠️</span></div><div><div class="fname">نموذج رصد المشكلات السلوكية</div><div class="fnum">نموذج 5 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(6)"><div class="fico ic-g"><span>🔄</span></div><div><div class="fname">نموذج فرص تعويض درجات السلوك الإيجابي</div><div class="fnum">نموذج 6 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(7)"><div class="fico ic-b"><span>↗️</span></div><div><div class="fname">نموذج سرّي: إحالة طالب/طالبة</div><div class="fnum">نموذج 7 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(8)"><div class="fico ic-t"><span>✍️</span></div><div><div class="fname">نموذج تعهد سلوكي</div><div class="fnum">نموذج 8 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(9)"><div class="fico ic-o"><span>📢</span></div><div><div class="fname">إشعار ولي أمر الطالب بمشكلة سلوكية</div><div class="fnum">نموذج 9 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(10)"><div class="fico ic-p"><span>📬</span></div><div><div class="fname">خطاب دعوة ولي أمر الطالب</div><div class="fnum">نموذج 10 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(11)"><div class="fico ic-r"><span>📃</span></div><div><div class="fname">سرّي: محضر ضبط الواقعة</div><div class="fnum">نموذج 11 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(12)"><div class="fico ic-t"><span>🏛️</span></div><div><div class="fname">سرّي: محضر اجتماع لجنة التوجيه</div><div class="fnum">نموذج 12 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(13)"><div class="fico ic-r"><span>🚨</span></div><div><div class="fname">إبلاغ عن حالة عنف لمركز البلاغات 1919</div><div class="fnum">نموذج 13 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(14)"><div class="fico ic-r"><span>🆘</span></div><div><div class="fname">نموذج إبلاغ عن حالة عالية الخطورة</div><div class="fnum">نموذج 14 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(15)"><div class="fico ic-g"><span>✅</span></div><div><div class="fname">نموذج إجراءات الغياب بعذر</div><div class="fnum">نموذج 15 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(16)"><div class="fico ic-o"><span>❌</span></div><div><div class="fname">نموذج إجراءات الغياب بدون عذر</div><div class="fnum">نموذج 16 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+    <div class="fitem" onclick="openForm(17)"><div class="fico ic-t"><span>🤝</span></div><div><div class="fname">نموذج تعهد بالمواظبة</div><div class="fnum">نموذج 17 · انقر للتعبئة</div></div><span style="margin-right:auto;font-size:11px;color:var(--secondary)">▶</span></div>
+  </div>
+
+  <!-- Form Modal -->
+  <div id="form-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:3000;overflow-y:auto;padding:16px">
+    <div style="background:#fff;border-radius:16px;max-width:750px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);overflow:hidden">
+      <!-- Modal Header -->
+      <div id="modal-hdr" style="background:linear-gradient(135deg,#0a3d50,#0a6e80);padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div id="modal-title" style="font-size:16px;font-weight:800;color:#fff"></div>
+          <div id="modal-sub" style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:2px">وزارة التعليم · المملكة العربية السعودية</div>
+        </div>
+        <button onclick="closeForm()" style="background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:50%;width:34px;height:34px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+      </div>
+      <!-- Modal Body -->
+      <div id="modal-body" style="padding:20px;direction:rtl;font-family:'Tajawal',sans-serif"></div>
+      <!-- Modal Footer -->
+      <div style="padding:14px 20px;border-top:1px solid #e0edf0;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;background:#f8fafb" class="no-print">
+        <button onclick="clearForm()" style="padding:9px 18px;border:1px solid #ccc;background:#fff;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;color:#555">🗑️ مسح البيانات</button>
+        <button onclick="saveForm()" style="padding:9px 18px;border:none;background:linear-gradient(135deg,#0a6e80,#0ea8a0);color:#fff;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700">💾 حفظ</button>
+        <button onclick="printForm()" style="padding:9px 18px;border:none;background:linear-gradient(135deg,#1a6b35,#27a24f);color:#fff;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700">🖨️ طباعة</button>
+        <button onclick="closeForm()" style="padding:9px 18px;border:none;background:#e5e7eb;color:#374151;border-radius:10px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stitle" style="margin-top:28px">💎 قيم السلوك المتميز</div>
+  <table class="vtbl">
+    <thead><tr><th>القيمة</th><th>التعريف</th></tr></thead>
+    <tbody>
+      <tr><td class="vname">الانتماء الوطني</td><td>الولاء وحفظ البيعة للقيادة الرشيدة والاعتزاز بتاريخ الوطن وهويته والمشاركة في المناسبات الوطنية.</td></tr>
+      <tr><td class="vname">الانضباط</td><td>تحمل المسؤولية في أداء المهام والالتزام بالأنظمة والتعليمات وضبط السلوك واحترام حقوق الآخرين.</td></tr>
+      <tr><td class="vname">العزيمة</td><td>الاجتهاد والسعي للتفوق مع مواجهة الصعاب والتحديات وبذل الجهود للتغلب على المعوقات.</td></tr>
+      <tr><td class="vname">التسامح</td><td>التسامي والصبر في التعامل مع الآخرين والعفو عند المقدرة والتعامل باللين والرحمة.</td></tr>
+      <tr><td class="vname">الأمانة</td><td>حفظ الأمانة وأداء الحقوق بإخلاص وصدق ونزاهة ووضوح في التعامل مع الآخرين.</td></tr>
+      <tr><td class="vname">التعاون</td><td>المشاركة في تقديم العون والمساعدة للآخرين والتكاتف لتحقيق المنافع المشتركة.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</main>
+<footer>
+  <p>تصميم د/فواز</p>
+  <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" class="ftlink">📱 تفضل للمزيد هنا</a>
+</footer>
+<button class="stbtn" id="stbtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">▲</button>
+
+<style>
+/* ══════════════════════════════════════════
+   نظام الطباعة A4 Portrait – نموذج واحد فقط
+   ══════════════════════════════════════════ */
+@media print {
+  /* إخفاء كل شيء عدا نافذة النموذج */
+  body > *:not(#form-modal),
+  body > header,
+  body > footer,
+  body > main,
+  body > button,
+  #form-modal > div > div:last-child,
+  .no-print {
+    display: none !important;
+  }
+
+  /* إعادة تهيئة الصفحة */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 10mm 12mm;
+  }
+
+  html, body {
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    font-family: 'Tajawal', sans-serif !important;
+    font-size: 9.5pt !important;
+    color: #000 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* غلاف النافذة */
+  #form-modal {
+    display: block !important;
+    position: static !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    width: 100% !important;
+    inset: auto !important;
+    z-index: auto !important;
+  }
+
+  /* الصندوق الداخلي */
+  #form-modal > div {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* رأس النموذج */
+  #modal-hdr {
+    padding: 6px 10px !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  #modal-title {
+    font-size: 11pt !important;
+    font-weight: 900 !important;
+  }
+  #modal-sub {
+    font-size: 8pt !important;
+  }
+
+  /* جسم النموذج */
+  #modal-body {
+    padding: 6px 10px 4px !important;
+    direction: rtl !important;
+    font-size: 8.5pt !important;
+    overflow: visible !important;
+  }
+
+  /* أقسام النموذج */
+  .fsec {
+    font-size: 9pt !important;
+    font-weight: 800 !important;
+    margin: 6px 0 4px !important;
+    padding-bottom: 3px !important;
+    border-bottom: 1.5px solid #0a6e80 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* صفوف الحقول */
+  .fi-row {
+    margin-bottom: 5px !important;
+  }
+  .fi-lbl {
+    font-size: 8pt !important;
+    font-weight: 700 !important;
+    margin-bottom: 2px !important;
+    color: #0a4d5a !important;
+  }
+
+  /* حقول الإدخال للطباعة */
+  .fi {
+    font-size: 8.5pt !important;
+    padding: 3px 7px !important;
+    border: 1px solid #888 !important;
+    border-radius: 4px !important;
+    background: #fff !important;
+    color: #000 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  textarea.fi {
+    min-height: unset !important;
+    resize: none !important;
+    overflow: hidden !important;
+  }
+
+  /* الشبكة ثنائية وثلاثية العمود */
+  .fi-2col {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  .fi-3col {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 5px !important;
+  }
+
+  /* الجداول */
+  .repeat-tbl {
+    font-size: 7.5pt !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .repeat-tbl th {
+    padding: 4px 5px !important;
+    font-size: 7.5pt !important;
+    background: #0a6e80 !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .repeat-tbl td {
+    padding: 3px 5px !important;
+    border: 1px solid #ccc !important;
+  }
+  .repeat-tbl input {
+    font-size: 7.5pt !important;
+    padding: 2px 4px !important;
+    border: none !important;
+    background: transparent !important;
+    width: 100% !important;
+  }
+  .repeat-tbl select {
+    font-size: 7pt !important;
+    border: none !important;
+    background: transparent !important;
+    width: 100% !important;
+  }
+
+  /* زر إضافة صف */
+  .add-row-btn {
+    display: none !important;
+  }
+
+  /* صف التوقيعات */
+  .sign-row {
+    margin-top: 6px !important;
+    gap: 6px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .sign-box {
+    min-height: 38px !important;
+    padding: 5px !important;
+    border: 1px dashed #0a6e80 !important;
+    border-radius: 5px !important;
+    font-size: 7.5pt !important;
+  }
+  .sign-box input {
+    font-size: 7.5pt !important;
+    border: none !important;
+    background: transparent !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+  .sign-box-lbl {
+    font-size: 7pt !important;
+  }
+
+  /* التنبيهات */
+  .al {
+    font-size: 7.5pt !important;
+    padding: 4px 8px !important;
+    margin-bottom: 5px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  /* عناصر قد تسبب صفحة ثانية */
+  * {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    orphans: 1 !important;
+    widows: 1 !important;
+  }
+
+  /* إخفاء إشارة رابط المنصة وأي رابط */
+  a[href]::after {
+    content: none !important;
+  }
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  /* ختم الطباعة أسفل النموذج */
+  #print-footer {
+    display: block !important;
+    margin-top: 6px !important;
+    padding-top: 4px !important;
+    border-top: 1px solid #ccc !important;
+    text-align: center !important;
+    font-size: 7pt !important;
+    color: #666 !important;
+  }
+
+  /* إخفاء checkboxes الديكور */
+  .fchk-item input[type="checkbox"] {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  .fchk-row {
+    gap: 5px !important;
+  }
+  .fchk-item {
+    font-size: 7.5pt !important;
+  }
+}
+.fi-row { margin-bottom:13px; }
+.fi-lbl { font-size:12.5px; font-weight:700; color:#0a6e80; margin-bottom:5px; display:block; }
+.fi { width:100%; border:1.5px solid #c8e0e6; border-radius:9px; padding:9px 12px; font-family:'Tajawal',sans-serif; font-size:13px; color:#1a2e35; background:#f8fbfc; outline:none; box-sizing:border-box; transition:border-color 0.2s; }
+.fi:focus { border-color:#0ea8a0; background:#fff; }
+textarea.fi { resize:vertical; min-height:80px; }
+.fi-2col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.fi-3col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+@media(max-width:500px){.fi-2col,.fi-3col{grid-template-columns:1fr}}
+.fsec { font-size:14px; font-weight:800; color:#0a6e80; margin:16px 0 10px; padding-bottom:6px; border-bottom:2px solid #c8e0e6; display:flex; align-items:center; gap:6px; }
+.fchk-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:5px; }
+.fchk-item { display:flex; align-items:center; gap:5px; font-size:12.5px; color:#1a2e35; }
+.fchk-item input { width:16px; height:16px; accent-color:#0ea8a0; }
+.sign-row { display:flex; gap:12px; margin-top:14px; }
+.sign-box { flex:1; border:1px dashed #0ea8a0; border-radius:10px; padding:10px; text-align:center; min-height:60px; }
+.sign-box-lbl { font-size:11px; color:#4a6670; margin-bottom:4px; }
+.saved-badge { display:inline-flex; align-items:center; gap:4px; background:#e8f5e9; border:1px solid #a5d6a7; border-radius:20px; padding:3px 10px; font-size:11px; color:#1b5e20; font-weight:600; }
+.repeat-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+.repeat-tbl th { background:#0a6e80; color:#fff; padding:7px 10px; text-align:center; font-size:12px; font-weight:700; }
+.repeat-tbl td { padding:5px 6px; border-bottom:1px solid #e0edf0; }
+.repeat-tbl input { width:100%; border:1px solid #c8e0e6; border-radius:6px; padding:5px 8px; font-family:'Tajawal',sans-serif; font-size:12px; background:#f8fbfc; }
+.add-row-btn { margin-top:8px; padding:6px 14px; background:#e0f4f4; border:1px solid #0ea8a0; border-radius:8px; color:#0a6e80; font-family:'Tajawal',sans-serif; font-size:12px; font-weight:700; cursor:pointer; }
+</style>
+
+<script>
+/* ─── Navigation ─── */
+function goPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  if(btn&&btn.classList)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tog(id){document.getElementById(id)?.classList.toggle('open');}
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById('pbar').style.width=pct+'%';
+  const btn=document.getElementById('stbtn');
+  if(window.scrollY>300)btn.classList.add('vis'); else btn.classList.remove('vis');
+});
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},400);});
+});
+
+/* ─── Form System ─── */
+let currentFormId = null;
+
+const FORMS = {
+  1: {
+    title:'نموذج الالتزام المدرسي',
+    color:'linear-gradient(135deg,#0a3d50,#0a6e80)',
+    build: () => `
+      <div class="fsec">🏫 بيانات المدرسة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">إدارة التعليم</label><input class="fi" id="f_edu" placeholder="إدارة التعليم"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="مثال: 1446/1447هـ"></div>
+        <div class="fi-row"><label class="fi-lbl">الفصل الدراسي</label><select class="fi" id="f_sem"><option value="">اختر...</option><option>الأول</option><option>الثاني</option></select></div>
+      </div>
+      <div class="fsec">👤 بيانات الطالب وولي الأمر</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب رباعياً</label><input class="fi" id="f_sname" placeholder="الاسم الرباعي"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="مثال: الثالث / أ"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">رقم الجوال</label><input class="fi" id="f_mobile" placeholder="05xxxxxxxx" dir="ltr"></div>
+      </div>
+      <div class="fsec">✅ التعهد والالتزام</div>
+      <div class="fi-row"><label class="fi-lbl">نص الالتزام</label>
+      <textarea class="fi" id="f_commit" rows="4">أُقرّ أنا الطالب المذكور أعلاه وولي أمري باطلاعنا على قواعد السلوك والمواظبة لطلبة التعليم العام الإصدار الخامس 1447هـ، ونتعهد بالالتزام بجميع ما ورد فيها من قواعد وأنظمة طوال الفصل الدراسي.</textarea></div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">تاريخ الالتزام</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">مدير المدرسة</label><input class="fi" id="f_principal" placeholder="اسم مدير المدرسة"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">توقيع الطالب</div><input class="fi" id="f_sig1" placeholder="الاسم / التوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">توقيع ولي الأمر</div><input class="fi" id="f_sig2" placeholder="الاسم / التوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">توقيع المدير</div><input class="fi" id="f_sig3" placeholder="الاسم / التوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  2: {
+    title:'نموذج رصد درجات السلوك المتميز',
+    color:'linear-gradient(135deg,#a06400,#d4880a)',
+    build: () => `
+      <div class="fsec">📋 بيانات أساسية</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="العام الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">الفصل الدراسي</label><select class="fi" id="f_sem"><option value="">اختر...</option><option>الأول</option><option>الثاني</option></select></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المشرف</label><input class="fi" id="f_supervisor" placeholder="اسم المشرف"></div>
+      </div>
+      <div class="fsec">⭐ سجل ممارسات السلوك المتميز</div>
+      <table class="repeat-tbl" id="tbl-2">
+        <thead><tr><th>#</th><th>الممارسة المتميزة</th><th>التاريخ</th><th>الدرجة المقترحة</th><th>اعتماد اللجنة</th></tr></thead>
+        <tbody id="tbl-2-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" placeholder="وصف الممارسة"></td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="الدرجة" style="width:70px"></td><td><input class="fi" placeholder="معتمد / مرفوض"></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" placeholder="وصف الممارسة"></td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="الدرجة" style="width:70px"></td><td><input class="fi" placeholder="معتمد / مرفوض"></td></tr>
+          <tr><td style="text-align:center">3</td><td><input class="fi" placeholder="وصف الممارسة"></td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="الدرجة" style="width:70px"></td><td><input class="fi" placeholder="معتمد / مرفوض"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-2-body',5)">+ إضافة سطر</button>
+      <div class="fi-2col" style="margin-top:14px">
+        <div class="fi-row"><label class="fi-lbl">إجمالي الدرجات المكتسبة</label><input class="fi" id="f_total" placeholder="المجموع"></div>
+        <div class="fi-row"><label class="fi-lbl">ملاحظات اللجنة</label><input class="fi" id="f_notes" placeholder="ملاحظات"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">الموجه الطلابي</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  3: {
+    title:'نموذج خطة تعديل السلوك',
+    color:'linear-gradient(135deg,#b84400,#e05a10)',
+    build: () => `
+      <div class="fsec">📋 بيانات الطالب</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب رباعياً"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الخطة</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_mobile" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">⚠️ وصف المشكلة السلوكية</div>
+      <div class="fi-row"><label class="fi-lbl">درجة المشكلة</label>
+        <select class="fi" id="f_degree"><option value="">اختر الدرجة...</option><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></div>
+      <div class="fi-row"><label class="fi-lbl">وصف المشكلة السلوكية</label><textarea class="fi" id="f_prob" rows="3" placeholder="وصف تفصيلي للسلوك غير المرغوب"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الأسباب المحتملة</label><textarea class="fi" id="f_causes" rows="2" placeholder="تحليل الأسباب التي أدت إلى هذا السلوك"></textarea></div>
+      <div class="fsec">🎯 أهداف الخطة</div>
+      <div class="fi-row"><label class="fi-lbl">السلوك المستهدف</label><textarea class="fi" id="f_target" rows="2" placeholder="السلوك الإيجابي المراد تحقيقه"></textarea></div>
+      <div class="fsec">🔧 إجراءات التدخل</div>
+      <table class="repeat-tbl" id="tbl-3">
+        <thead><tr><th>#</th><th>الإجراء التربوي</th><th>المسؤول</th><th>المدة</th><th>النتيجة</th></tr></thead>
+        <tbody id="tbl-3-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" placeholder="المسؤول"></td><td><input class="fi" placeholder="المدة"></td><td><input class="fi" placeholder="النتيجة"></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" placeholder="المسؤول"></td><td><input class="fi" placeholder="المدة"></td><td><input class="fi" placeholder="النتيجة"></td></tr>
+          <tr><td style="text-align:center">3</td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" placeholder="المسؤول"></td><td><input class="fi" placeholder="المدة"></td><td><input class="fi" placeholder="النتيجة"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-3-body',5)">+ إضافة سطر</button>
+      <div class="fi-row" style="margin-top:12px"><label class="fi-lbl">الدرجات المحسومة</label><input class="fi" id="f_deducted" placeholder="عدد الدرجات المحسومة"></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">الموجه الطلابي</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">ولي الأمر</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig3" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  4: {
+    title:'نموذج رصد المعلم لمشكلة سلوكية',
+    color:'linear-gradient(135deg,#4a1282,#7b2ab5)',
+    build: () => `
+      <div class="fsec">📋 بيانات أساسية</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المعلم</label><input class="fi" id="f_teacher" placeholder="اسم المعلم"></div>
+        <div class="fi-row"><label class="fi-lbl">المادة الدراسية</label><input class="fi" id="f_subject" placeholder="المادة"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الرصد</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">الحصة</label><input class="fi" id="f_period" placeholder="مثال: الثالثة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+      </div>
+      <div class="fsec">⚠️ المشكلة السلوكية</div>
+      <div class="fi-row"><label class="fi-lbl">درجة المشكلة</label>
+        <select class="fi" id="f_degree"><option value="">اختر...</option><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></div>
+      <div class="fi-row"><label class="fi-lbl">وصف المشكلة</label><textarea class="fi" id="f_prob" rows="3" placeholder="وصف دقيق للسلوك غير المرغوب"></textarea></div>
+      <div class="fsec">✅ الإجراء المتخذ من المعلم</div>
+      <div class="fi-row"><label class="fi-lbl">الإجراء المتخذ</label>
+        <select class="fi" id="f_action"><option value="">اختر...</option><option>التنبيه الشفهي الأول</option><option>التنبيه الشفهي الثاني</option><option>تدوين المشكلة وتوقيع الطالب</option><option>إشعار ولي الأمر هاتفياً</option><option>تحويل لإدارة المدرسة</option></select></div>
+      <div class="fi-row"><label class="fi-lbl">ملاحظات إضافية</label><textarea class="fi" id="f_notes" rows="2" placeholder="أي ملاحظات إضافية"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">توقيع الطالب باستلام التنبيه</label><input class="fi" id="f_stu_sig" placeholder="اسم الطالب / التوقيع"></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">توقيع المعلم</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">اطلع مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  5: {
+    title:'نموذج رصد المشكلات السلوكية',
+    color:'linear-gradient(135deg,#9b1212,#cc2222)',
+    build: () => `
+      <div class="fsec">📋 بيانات المدرسة والفصل</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="العام الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">الفصل الدراسي</label><select class="fi" id="f_sem"><option value="">اختر...</option><option>الأول</option><option>الثاني</option></select></div>
+      </div>
+      <div class="fsec">📊 سجل المشكلات السلوكية</div>
+      <table class="repeat-tbl" id="tbl-5">
+        <thead><tr><th>#</th><th>اسم الطالب</th><th>الصف</th><th>المشكلة</th><th>الدرجة</th><th>الإجراء</th><th>التاريخ</th></tr></thead>
+        <tbody id="tbl-5-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" placeholder="الاسم"></td><td><input class="fi" placeholder="الصف"></td><td><input class="fi" placeholder="المشكلة"></td><td><input class="fi" placeholder="الدرجة"></td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" type="date"></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" placeholder="الاسم"></td><td><input class="fi" placeholder="الصف"></td><td><input class="fi" placeholder="المشكلة"></td><td><input class="fi" placeholder="الدرجة"></td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" type="date"></td></tr>
+          <tr><td style="text-align:center">3</td><td><input class="fi" placeholder="الاسم"></td><td><input class="fi" placeholder="الصف"></td><td><input class="fi" placeholder="المشكلة"></td><td><input class="fi" placeholder="الدرجة"></td><td><input class="fi" placeholder="الإجراء"></td><td><input class="fi" type="date"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-5-body',7)">+ إضافة سطر</button>
+      <div class="sign-row" style="margin-top:14px">
+        <div class="sign-box"><div class="sign-box-lbl">وكيل شؤون الطلبة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  6: {
+    title:'نموذج فرص تعويض درجات السلوك الإيجابي',
+    color:'linear-gradient(135deg,#1a6b35,#27a24f)',
+    build: () => `
+      <div class="fsec">📋 بيانات الطالب</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">الدرجات المحسومة</label><input class="fi" id="f_deducted" placeholder="عدد الدرجات المحسومة"></div>
+        <div class="fi-row"><label class="fi-lbl">سبب الحسم</label><input class="fi" id="f_reason" placeholder="سبب حسم الدرجات"></div>
+      </div>
+      <div class="fsec">🔄 فرص التعويض المقترحة</div>
+      <table class="repeat-tbl" id="tbl-6">
+        <thead><tr><th>#</th><th>الممارسة التعويضية</th><th>الدرجة المقترحة</th><th>الموعد</th><th>النتيجة</th></tr></thead>
+        <tbody id="tbl-6-body">
+          <tr><td style="text-align:center">1</td><td><select class="fi"><option>الخدمة المجتمعية (6 درجات)</option><option>المشاركة في نشاط (4 درجات)</option><option>رسالة شكر (2 درجة)</option><option>المشاركة في الإذاعة (2 درجة)</option><option>الانضباط وعدم الغياب (6 درجات)</option><option>أخرى</option></select></td><td><input class="fi" placeholder="الدرجة"></td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="النتيجة"></td></tr>
+          <tr><td style="text-align:center">2</td><td><select class="fi"><option>الخدمة المجتمعية (6 درجات)</option><option>المشاركة في نشاط (4 درجات)</option><option>رسالة شكر (2 درجة)</option><option>المشاركة في الإذاعة (2 درجة)</option><option>الانضباط وعدم الغياب (6 درجات)</option><option>أخرى</option></select></td><td><input class="fi" placeholder="الدرجة"></td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="النتيجة"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-6-body',5)">+ إضافة سطر</button>
+      <div class="fi-2col" style="margin-top:12px">
+        <div class="fi-row"><label class="fi-lbl">إجمالي درجات التعويض</label><input class="fi" id="f_total" placeholder="المجموع"></div>
+        <div class="fi-row"><label class="fi-lbl">الدرجة النهائية بعد التعويض</label><input class="fi" id="f_final" placeholder="الدرجة النهائية"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">الموجه الطلابي</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  7: {
+    title:'نموذج سرّي: إحالة طالب/طالبة',
+    color:'linear-gradient(135deg,#0d3c8a,#1a65c8)',
+    build: () => `
+      <div class="al al-d" style="margin-bottom:12px"><span class="al-icon">🔒</span><div><strong>سرّي وشخصي</strong> – يُحفظ هذا النموذج في ملف سري خاص بالطالب</div></div>
+      <div class="fsec">📋 بيانات الإحالة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب رباعياً"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المحيل</label><input class="fi" id="f_referrer" placeholder="اسم المحيل ووظيفته"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الإحالة</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">جهة الإحالة</label><select class="fi" id="f_to"><option value="">اختر...</option><option>الموجه الطلابي</option><option>لجنة التوجيه الطلابي</option><option>مدير المدرسة</option><option>إدارة التعليم</option><option>الجهات الصحية</option><option>الجهات الأمنية</option><option>مركز البلاغات 1919</option></select></div>
+        <div class="fi-row"><label class="fi-lbl">درجة عجلة الإحالة</label><select class="fi" id="f_urgent"><option value="">اختر...</option><option>عاجلة جداً</option><option>عاجلة</option><option>اعتيادية</option></select></div>
+      </div>
+      <div class="fsec">📝 سبب الإحالة</div>
+      <div class="fi-row"><label class="fi-lbl">نوع الإشكالية</label>
+        <div class="fchk-row">
+          <label class="fchk-item"><input type="checkbox"> سلوكية</label>
+          <label class="fchk-item"><input type="checkbox"> نفسية</label>
+          <label class="fchk-item"><input type="checkbox"> اجتماعية</label>
+          <label class="fchk-item"><input type="checkbox"> إيذاء أو إهمال</label>
+          <label class="fchk-item"><input type="checkbox"> عالية الخطورة</label>
+          <label class="fchk-item"><input type="checkbox"> غياب متكرر</label>
+          <label class="fchk-item"><input type="checkbox"> أخرى</label>
+        </div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">تفاصيل الإحالة</label><textarea class="fi" id="f_details" rows="4" placeholder="وصف تفصيلي للحالة وأسباب الإحالة"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الخدمات المطلوبة</label><textarea class="fi" id="f_services" rows="2" placeholder="الخدمات أو التدخلات المطلوبة"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">المحيل</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">المستلم</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig3" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  8: {
+    title:'نموذج تعهد سلوكي',
+    color:'linear-gradient(135deg,#0a6e80,#0ea8a0)',
+    build: () => `
+      <div class="fsec">📋 بيانات المدرسة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">التاريخ</label><input class="fi" id="f_date" type="date"></div>
+      </div>
+      <div class="fsec">👤 بيانات الطالب</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب رباعياً</label><input class="fi" id="f_sname" placeholder="الاسم الرباعي"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">المشكلة السلوكية</label><input class="fi" id="f_prob" placeholder="المشكلة التي ارتكبها الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">درجة المشكلة</label><select class="fi" id="f_degree"><option value="">اختر...</option><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></div>
+      </div>
+      <div class="fsec">✍️ نص التعهد</div>
+      <div class="fi-row"><label class="fi-lbl">نص التعهد</label>
+      <textarea class="fi" id="f_pledge" rows="5">أنا الطالب المذكور أعلاه، أُقرّ بأنني ارتكبت المشكلة السلوكية المذكورة، وأتعهد بعدم تكرار هذا السلوك مستقبلاً، والتزامي التام بقواعد السلوك والمواظبة المعتمدة، مدركاً أن تكرار هذا السلوك يُعرّضني لإجراءات أشد. وأؤكد على وقوفي إلى جانب القيم الإسلامية والأخلاق الحميدة.</textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الالتزامات المحددة</label><textarea class="fi" id="f_commits" rows="3" placeholder="الالتزامات السلوكية المحددة في التعهد"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">توقيع الطالب</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">توقيع ولي الأمر</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig3" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  9: {
+    title:'إشعار ولي أمر الطالب بمشكلة سلوكية',
+    color:'linear-gradient(135deg,#a06400,#d4880a)',
+    build: () => `
+      <div class="fsec">🏫 بيانات المدرسة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">التاريخ</label><input class="fi" id="f_date" type="date"></div>
+      </div>
+      <div class="fsec">📬 بيانات الإشعار</div>
+      <div class="fi-row"><label class="fi-lbl">ولي الأمر السيد/السيدة</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+      <div class="fi-row"><label class="fi-lbl">المتعلق بنجله/كريمته الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">درجة المشكلة</label><select class="fi" id="f_degree"><option value="">اختر...</option><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">المشكلة السلوكية</label><textarea class="fi" id="f_prob" rows="3" placeholder="وصف المشكلة السلوكية بدقة"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الإجراء المتخذ</label><textarea class="fi" id="f_action" rows="2" placeholder="الإجراء المتخذ من قِبل المدرسة"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">طريقة الإشعار</label>
+        <div class="fchk-row">
+          <label class="fchk-item"><input type="checkbox"> هاتفياً</label>
+          <label class="fchk-item"><input type="checkbox"> رسالة نصية</label>
+          <label class="fchk-item"><input type="checkbox"> نظام نور</label>
+          <label class="fchk-item"><input type="checkbox"> حضورياً</label>
+        </div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">المطلوب من ولي الأمر</label><textarea class="fi" id="f_request" rows="2" placeholder="ما هو المطلوب من ولي الأمر للتعاون"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة / الوكيل</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">ولي الأمر (علم واستلام)</div><input class="fi" id="f_sig2" placeholder="التوقيع وتاريخ الاستلام" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  10: {
+    title:'خطاب دعوة ولي أمر الطالب',
+    color:'linear-gradient(135deg,#4a1282,#7b2ab5)',
+    build: () => `
+      <div class="fsec">🏫 بيانات المدرسة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">رقم الخطاب</label><input class="fi" id="f_ref" placeholder="رقم الخطاب"></div>
+        <div class="fi-row"><label class="fi-lbl">التاريخ</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال المدرسة</label><input class="fi" id="f_school_tel" placeholder="رقم جوال المدرسة" dir="ltr"></div>
+      </div>
+      <div class="fsec">📬 المرسَل إليه</div>
+      <div class="fi-row"><label class="fi-lbl">ولي الأمر السيد/السيدة</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+      </div>
+      <div class="fsec">📝 نص الدعوة</div>
+      <div class="fi-row"><label class="fi-lbl">غرض الدعوة</label><textarea class="fi" id="f_purpose" rows="3" placeholder="موضوع الاجتماع وسببه"></textarea></div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">موعد الاجتماع</label><input class="fi" id="f_meet_date" type="datetime-local"></div>
+        <div class="fi-row"><label class="fi-lbl">مكان الاجتماع</label><input class="fi" id="f_meet_place" placeholder="مثال: مكتب مدير المدرسة"></div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">ملاحظات</label><textarea class="fi" id="f_notes" rows="2" placeholder="أي ملاحظات إضافية"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">ولي الأمر (علم واستلام)</div><input class="fi" id="f_sig2" placeholder="التوقيع وتاريخ الاستلام" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  11: {
+    title:'سرّي: محضر ضبط الواقعة',
+    color:'linear-gradient(135deg,#9b1212,#cc2222)',
+    build: () => `
+      <div class="al al-d" style="margin-bottom:12px"><span class="al-icon">🔒</span><div><strong>سرّي</strong> – يُحفظ هذا المحضر في ملف سري لدى مدير المدرسة</div></div>
+      <div class="fsec">📋 بيانات المحضر</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">رقم المحضر</label><input class="fi" id="f_ref" placeholder="رقم المحضر"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الواقعة</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">وقت الواقعة</label><input class="fi" id="f_time" type="time"></div>
+        <div class="fi-row"><label class="fi-lbl">مكان الواقعة</label><input class="fi" id="f_place" placeholder="مكان حدوث الواقعة"></div>
+        <div class="fi-row"><label class="fi-lbl">الذي ضبط الواقعة</label><input class="fi" id="f_witness" placeholder="اسم من شهد الواقعة"></div>
+      </div>
+      <div class="fsec">👤 أطراف الواقعة</div>
+      <div class="fi-row"><label class="fi-lbl">المخالف (الطالب)</label><input class="fi" id="f_sname" placeholder="اسم الطالب المخالف وصفه"></div>
+      <div class="fi-row"><label class="fi-lbl">المتضرر / الشاهد</label><input class="fi" id="f_victim" placeholder="اسم المتضرر أو الشاهد"></div>
+      <div class="fsec">📝 وصف الواقعة</div>
+      <div class="fi-row"><label class="fi-lbl">درجة المشكلة</label><select class="fi" id="f_degree"><option value="">اختر...</option><option>الأولى</option><option>الثانية</option><option>الثالثة</option><option>الرابعة</option><option>الخامسة</option></select></div>
+      <div class="fi-row"><label class="fi-lbl">وصف تفصيلي للواقعة</label><textarea class="fi" id="f_details" rows="5" placeholder="وصف شامل ودقيق لما حدث"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الإجراء الفوري المتخذ</label><textarea class="fi" id="f_action" rows="3" placeholder="ما تم اتخاذه فوراً بعد الواقعة"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الأدلة والمستندات</label><textarea class="fi" id="f_evidence" rows="2" placeholder="أي أدلة أو مستندات تدعم المحضر"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">محرر المحضر</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  12: {
+    title:'سرّي: محضر اجتماع لجنة التوجيه الطلابي',
+    color:'linear-gradient(135deg,#0a3d50,#0a6e80)',
+    build: () => `
+      <div class="al al-d" style="margin-bottom:12px"><span class="al-icon">🔒</span><div><strong>سرّي وشخصي</strong> – محضر رسمي معتمد من لجنة التوجيه الطلابي بالمدرسة</div></div>
+      <div class="fsec">🏫 بيانات الاجتماع</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">رقم المحضر</label><input class="fi" id="f_ref" placeholder="رقم المحضر"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الاجتماع</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">وقت الاجتماع</label><input class="fi" id="f_time" type="time"></div>
+        <div class="fi-row"><label class="fi-lbl">مكان الاجتماع</label><input class="fi" id="f_place" placeholder="مكان عقد الاجتماع"></div>
+        <div class="fi-row"><label class="fi-lbl">نوع الاجتماع</label><select class="fi" id="f_type"><option value="">اختر...</option><option>عادي دوري</option><option>طارئ</option><option>لدراسة حالة</option></select></div>
+      </div>
+      <div class="fsec">👥 الحاضرون</div>
+      <table class="repeat-tbl" id="tbl-12">
+        <thead><tr><th>#</th><th>الاسم</th><th>الصفة</th><th>التوقيع</th></tr></thead>
+        <tbody id="tbl-12-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" placeholder="الاسم"></td><td><select class="fi"><option>مدير المدرسة</option><option>وكيل شؤون الطلبة</option><option>الموجه الطلابي</option><option>معلم</option><option>رائد النشاط</option></select></td><td><input class="fi" placeholder="التوقيع"></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" placeholder="الاسم"></td><td><select class="fi"><option>مدير المدرسة</option><option>وكيل شؤون الطلبة</option><option>الموجه الطلابي</option><option>معلم</option><option>رائد النشاط</option></select></td><td><input class="fi" placeholder="التوقيع"></td></tr>
+          <tr><td style="text-align:center">3</td><td><input class="fi" placeholder="الاسم"></td><td><select class="fi"><option>مدير المدرسة</option><option>وكيل شؤون الطلبة</option><option>الموجه الطلابي</option><option>معلم</option><option>رائد النشاط</option></select></td><td><input class="fi" placeholder="التوقيع"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-12-body',4)">+ إضافة حاضر</button>
+      <div class="fsec" style="margin-top:14px">📋 جدول الأعمال والمناقشات</div>
+      <div class="fi-row"><label class="fi-lbl">موضوعات الاجتماع</label><textarea class="fi" id="f_agenda" rows="3" placeholder="موضوعات الاجتماع المدرجة"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">ملخص المناقشات</label><textarea class="fi" id="f_discuss" rows="4" placeholder="ملخص ما دار في الاجتماع"></textarea></div>
+      <div class="fsec">✅ القرارات والتوصيات</div>
+      <table class="repeat-tbl" id="tbl-12b">
+        <thead><tr><th>#</th><th>القرار / التوصية</th><th>المسؤول</th><th>الموعد</th></tr></thead>
+        <tbody id="tbl-12b-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" placeholder="القرار أو التوصية"></td><td><input class="fi" placeholder="المسؤول عن التنفيذ"></td><td><input class="fi" type="date"></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" placeholder="القرار أو التوصية"></td><td><input class="fi" placeholder="المسؤول عن التنفيذ"></td><td><input class="fi" type="date"></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-12b-body',4)">+ إضافة قرار</button>
+      <div class="sign-row" style="margin-top:14px">
+        <div class="sign-box"><div class="sign-box-lbl">رئيس اللجنة (مدير المدرسة)</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مقرر اللجنة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  13: {
+    title:'إبلاغ عن حالة عنف – مركز البلاغات 1919',
+    color:'linear-gradient(135deg,#9b1212,#cc2222)',
+    build: () => `
+      <div style="background:#ffebee;border:2px solid #ef9a9a;border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+        <span style="font-size:28px">📞</span><div><div style="font-size:20px;font-weight:900;color:#b71c1c">1919</div><div style="font-size:12px;color:#7a1212">مركز بلاغات وزارة الموارد البشرية والتنمية الاجتماعية</div></div>
+      </div>
+      <div class="fsec">📋 بيانات المُبلِّغ</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المُبلِّغ</label><input class="fi" id="f_reporter" placeholder="اسم المبلّغ"></div>
+        <div class="fi-row"><label class="fi-lbl">صفة المبلّغ</label><select class="fi" id="f_role"><option value="">اختر...</option><option>مدير مدرسة</option><option>وكيل</option><option>معلم</option><option>موجه طلابي</option><option>ولي أمر</option></select></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الإبلاغ</label><input class="fi" id="f_date" type="date"></div>
+      </div>
+      <div class="fsec">👤 بيانات الضحية (الطالب)</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">العمر / الصف</label><input class="fi" id="f_age" placeholder="العمر والصف الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_parent_tel" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">⚠️ تفاصيل الحادثة</div>
+      <div class="fi-row"><label class="fi-lbl">نوع الإيذاء / الإهمال</label>
+        <div class="fchk-row">
+          <label class="fchk-item"><input type="checkbox"> جسدي</label>
+          <label class="fchk-item"><input type="checkbox"> نفسي</label>
+          <label class="fchk-item"><input type="checkbox"> جنسي</label>
+          <label class="fchk-item"><input type="checkbox"> إهمال</label>
+          <label class="fchk-item"><input type="checkbox"> تنمر</label>
+          <label class="fchk-item"><input type="checkbox"> أخرى</label>
+        </div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">وصف الحادثة</label><textarea class="fi" id="f_details" rows="5" placeholder="وصف تفصيلي للحادثة وما تم ملاحظته"></textarea></div>
+      <div class="fi-row"><label class="fi-lbl">الجاني / المشتبه به</label><input class="fi" id="f_suspect" placeholder="من يُشتبه في تورطه"></div>
+      <div class="fi-row"><label class="fi-lbl">الإجراء الفوري المتخذ في المدرسة</label><textarea class="fi" id="f_action" rows="2" placeholder="الإجراءات التي اتخذتها المدرسة فوراً"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">رقم البلاغ من 1919</div><input class="fi" id="f_case_no" placeholder="رقم البلاغ" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  14: {
+    title:'نموذج إبلاغ عن حالة عالية الخطورة',
+    color:'linear-gradient(135deg,#9b1212,#cc2222)',
+    build: () => `
+      <div style="background:#ffebee;border:2px solid #ef9a9a;border-radius:12px;padding:12px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:22px">📞</span><div><div style="font-size:18px;font-weight:900;color:#b71c1c">911</div><div style="font-size:11px;color:#7a1212">الأمن والطوارئ</div></div></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:22px">📞</span><div><div style="font-size:18px;font-weight:900;color:#b71c1c">1919</div><div style="font-size:11px;color:#7a1212">حماية الطفل</div></div></div>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:22px">📞</span><div><div style="font-size:18px;font-weight:900;color:#b71c1c">937</div><div style="font-size:11px;color:#7a1212">وزارة الصحة</div></div></div>
+      </div>
+      <div class="fsec">🚨 بيانات الحالة</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">تاريخ الحادثة</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">وقت الحادثة</label><input class="fi" id="f_time" type="time"></div>
+      </div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_parent_tel" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">📝 وصف الحالة</div>
+      <div class="fi-row"><label class="fi-lbl">نوع الحالة</label>
+        <div class="fchk-row">
+          <label class="fchk-item"><input type="checkbox"> محاولة إيذاء الذات</label>
+          <label class="fchk-item"><input type="checkbox"> تهديد بالعنف</label>
+          <label class="fchk-item"><input type="checkbox"> اعتداء جسدي خطير</label>
+          <label class="fchk-item"><input type="checkbox"> حيازة سلاح</label>
+          <label class="fchk-item"><input type="checkbox"> حالة طارئة أخرى</label>
+        </div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">وصف تفصيلي للحالة</label><textarea class="fi" id="f_details" rows="4" placeholder="وصف دقيق وشامل لما حدث"></textarea></div>
+      <div class="fsec">✅ الإجراءات الفورية المتخذة</div>
+      <div class="fi-row">
+        <div class="fchk-row" style="flex-direction:column;gap:6px">
+          <label class="fchk-item"><input type="checkbox"> تم إبلاغ مدير المدرسة</label>
+          <label class="fchk-item"><input type="checkbox"> تم إبلاغ ولي الأمر</label>
+          <label class="fchk-item"><input type="checkbox"> تم إبلاغ الجهات الأمنية 911</label>
+          <label class="fchk-item"><input type="checkbox"> تم إبلاغ مركز الحماية 1919</label>
+          <label class="fchk-item"><input type="checkbox"> تم استدعاء الإسعاف</label>
+          <label class="fchk-item"><input type="checkbox"> تم عزل الطالب في مكان آمن</label>
+          <label class="fchk-item"><input type="checkbox"> تم تقديم الدعم النفسي الأولي</label>
+        </div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">ملاحظات إضافية</label><textarea class="fi" id="f_notes" rows="2" placeholder="أي ملاحظات إضافية"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">الموجه الطلابي</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  15: {
+    title:'نموذج إجراءات الغياب بعذر',
+    color:'linear-gradient(135deg,#1a6b35,#27a24f)',
+    build: () => `
+      <div class="fsec">📋 بيانات أساسية</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="العام الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_mobile" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">📅 سجل الغياب بعذر</div>
+      <table class="repeat-tbl" id="tbl-15">
+        <thead><tr><th>#</th><th>تاريخ الغياب</th><th>عدد الأيام</th><th>سبب الغياب</th><th>المستند</th><th>القبول</th></tr></thead>
+        <tbody id="tbl-15-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="الأيام"></td><td><select class="fi"><option>إجازة مرضية</option><option>وفاة قريب</option><option>مراجعة رسمية</option><option>مسابقة</option><option>أخرى</option></select></td><td><input class="fi" placeholder="المستند"></td><td><select class="fi"><option>مقبول</option><option>مرفوض</option></select></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="الأيام"></td><td><select class="fi"><option>إجازة مرضية</option><option>وفاة قريب</option><option>مراجعة رسمية</option><option>مسابقة</option><option>أخرى</option></select></td><td><input class="fi" placeholder="المستند"></td><td><select class="fi"><option>مقبول</option><option>مرفوض</option></select></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-15-body',6)">+ إضافة غياب</button>
+      <div class="fi-2col" style="margin-top:12px">
+        <div class="fi-row"><label class="fi-lbl">إجمالي الأيام بعذر</label><input class="fi" id="f_excused" placeholder="عدد الأيام المقبولة"></div>
+        <div class="fi-row"><label class="fi-lbl">نسبة الغياب بعذر</label><input class="fi" id="f_pct" placeholder="النسبة المئوية"></div>
+      </div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">وكيل شؤون الطلبة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  16: {
+    title:'نموذج إجراءات الغياب بدون عذر',
+    color:'linear-gradient(135deg,#b84400,#e05a10)',
+    build: () => `
+      <div class="fsec">📋 بيانات الطالب</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب</label><input class="fi" id="f_sname" placeholder="اسم الطالب"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="العام الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_mobile" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">❌ سجل الغياب بدون عذر</div>
+      <table class="repeat-tbl" id="tbl-16">
+        <thead><tr><th>#</th><th>تاريخ الغياب</th><th>الدرجات المحسومة</th><th>الإجراء المتخذ</th></tr></thead>
+        <tbody id="tbl-16-body">
+          <tr><td style="text-align:center">1</td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="عدد الدرجات"></td><td><select class="fi"><option>إشعار ولي الأمر هاتفياً</option><option>تحويل للموجه (3 أيام)</option><option>استدعاء ولي الأمر (5 أيام)</option><option>إحالة للجنة التوجيه</option><option>مخاطبة الجهات المختصة (10 أيام)</option></select></td></tr>
+          <tr><td style="text-align:center">2</td><td><input class="fi" type="date"></td><td><input class="fi" placeholder="عدد الدرجات"></td><td><select class="fi"><option>إشعار ولي الأمر هاتفياً</option><option>تحويل للموجه (3 أيام)</option><option>استدعاء ولي الأمر (5 أيام)</option><option>إحالة للجنة التوجيه</option><option>مخاطبة الجهات المختصة (10 أيام)</option></select></td></tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" onclick="addRow('tbl-16-body',4)">+ إضافة سطر</button>
+      <div class="fi-3col" style="margin-top:12px">
+        <div class="fi-row"><label class="fi-lbl">إجمالي الأيام بدون عذر</label><input class="fi" id="f_absent" placeholder="الأيام"></div>
+        <div class="fi-row"><label class="fi-lbl">نسبة الغياب بدون عذر</label><input class="fi" id="f_pct" placeholder="النسبة %"></div>
+        <div class="fi-row"><label class="fi-lbl">إجمالي الدرجات المحسومة</label><input class="fi" id="f_deducted" placeholder="الدرجات"></div>
+      </div>
+      <div class="fi-row"><label class="fi-lbl">ملاحظات وقرار اللجنة</label><textarea class="fi" id="f_notes" rows="2" placeholder="قرار لجنة التوجيه أو الملاحظات"></textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">وكيل شؤون الطلبة</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">ولي الأمر (علم)</div><input class="fi" id="f_sig3" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  },
+  17: {
+    title:'نموذج تعهد بالمواظبة',
+    color:'linear-gradient(135deg,#0a6e80,#0ea8a0)',
+    build: () => `
+      <div class="fsec">🏫 بيانات المدرسة</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم المدرسة</label><input class="fi" id="f_school" placeholder="اسم المدرسة"></div>
+        <div class="fi-row"><label class="fi-lbl">التاريخ</label><input class="fi" id="f_date" type="date"></div>
+        <div class="fi-row"><label class="fi-lbl">العام الدراسي</label><input class="fi" id="f_year" placeholder="العام الدراسي"></div>
+        <div class="fi-row"><label class="fi-lbl">الفصل الدراسي</label><select class="fi" id="f_sem"><option value="">اختر...</option><option>الأول</option><option>الثاني</option></select></div>
+      </div>
+      <div class="fsec">👤 بيانات الطالب</div>
+      <div class="fi-2col">
+        <div class="fi-row"><label class="fi-lbl">اسم الطالب رباعياً</label><input class="fi" id="f_sname" placeholder="الاسم الرباعي"></div>
+        <div class="fi-row"><label class="fi-lbl">الصف / الشعبة</label><input class="fi" id="f_grade" placeholder="الصف والشعبة"></div>
+        <div class="fi-row"><label class="fi-lbl">اسم ولي الأمر</label><input class="fi" id="f_parent" placeholder="اسم ولي الأمر"></div>
+        <div class="fi-row"><label class="fi-lbl">جوال ولي الأمر</label><input class="fi" id="f_mobile" placeholder="رقم الجوال" dir="ltr"></div>
+      </div>
+      <div class="fsec">📊 سجل الغياب الحالي</div>
+      <div class="fi-3col">
+        <div class="fi-row"><label class="fi-lbl">أيام الغياب بعذر</label><input class="fi" id="f_excused" placeholder="عدد الأيام"></div>
+        <div class="fi-row"><label class="fi-lbl">أيام الغياب بدون عذر</label><input class="fi" id="f_unexcused" placeholder="عدد الأيام"></div>
+        <div class="fi-row"><label class="fi-lbl">نسبة الغياب الإجمالية</label><input class="fi" id="f_pct" placeholder="النسبة %"></div>
+      </div>
+      <div class="fsec">✍️ نص التعهد</div>
+      <div class="fi-row">
+      <textarea class="fi" id="f_pledge" rows="5">أنا الطالب المذكور أعلاه، وولي أمري، نُقرّ باطلاعنا على قواعد المواظبة المنصوص عليها في قواعد السلوك والمواظبة لطلبة التعليم العام الإصدار الخامس 1447هـ، ونتعهد بالالتزام بالحضور المنتظم، وأن غياب الطالب بدون عذر مقبول سيُعرّضه لحسم درجات المواظبة والحرمان من الانتقال إذا تجاوزت نسبة الغياب 10%.</textarea></div>
+      <div class="sign-row">
+        <div class="sign-box"><div class="sign-box-lbl">توقيع الطالب</div><input class="fi" id="f_sig1" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">توقيع ولي الأمر</div><input class="fi" id="f_sig2" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+        <div class="sign-box"><div class="sign-box-lbl">مدير المدرسة</div><input class="fi" id="f_sig3" placeholder="الاسم والتوقيع" style="border:none;background:none;text-align:center"></div>
+      </div>
+    `
+  }
+};
+
+function openForm(id) {
+  const f = FORMS[id];
+  if (!f) return;
+  currentFormId = id;
+  document.getElementById('modal-title').textContent = f.title;
+  document.getElementById('modal-hdr').style.background = f.color;
+  document.getElementById('modal-body').innerHTML = f.build();
+  document.getElementById('form-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  // Load saved data
+  const saved = localStorage.getItem('form_' + id);
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      loadFormData(data);
+    } catch(e) {}
+  }
+  // Set today's date for date fields if empty
+  document.querySelectorAll('#modal-body input[type="date"]').forEach(el => {
+    if (!el.value) el.value = new Date().toISOString().split('T')[0];
+  });
+}
+
+function closeForm() {
+  document.getElementById('form-modal').style.display = 'none';
+  document.body.style.overflow = '';
+  currentFormId = null;
+}
+
+function collectFormData() {
+  const data = {};
+  document.querySelectorAll('#modal-body input, #modal-body textarea, #modal-body select').forEach(el => {
+    if (el.id) data[el.id] = el.value;
+    else if (el.type === 'checkbox') {
+      const key = 'chk_' + el.closest('.fchk-item')?.textContent?.trim()?.substring(0,15);
+      data[key] = el.checked;
+    }
+  });
+  return data;
+}
+
+function loadFormData(data) {
+  Object.entries(data).forEach(([key, val]) => {
+    const el = document.getElementById(key);
+    if (el) el.value = val;
+  });
+  document.querySelectorAll('#modal-body input[type="checkbox"]').forEach(el => {
+    const key = 'chk_' + el.closest('.fchk-item')?.textContent?.trim()?.substring(0,15);
+    if (data[key] !== undefined) el.checked = data[key];
+  });
+}
+
+function saveForm() {
+  if (!currentFormId) return;
+  const data = collectFormData();
+  localStorage.setItem('form_' + currentFormId, JSON.stringify(data));
+  const btn = document.querySelector('button[onclick="saveForm()"]');
+  const orig = btn.textContent;
+  btn.textContent = '✅ تم الحفظ!';
+  btn.style.background = 'linear-gradient(135deg,#1a6b35,#27a24f)';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+}
+
+function clearForm() {
+  if (!currentFormId) return;
+  if (!confirm('هل تريد مسح جميع البيانات المدخلة؟')) return;
+  localStorage.removeItem('form_' + currentFormId);
+  document.querySelectorAll('#modal-body input, #modal-body textarea').forEach(el => {
+    if (el.type !== 'checkbox') el.value = '';
+    else el.checked = false;
+  });
+  document.querySelectorAll('#modal-body select').forEach(el => el.selectedIndex = 0);
+}
+
+function printForm() {
+  saveForm();
+
+  // تقليص textarea لتناسب محتواها
+  document.querySelectorAll('#modal-body textarea.fi').forEach(ta => {
+    ta.style.height = 'auto';
+    ta.style.height = (ta.scrollHeight + 2) + 'px';
+    ta.style.overflow = 'hidden';
+  });
+
+  const modalBody = document.getElementById('modal-body').innerHTML;
+  const formTitle = document.getElementById('modal-title').textContent;
+  const hdrBg = document.getElementById('modal-hdr').style.background;
+  const today = new Date().toLocaleDateString('ar-SA-u-nu-latn', {year:'numeric', month:'long', day:'numeric'});
+
+  const printWin = window.open('', '_blank', 'width=900,height=700');
+  printWin.document.write(`<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>${formTitle}</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 portrait; margin: 10mm 12mm 10mm 12mm; }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html,body { width:100%; font-family:'Tajawal',sans-serif; font-size:9.5pt; color:#000; background:#fff; direction:rtl; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.mhdr { background:${hdrBg}; padding:7px 12px; display:flex; align-items:center; justify-content:space-between; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.mhdr-t { font-size:11pt; font-weight:900; color:#fff; }
+.mhdr-s { font-size:7.5pt; color:rgba(255,255,255,0.88); margin-top:2px; }
+.mhdr-b { background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35); border-radius:7px; padding:4px 10px; color:#fff; font-size:8.5pt; font-weight:700; }
+.modal-body { padding:6px 10px 4px; }
+.fsec { font-size:9pt; font-weight:800; color:#0a4d5a; margin:6px 0 4px; padding-bottom:3px; border-bottom:1.5px solid #0a6e80; display:flex; align-items:center; gap:5px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.fi-row { margin-bottom:5px; }
+.fi-lbl { font-size:8pt; font-weight:700; color:#0a4d5a; margin-bottom:2px; display:block; }
+.fi { width:100%; border:1px solid #999; border-radius:4px; padding:3px 7px; font-family:'Tajawal',sans-serif; font-size:8.5pt; color:#000; background:#fff; -webkit-print-color-adjust:exact; }
+textarea.fi { overflow:hidden; resize:none; }
+select.fi { -webkit-appearance:none; appearance:none; }
+.fi-2col { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.fi-3col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; }
+.repeat-tbl { width:100%; border-collapse:collapse; font-size:7.5pt; }
+.repeat-tbl th { background:#0a6e80; color:#fff; padding:4px 5px; font-size:7.5pt; text-align:center; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.repeat-tbl td { padding:3px 5px; border:1px solid #ccc; }
+.repeat-tbl input,.repeat-tbl select { font-family:'Tajawal',sans-serif; font-size:7pt; border:none; background:transparent; width:100%; -webkit-appearance:none; }
+.sign-row { display:flex; gap:6px; margin-top:6px; }
+.sign-box { flex:1; border:1px dashed #0a6e80; border-radius:5px; padding:5px; text-align:center; min-height:38px; }
+.sign-box-lbl { font-size:7pt; color:#555; margin-bottom:4px; }
+.sign-box input { font-family:'Tajawal',sans-serif; font-size:7.5pt; border:none; background:transparent; text-align:center; width:100%; }
+.al { border-radius:6px; padding:4px 8px; display:flex; align-items:flex-start; gap:7px; margin-bottom:5px; font-size:7.5pt; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.al-d { background:#ffebee; border:1px solid #ef9a9a; color:#7a1212; }
+.al-i { background:#e3f2fd; border:1px solid #90caf9; color:#0d3c6e; }
+.al-w { background:#fff8e1; border:1px solid #ffe082; color:#7a4a00; }
+.al-icon { font-size:13px; flex-shrink:0; }
+.fchk-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:3px; }
+.fchk-item { display:flex; align-items:center; gap:4px; font-size:7.5pt; color:#000; }
+.fchk-item input[type="checkbox"] { width:10px; height:10px; accent-color:#0a6e80; -webkit-print-color-adjust:exact; }
+.add-row-btn, button { display:none !important; }
+a { color:inherit; text-decoration:none; }
+a[href]::after { content:none !important; }
+.pf { margin-top:8px; padding-top:4px; border-top:1px solid #ccc; text-align:center; font-size:7pt; color:#888; }
+</style>
+</head>
+<body>
+<div class="mhdr">
+  <div>
+    <div class="mhdr-t">${formTitle}</div>
+    <div class="mhdr-s">وزارة التعليم &nbsp;·&nbsp; المملكة العربية السعودية &nbsp;·&nbsp; قواعد السلوك والمواظبة – الإصدار الخامس 1447هـ</div>
+  </div>
+  <div class="mhdr-b">🏫 وزارة التعليم</div>
+</div>
+<div class="modal-body">${modalBody}<div class="pf">تاريخ الطباعة: ${today} &nbsp;|&nbsp; قواعد السلوك والمواظبة – الإصدار الخامس 1447هـ</div></div>
+</body>
+</html>`);
+
+  printWin.document.close();
+  printWin.addEventListener('load', () => {
+    // تعديل ارتفاع textarea في نافذة الطباعة
+    printWin.document.querySelectorAll('textarea.fi').forEach(ta => {
+      ta.style.height = 'auto';
+      ta.style.height = (ta.scrollHeight + 2) + 'px';
+      ta.style.overflow = 'hidden';
+    });
+    setTimeout(() => {
+      printWin.focus();
+      printWin.print();
+      setTimeout(() => printWin.close(), 1500);
+    }, 700);
+  });
+}
+
+function addRow(tbodyId, cols) {
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  const rows = tbody.querySelectorAll('tr').length + 1;
+  let cells = `<td style="text-align:center">${rows}</td>`;
+  for (let i = 1; i < cols; i++) {
+    cells += `<td><input class="fi" placeholder="..."></td>`;
+  }
+  const tr = document.createElement('tr');
+  tr.innerHTML = cells;
+  tbody.appendChild(tr);
+}
+
+// Close modal on outside click
+document.getElementById('form-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeForm();
+});
+</script>
+</body>
+</html>

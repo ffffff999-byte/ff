@@ -57,8 +57,10 @@ table{width:100%;border-collapse:collapse;background:white;overflow:hidden;borde
 <main>
   <div class="toolbar no-print">
     <button class="btn gold" onclick="window.print()">طباعة / حفظ PDF للصفحة الحالية</button>
-    <button class="btn green" onclick="saveData()">حفظ البيانات على الجهاز</button>
-    <button class="btn light" onclick="loadData()">استرجاع البيانات</button>
+    <button class="btn green" onclick="saveToFile()">💾 حفظ البيانات كملف</button>
+    <label class="btn" style="cursor:pointer;background:#2f7d59;color:white">📂 استرجاع من ملف<input type="file" accept=".json" onchange="loadFromFile(event)" style="display:none"></label>
+    <button class="btn light" onclick="loadFromLocalStorage()">🔄 استرجاع النسخة الاحتياطية</button>
+    <button class="btn" style="background:#a83232" onclick="clearAllData()">🗑️ مسح البيانات</button>
     <button class="btn" onclick="addRowToActive()">إضافة صف</button>
   </div>
 
@@ -212,8 +214,117 @@ sections.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s.
 function show(i){sections.forEach((s,j)=>s.classList.toggle('active',i===j));[...nav.children].forEach((b,j)=>b.classList.toggle('active',i===j));calcStats()}
 function loadLogo(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById('logoBox').innerHTML='<img src="'+r.result+'">'};r.readAsDataURL(f)}
 function addRowToActive(){const t=document.querySelector('.section.active table tbody'); if(!t)return; const row=t.rows[0].cloneNode(true); [...row.cells].forEach((c,i)=>{if(i===0)c.textContent=t.rows.length+1; else if(c.querySelector('select')) c.querySelector('select').selectedIndex=0; else c.textContent=''}); t.appendChild(row); calcStats()}
-function saveData(){localStorage.setItem('selfEvalRegister',document.querySelector('main').innerHTML); alert('تم حفظ البيانات في هذا المتصفح.')}
-function loadData(){const d=localStorage.getItem('selfEvalRegister'); if(d){document.querySelector('main').innerHTML=d; alert('تم استرجاع البيانات.');}else alert('لا توجد بيانات محفوظة.')}
+
+// ========== جمع بيانات الحقول ==========
+function collectData(){
+  const data={};
+  // inputs & textareas & selects
+  const inputs=[...document.querySelectorAll('main input:not([type=file]), main textarea, main select')];
+  inputs.forEach((el,i)=>{
+    const key=el.id||('el_'+i+'_'+el.tagName+'_'+el.name);
+    data[key]=el.type==='checkbox'?el.checked:el.value;
+  });
+  // contenteditable cells and elements
+  const editables=[...document.querySelectorAll('main [contenteditable]')];
+  editables.forEach((el,i)=>{data['ce_'+i]=el.innerHTML});
+  // شعار
+  const logoImg=document.querySelector('#logoBox img');
+  if(logoImg) data['__logo']=logoImg.src;
+  return data;
+}
+
+// ========== تطبيق البيانات المحفوظة ==========
+function applyData(data){
+  if(!data) return;
+  const inputs=[...document.querySelectorAll('main input:not([type=file]), main textarea, main select')];
+  inputs.forEach((el,i)=>{
+    const key=el.id||('el_'+i+'_'+el.tagName+'_'+el.name);
+    if(data[key]!==undefined){
+      if(el.type==='checkbox') el.checked=data[key];
+      else el.value=data[key];
+    }
+  });
+  const editables=[...document.querySelectorAll('main [contenteditable]')];
+  editables.forEach((el,i)=>{if(data['ce_'+i]!==undefined) el.innerHTML=data['ce_'+i]});
+  if(data['__logo']){document.getElementById('logoBox').innerHTML='<img src="'+data['__logo']+'">'}
+  calcStats();
+}
+
+// ========== حفظ كملف JSON ==========
+function saveToFile(){
+  const data=collectData();
+  const json=JSON.stringify(data,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  const schoolName=document.querySelector('main input[placeholder="اكتب اسم المدرسة"]')?.value||'السجل';
+  a.href=url;
+  a.download='تقويم_ذاتي_'+schoolName+'_'+new Date().toLocaleDateString('ar-SA').replace(/\//g,'-')+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  // حفظ نسخة احتياطية أيضاً
+  localStorage.setItem('selfEvalBackup', json);
+  showToast('✅ تم حفظ البيانات كملف على جهازك');
+}
+
+// ========== استرجاع من ملف JSON ==========
+function loadFromFile(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const data=JSON.parse(r.result);
+      applyData(data);
+      showToast('✅ تم استرجاع البيانات من الملف');
+    } catch(err){showToast('❌ الملف غير صالح');}
+  };
+  r.readAsText(file);
+  e.target.value='';
+}
+
+// ========== استرجاع النسخة الاحتياطية ==========
+function loadFromLocalStorage(){
+  const d=localStorage.getItem('selfEvalBackup');
+  if(d){
+    try{
+      applyData(JSON.parse(d));
+      showToast('✅ تم استرجاع النسخة الاحتياطية');
+    } catch(e){showToast('❌ تعذر استرجاع النسخة الاحتياطية');}
+  } else showToast('⚠️ لا توجد نسخة احتياطية محفوظة');
+}
+
+// ========== حفظ تلقائي كل 30 ثانية ==========
+setInterval(()=>{
+  localStorage.setItem('selfEvalBackup', JSON.stringify(collectData()));
+}, 30000);
+
+// ========== إشعار ==========
+function showToast(msg){
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10243e;color:#fff;padding:14px 28px;border-radius:14px;font-size:16px;font-weight:700;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:opacity .4s';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity='0',3000);
+}
+
+// دوال قديمة للتوافق
+function saveData(){saveToFile();}
+function loadData(){loadFromLocalStorage();}
+
+// ========== مسح البيانات ==========
+function clearAllData(){
+  if(!confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع عن هذا الإجراء.')) return;
+  const inputs=[...document.querySelectorAll('main input:not([type=file]), main textarea')];
+  inputs.forEach(el=>{ if(el.type==='checkbox') el.checked=false; else el.value=''; });
+  const selects=[...document.querySelectorAll('main select')];
+  selects.forEach(el=>el.selectedIndex=0);
+  const editables=[...document.querySelectorAll('main [contenteditable]')];
+  editables.forEach(el=>el.innerHTML='');
+  document.getElementById('logoBox').innerHTML='شعار';
+  localStorage.removeItem('selfEvalBackup');
+  calcStats();
+  showToast('🗑️ تم مسح جميع البيانات');
+}
 let evidenceFiles=[];
 function listFiles(e){
   const incoming=[...e.target.files].map((file)=>({file,index:evidenceFiles.length,url:URL.createObjectURL(file)}));

@@ -476,6 +476,43 @@
   .summary-card-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
 
   /* ===== PRINT / PDF STYLES ===== */
+  /* Print overlay support */
+  #_printOverlay {
+    display: none;
+    font-family: 'Tajawal', sans-serif;
+    direction: rtl;
+    color: #0a0a14;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  #_printOverlay .indicator-card{border:1.5px solid #b0bec5;border-radius:10px;margin-bottom:14px;break-inside:avoid;overflow:hidden}
+  #_printOverlay .indicator-header{background:#0d1b3e;padding:12px 18px;display:flex;align-items:center;gap:10px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .indicator-code{background:#c9a84c;color:#0d1b3e;padding:3px 12px;border-radius:20px;font-weight:900;font-size:11px;white-space:nowrap;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .indicator-title{color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;flex:1}
+  #_printOverlay .item-row{padding:10px 16px;border-bottom:1px solid #eceff1}
+  #_printOverlay .item-header{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px}
+  #_printOverlay .item-num{background:#0d1b3e;color:#c9a84c;min-width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .item-title{font-family:'Cairo',sans-serif;font-weight:700;color:#0d1b3e;font-size:12px;line-height:1.5;padding-top:4px}
+  #_printOverlay .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:6px 0 6px 40px}
+  #_printOverlay .evidence-item{display:flex;gap:7px;padding:5px 10px;border:1px solid #e2e8f0;border-radius:7px;font-size:11px;align-items:flex-start}
+  #_printOverlay .evidence-item.checked{background:#e8f5e9;border-color:#81c784;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .evidence-checkbox{min-width:16px;height:16px;border:1.5px solid #90a4ae;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
+  #_printOverlay .evidence-item.checked .evidence-checkbox{background:#4caf50;border-color:#4caf50;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .rating-section{display:flex;align-items:center;gap:12px;padding:8px 16px 10px;background:#f5f7ff;border-top:1px dashed #cfd8dc;margin-right:40px;flex-wrap:wrap;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .star-btn{width:28px;height:28px;border-radius:6px;border:1.5px solid #b0bec5;background:#fff;font-size:12px;font-weight:800;color:#90a4ae;display:inline-flex;align-items:center;justify-content:center}
+  #_printOverlay .star-btn.active{background:#c9a84c;border-color:#c9a84c;color:#0d1b3e;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .section-title-bar{background:linear-gradient(135deg,#0d1b3e,#1e3260);color:#fff;padding:14px 20px;border-radius:10px;margin-bottom:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .section-title-bar h2{font-family:'Cairo',sans-serif;font-size:17px;font-weight:900}
+  #_printOverlay .summary-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:12px}
+  #_printOverlay .summary-table th{background:#0d1b3e;color:#fff;padding:8px 12px;text-align:right;font-family:'Cairo',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #_printOverlay .summary-table td{padding:7px 12px;border-bottom:1px solid #eceff1}
+  #_printOverlay .badge-gold{background:#c9a84c;color:#0d1b3e;padding:2px 10px;border-radius:12px;font-weight:700;font-size:11px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  @media print {
+    body > *:not(#_printOverlay) { display: none !important; }
+    #_printOverlay { display: block !important; }
+  }
+
   @media print {
     header, .stats-bar, .nav-wrap, .section-actions, .btn-action,
     .btn-ind, .btn-header, .toggle-icon, .toast,
@@ -567,16 +604,6 @@
   </div>
 </header>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stats-inner">
-    <div class="stat-item"><span class="stat-num" id="stat-indicators">39</span><span class="stat-label">مؤشراً رئيسياً</span></div>
-    <div class="stat-item"><span class="stat-num" id="stat-items">52</span><span class="stat-label">مفردة للتقييم</span></div>
-    <div class="stat-item"><span class="stat-num" id="stat-evidence">0</span><span class="stat-label">شاهد محقق</span></div>
-    <div class="stat-item"><span class="stat-num" id="stat-rated">0</span><span class="stat-label">مفردة مُقيَّمة</span></div>
-    <div class="stat-item"><span class="stat-num" id="stat-avg">—</span><span class="stat-label">متوسط التقييم</span></div>
-  </div>
-</div>
 
 <!-- NAV TABS -->
 <div class="nav-wrap">
@@ -1477,28 +1504,27 @@ function showToast(msg) {
 }
 
 function buildPdfWindow(title, bodyHtml) {
-  const w = window.open('', '_blank');
-  if (!w) { showToast('⚠️ يرجى السماح بالنوافذ المنبثقة'); return; }
   const date = new Date().toLocaleDateString('ar-SA', {year:'numeric',month:'long',day:'numeric'});
-  w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head>
-    <meta charset="UTF-8"><title>${title}</title>
-    <style>${PDF_STYLES}</style>
-  </head><body>
-    <div class="pdf-cover">
+  let printDiv = document.getElementById('_printOverlay');
+  if (!printDiv) {
+    printDiv = document.createElement('div');
+    printDiv.id = '_printOverlay';
+    document.body.appendChild(printDiv);
+  }
+  printDiv.innerHTML = `
+    <div class="pdf-cover" style="text-align:center;padding:50px 30px;border:3px solid #0d1b3e;border-radius:12px;margin-bottom:30px;page-break-after:always">
       <div style="font-size:44px;margin-bottom:14px">🏫</div>
-      <h1>منصة تقييم جودة المدرسة</h1>
-      <p class="sub">وثائق وشواهد الاعتماد المدرسي — الفريق الخارجي للتقييم</p>
-      <div class="badge">${title}</div>
-      <p class="sub" style="margin-top:16px;font-size:11px;color:#888">تاريخ الإصدار: ${date}</p>
+      <h1 style="font-family:Cairo,sans-serif;font-size:24px;color:#0d1b3e;margin-bottom:10px">منصة تقييم جودة المدرسة</h1>
+      <p style="font-size:14px;color:#555;margin:5px 0">وثائق وشواهد الاعتماد المدرسي — الفريق الخارجي للتقييم</p>
+      <div style="display:inline-block;background:#c9a84c;color:#0d1b3e;padding:5px 18px;border-radius:20px;font-weight:700;margin-top:14px;font-size:13px">${title}</div>
+      <p style="margin-top:16px;font-size:11px;color:#888">تاريخ الإصدار: ${date}</p>
     </div>
     ${bodyHtml}
     <p style="margin-top:28px;color:#90a4ae;font-size:10px;text-align:center;border-top:1px solid #eceff1;padding-top:10px">
-      منصة تقييم المدرسة &nbsp;|&nbsp; تاريخ الطباعة: ${date} &nbsp;|&nbsp; البيانات سرية
-    </p>
-  </body></html>`);
-  w.document.close();
-  setTimeout(() => { w.focus(); w.print(); }, 900);
-  showToast('📄 جاري فتح نافذة حفظ PDF...');
+      منصة تقييم المدرسة | تاريخ الطباعة: ${date} | البيانات سرية
+    </p>`;
+  showToast('📄 جاري تحضير الطباعة...');
+  setTimeout(() => { window.print(); }, 400);
 }
 
 function cardToHtml(card) {

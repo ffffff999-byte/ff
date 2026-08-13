@@ -17,8 +17,11 @@ html,body{width:100%;height:auto;background:white}
 .section{display:block;page-break-after:always;width:100%}
 .section:last-child{page-break-after:auto}
 body.print-current .section:not(.active){display:none!important}
-.card{box-shadow:none;border-color:#999;margin:6mm 0;padding:6mm;overflow:visible!important;width:100%;box-sizing:border-box;page-break-inside:avoid}
+.card{box-shadow:none;border-color:#999;margin:6mm 0;padding:6mm;overflow:visible!important;width:100%;box-sizing:border-box}
+.card:not(:has(.tableWrap)){page-break-inside:avoid}
 .grid,.grid3,.swot{overflow:visible!important}
+thead{display:table-header-group}
+tfoot{display:table-footer-group}
 .printText{display:block;font-size:13px;line-height:1.95;padding:2mm 0;width:100%;box-sizing:border-box}
 .printHeader{display:flex!important;justify-content:space-between;align-items:center;gap:8mm;border-bottom:3px solid #bfe4d6;background:#effaf5;padding:5mm 6mm;margin:0 0 6mm;width:100%;box-sizing:border-box}
 .printHeader .right{text-align:right;font-weight:700;font-size:12px;line-height:1.8;flex:1}

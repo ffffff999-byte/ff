@@ -117,6 +117,13 @@ td[contenteditable="true"]:hover,td[contenteditable="true"]:focus{background:#f0
 .meeting-card h4.mt-title{color:var(--navy);font-size:1.05rem;margin-bottom:12px;}
 select.meeting-title-select{font-family:inherit;font-weight:800;font-size:1.05rem;color:var(--navy);border:none;background:transparent;padding:4px 2px;cursor:pointer;}
 .time-sentence{font-weight:700;margin:10px 0;font-size:.92rem;}
+.agenda-list{padding-inline-start:20px;}
+.agenda-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.92rem;list-style:disc;}
+.agenda-row.urgent{list-style:none;margin-inline-start:-20px;padding-inline-start:0;}
+.agenda-text{outline:none;flex:1;}
+.agenda-text[contenteditable="true"]:focus{background:#f0fbf8;border-radius:6px;padding:2px 6px;}
+.badge-urgent{background:#fdecea;color:#c0392b;border:1px solid #f5b7b1;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap;}
+.agenda-row .icon-btn{width:24px;height:24px;font-size:.7rem;line-height:1;}
 .not-impl-box{min-height:70px;border:1px dashed var(--border);border-radius:10px;padding:12px;margin-bottom:14px;background:#fafbfd;}
 .closing-line{font-weight:700;text-align:left;margin-top:14px;font-size:.9rem;color:var(--muted);}
 
@@ -193,6 +200,8 @@ select.meeting-title-select{font-family:inherit;font-weight:800;font-size:1.05re
   .card{box-shadow:none;border:1px solid #000;break-inside:avoid;page-break-inside:avoid;}
   .two-col,.field-row,.sig-cell{break-inside:avoid;page-break-inside:avoid;}
   tr{break-inside:avoid;page-break-inside:avoid;}
+  .agenda-row{break-inside:avoid;page-break-inside:avoid;}
+  .badge-urgent{border:1px solid #000!important;background:#eee!important;color:#000!important;}
   .section-title-bar{break-after:avoid;page-break-after:avoid;}
   .section-title-bar h2,.section-title-bar h3{color:#000;}
   .section-title-bar .dot{background:#000;}
@@ -460,11 +469,10 @@ const COMMITTEES = [
    ], emergency:false },
 ];
 const MEETING_NUM_LABELS = ['الاجتماع الأول','الاجتماع الثاني','الاجتماع الثالث','الاجتماع الرابع','الاجتماع الخامس'];
-let sigCounter = 0, edCounter = 0, recKeyCounter = 0;
+let sigCounter = 0, edCounter = 0, agKeyCounter = 0;
 function nextSigKey(){ return 'sig_'+(sigCounter++); }
 function nextEdKey(){ return 'auto_'+(edCounter++); }
-function nextRecKey(){ return 'rec_'+(recKeyCounter++); }
-const MEETING_META = {};
+function nextAgKey(){ return 'ag_'+(agKeyCounter++); }
 
 /* =========================================================
    RENDER: committees / meetings
@@ -493,8 +501,7 @@ function meetingCardHTML(committee, meeting, idx, isEmergency){
   const titleSelect = isEmergency
     ? `<h4 class="mt-title">الاجتماع الطارئ</h4>`
     : `<select class="meeting-title-select" data-edkey="${nextEdKey()}">${MEETING_NUM_LABELS.map((l,i)=>`<option${i===idx?' selected':''}>${l}</option>`).join('')}</select>`;
-  const recKey = nextRecKey();
-  MEETING_META[recKey] = {committee: committee.label, target: committee.target, agenda: meeting.agenda};
+  const agKey = nextAgKey();
   let html = `<div class="card meeting-card">${titleSelect}
     <div class="table-responsive"><table><tbody><tr>
       <td><strong>مقر الاجتماع:</strong> ${ed('إدارة المدرسة')}</td>
@@ -503,13 +510,16 @@ function meetingCardHTML(committee, meeting, idx, isEmergency){
       <td><strong>الحضور:</strong> ${ed('....')}</td>
     </tr></tbody></table></div>
     <h4 style="font-size:1rem;color:var(--navy);margin:14px 0 8px;">جدول الأعمال:</h4>
-    <ul class="plain">${meeting.agenda.map(a=>`<li>${a}</li>`).join('')}</ul>
+    <ul class="plain agenda-list" id="${agKey}">${meeting.agenda.map(a=>`<li class="agenda-row"><span class="agenda-text">${a}</span></li>`).join('')}</ul>
+    <div class="controls no-print" style="justify-content:flex-start;margin-top:6px;margin-bottom:14px;">
+      <button class="btn btn-outline btn-sm" onclick="addAgendaItem('${agKey}')">+ إضافة بند</button>
+      <button class="btn btn-outline btn-sm" onclick="addAgendaItem('${agKey}', true)">⚠️ إضافة بند طارئ</button>
+    </div>
     <p class="time-sentence">أنه في تمام الساعة (${ed('..........')}) تمت مناقشة الآراء والمقترحات وتمت التوصيات بالآتي:</p>
     <div class="table-responsive" style="margin-bottom:16px;">
-      <table data-rectable="${recKey}"><thead><tr><th>التوصية</th><th>الجهة المكلفة بالتنفيذ</th><th>مدة التنفيذ</th><th>جهة المتابعة</th></tr></thead>
+      <table><thead><tr><th>التوصية</th><th>الجهة المكلفة بالتنفيذ</th><th>مدة التنفيذ</th><th>جهة المتابعة</th></tr></thead>
       <tbody><tr><td contenteditable="true">تدوين التوصيات هنا...</td><td contenteditable="true">........</td><td contenteditable="true">فصل دراسي</td><td contenteditable="true">إدارة المدرسة</td></tr></tbody></table>
       <div class="controls no-print" style="margin-top:6px;margin-bottom:0;">
-        <button class="btn btn-gold btn-sm" onclick="generateRecommendationsAI('${recKey}', this)">🤖 توليد التوصيات بالذكاء الاصطناعي</button>
         <button class="btn btn-outline btn-sm" onclick="addRow(this)">+ إضافة صف</button>
         <button class="btn btn-outline btn-sm" onclick="removeRow(this)">- حذف صف</button>
       </div>
@@ -615,6 +625,40 @@ function switchPanel(id){
 document.querySelectorAll('.nav-item').forEach(el=>{
   el.addEventListener('click', ()=>switchPanel(el.dataset.panel));
 });
+
+/* =========================================================
+   AGENDA ITEMS (add / remove, with urgent tagging)
+========================================================= */
+function addAgendaItem(listId, isUrgent){
+  const ul = document.getElementById(listId);
+  const li = document.createElement('li');
+  li.className = 'agenda-row' + (isUrgent ? ' urgent' : '');
+  const span = document.createElement('span');
+  span.className = 'agenda-text';
+  span.contentEditable = 'true';
+  span.textContent = isUrgent ? 'بند طارئ جديد...' : 'بند جديد...';
+  bindNewEditable(span);
+  li.appendChild(span);
+  if(isUrgent){
+    const badge = document.createElement('span');
+    badge.className = 'badge-urgent';
+    badge.textContent = '⚠️ طارئ';
+    li.appendChild(badge);
+  }
+  const delBtn = document.createElement('button');
+  delBtn.className = 'icon-btn no-print';
+  delBtn.textContent = '✕';
+  delBtn.onclick = function(){ li.remove(); };
+  li.appendChild(delBtn);
+  ul.appendChild(li);
+  span.focus();
+}
+function bindNewEditable(el){
+  const key = 'auto_'+(edCounter++);
+  el.dataset.edkey = key;
+  state.editable[key] = el.innerHTML;
+  el.addEventListener('input', ()=>{ state.editable[key]=el.innerHTML; persist(); });
+}
 
 /* =========================================================
    TABLE ROW ADD/REMOVE
@@ -811,67 +855,6 @@ function restoreAllSignatures(){
   Object.keys(state.signatures).forEach(key=>{
     if(document.querySelector(`[data-sigcell="${key}"]`)) renderSigCell(key);
   });
-}
-
-/* =========================================================
-   AI GENERATION (recommendations)
-========================================================= */
-function bindCellAutosave(el){
-  if(!el.dataset.edkey) el.dataset.edkey = 'cell_'+(edCounter++)+'_'+Math.random().toString(36).slice(2,7);
-  const key = el.dataset.edkey;
-  state.editable[key] = el.innerHTML;
-  el.addEventListener('input', ()=>{ state.editable[key]=el.innerHTML; persist(); });
-}
-async function generateRecommendationsAI(recKey, btn){
-  const meta = MEETING_META[recKey];
-  const table = document.querySelector(`table[data-rectable="${recKey}"]`);
-  if(!meta || !table) return;
-  const originalText = btn.textContent;
-  btn.disabled = true; btn.textContent = '⏳ جارٍ التوليد...';
-  try{
-    const prompt = `أنت مساعد إداري تربوي سعودي محترف. بناءً على معلومات الاجتماع التالية، ولّد 3 توصيات واقعية ومهنية بأسلوب إداري رسمي باللغة العربية الفصحى. لكل توصية حدّد: نص التوصية، الجهة المكلفة بالتنفيذ (اسم دور وظيفي مدرسي وليس شخصًا)، مدة التنفيذ (مثل: أسبوعين، شهر، فصل دراسي)، جهة المتابعة (دور وظيفي مدرسي).
-أعد النتيجة فقط بصيغة JSON array بدون أي نص إضافي قبله أو بعده، وبدون أسوار كود، بهذا الشكل بالضبط:
-[{"rec":"...","resp":"...","dur":"...","follow":"..."}]
-
-معلومات الاجتماع:
-اللجنة: ${meta.committee}
-المستهدفون: ${meta.target}
-بنود جدول الأعمال: ${meta.agenda.join('، ')}`;
-
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        messages: [{ role: "user", content: prompt }]
-      })
-    });
-    const data = await response.json();
-    const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-    const clean = textBlocks.replace(/```json|```/g,'').trim();
-    const items = JSON.parse(clean);
-    if(!Array.isArray(items) || items.length===0) throw new Error('empty');
-
-    const tbody = table.querySelector('tbody');
-    tbody.innerHTML = '';
-    items.forEach(it=>{
-      const tr = document.createElement('tr');
-      ['rec','resp','dur','follow'].forEach(k=>{
-        const td = document.createElement('td');
-        td.contentEditable = 'true';
-        td.textContent = it[k] || '';
-        bindCellAutosave(td);
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    persist();
-  }catch(err){
-    alert('تعذّر توليد التوصيات حاليًا، يرجى المحاولة مرة أخرى.');
-  }finally{
-    btn.disabled = false; btn.textContent = originalText;
-  }
 }
 
 /* =========================================================

@@ -428,6 +428,18 @@
         <option value="portrait">عمودي (Portrait)</option>
       </select>
     </div>
+    <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+    <div class="frow">
+      <label>النسخ الاحتياطي</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="sig-btn" style="background:#548235;padding:8px 14px;font-size:12.5px;" onclick="exportBackup()">⬇️ تصدير نسخة احتياطية</button>
+        <label class="sig-btn" style="background:#2E75B6;padding:8px 14px;font-size:12.5px;cursor:pointer;">
+          ⬆️ استعادة نسخة
+          <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
+        </label>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:6px;">يتم أيضًا الحفظ تلقائيًا على هذا الجهاز عند أي تعديل.</div>
+    </div>
     <div class="modal-actions">
       <button class="btn-print-cliche" onclick="printClicheOnly()">🖨️ طباعة الكليشة فقط</button>
       <button class="btn-close" onclick="closeSettings()">إغلاق</button>
@@ -581,6 +593,7 @@
     localStorage.setItem('hh55_orientation', state.printOrientation);
     applyPrintOrientation();
     closeSettings();
+    saveAll();
   }
   function printClicheOnly(){
     closeSettings();
@@ -589,6 +602,108 @@
     setTimeout(() => document.body.classList.remove('cliche-print-mode'), 300);
   }
   applyPrintOrientation();
+
+  /* ========== الحفظ التلقائي + النسخ الاحتياطي/الاستعادة ========== */
+  function debounce(fn, ms){
+    let t;
+    return function(...args){ clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+  }
+  function buildEmployeesData(){
+    const employees = [];
+    for (let emp = 1; emp <= empCount; emp++) {
+      const nameInput = document.querySelector(`input.emp-name-input[data-emp="${emp}"]`);
+      const sigImg = document.querySelector(`#sigCell${emp} img`);
+      const cells = {};
+      document.querySelectorAll(`input[data-emp="${emp}"][data-day]`).forEach(inp => {
+        if (inp.value !== '') cells[`${inp.dataset.type}_${inp.dataset.day}_${inp.dataset.unit}`] = inp.value;
+      });
+      employees.push({ name: nameInput ? nameInput.value : '', signature: sigImg ? sigImg.src : null, cells });
+    }
+    return employees;
+  }
+  function applyEmployeesData(employees){
+    (employees || []).forEach((e, idx) => {
+      const emp = idx + 1;
+      const nameInput = document.querySelector(`input.emp-name-input[data-emp="${emp}"]`);
+      if (nameInput) nameInput.value = e.name || '';
+      if (e.signature) {
+        const cell = document.getElementById(`sigCell${emp}`);
+        if (cell) cell.innerHTML = `<img class="sig-thumb" src="${e.signature}" alt="توقيع"><button type="button" class="sig-edit-btn" onclick="openSignature(${emp})">✏️ تعديل</button>`;
+      }
+      Object.entries(e.cells || {}).forEach(([key, val]) => {
+        const [type, day, unit] = key.split('_');
+        const inp = document.querySelector(`input[data-emp="${emp}"][data-type="${type}"][data-day="${day}"][data-unit="${unit}"]`);
+        if (inp) inp.value = val;
+      });
+    });
+  }
+  function collectAllData(){
+    const editable = document.querySelectorAll('.header [contenteditable]');
+    return {
+      region: editable[0] ? editable[0].textContent : '',
+      school: editable[1] ? editable[1].textContent : '',
+      info: Array.from(document.querySelectorAll('.info-bar .val')).map(el => el.textContent),
+      logo: (document.getElementById('logoImg').style.display !== 'none') ? document.getElementById('logoImg').src : null,
+      orientation: state.printOrientation,
+      empCount: empCount,
+      employees: buildEmployeesData()
+    };
+  }
+  function saveAll(){
+    try { localStorage.setItem('hh55_data_v1', JSON.stringify(collectAllData())); } catch (e) {}
+  }
+  const saveAllDebounced = debounce(saveAll, 500);
+  function restoreFromData(data){
+    if (!data) return;
+    const editable = document.querySelectorAll('.header [contenteditable]');
+    if (data.region != null && editable[0]) editable[0].textContent = data.region;
+    if (data.school != null && editable[1]) editable[1].textContent = data.school;
+    const infoVals = document.querySelectorAll('.info-bar .val');
+    (data.info || []).forEach((v, i) => { if (infoVals[i]) infoVals[i].textContent = v; });
+    if (data.logo) {
+      document.getElementById('logoImg').src = data.logo;
+      document.getElementById('logoImg').style.display = 'block';
+      document.getElementById('logoPlaceholder').style.display = 'none';
+    }
+    if (data.orientation) { state.printOrientation = data.orientation; localStorage.setItem('hh55_orientation', data.orientation); applyPrintOrientation(); }
+    document.getElementById('tbody').innerHTML = '';
+    empCount = 0;
+    const count = data.empCount || INITIAL_EMPLOYEES;
+    for (let i = 1; i <= count; i++) { empCount = i; buildEmployeeRows(i); }
+    buildGrandTotal();
+    applyEmployeesData(data.employees || []);
+    recalculate();
+  }
+  function loadSavedData(){
+    try { const raw = localStorage.getItem('hh55_data_v1'); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+  }
+  function exportBackup(){
+    const data = collectAllData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'نسخة-احتياطية-حصر-التأخر-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+  }
+  function restoreBackup(ev){
+    const file = ev.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      try {
+        const data = JSON.parse(e.target.result);
+        restoreFromData(data);
+        saveAll();
+        closeSettings();
+        alert('تمت الاستعادة بنجاح');
+      } catch (err) { alert('ملف غير صالح'); }
+    };
+    reader.readAsText(file);
+  }
+  // حفظ تلقائي عند أي تعديل داخل الورقة (أسماء، أرقام، حقول قابلة للتعديل)
+  document.getElementById('sheet').addEventListener('input', saveAllDebounced);
+  document.querySelectorAll('.header [contenteditable], .info-bar .val').forEach(el => {
+    el.addEventListener('blur', saveAll);
+  });
 
   /* ========== التوقيع الإلكتروني ========== */
   let sigTargetEmp = null;
@@ -701,6 +816,7 @@
       <img class="sig-thumb" src="${dataUrl}" alt="توقيع">
       <button type="button" class="sig-edit-btn" onclick="openSignature(${sigTargetEmp})">✏️ تعديل</button>`;
     closeSignature();
+    saveAll();
   }
 
 </script>
@@ -742,6 +858,8 @@
         tdName.rowSpan = VIOLATION_TYPES.length + 1;
         const inp = document.createElement('input');
         inp.type = 'text';
+        inp.className = 'emp-name-input';
+        inp.dataset.emp = empIdx;
         inp.placeholder = `............ (${empIdx})`;
         tdName.appendChild(inp);
         tr.appendChild(tdName);
@@ -962,6 +1080,7 @@
     empCount++;
     buildEmployeeRows(empCount);
     recalculate();
+    saveAll();
   }
 
   function clearAllInputs() {
@@ -969,6 +1088,7 @@
     document.querySelectorAll('table.main input[type="number"]').forEach(i => i.value = '');
     document.querySelectorAll('table.main td.emp-name input').forEach(i => i.value = '');
     recalculate();
+    saveAll();
   }
 
   // ========== الشعار ==========
@@ -981,17 +1101,23 @@
       img.src = ev.target.result;
       img.style.display = 'block';
       document.getElementById('logoPlaceholder').style.display = 'none';
+      saveAll();
     };
     reader.readAsDataURL(file);
   });
 
-  // ========== التهيئة الأولية ==========
-  for (let i = 1; i <= INITIAL_EMPLOYEES; i++) {
-    empCount = i;
-    buildEmployeeRows(i);
+  // ========== التهيئة الأولية (استرجاع آخر نسخة محفوظة تلقائيًا إن وُجدت) ==========
+  const savedData = loadSavedData();
+  if (savedData) {
+    restoreFromData(savedData);
+  } else {
+    for (let i = 1; i <= INITIAL_EMPLOYEES; i++) {
+      empCount = i;
+      buildEmployeeRows(i);
+    }
+    buildGrandTotal();
+    recalculate();
   }
-  buildGrandTotal();
-  recalculate();
 </script>
 
 </body>

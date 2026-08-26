@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>حصر تأخر الموظفين عن الدوام</title>
+<style id="dynPageStyle">@page { size: A4 landscape; margin: 1.5cm; }</style>
 <style>
-  @page { size: A4 landscape; margin: 8mm; }
   * { box-sizing: border-box; font-family: "Arial", "Tahoma", sans-serif; }
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
   body {
     margin: 0;
     padding: 12px;
@@ -317,37 +318,145 @@
     body { background: #fff; padding: 0; margin: 0; }
     .toolbar { display: none; }
     .sheet { box-shadow: none; padding: 0; max-width: 100%; border: 0; }
-    table.main { font-size: 10px; page-break-inside: auto; }
-    table.main tr { page-break-inside: avoid; }
+    table.main { page-break-inside: auto; }
+    table.main tr { page-break-inside: avoid; break-inside: avoid; }
     table.main thead { display: table-header-group; }
     table.main td.input-cell input { color: #0000FF; }
     .logo-box { border: 1px solid #999; }
     .credit a { color: #1F4E78; }
+    .sig-btn, .sig-edit-btn { display: none !important; }
+
+    /* إخفاء شريط التصميم والرابط تمامًا في الورقة المطبوعة */
+    .credit { display: none !important; }
+
+    /* تكيّف حجم الخط/الحشوة تلقائيًا حسب اتجاه الصفحة */
+    body[data-orientation="landscape"] table.main { font-size: 12px; }
+    body[data-orientation="landscape"] table.main th,
+    body[data-orientation="landscape"] table.main td { padding: 4px; }
+    body[data-orientation="portrait"] table.main { font-size: 9px; }
+    body[data-orientation="portrait"] table.main th,
+    body[data-orientation="portrait"] table.main td { padding: 2px 1px; word-break: break-word; }
 
     /* الصفحة 1: الترويسة + الجدول الرئيسي فقط */
-    /* الصفحة 2: الملاحظات + التوقيعات + شريط التصميم */
+    /* الصفحة 2: الملاحظات + التوقيعات */
     .notes {
       page-break-before: always;   /* يبدأ صفحة جديدة قبل الملاحظات */
       break-before: page;          /* خاصية حديثة مكافئة */
       margin-top: 0;
     }
-    .signatures, .credit {
+    .signatures {
       page-break-inside: avoid;
       break-inside: avoid;
     }
+
+    /* طباعة الكليشة فقط — يُفعَّل عبر body.cliche-print-mode */
+    body.cliche-print-mode .title-bar,
+    body.cliche-print-mode .info-bar,
+    body.cliche-print-mode table.main,
+    body.cliche-print-mode .notes,
+    body.cliche-print-mode .signatures { display: none !important; }
+  }
+
+  /* ========== النوافذ المنبثقة (إعدادات/توقيع) ========== */
+  .modal-bg {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    display: none; align-items: center; justify-content: center; z-index: 999; padding: 16px;
+  }
+  .modal-bg.show { display: flex; }
+  .modal-box {
+    background: #fff; border-radius: 10px; padding: 20px; max-width: 420px; width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+  }
+  .modal-box h3 { margin: 0 0 14px; color: #1F4E78; }
+  .modal-box .frow { margin-bottom: 14px; }
+  .modal-box label { display: block; font-weight: bold; font-size: 13px; margin-bottom: 6px; color: #333; }
+  .modal-box select, .modal-box input[type="text"] {
+    width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; font-family: inherit;
+  }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+  .modal-actions button { padding: 8px 16px; border-radius: 6px; border: 0; cursor: pointer; font-weight: bold; font-size: 13px; }
+  .modal-actions .btn-close { background: #eee; color: #333; }
+  .modal-actions .btn-save { background: #1F4E78; color: #fff; }
+  .modal-actions .btn-print-cliche { background: #548235; color: #fff; }
+
+  /* التوقيع */
+  .sig-cell { width: 90px; padding: 4px !important; }
+  .sig-thumb { max-width: 100%; max-height: 44px; display: block; margin: 0 auto; }
+  .sig-btn {
+    background: #1F4E78; color: #fff; border: 0; border-radius: 4px; padding: 4px 8px;
+    font-size: 10px; cursor: pointer;
+  }
+  .sig-edit-btn {
+    background: none; border: 1px dashed #1F4E78; color: #1F4E78; border-radius: 4px;
+    font-size: 9px; padding: 1px 5px; cursor: pointer; margin-top: 2px;
+  }
+  #sigModeTabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  #sigModeTabs button {
+    flex: 1; padding: 7px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px;
+    cursor: pointer; font-size: 12.5px; font-weight: bold;
+  }
+  #sigModeTabs button.active { background: #1F4E78; color: #fff; border-color: #1F4E78; }
+  #sigCanvas { border: 1px dashed #999; border-radius: 6px; touch-action: none; cursor: crosshair; background: #fff; }
+  #sigTypeInput {
+    width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 26px; text-align: center;
+    font-family: 'Segoe Script','Brush Script MT', cursive; color: #0000FF;
   }
 </style>
 </head>
-<body>
+<body data-orientation="landscape">
 
 <div class="toolbar">
   <div>
     <button onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
     <button class="success" onclick="addEmployee()">➕ إضافة موظف</button>
     <button class="danger" onclick="clearAllInputs()">🧹 مسح جميع المدخلات</button>
+    <button onclick="openSettings()">⚙️ إعدادات الطباعة</button>
   </div>
   <div style="font-size:12px;color:#666;">
     أدخل القيم في الخلايا الصفراء — يُحسب المجموع تلقائياً
+  </div>
+</div>
+
+<!-- نافذة إعدادات الطباعة -->
+<div class="modal-bg" id="settingsModal">
+  <div class="modal-box">
+    <h3>⚙️ إعدادات الطباعة</h3>
+    <div class="frow">
+      <label>اتجاه الطباعة</label>
+      <select id="orientationSelect">
+        <option value="landscape">أفقي (Landscape) — موصى به لهذا الجدول</option>
+        <option value="portrait">عمودي (Portrait)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-print-cliche" onclick="printClicheOnly()">🖨️ طباعة الكليشة فقط</button>
+      <button class="btn-close" onclick="closeSettings()">إغلاق</button>
+      <button class="btn-save" onclick="saveSettings()">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة التوقيع الإلكتروني -->
+<div class="modal-bg" id="sigModal">
+  <div class="modal-box" style="max-width:480px;">
+    <h3>✒️ توقيع الموظف/ة</h3>
+    <div id="sigModeTabs">
+      <button type="button" class="active" id="tabDraw" onclick="setSigMode('draw')">🖊️ رسم بالقلم</button>
+      <button type="button" id="tabType" onclick="setSigMode('type')">⌨️ كتابة بخط اليد</button>
+    </div>
+    <div id="sigDrawArea">
+      <canvas id="sigCanvas" width="420" height="150"></canvas>
+      <div style="margin-top:8px;">
+        <button type="button" class="sig-btn" style="background:#C00000;" onclick="clearCanvas()">🧹 مسح</button>
+      </div>
+    </div>
+    <div id="sigTypeArea" style="display:none;">
+      <input type="text" id="sigTypeInput" placeholder="اكتب الاسم هنا">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-close" onclick="closeSignature()">إلغاء</button>
+      <button class="btn-save" onclick="saveSignature()">💾 حفظ التوقيع</button>
+    </div>
   </div>
 </div>
 
@@ -386,10 +495,23 @@
 
   <!-- الجدول الرئيسي -->
   <table class="main" id="mainTable">
+    <colgroup>
+      <col style="width:3%">
+      <col style="width:9%">
+      <col style="width:7%">
+      <col style="width:13%">
+      <col style="width:4.8%"><col style="width:4.8%">
+      <col style="width:4.8%"><col style="width:4.8%">
+      <col style="width:4.8%"><col style="width:4.8%">
+      <col style="width:4.8%"><col style="width:4.8%">
+      <col style="width:4.8%"><col style="width:4.8%">
+      <col style="width:10%"><col style="width:10%">
+    </colgroup>
     <thead>
       <tr>
         <th class="col-num" rowspan="2">م</th>
         <th class="col-name" rowspan="2">اسم الموظف</th>
+        <th class="sig-cell" rowspan="2">التوقيع</th>
         <th class="col-type" rowspan="2">نوع التأخر</th>
         <th colspan="2">الأحد</th>
         <th colspan="2">الاثنين</th>
@@ -441,6 +563,148 @@
 </div>
 
 <script>
+  /* ========== الإعدادات (الاتجاه/الكليشة) ========== */
+  const state = { printOrientation: localStorage.getItem('hh55_orientation') || 'landscape' };
+
+  function applyPrintOrientation(){
+    const o = state.printOrientation === 'portrait' ? 'portrait' : 'landscape';
+    document.getElementById('dynPageStyle').textContent = `@page { size: A4 ${o}; margin: 1.5cm; }`;
+    document.body.setAttribute('data-orientation', o);
+  }
+  function openSettings(){
+    document.getElementById('orientationSelect').value = state.printOrientation;
+    document.getElementById('settingsModal').classList.add('show');
+  }
+  function closeSettings(){ document.getElementById('settingsModal').classList.remove('show'); }
+  function saveSettings(){
+    state.printOrientation = document.getElementById('orientationSelect').value;
+    localStorage.setItem('hh55_orientation', state.printOrientation);
+    applyPrintOrientation();
+    closeSettings();
+  }
+  function printClicheOnly(){
+    closeSettings();
+    document.body.classList.add('cliche-print-mode');
+    window.print();
+    setTimeout(() => document.body.classList.remove('cliche-print-mode'), 300);
+  }
+  applyPrintOrientation();
+
+  /* ========== التوقيع الإلكتروني ========== */
+  let sigTargetEmp = null;
+  let sigMode = 'draw';
+  let sigDrawing = false;
+  let sigCtx = null;
+  let sigHasInk = false;
+
+  function openSignature(empIdx){
+    sigTargetEmp = empIdx;
+    setSigMode('draw');
+    clearCanvas();
+    document.getElementById('sigTypeInput').value = '';
+    const cell = document.getElementById(`sigCell${empIdx}`);
+    const existingImg = cell.querySelector('img');
+    document.getElementById('sigModal').classList.add('show');
+    initCanvasIfNeeded();
+    if (existingImg) drawExistingOnCanvas(existingImg.src);
+  }
+  function closeSignature(){ document.getElementById('sigModal').classList.remove('show'); }
+  function setSigMode(mode){
+    sigMode = mode;
+    document.getElementById('tabDraw').classList.toggle('active', mode === 'draw');
+    document.getElementById('tabType').classList.toggle('active', mode === 'type');
+    document.getElementById('sigDrawArea').style.display = mode === 'draw' ? 'block' : 'none';
+    document.getElementById('sigTypeArea').style.display = mode === 'type' ? 'block' : 'none';
+  }
+  function initCanvasIfNeeded(){
+    const canvas = document.getElementById('sigCanvas');
+    if (!sigCtx) sigCtx = canvas.getContext('2d');
+    sigCtx.lineWidth = 2.4;
+    sigCtx.lineCap = 'round';
+    sigCtx.strokeStyle = '#0000CC';
+    if (!canvas.dataset.bound) {
+      canvas.dataset.bound = '1';
+      const getPos = (e) => {
+        const r = canvas.getBoundingClientRect();
+        const p = e.touches ? e.touches[0] : e;
+        return { x: (p.clientX - r.left) * (canvas.width / r.width), y: (p.clientY - r.top) * (canvas.height / r.height) };
+      };
+      const start = (e) => { e.preventDefault(); sigDrawing = true; sigHasInk = true; const p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); };
+      const move = (e) => { if (!sigDrawing) return; e.preventDefault(); const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); };
+      const end = () => { sigDrawing = false; };
+      canvas.addEventListener('mousedown', start);
+      canvas.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', move, { passive: false });
+      canvas.addEventListener('touchend', end);
+    }
+  }
+  function clearCanvas(){
+    const canvas = document.getElementById('sigCanvas');
+    if (!sigCtx) sigCtx = canvas.getContext('2d');
+    sigCtx.clearRect(0, 0, canvas.width, canvas.height);
+    sigHasInk = false;
+  }
+  function drawExistingOnCanvas(src){
+    const canvas = document.getElementById('sigCanvas');
+    const img = new Image();
+    img.onload = () => { sigCtx.drawImage(img, 10, (canvas.height - img.height) / 2 > 0 ? (canvas.height - img.height) / 2 : 5); sigHasInk = true; };
+    img.src = src;
+  }
+  // يقصّ التوقيع تلقائيًا على حدود الحبر فقط، بخلفية شفافة
+  function trimCanvas(canvas){
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const data = ctx.getImageData(0, 0, w, h).data;
+    let minX = w, minY = h, maxX = 0, maxY = 0, found = false;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const alpha = data[(y * w + x) * 4 + 3];
+        if (alpha > 10) {
+          found = true;
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+        }
+      }
+    }
+    if (!found) return canvas.toDataURL('image/png');
+    const pad = 6;
+    minX = Math.max(0, minX - pad); minY = Math.max(0, minY - pad);
+    maxX = Math.min(w, maxX + pad); maxY = Math.min(h, maxY + pad);
+    const tw = maxX - minX, th = maxY - minY;
+    const out = document.createElement('canvas');
+    out.width = tw; out.height = th;
+    out.getContext('2d').drawImage(canvas, minX, minY, tw, th, 0, 0, tw, th);
+    return out.toDataURL('image/png');
+  }
+  function saveSignature(){
+    if (sigTargetEmp == null) return;
+    let dataUrl;
+    if (sigMode === 'type') {
+      const name = document.getElementById('sigTypeInput').value.trim();
+      if (!name) { alert('الرجاء كتابة الاسم'); return; }
+      const tmp = document.createElement('canvas');
+      tmp.width = 420; tmp.height = 120;
+      const tctx = tmp.getContext('2d');
+      tctx.font = "44px 'Segoe Script','Brush Script MT',cursive";
+      tctx.fillStyle = '#0000CC';
+      tctx.textBaseline = 'middle';
+      tctx.fillText(name, 10, 60);
+      dataUrl = trimCanvas(tmp);
+    } else {
+      if (!sigHasInk) { alert('الرجاء رسم التوقيع أولاً'); return; }
+      dataUrl = trimCanvas(document.getElementById('sigCanvas'));
+    }
+    const cell = document.getElementById(`sigCell${sigTargetEmp}`);
+    cell.innerHTML = `
+      <img class="sig-thumb" src="${dataUrl}" alt="توقيع">
+      <button type="button" class="sig-edit-btn" onclick="openSignature(${sigTargetEmp})">✏️ تعديل</button>`;
+    closeSignature();
+  }
+
+</script>
+<script>
   const VIOLATION_TYPES = [
     "التأخر الصباحي",
     "التأخر عن دخول الحصص",
@@ -481,6 +745,13 @@
         inp.placeholder = `............ (${empIdx})`;
         tdName.appendChild(inp);
         tr.appendChild(tdName);
+
+        const tdSig = document.createElement('td');
+        tdSig.className = 'sig-cell';
+        tdSig.rowSpan = VIOLATION_TYPES.length + 1;
+        tdSig.id = `sigCell${empIdx}`;
+        tdSig.innerHTML = `<button type="button" class="sig-btn" onclick="openSignature(${empIdx})">✒️ توقيع</button>`;
+        tr.appendChild(tdSig);
       }
 
       // عمود نوع التأخر

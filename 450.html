@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة اللجان والفرق المدرسية</title>
+<title>منصة التوقيع الإلكتروني على التعاميم والنشرات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&family=Aref+Ruqaa:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -21,30 +21,22 @@ h1,h2,h3,h4{font-family:'Cairo','Tajawal',sans-serif;}
 
 /* ===== App shell ===== */
 #app{display:flex;min-height:100vh;}
-.sidebar{
-  width:260px;flex:0 0 260px;background:linear-gradient(165deg,var(--navy-3),var(--navy) 55%,var(--navy-2));
-  color:#fff;display:flex;flex-direction:column;padding:22px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;
-}
+.sidebar{width:260px;flex:0 0 260px;background:linear-gradient(165deg,var(--navy-3),var(--navy) 55%,var(--navy-2));color:#fff;display:flex;flex-direction:column;padding:22px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;}
 .brand{display:flex;align-items:center;gap:10px;padding:0 6px 20px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:14px;}
 .brand-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--teal),var(--gold));display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto;}
-.brand-title{font-weight:800;font-size:1.02rem;}
+.brand-title{font-weight:800;font-size:1.0rem;}
 .brand-sub{font-size:.72rem;color:#b9c4d8;}
-.nav-item{
-  display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;color:#dce4f2;
-  cursor:pointer;font-weight:700;font-size:.92rem;margin-bottom:4px;transition:.2s;
-}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;color:#dce4f2;cursor:pointer;font-weight:700;font-size:.9rem;margin-bottom:4px;transition:.2s;}
 .nav-item .ic{font-size:1.05rem;width:22px;text-align:center;}
 .nav-item:hover{background:rgba(255,255,255,.08);}
 .nav-item.active{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:var(--navy-3);}
-.sidebar-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:.7rem;color:#9fb0cb;text-align:center;}
+.sidebar-footer{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);font-size:.68rem;color:#9fb0cb;text-align:center;}
+.sidebar-footer a{color:#cdd8ec;}
 
 .main{flex:1;min-width:0;display:flex;flex-direction:column;}
-.topbar{
-  background:var(--surface);border-bottom:1px solid var(--border);padding:16px 26px;
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;
-}
-.topbar h1{font-size:1.15rem;color:var(--navy);}
-.today-chip{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.8rem;color:var(--muted);font-weight:700;}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 26px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;}
+.topbar h1{font-size:1.1rem;color:var(--navy);}
+.today-chip{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:.78rem;color:var(--muted);font-weight:700;}
 .indicator-pills{display:flex;gap:8px;}
 .pill-ind{width:34px;height:34px;border-radius:10px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;}
 .pill-ind:hover{background:#eef1f7;}
@@ -54,44 +46,45 @@ h1,h2,h3,h4{font-family:'Cairo','Tajawal',sans-serif;}
 .panel.active{display:block;animation:fadeIn .35s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
-.section-title-bar{display:flex;align-items:center;gap:10px;margin:26px 0 14px;}
+.section-title-bar{display:flex;align-items:center;gap:10px;margin:26px 0 14px;break-after:avoid;}
 .section-title-bar:first-child{margin-top:0;}
 .section-title-bar .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:0 0 auto;}
-.section-title-bar h2,.section-title-bar h3{font-size:1.05rem;color:var(--navy);}
+.section-title-bar h2,.section-title-bar h3{font-size:1.02rem;color:var(--navy);}
 
 /* ===== Home ===== */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:8px;}
 .stat-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;text-align:center;}
-.stat-card .num{font-size:1.7rem;font-weight:800;color:var(--gold);}
-.stat-card .lbl{font-size:.82rem;color:var(--muted);font-weight:700;margin-top:4px;}
+.stat-card .num{font-size:1.6rem;font-weight:800;color:var(--gold);}
+.stat-card .lbl{font-size:.8rem;color:var(--muted);font-weight:700;margin-top:4px;}
 .shortcut-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;}
-.shortcut-card{
-  background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;cursor:pointer;
-  border-inline-start:4px solid var(--teal);transition:.2s;
-}
+.shortcut-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;cursor:pointer;border-inline-start:4px solid var(--teal);transition:.2s;}
 .shortcut-card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(18,42,77,.14);}
-.shortcut-card .ic{font-size:1.4rem;margin-bottom:6px;}
-.shortcut-card h4{color:var(--navy);font-size:.95rem;margin-bottom:4px;}
-.shortcut-card p{font-size:.78rem;color:var(--muted);}
+.shortcut-card .ic{font-size:1.35rem;margin-bottom:6px;}
+.shortcut-card h4{color:var(--navy);font-size:.92rem;margin-bottom:4px;}
+.shortcut-card p{font-size:.76rem;color:var(--muted);}
 
 /* ===== Cards / tables ===== */
-.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;}
+.card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;break-inside:avoid;page-break-inside:avoid;}
 .card.accent-gold{border-inline-start:4px solid var(--gold);}
 .card.accent-teal{border-inline-start:4px solid var(--teal);}
 .two-col{display:flex;gap:18px;flex-wrap:wrap;}
 .two-col>div{flex:1;min-width:230px;}
-ul.plain{padding-inline-start:20px;}
-ul.plain li{margin-bottom:5px;font-size:.92rem;}
 
 .table-responsive{overflow-x:auto;width:100%;margin-bottom:6px;}
-table{width:100%;border-collapse:collapse;background:var(--surface);font-size:.9rem;}
+table{width:100%;border-collapse:collapse;background:var(--surface);font-size:.88rem;}
 th,td{border:1px solid var(--border);padding:9px 10px;text-align:center;vertical-align:middle;}
-th{background:var(--navy);color:#fff;font-weight:700;font-size:.85rem;}
-td[contenteditable="true"]{cursor:text;transition:.15s;}
-td[contenteditable="true"]:hover,td[contenteditable="true"]:focus{background:#f0fbf8;outline:none;}
+th{background:var(--navy);color:#fff;font-weight:700;font-size:.82rem;}
+tr{break-inside:avoid;page-break-inside:avoid;}
 
-.editable{display:inline-block;min-width:40px;border-bottom:1px dashed var(--teal);color:var(--navy);font-weight:700;padding:0 4px;outline:none;}
-.editable:focus{background:#f0fbf8;border-bottom:2px solid var(--teal);}
+textarea.field-ta{width:100%;border:1px solid var(--border);border-radius:9px;padding:9px 12px;font-family:inherit;font-size:.88rem;background:#fff;resize:vertical;min-height:40px;overflow:hidden;}
+textarea.field-ta:focus{outline:none;border-color:var(--teal);background:#f0fbf8;}
+.print-mirror{display:none;white-space:pre-wrap;word-break:break-word;font-size:.88rem;padding:9px 12px;border:1px solid transparent;}
+
+.field{margin-bottom:14px;break-inside:avoid;page-break-inside:avoid;}
+.field label{display:block;font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.field input[type=text],.field input[type=date],.field select{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.88rem;background:#fff;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--teal);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;break-inside:avoid;page-break-inside:avoid;}
 
 .controls{display:flex;gap:8px;justify-content:flex-end;margin-bottom:14px;flex-wrap:wrap;}
 .btn{border:none;padding:9px 16px;border-radius:9px;cursor:pointer;font-size:.85rem;font-weight:700;font-family:inherit;transition:.15s;}
@@ -102,289 +95,314 @@ td[contenteditable="true"]:hover,td[contenteditable="true"]:focus{background:#f0
 .btn-gold{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:var(--navy-3);}
 .btn-danger{background:#e5484d;color:#fff;}
 .btn-outline{background:#fff;border:1px solid var(--border);color:var(--navy);}
-.btn-sm{padding:5px 11px;font-size:.76rem;}
+.btn-sm{padding:5px 11px;font-size:.75rem;}
 .icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:.85rem;}
 
-/* pill tabs (committees) */
-.pill-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
-.pill-btn{background:var(--surface);border:1px solid var(--border);padding:9px 18px;border-radius:22px;cursor:pointer;font-weight:700;font-size:.85rem;color:var(--text);transition:.2s;}
-.pill-btn:hover{background:#eef1f7;}
-.pill-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-.committee-tab{display:none;}
-.committee-tab.active{display:block;animation:fadeIn .3s ease;}
+/* badges / progress */
+.badge{display:inline-block;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap;}
+.badge-circ{background:#eaf2ff;color:#1b4fa0;border:1px solid #c6dbff;}
+.badge-bulletin{background:#eefaf6;color:#0f7a72;border:1px solid #bfe9de;}
+.badge-ethics{background:#fdf3e0;color:#8a6413;border:1px solid #f2ddab;}
+.badge-other{background:#f1f2f5;color:#4b5563;border:1px solid #dfe2e8;}
+.progress-wrap{background:#eef1f7;border-radius:20px;height:9px;overflow:hidden;margin-top:6px;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-2));border-radius:20px;}
 
-.meeting-card{border-inline-start:4px solid var(--gold);}
-.meeting-card h4.mt-title{color:var(--navy);font-size:1.05rem;margin-bottom:12px;}
-select.meeting-title-select{font-family:inherit;font-weight:800;font-size:1.05rem;color:var(--navy);border:none;background:transparent;padding:4px 2px;cursor:pointer;}
-.time-sentence{font-weight:700;margin:10px 0;font-size:.92rem;}
-.agenda-list{padding-inline-start:20px;}
-.agenda-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:.92rem;list-style:disc;}
-.agenda-row.urgent{list-style:none;margin-inline-start:-20px;padding-inline-start:0;}
-.agenda-text{outline:none;flex:1;}
-.agenda-text[contenteditable="true"]:focus{background:#f0fbf8;border-radius:6px;padding:2px 6px;}
-.badge-urgent{background:#fdecea;color:#c0392b;border:1px solid #f5b7b1;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap;}
-.agenda-row .icon-btn{width:24px;height:24px;font-size:.7rem;line-height:1;}
-.not-impl-box{min-height:70px;border:1px dashed var(--border);border-radius:10px;padding:12px;margin-bottom:14px;background:#fafbfd;}
-.closing-line{font-weight:700;text-align:left;margin-top:14px;font-size:.9rem;color:var(--muted);}
+/* document list cards */
+.doc-card{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border-inline-start:4px solid var(--teal);break-inside:avoid;page-break-inside:avoid;}
+.doc-card .doc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;}
+.doc-card h4{color:var(--navy);font-size:1rem;}
+.doc-card .meta{font-size:.78rem;color:var(--muted);margin-top:3px;}
+.doc-card .actions{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;}
 
 /* signature */
-.sig-cell{min-width:110px;}
-.sig-img{max-height:34px;max-width:100px;}
+.sig-cell{min-width:120px;}
+.sig-img{max-height:36px;max-width:110px;}
 .sig-btn{background:var(--bg);border:1px dashed var(--teal);color:var(--teal);border-radius:8px;padding:5px 10px;font-size:.74rem;cursor:pointer;font-weight:700;}
+.status-signed{color:var(--teal);font-weight:800;}
+.status-pending{color:#c0392b;font-weight:800;}
 
-/* notifications */
-.notif-item{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px;margin-bottom:10px;}
-.notif-item .ic{font-size:1.2rem;}
-.notif-item .txt{font-size:.86rem;color:var(--text);}
-.notif-item .txt small{display:block;color:var(--muted);margin-top:2px;}
+/* modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(12,20,40,.55);z-index:60;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:16px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.25);}
+.modal-box h3{color:var(--navy);margin-bottom:14px;font-size:1rem;}
+.modal-close-row{display:flex;justify-content:flex-end;margin-top:16px;gap:8px;}
+.sig-tabs{display:flex;gap:8px;margin-bottom:12px;}
+.sig-tab-btn{flex:1;padding:8px;border-radius:9px;border:1px solid var(--border);background:#fff;cursor:pointer;font-weight:700;font-size:.82rem;color:var(--muted);}
+.sig-tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+#sigCanvas{width:100%;height:160px;border:2px dashed var(--border);border-radius:12px;background:#fafbfd;touch-action:none;}
+#sigTypeInput{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.9rem;margin-bottom:12px;}
+#sigTypePreview{font-family:'Aref Ruqaa',cursive;font-size:2rem;text-align:center;padding:18px;border:2px dashed var(--border);border-radius:12px;min-height:70px;color:#111;background:#fafbfd;}
+.doc-view-content{white-space:pre-wrap;line-height:1.9;font-size:.94rem;background:#fafbfd;border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px;}
+.file-preview{margin-bottom:16px;}
+.file-preview img{max-width:100%;border-radius:10px;border:1px solid var(--border);}
+.file-preview embed{width:100%;height:520px;border-radius:10px;border:1px solid var(--border);}
 
 /* settings */
 .field-row{margin-bottom:14px;}
 .field-row label{display:block;font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
-.field-row input[type=text],.field-row select{
-  width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.88rem;background:#fff;
-}
+.field-row input[type=text],.field-row select{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:.88rem;background:#fff;}
 .logo-box{width:90px;height:90px;border:2px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;overflow:hidden;background:#fafbfd;}
 .logo-box img{max-width:100%;max-height:100%;object-fit:contain;}
 .logo-edit-btn{position:absolute;bottom:-2px;left:-2px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;border:2px solid #fff;font-size:.72rem;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.theme-choice-grid{display:flex;gap:14px;flex-wrap:wrap;}
+.theme-choice{flex:1;min-width:180px;border:2px solid var(--border);border-radius:12px;padding:10px;cursor:pointer;text-align:center;}
+.theme-choice.active{border-color:var(--teal);background:#f0fbf8;}
+.theme-choice .tprev{height:60px;border-radius:8px;margin-bottom:8px;}
 
-/* cliché preview / print */
-.cliche-wrap{background:#fff;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.cliche{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #e6e6e6;}
-.cliche .col{flex:1;font-size:.8rem;line-height:1.5;}
-.cliche .col-right{text-align:right;font-weight:800;color:#16324f;}
-.cliche .col-mid{text-align:center;}
-.cliche .col-mid .moe{font-weight:800;color:#0f7a72;font-size:.85rem;}
-.cliche .col-mid .moe-en{font-size:.62rem;color:#7a8698;direction:ltr;}
-.cliche .col-left{text-align:left;font-weight:700;color:#16324f;}
-.cliche-logo{width:56px;height:28px;margin:0 auto 3px;display:block;}
+/* cliché */
+#printWrapTable{width:100%;border-collapse:collapse;}
+#printWrapTable>thead{display:none;}
+.cliche-default{border-bottom:1px solid #e6e6e6;padding:10px 4px 14px;}
+.cliche-default .row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.cliche-default .right b{display:block;color:#16324f;font-size:.85rem;}
+.cliche-default .mid{text-align:center;}
+.cliche-default .mid .moe{color:#0f7a72;font-weight:800;font-size:.82rem;margin-top:2px;}
+.cliche-default .mid .en{color:#7a8698;font-size:8.5px;direction:ltr;}
+.cliche-default .left{text-align:left;font-size:.82rem;color:#16324f;font-weight:700;}
+.cliche-identity{border-radius:0 0 4px 4px;overflow:hidden;}
+.cliche-identity .strip{height:8px;background:linear-gradient(90deg,#59c7ac,#173a34);border-radius:8px 8px 0 0;}
+.cliche-identity .box{background:linear-gradient(135deg,#173a34,#0c211d);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.cliche-identity .right{text-align:right;}
+.cliche-identity .moe{color:#59c7ac;font-weight:800;font-size:.85rem;}
+.cliche-identity .en{color:#c8d2cf;font-size:8.5px;direction:ltr;}
+.cliche-identity .left{color:#eafaf5;font-weight:700;font-size:.82rem;}
+.cliche-identity .pill-wrap{text-align:center;margin-top:-10px;}
+.cliche-identity .pill{display:inline-block;background:#fff;border:1px solid #173a34;border-radius:20px;padding:6px 22px;font-weight:800;color:#173a34;font-size:.82rem;}
+#clichePreviewMount{margin-bottom:10px;}
 
-#printClicheHead{display:none;}
-
-.footer-credit{margin-top:auto;text-align:center;font-size:.8rem;color:var(--muted);padding:22px 0 10px;}
-.footer-credit a{color:var(--teal);font-weight:700;text-decoration:none;background:#f0fbf8;padding:5px 12px;border-radius:8px;border:1px dashed var(--teal-2);}
-
-/* modal */
-.modal-overlay{position:fixed;inset:0;background:rgba(15,25,45,.55);display:none;align-items:center;justify-content:center;z-index:999;}
-.modal-overlay.open{display:flex;}
-.modal-box{background:#fff;border-radius:16px;padding:22px;width:min(420px,92vw);box-shadow:0 20px 50px rgba(0,0,0,.25);}
-.modal-box h3{color:var(--navy);margin-bottom:14px;font-size:1rem;}
-.sig-tabs{display:flex;gap:8px;margin-bottom:12px;}
-.sig-tab-btn{flex:1;padding:8px;border-radius:8px;border:1px solid var(--border);background:#fafbfd;cursor:pointer;font-weight:700;font-size:.82rem;}
-.sig-tab-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-#sigCanvas{border:1px dashed var(--border);border-radius:10px;width:100%;height:150px;touch-action:none;background:#fff;}
-#sigTypeInput{width:100%;padding:10px;border:1px solid var(--border);border-radius:9px;font-size:1.1rem;margin-bottom:8px;}
-#sigTypePreview{font-family:'Aref Ruqaa',cursive;font-size:2rem;text-align:center;padding:20px 0;color:#111;min-height:70px;}
-.modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end;}
-
-/* ===== Print ===== */
-@page{ size:A4 portrait; margin:1.5cm; }
+.no-print{}
 @media print{
-  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;}
-  body{background:#fff;font-size:11.5pt;color:#000;}
-  #app{display:block;}
-  .no-print{display:none!important;}
-  .sidebar,.topbar{display:none!important;}
-  .main{width:100%;}
-  .content{padding:0;}
-  .panel{display:none!important;}
-  #panel-committees{display:block!important;}
-  .committee-tab{display:none!important;}
-  .committee-tab.active{display:block!important;}
-  .pill-tabs{display:none!important;}
-
-  #printClicheHead{display:table-header-group!important;}
-  #printWrapTable{width:100%;border-collapse:collapse;}
-  #printWrapTable>tbody>tr>td{padding:0;}
-
-  .card{box-shadow:none;border:1px solid #000;break-inside:avoid;page-break-inside:avoid;}
-  .two-col,.field-row,.sig-cell{break-inside:avoid;page-break-inside:avoid;}
-  tr{break-inside:avoid;page-break-inside:avoid;}
-  .agenda-row{break-inside:avoid;page-break-inside:avoid;}
-  .badge-urgent{border:1px solid #000!important;background:#eee!important;color:#000!important;}
-  .section-title-bar{break-after:avoid;page-break-after:avoid;}
-  .section-title-bar h2,.section-title-bar h3{color:#000;}
-  .section-title-bar .dot{background:#000;}
-
-  .meeting-card{page-break-before:always!important;break-inside:avoid-page;border:1px solid #000!important;margin-top:0;}
-  .meeting-card:first-of-type{page-break-before:auto!important;}
-  .meeting-card h4.mt-title,select.meeting-title-select{color:#000!important;text-align:center;font-size:15pt;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px;-webkit-appearance:none;appearance:none;background:none!important;pointer-events:none;}
-
-  table{width:100%!important;table-layout:fixed;border:1px solid #000;}
-  th,td{border:1px solid #000;color:#000;padding:6px;word-break:break-word;overflow-wrap:break-word;}
-  th{background:#e9e9e9!important;}
-  thead{display:table-header-group;}
+  .no-print,#app>.sidebar,.topbar,.controls,.modal-overlay,.sig-btn,.actions button,textarea.field-ta{display:none!important;}
+  textarea.field-ta{display:none!important;}
+  .print-mirror.show-print{display:block!important;}
+  #app{display:block!important;}
+  body{padding-top:0;}
+  #printWrapTable>thead{display:table-header-group!important;}
+  .cliche-default,.cliche-identity{display:block!important;}
+  body[data-print-cliche="off"] #clicheMount{display:none!important;}
+  table{table-layout:fixed;width:100%;word-break:break-word;}
   .table-responsive{overflow:visible!important;}
-  .editable{border-bottom:none!important;color:#000!important;}
-  td[contenteditable="true"]{background:transparent!important;}
-
-  .footer-credit{display:none!important;}
+  *{print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  body[data-print-orient="landscape"]{font-size:1.02rem;}
+  body[data-print-orient="portrait"]{font-size:.92rem;}
 }
-body[data-print-orient="landscape"] table{font-size:.95rem;}
 </style>
 </head>
 <body>
-
-<table id="printWrapTable">
-<thead id="printClicheHead"><tr><td>
-  <div class="cliche" id="clicheRenderTarget"></div>
-</td></tr></thead>
-<tbody><tr><td>
-
 <div id="app">
   <aside class="sidebar no-print">
     <div class="brand">
-      <div class="brand-logo">🗂️</div>
+      <div class="brand-logo">✒️</div>
       <div>
-        <div class="brand-title">اللجان والفرق المدرسية</div>
-        <div class="brand-sub">تصميم د/فواز</div>
+        <div class="brand-title">منصة التوقيع الإلكتروني</div>
+        <div class="brand-sub">التعاميم والنشرات وميثاق الأخلاقيات</div>
       </div>
     </div>
-    <div class="nav-item active" data-panel="panel-home"><span class="ic">🏠</span> الرئيسية</div>
-    <div class="nav-item" data-panel="panel-committees"><span class="ic">🧩</span> اللجان المدرسية</div>
-    <div class="nav-item" data-panel="panel-meetings"><span class="ic">🗓️</span> سجل الاجتماعات</div>
-    <div class="nav-item" data-panel="panel-notifications"><span class="ic">🔔</span> التنبيهات</div>
-    <div class="nav-item" data-panel="panel-settings"><span class="ic">⚙️</span> الإعدادات</div>
-    <div class="sidebar-footer">منصة اللجان والفرق المدرسية<br>تصميم د/فواز</div>
+    <div class="nav-item active" data-panel="home" onclick="switchPanel('home')"><span class="ic">🏠</span> الرئيسية</div>
+    <div class="nav-item" data-panel="docs" onclick="switchPanel('docs')"><span class="ic">📋</span> سجل التعاميم والنشرات</div>
+    <div class="nav-item" data-panel="newdoc" onclick="switchPanel('newdoc')"><span class="ic">➕</span> إصدار تعميم / نشرة</div>
+    <div class="nav-item" data-panel="ethics" onclick="switchPanel('ethics')"><span class="ic">📜</span> ميثاق أخلاقيات المهنة</div>
+    <div class="nav-item" data-panel="staff" onclick="switchPanel('staff')"><span class="ic">👥</span> قائمة الموظفين والموظفات</div>
+    <div class="nav-item" data-panel="reports" onclick="switchPanel('reports')"><span class="ic">📊</span> التقارير</div>
+    <div class="nav-item" data-panel="settings" onclick="switchPanel('settings')"><span class="ic">⚙️</span> الإعدادات</div>
+    <div class="sidebar-footer">تصميم د/فواز — <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تفضل للمزيد هنا</a></div>
   </aside>
 
   <div class="main">
-    <header class="topbar no-print">
-      <h1 id="topbarTitle">الرئيسية</h1>
+    <div class="topbar no-print">
+      <h1 id="panelTitle">الرئيسية</h1>
       <div style="display:flex;align-items:center;gap:12px;">
         <span class="today-chip" id="todayChip"></span>
         <div class="indicator-pills">
           <div class="pill-ind" title="حفظ تلقائي">💾</div>
-          <div class="pill-ind" title="طباعة" onclick="printCurrentCommittee()">🖨️</div>
-          <div class="pill-ind" title="نسخ احتياطي" onclick="switchPanel('panel-settings')">📦</div>
+          <div class="pill-ind" title="طباعة" onclick="window.print()">🖨️</div>
+          <div class="pill-ind" title="نسخ احتياطي" onclick="switchPanel('settings')">📦</div>
         </div>
       </div>
-    </header>
+    </div>
 
     <div class="content">
+      <table id="printWrapTable"><thead><tr><td>
+        <div id="clicheMount"></div>
+      </td></tr></thead><tbody><tr><td>
 
-      <!-- ===== الرئيسية ===== -->
-      <section id="panel-home" class="panel active">
-        <div class="section-title-bar"><span class="dot"></span><h2>نظرة عامة</h2></div>
-        <div class="stat-grid">
-          <div class="stat-card"><div class="num">6</div><div class="lbl">لجان مدرسية</div></div>
-          <div class="stat-card"><div class="num">18</div><div class="lbl">اجتماعات دورية</div></div>
-          <div class="stat-card"><div class="num">6</div><div class="lbl">اجتماعات طارئة محتملة</div></div>
-          <div class="stat-card"><div class="num" id="statYear">١٤٤٦هـ</div><div class="lbl">العام الدراسي</div></div>
+      <!-- الرئيسية -->
+      <div class="panel active" id="panel-home">
+        <div class="stat-grid" id="homeStats"></div>
+        <div class="section-title-bar"><span class="dot"></span><h2>اختصارات سريعة</h2></div>
+        <div class="shortcut-grid">
+          <div class="shortcut-card" onclick="switchPanel('newdoc')"><div class="ic">➕</div><h4>إصدار تعميم جديد</h4><p>رفع تعميم أو نشرة داخلية جديدة للتوقيع عليها</p></div>
+          <div class="shortcut-card" onclick="switchPanel('docs')"><div class="ic">📋</div><h4>سجل التعاميم والنشرات</h4><p>عرض جميع التعاميم ومتابعة حالة التوقيع</p></div>
+          <div class="shortcut-card" onclick="switchPanel('ethics')"><div class="ic">📜</div><h4>ميثاق أخلاقيات المهنة</h4><p>الاطلاع على الميثاق والتوقيع عليه</p></div>
+          <div class="shortcut-card" onclick="switchPanel('staff')"><div class="ic">👥</div><h4>قائمة الموظفين والموظفات</h4><p>إدارة أسماء من يجب عليهم التوقيع</p></div>
         </div>
+        <div class="section-title-bar"><span class="dot"></span><h2>أحدث التعاميم</h2></div>
+        <div id="homeRecent"></div>
+      </div>
 
-        <div class="section-title-bar"><span class="dot"></span><h3>اللجان</h3></div>
-        <div class="shortcut-grid" id="shortcutGrid"></div>
-      </section>
+      <!-- سجل التعاميم -->
+      <div class="panel" id="panel-docs">
+        <div class="controls no-print">
+          <input type="text" id="docSearch" placeholder="بحث بعنوان التعميم..." style="padding:9px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;min-width:220px;" oninput="renderDocsList()">
+          <select id="docFilterType" onchange="renderDocsList()" style="padding:9px 12px;border:1px solid var(--border);border-radius:9px;font-family:inherit;">
+            <option value="">كل الأنواع</option>
+            <option value="تعميم">تعميم</option>
+            <option value="نشرة داخلية">نشرة داخلية</option>
+            <option value="ميثاق أخلاقيات المهنة">ميثاق أخلاقيات المهنة</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+        <div id="docsListWrap"></div>
+      </div>
 
-      <!-- ===== اللجان المدرسية ===== -->
-      <section id="panel-committees" class="panel">
-        <div class="pill-tabs no-print" id="pillTabs"></div>
-        <div id="committeesMount"></div>
-      </section>
-
-      <!-- ===== سجل الاجتماعات (دليل سريع) ===== -->
-      <section id="panel-meetings" class="panel">
-        <div class="section-title-bar"><span class="dot"></span><h2>دليل الاجتماعات</h2></div>
-        <div class="card">
-          <div class="table-responsive">
-            <table id="meetingsIndexTable">
-              <thead><tr><th>اللجنة</th><th>عنوان الاجتماع</th><th>انتقال</th></tr></thead>
-              <tbody></tbody>
-            </table>
+      <!-- إصدار تعميم جديد -->
+      <div class="panel" id="panel-newdoc">
+        <div class="card accent-teal">
+          <div class="field"><label>عنوان التعميم / النشرة</label><input type="text" id="ndTitle" placeholder="مثال: تعميم بشأن مواعيد الدوام الصيفي"></div>
+          <div class="grid">
+            <div class="field"><label>النوع</label>
+              <select id="ndType">
+                <option value="تعميم">تعميم</option>
+                <option value="نشرة داخلية">نشرة داخلية</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+            </div>
+            <div class="field"><label>تاريخ الإصدار</label><input type="date" id="ndDate"></div>
           </div>
+          <div class="field"><label>نص التعميم (اختياري إن تم رفع ملف)</label><textarea class="field-ta" id="ndContent" rows="6" oninput="autoGrow(this)"></textarea></div>
+          <div class="field"><label>أو رفع ملف (PDF / صورة)</label>
+            <input type="file" id="ndFile" accept="application/pdf,image/*" onchange="handleNdFile(event)">
+            <div id="ndFileName" style="font-size:.78rem;color:var(--muted);margin-top:4px;"></div>
+          </div>
+          <div class="field"><label>ملاحظات (اختياري)</label><textarea class="field-ta" id="ndNotes" rows="2" oninput="autoGrow(this)"></textarea></div>
+          <div class="controls"><button class="btn btn-gold" onclick="publishDocument()">✒️ إصدار ورفع للتوقيع</button></div>
         </div>
-      </section>
+      </div>
 
-      <!-- ===== التنبيهات ===== -->
-      <section id="panel-notifications" class="panel">
-        <div class="section-title-bar"><span class="dot"></span><h2>التنبيهات</h2></div>
-        <div id="notifList"></div>
-      </section>
+      <!-- ميثاق أخلاقيات المهنة -->
+      <div class="panel" id="panel-ethics">
+        <div id="ethicsWrap"></div>
+      </div>
 
-      <!-- ===== الإعدادات ===== -->
-      <section id="panel-settings" class="panel">
-        <div class="section-title-bar"><span class="dot"></span><h2>ترويسة الطباعة (الكليشة)</h2></div>
-        <div class="card">
-          <div class="two-col">
-            <div>
-              <div class="field-row"><label>منطقة التعليم</label><input type="text" id="settingRegion" placeholder="مثال: الرياض"></div>
-              <div class="field-row"><label>اسم المدرسة</label><input type="text" id="settingSchool" placeholder="اسم المدرسة"></div>
-              <div class="field-row"><label>العام الدراسي</label><input type="text" id="settingYear" placeholder="١٤٤٦ هـ"></div>
-              <div class="field-row">
-                <label>اتجاه الطباعة</label>
-                <select id="settingOrientation">
-                  <option value="portrait">عمودي</option>
-                  <option value="landscape">أفقي</option>
-                </select>
+      <!-- قائمة الموظفين -->
+      <div class="panel" id="panel-staff">
+        <div class="card accent-gold">
+          <div class="grid">
+            <div class="field"><label>الاسم</label><input type="text" id="stName" placeholder="اسم المعلم/ة أو الموظف/ة"></div>
+            <div class="field"><label>الوظيفة / الدور</label><input type="text" id="stRole" placeholder="مثال: معلم/ة، وكيل/ة، إداري/ة"></div>
+          </div>
+          <div class="controls"><button class="btn btn-teal" onclick="addStaff()">➕ إضافة</button></div>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <colgroup><col style="width:8%"><col style="width:35%"><col style="width:30%"><col style="width:27%"></colgroup>
+            <thead><tr><th>#</th><th>الاسم</th><th>الوظيفة / الدور</th><th class="no-print">إجراءات</th></tr></thead>
+            <tbody id="staffTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- التقارير -->
+      <div class="panel" id="panel-reports">
+        <div class="section-title-bar"><span class="dot"></span><h2>نسبة الإنجاز حسب التعميم</h2></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>عنوان التعميم</th><th>النوع</th><th>عدد الموقّعين</th><th>الإجمالي</th><th>نسبة الإنجاز</th></tr></thead>
+            <tbody id="reportDocsBody"></tbody>
+          </table>
+        </div>
+        <div class="section-title-bar"><span class="dot"></span><h2>متابعة التوقيع حسب الموظف/ة</h2></div>
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>الاسم</th><th>الوظيفة</th><th>عدد التعاميم الموقّعة</th><th>عدد التعاميم المتبقية</th></tr></thead>
+            <tbody id="reportStaffBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- الإعدادات -->
+      <div class="panel" id="panel-settings">
+        <div class="card no-print">
+          <div class="section-title-bar" style="margin-top:0;"><span class="dot"></span><h3>ترويسة الطباعة (الكليشة)</h3></div>
+          <div id="clichePreviewMount"></div>
+          <div class="grid">
+            <div class="field-row"><label>إدارة التعليم بالمنطقة</label><input type="text" id="setRegion" oninput="onSettingsInput()"></div>
+            <div class="field-row"><label>اسم المدرسة</label><input type="text" id="setSchool" oninput="onSettingsInput()"></div>
+          </div>
+          <div class="field-row">
+            <label>شعار المدرسة / الإدارة</label>
+            <div class="logo-box" onclick="document.getElementById('logoUpload').click()">
+              <img id="logoPreviewImg" style="display:none;">
+              <span id="logoPlaceholder" style="font-size:1.4rem;">🖼️</span>
+              <div class="logo-edit-btn">✏️</div>
+            </div>
+            <input type="file" id="logoUpload" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+            <button class="btn btn-outline btn-sm" style="margin-top:8px;display:none;" id="removeLogoBtn" onclick="removeLogo()">🗑️ إزالة الشعار</button>
+          </div>
+          <div class="field-row"><label>الهوية البصرية</label>
+            <div class="theme-choice-grid">
+              <div class="theme-choice" id="themeChoiceDefault" onclick="setTheme('default')">
+                <div class="tprev" style="background:linear-gradient(135deg,#122a4d,#0f7a72);"></div>التصميم الأول (الافتراضي)
+              </div>
+              <div class="theme-choice" id="themeChoiceIdentity" onclick="setTheme('identity')">
+                <div class="tprev" style="background:linear-gradient(135deg,#173a34,#59c7ac);"></div>التصميم الثاني (الهوية الوطنية)
               </div>
             </div>
-            <div>
-              <label style="display:block;font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:8px;">شعار المدرسة</label>
-              <div class="logo-box" id="logoBox" onclick="document.getElementById('logoUpload').click()">
-                <span id="logoPlaceholderTxt" style="font-size:.7rem;color:var(--muted);text-align:center;">+ شعار</span>
-                <img id="logoImg" style="display:none;">
-                <div class="logo-edit-btn">✏️</div>
-              </div>
-              <input type="file" id="logoUpload" accept="image/*" style="display:none;">
-              <button class="btn btn-outline btn-sm" style="margin-top:10px;display:none;" id="removeLogoBtn">🗑️ إزالة الشعار</button>
-            </div>
           </div>
-          <div class="section-title-bar"><span class="dot"></span><h3>معاينة الكليشة</h3></div>
-          <div class="cliche-wrap"><div class="cliche" id="clichePreviewTarget"></div></div>
-        </div>
-
-        <div class="section-title-bar"><span class="dot"></span><h2>الرؤية والرسالة</h2></div>
-        <div class="card">
-          <div class="field-row"><label>الرؤية</label>
-            <div class="editable" contenteditable="true" data-edkey="vision" style="display:block;border:1px solid var(--border);border-bottom:1px solid var(--border);border-radius:8px;padding:8px 10px;">تنشئة جيل مؤمن مبني على القيم، متميز بخلقه وإنجازاته، محباً لوطنه</div>
-          </div>
-          <div class="field-row"><label>الرسالة</label>
-            <div class="editable" contenteditable="true" data-edkey="mission" style="display:block;border:1px solid var(--border);border-radius:8px;padding:8px 10px;">تسعى إدارة المدرسة - بتوفيق الله - على تقديم العلم النافع، ومعلمين/ات حاملين/ات كفاءات بأساليب تربوية وتقنية حديثة، واستراتيجيات رائعة لبناء أجيال ذوي قيم تربوية، مقدرين/ات للمسؤولية، متفانين/ات في خدمة الوطن والرقي به.</div>
+          <div class="field-row"><label><input type="checkbox" id="setPrintCliche" onchange="onSettingsInput()"> طباعة الكليشة أعلى الصفحات</label></div>
+          <div class="field-row"><label>اتجاه الطباعة</label>
+            <select id="setOrient" onchange="onSettingsInput()"><option value="portrait">عمودي</option><option value="landscape">أفقي</option></select>
           </div>
         </div>
 
-        <div class="section-title-bar"><span class="dot"></span><h2>نسخ احتياطي</h2></div>
-        <div class="card">
-          <p style="font-size:.85rem;color:var(--muted);margin-bottom:12px;">صدّر نسخة احتياطية من كل بيانات المنصة، أو استعد نسخة سابقة من جهاز آخر.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-teal" onclick="exportBackup()">⬇️ تصدير نسخة احتياطية</button>
-            <button class="btn btn-outline" onclick="document.getElementById('restoreFile').click()">⬆️ استيراد نسخة</button>
-            <input type="file" id="restoreFile" accept=".json" style="display:none;">
-            <button class="btn btn-danger" onclick="clearData()">🗑️ مسح كل البيانات المدخلة</button>
+        <div class="card no-print">
+          <div class="section-title-bar" style="margin-top:0;"><span class="dot"></span><h3>النسخ الاحتياطي</h3></div>
+          <div class="controls" style="justify-content:flex-start;">
+            <button class="btn btn-navy" onclick="exportBackup()">⬇️ تصدير نسخة احتياطية</button>
+            <button class="btn btn-outline" onclick="document.getElementById('restoreFile').click()">⬆️ استيراد نسخة احتياطية</button>
+            <input type="file" id="restoreFile" accept="application/json" style="display:none;">
+            <button class="btn btn-danger" onclick="clearData()">🗑️ مسح جميع البيانات</button>
           </div>
         </div>
-      </section>
+      </div>
 
-    </div>
-    <div class="footer-credit no-print">
-      <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank">تصميم د/فواز — تفضل للمزيد هنا</a>
+      </td></tr></tbody></table>
     </div>
   </div>
 </div>
 
-</td></tr></tbody>
-</table>
-
-<!-- ===== Signature Modal ===== -->
-<div class="modal-overlay no-print" id="sigModal">
+<!-- مودال التوقيع -->
+<div class="modal-overlay" id="sigModal">
   <div class="modal-box">
-    <h3>التوقيع الإلكتروني</h3>
+    <h3 id="sigModalTitle">التوقيع على المستند</h3>
     <div class="sig-tabs">
-      <button class="sig-tab-btn active" id="sigTabDraw" onclick="switchSigTab('draw')">✍️ رسم</button>
-      <button class="sig-tab-btn" id="sigTabType" onclick="switchSigTab('type')">🔤 كتابة</button>
+      <button class="sig-tab-btn active" id="sigTabDraw" onclick="switchSigTab('draw')">✍️ رسم التوقيع</button>
+      <button class="sig-tab-btn" id="sigTabType" onclick="switchSigTab('type')">🔤 كتابة الاسم</button>
     </div>
     <div id="sigDrawPane">
       <canvas id="sigCanvas"></canvas>
-      <button class="btn btn-outline btn-sm" style="margin-top:8px;" onclick="clearSigCanvas()">مسح الرسم</button>
+      <div class="controls"><button class="btn btn-outline btn-sm" onclick="clearSigCanvas()">مسح</button></div>
     </div>
     <div id="sigTypePane" style="display:none;">
       <input type="text" id="sigTypeInput" placeholder="اكتب الاسم هنا" oninput="updateSigTypePreview()">
       <div id="sigTypePreview"></div>
     </div>
-    <div class="modal-actions">
+    <div class="modal-close-row">
       <button class="btn btn-outline" onclick="closeSigModal()">إلغاء</button>
-      <button class="btn btn-teal" onclick="saveSignature()">حفظ التوقيع</button>
+      <button class="btn btn-gold" onclick="saveSignature()">✔️ اعتماد التوقيع</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال عرض التعميم -->
+<div class="modal-overlay" id="viewModal">
+  <div class="modal-box" style="max-width:760px;">
+    <h3 id="viewModalTitle">عرض التعميم</h3>
+    <div id="viewModalBody"></div>
+    <div class="modal-close-row">
+      <button class="btn btn-navy" onclick="printSingleDoc(currentViewDocId)">🖨️ طباعة</button>
+      <button class="btn btn-outline" onclick="closeViewModal()">إغلاق</button>
     </div>
   </div>
 </div>
@@ -393,390 +411,288 @@ body[data-print-orient="landscape"] table{font-size:.95rem;}
 /* =========================================================
    STATE
 ========================================================= */
-const STORAGE_KEY = 'committeesPlatformV4';
-let state = { settings:{region:'',school:'',year:'١٤٤٦ هـ',logo:'',printOrientation:'portrait'}, editable:{}, signatures:{} };
-(function loadState(){
-  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw){ const parsed = JSON.parse(raw); state = Object.assign(state, parsed); state.settings = Object.assign({region:'',school:'',year:'١٤٤٦ هـ',logo:'',printOrientation:'portrait'}, parsed.settings||{}); } }catch(e){}
-})();
-function persist(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+const STORAGE_KEY = 'esign_platform_state_v1';
+let state = {
+  settings:{region:'', school:'', logo:'', theme:'default', printCliche:true, orient:'portrait'},
+  staff:[],
+  documents:[],
+  signatures:{}, // docId -> { staffId: {dataURL, mode, signedAt} }
+  ethicsContent:''
+};
+function loadState(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){ try{ state = Object.assign(state, JSON.parse(raw)); }catch(e){} }
+}
+function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
 /* =========================================================
-   DATA: committees content
+   NAV
 ========================================================= */
-const COMMITTEES = [
- { id:'admin', label:'اللجنة الإدارية', title:'أولاً: اللجنة الإدارية المدرسية',
-   goals:['إقرار خطة المدرسة التشغيلية ومتابعة العملية التربوية.','تشجيع أوجه الإبداع والتميز المدرسي.','مناقشة التحديات واتخاذ التوصيات اللازمة.'],
-   rules:['معلم/ة خبير/ة على الأقل.','أو معلم/ة متقدم/ة في حال عدم توفر الخبير.','أو معلمين/ات ممارسين/ات يتم اختيارهم/ن.'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','وكيل/ة الشؤون التعليمية','منسق/ة اللجنة'],['[الاسم]','الموجه/ة الطلابي/ة','عضو/ة'],['[الاسم]','معلم/ة','عضو/ة'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['مناقشة الخطة التشغيلية للمدرسة وإقرارها ومتابعة تنفيذها.','إقرار الأنشطة والفعاليات السنوية.','متابعة تنفيذ الخطة التشغيلية للأنشطة.','إقرار الشراكات مع القطاعين الحكومي والخاص.','مناقشة تقارير التحصيل الدراسي ونواتج تعلم الطلاب.','إقرار الشراكات مع مؤسسات المجتمع المحلي.','مناقشة التحديات واتخاذ القرارات اللازمة.','مراجعة التقارير الدورية لأنشطة الشراكة.','مناقشة الجوانب التطويرية والاحتياجات.','مناقشة القضايا والظواهر السلوكية.'],
-   target:'اللجنة الإدارية',
-   meetings:[
-     {agenda:['الاستعداد المدرسي','الخطة التشغيلية للمدرسة واعتمادها','إقرار الشراكات والموارد']},
-     {agenda:['التحديات الميدانية التي تواجه الأهداف','دراسة الظواهر السلوكية','مراجعة تقارير الشراكة']},
-   ], emergency:true },
- { id:'excellence', label:'لجنة التميز', title:'ثانياً: لجنة التميز',
-   goals:['إعداد الخطة التشغيلية للمدرسة.','تشجيع أفضل الممارسات لضمان التميز.','الارتقاء بكفاءة الأداء المؤسسي.'],
-   rules:['معلمين/ات خبراء.','أو معلمين/ات متقدمين/ات.','أو معلمين/ات ممارسين/ات.'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','وكيل/ة تعليمي','منسق/ة اللجنة'],['[الاسم]','وكيل/ة طلابي','عضو/ة'],['[الاسم]','معلم/ة','عضو/ة'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['إعداد الخطة التشغيلية للمدرسة وربطها بالمؤشرات.','تشجيع المعلمين على تبادل أفضل الممارسات.','رصد اتجاهات الطلاب نحو المدرسة.','تقديم الدعم للتحول لمؤسسة متعلمة.','دراسة الملاحظات على برامج التعليم والتعلم.','دراسة الصعوبات والتحديات الميدانية.','إعداد معايير جوائز التميز والحوافز.','نشر ثقافة التميز في المدرسة.','الإشراف على عمليات التقويم الذاتي والتدقيق.','ترشيح المدرسة/منسوبيها لجوائز التميز.'],
-   target:'أعضاء لجنة التميز',
-   meetings:[
-     {agenda:['الخطة التشغيلية والمؤشرات','اتجاهات الطلاب نحو المدرسة','تبادل أفضل الممارسات']},
-     {agenda:['معايير ومقترحات جوائز التميز','الترشيح للجوائز المحلية','تحديات العمل التربوي']},
-     {agenda:['تحليل تقارير الأداء المؤسسي واستثمارها','ما يستجد من أعمال']},
-   ], emergency:false },
- { id:'guidance', label:'لجنة التوجيه', title:'ثالثاً: لجنة التوجيه والإرشاد',
-   goals:['التخطيط لبرامج التوجيه والإرشاد ومتابعتها.','اقتراح البرامج التي تتناسب مع حاجات المدرسة.','النظر في قضايا الطلاب وحلها.'],
-   rules:['يصدر التشكيل بقرار من مدير/ة المدرسة.','يشارك في الاجتماع وفق المرئيات: (معلم، رائد، ولي أمر).'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','الموجه/ة الطلابي/ة','منسق/ة اللجنة'],['[الاسم]','وكيل/ة تعليمي','عضو/ة'],['[الاسم]','معلم/ة','عضو/ة'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['إعداد الخطة السنوية للإرشاد الطلابي.','متابعة تطبيق قواعد السلوك والمواظبة.','توزيع الطلاب على الفصول بداية العام.','دراسة إضافة حصص علاجية.','دراسة سلوك الطلاب وتعزيز السلوك الإيجابي.','إعداد التقارير الفصلية واعتمادها.','دراسة أوضاع الطلاب المخالفين لإجراءات الاختبارات.','دراسة أعذار الطلاب الغائبين عن الاختبارات.','الإشراف على تنظيم لقاءات مع المجتمع المحلي.','معالجة حالات التأخر الدراسي.'],
-   target:'أعضاء التوجيه والإرشاد',
-   meetings:[
-     {agenda:['إعداد الخطة السنوية للإرشاد','توزيع الطلاب على الفصول','بناء شراكات المجتمع']},
-     {agenda:['إضافة الحصص العلاجية والإثرائية','متابعة سلوك ومواظبة الطلاب','تفعيل المجالس الطلابية']},
-     {agenda:['النظر في مخالفات أنظمة الاختبارات','أعذار الطلاب الغائبين','حالات التأخر الدراسي']},
-   ], emergency:false },
- { id:'achievement', label:'التحصيل الدراسي', title:'رابعاً: لجنة التحصيل الدراسي',
-   goals:['ضمان تطبيق اختبارات التحصيل وتجويد العمليات.','الارتقاء بكفاءة الأداء ونواتج التعلم.','تدقيق النتائج وفقاً للوائح.'],
-   rules:['اختيار المعلمين/ات من قبل الإدارة.','اعتماد قرار تشكيل من مدير/ة المدرسة.'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','وكيل/ة تعليمي','منسق/ة اللجنة'],['[الاسم]','الموجه/ة الطلابي/ة','عضو/ة'],['[الاسم]','معلم/ة','عضو/ة'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['متابعة المستوى التحصيلي وتحليله دورياً.','مراجعة نتائج الاختبارات الوطنية.','اقتراح البرامج لرفع مستوى التحصيل.','دعم مفاهيم الاختبارات الدولية.','تشكيل فرق العمل للاختبارات الفصلية والنهائية.','إعداد جداول الاختبارات والسجلات المتعلقة بها.','إعداد الكشوفات وأرقام الجلوس.','الإشراف على سير الاختبارات.','متابعة التصحيح والمراجعة وتدقيق النتائج.','اقتراح برامج معالجة التأخر الدراسي.','قياس رضا أولياء الأمور وإشراكهم.','قياس فاعلية تحسين الأداء القرائي والكتابي.'],
-   target:'لجنة التحصيل الدراسي',
-   meetings:[
-     {agenda:['تحليل المستوى التحصيلي للطلاب','مراجعة نتائج الاختبارات الوطنية','وضع برامج المعالجة']},
-     {agenda:['تشكيل فرق العمل للاختبارات الفصلية','إعداد الجداول والسجلات','الإشراف على سير الاختبار']},
-     {agenda:['تطوير آلية التقييم','قياس رضا أولياء الأمور','قياس فاعلية برامج تحسين الأداء القرائي']},
-   ], emergency:false },
- { id:'fund', label:'الصندوق المدرسي', title:'خامساً: لجنة الصندوق المدرسي',
-   goalsOnly:['الهدف: إدارة ومتابعة أعمال الصندوق المدرسي وتنمية موارده.','التشكيل: يتم التكليف من قبل اللجنة الإدارية والرفع بالتقارير لها.'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','وكيل/ة الشؤون التعليمية','منسق/ة اللجنة'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['إعداد الميزانية التشغيلية والإيرادات المتوقعة.','الصرف وفقاً للبنود المحددة بعد الاعتماد.','قيد الإيرادات والمصروفات في السجلات.','مراقبة الصرف وتدقيق المستندات.','مراجعة التقارير الدورية للميزانية.','إعداد التقرير المالي الختامي السنوي.','العمل على تنمية موارد المدرسة.','حصر التبرعات وتوثيقها وفق الضوابط.'],
-   target:'لجنة الصندوق المدرسي',
-   meetings:[
-     {agenda:['توزيع المهام بين الأعضاء','إعداد الميزانية التشغيلية']},
-     {agenda:['مراقبة الصرف وتدقيق المستندات','بحث سبل تنمية موارد المدرسة']},
-     {agenda:['اعتماد التقرير المالي الختامي السنوي']},
-   ], emergency:false },
- { id:'safety', label:'الأمن والسلامة', title:'سادساً: لجنة الأمن والسلامة',
-   goalsOnly:['الهدف: إدارة ومتابعة عمليات الأمن والسلامة المدرسية وخطط الإخلاء.','التشكيل: الالتزام بالأدلة المنظمة، والرفع بتقارير دورية للإدارة.'],
-   members:[['[الاسم]','مدير/ة المدرسة','رئيس/ة اللجنة'],['[الاسم]','وكيل/ة الشؤون التعليمية','عضو/ة'],['[الاسم]','مساعد/ة إداري/ة','منسق/ة اللجنة'],['[الاسم]','معلم/ة','الموجه/ة الصحي'],['[الاسم]','مساعد/ة إداري/ة','مقرر/ة اللجنة']],
-   tasks:['تنفيذ البرامج والأنشطة المتعلقة بالأمن والسلامة.','تقويم وضع الأمن والسلامة وفق الاستمارات.','تكليف المنسق بمتابعة الأعمال المرتبطة.','تطبيق شروط وقواعد السلامة داخل المدرسة.','مراعاة احتياجات السلامة للطلاب ذوي الإعاقة.','إعداد التدريبات الدورية على خطة الإخلاء.','متابعة عمل حارس الأمن.','إقرار ومراجعة سجلات الأمن والسلامة والتنظيم للزوار.'],
-   target:'لجنة الأمن والسلامة',
-   meetings:[
-     {agenda:['تحديد مهام المنسق','تقويم حالة الأمن بالمدرسة','اعتماد خطة الإخلاء والتدريب']},
-     {agenda:['رصد نتائج المتابعة الميدانية','مراجعة سجلات دخول الزوار','التأكد من توفر أجهزة الأمن']},
-     {agenda:['التقارير الفصلية الدورية','ما يستجد من أمور تتعلق بالسلامة']},
-   ], emergency:false },
-];
-const MEETING_NUM_LABELS = ['الاجتماع الأول','الاجتماع الثاني','الاجتماع الثالث','الاجتماع الرابع','الاجتماع الخامس'];
-let sigCounter = 0, edCounter = 0, agKeyCounter = 0;
-function nextSigKey(){ return 'sig_'+(sigCounter++); }
-function nextEdKey(){ return 'auto_'+(edCounter++); }
-function nextAgKey(){ return 'ag_'+(agKeyCounter++); }
+const panelTitles = {home:'الرئيسية', docs:'سجل التعاميم والنشرات', newdoc:'إصدار تعميم / نشرة', ethics:'ميثاق أخلاقيات المهنة', staff:'قائمة الموظفين والموظفات', reports:'التقارير', settings:'الإعدادات'};
+function switchPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.panel===name));
+  document.getElementById('panelTitle').textContent = panelTitles[name];
+  if(name==='home') renderHome();
+  if(name==='docs') renderDocsList();
+  if(name==='ethics') renderEthics();
+  if(name==='staff') renderStaffTable();
+  if(name==='reports') renderReports();
+  if(name==='newdoc'){ document.getElementById('ndDate').value = new Date().toISOString().slice(0,10); }
+}
 
 /* =========================================================
-   RENDER: committees / meetings
+   HELPERS
 ========================================================= */
-function ed(defaultText, extraStyle){
-  const key = nextEdKey();
-  return `<span class="editable" contenteditable="true" data-edkey="${key}"${extraStyle?` style="${extraStyle}"`:''}>${defaultText}</span>`;
+function uid(){ return 'id'+Date.now()+Math.random().toString(36).slice(2,8); }
+function typeBadgeClass(t){ return t==='تعميم'?'badge-circ':t==='نشرة داخلية'?'badge-bulletin':t==='ميثاق أخلاقيات المهنة'?'badge-ethics':'badge-other'; }
+function signedCountFor(docId){
+  const sigs = state.signatures[docId] || {};
+  return Object.keys(sigs).length;
 }
-function sigCell(){
-  const key = nextSigKey();
-  return `<td class="sig-cell" data-sigcell="${key}"><button class="sig-btn" onclick="openSigModal('${key}')">✒️ توقيع</button></td>`;
+function autoGrow(el){ el.style.height='auto'; el.style.height=(el.scrollHeight+2)+'px'; }
+
+/* =========================================================
+   HOME
+========================================================= */
+function renderHome(){
+  const totalDocs = state.documents.length;
+  const totalStaff = state.staff.length;
+  let totalSigns=0, totalPossible=0;
+  state.documents.forEach(d=>{ totalSigns += signedCountFor(d.id); totalPossible += totalStaff; });
+  const pct = totalPossible? Math.round(totalSigns/totalPossible*100) : 0;
+  const pending = state.documents.filter(d=> signedCountFor(d.id) < totalStaff).length;
+  document.getElementById('homeStats').innerHTML = `
+    <div class="stat-card"><div class="num">${totalDocs}</div><div class="lbl">تعاميم ونشرات</div></div>
+    <div class="stat-card"><div class="num">${totalStaff}</div><div class="lbl">موظف/ة مسجّل/ة</div></div>
+    <div class="stat-card"><div class="num">${pct}%</div><div class="lbl">نسبة التوقيع الإجمالية</div></div>
+    <div class="stat-card"><div class="num">${pending}</div><div class="lbl">بانتظار توقيعات</div></div>`;
+  const recent = [...state.documents].sort((a,b)=> b.createdAt-a.createdAt).slice(0,4);
+  document.getElementById('homeRecent').innerHTML = recent.length? recent.map(d=>docCardHTML(d)).join('') : '<p style="color:var(--muted);font-size:.85rem;">لا توجد تعاميم بعد.</p>';
 }
-function membersTableHTML(rows){
-  let html = `<div class="table-responsive"><table><thead><tr><th>الاسم</th><th>الوصف التفصيلي</th><th>المكلف به</th><th>التوقيع</th></tr></thead><tbody>`;
-  rows.forEach(r=>{
-    html += `<tr><td contenteditable="true">${r[0]}</td><td contenteditable="true">${r[1]}</td><td contenteditable="true">${r[2]}</td>${sigCell()}</tr>`;
-  });
-  html += `</tbody></table></div>
-  <div class="controls no-print" style="margin-top:6px;margin-bottom:0;">
-    <button class="btn btn-outline btn-sm" onclick="addRow(this)">+ إضافة صف</button>
-    <button class="btn btn-outline btn-sm" onclick="removeRow(this)">- حذف صف</button>
-  </div>`;
-  return html;
+
+/* =========================================================
+   DOCUMENTS
+========================================================= */
+let ndFileData = null, ndFileMime = null, ndFileName = null;
+function handleNdFile(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ ndFileData = reader.result; ndFileMime = file.type; ndFileName = file.name; document.getElementById('ndFileName').textContent = '📎 '+file.name; };
+  reader.readAsDataURL(file);
 }
-function meetingCardHTML(committee, meeting, idx, isEmergency){
-  const titleSelect = isEmergency
-    ? `<h4 class="mt-title">الاجتماع الطارئ</h4>`
-    : `<select class="meeting-title-select" data-edkey="${nextEdKey()}">${MEETING_NUM_LABELS.map((l,i)=>`<option${i===idx?' selected':''}>${l}</option>`).join('')}</select>`;
-  const agKey = nextAgKey();
-  let html = `<div class="card meeting-card">${titleSelect}
-    <div class="table-responsive"><table><tbody><tr>
-      <td><strong>مقر الاجتماع:</strong> ${ed('إدارة المدرسة')}</td>
-      <td><strong>موعد الاجتماع:</strong> ${ed('.... / .... / ١٤٤٦ هـ')}</td>
-      <td><strong>المستهدفون:</strong> ${ed(committee.target)}</td>
-      <td><strong>الحضور:</strong> ${ed('....')}</td>
-    </tr></tbody></table></div>
-    <h4 style="font-size:1rem;color:var(--navy);margin:14px 0 8px;">جدول الأعمال:</h4>
-    <ul class="plain agenda-list" id="${agKey}">${meeting.agenda.map(a=>`<li class="agenda-row"><span class="agenda-text">${a}</span></li>`).join('')}</ul>
-    <div class="controls no-print" style="justify-content:flex-start;margin-top:6px;margin-bottom:14px;">
-      <button class="btn btn-outline btn-sm" onclick="addAgendaItem('${agKey}')">+ إضافة بند</button>
-      <button class="btn btn-outline btn-sm" onclick="addAgendaItem('${agKey}', true)">⚠️ إضافة بند طارئ</button>
-    </div>
-    <p class="time-sentence">أنه في تمام الساعة (${ed('..........')}) تمت مناقشة الآراء والمقترحات وتمت التوصيات بالآتي:</p>
-    <div class="table-responsive" style="margin-bottom:16px;">
-      <table><thead><tr><th>التوصية</th><th>الجهة المكلفة بالتنفيذ</th><th>مدة التنفيذ</th><th>جهة المتابعة</th></tr></thead>
-      <tbody><tr><td contenteditable="true">تدوين التوصيات هنا...</td><td contenteditable="true">........</td><td contenteditable="true">فصل دراسي</td><td contenteditable="true">إدارة المدرسة</td></tr></tbody></table>
-      <div class="controls no-print" style="margin-top:6px;margin-bottom:0;">
-        <button class="btn btn-outline btn-sm" onclick="addRow(this)">+ إضافة صف</button>
-        <button class="btn btn-outline btn-sm" onclick="removeRow(this)">- حذف صف</button>
+function publishDocument(){
+  const title = document.getElementById('ndTitle').value.trim();
+  const type = document.getElementById('ndType').value;
+  const date = document.getElementById('ndDate').value;
+  const content = document.getElementById('ndContent').value.trim();
+  const notes = document.getElementById('ndNotes').value.trim();
+  if(!title){ alert('يرجى إدخال عنوان التعميم أو النشرة.'); return; }
+  if(!content && !ndFileData){ alert('يرجى كتابة نص التعميم أو رفع ملف.'); return; }
+  const doc = { id:uid(), title, type, date, content, notes, fileData:ndFileData, fileMime:ndFileMime, fileName:ndFileName, createdAt:Date.now() };
+  state.documents.push(doc);
+  state.signatures[doc.id] = {};
+  persist();
+  document.getElementById('ndTitle').value=''; document.getElementById('ndContent').value=''; document.getElementById('ndNotes').value='';
+  document.getElementById('ndFileName').textContent=''; ndFileData=null; ndFileMime=null; ndFileName=null;
+  alert('تم إصدار التعميم بنجاح ورفعه للتوقيع.');
+  switchPanel('docs');
+}
+function docCardHTML(d){
+  const total = state.staff.length;
+  const signed = signedCountFor(d.id);
+  const pct = total? Math.round(signed/total*100) : 0;
+  return `<div class="doc-card">
+    <div class="doc-top">
+      <div>
+        <h4>${d.title}</h4>
+        <div class="meta"><span class="badge ${typeBadgeClass(d.type)}">${d.type}</span> &nbsp; تاريخ الإصدار: ${d.date||'—'}</div>
+      </div>
+      <div style="min-width:140px;text-align:left;">
+        <div style="font-size:.78rem;color:var(--muted);">${signed} من ${total} وقّعوا</div>
+        <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%;"></div></div>
       </div>
     </div>
-    <h4 style="font-size:1rem;color:var(--navy);margin-bottom:8px;">ما لم ينفذ من التوصيات وأسباب عدم التنفيذ:</h4>
-    <div contenteditable="true" class="not-impl-box" data-edkey="${nextEdKey()}"></div>
-    <h4 style="font-size:1rem;color:var(--navy);margin-bottom:8px;">التوقيع بالعلم والإحاطة:</h4>
-    <div class="table-responsive"><table><thead><tr><th>الاسم</th><th>التخصص</th><th>التوقيع</th></tr></thead>
-      <tbody><tr><td contenteditable="true">[الاسم]</td><td contenteditable="true">........</td>${sigCell()}</tr></tbody></table>
-      <div class="controls no-print" style="margin-top:6px;margin-bottom:0;">
-        <button class="btn btn-outline btn-sm" onclick="addRow(this)">+ إضافة صف</button>
-        <button class="btn btn-outline btn-sm" onclick="removeRow(this)">- حذف صف</button>
-      </div>
+    <div class="actions no-print">
+      <button class="btn btn-teal btn-sm" onclick="openViewModal('${d.id}')">👁️ عرض وتوقيع</button>
+      <button class="btn btn-outline btn-sm" onclick="printSingleDoc('${d.id}')">🖨️ طباعة</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteDocument('${d.id}')">🗑️ حذف</button>
     </div>
-    <p class="closing-line">وانتهى الاجتماع بالشكر للجميع.</p>
   </div>`;
-  return html;
 }
-function committeeTabHTML(c){
-  let html = `<div class="committee-tab" id="tab-${c.id}">
-    <div class="section-title-bar"><span class="dot"></span><h2>${c.title}</h2></div>`;
-  if(c.goalsOnly){
-    html += `<div class="card accent-teal"><h4 style="margin-bottom:8px;">الأهداف والقواعد:</h4><ul class="plain">${c.goalsOnly.map(g=>`<li>${g}</li>`).join('')}</ul></div>`;
-  } else {
-    html += `<div class="card accent-teal"><div class="two-col">
-      <div><h4 style="margin-bottom:8px;">أهداف اللجنة:</h4><ul class="plain">${c.goals.map(g=>`<li>${g}</li>`).join('')}</ul></div>
-      <div><h4 style="margin-bottom:8px;">قواعد تشكيل اللجنة:</h4><ul class="plain">${c.rules.map(g=>`<li>${g}</li>`).join('')}</ul></div>
-    </div></div>`;
+function deleteDocument(id){
+  if(!confirm('هل تريد حذف هذا التعميم وجميع توقيعاته؟')) return;
+  state.documents = state.documents.filter(d=>d.id!==id);
+  delete state.signatures[id];
+  persist();
+  renderDocsList(); renderHome();
+}
+function renderDocsList(){
+  const q = (document.getElementById('docSearch')?.value||'').trim();
+  const ft = document.getElementById('docFilterType')?.value||'';
+  let docs = state.documents.filter(d=> d.type!=='ميثاق أخلاقيات المهنة');
+  if(q) docs = docs.filter(d=> d.title.includes(q));
+  if(ft) docs = docs.filter(d=> d.type===ft);
+  docs = [...docs].sort((a,b)=> b.createdAt-a.createdAt);
+  document.getElementById('docsListWrap').innerHTML = docs.length? docs.map(d=>docCardHTML(d)).join('') : '<p style="color:var(--muted);font-size:.85rem;">لا توجد نتائج.</p>';
+}
+
+/* ===== view / sign modal ===== */
+let currentViewDocId = null;
+function openViewModal(docId){
+  currentViewDocId = docId;
+  const d = state.documents.find(x=>x.id===docId);
+  if(!d) return;
+  document.getElementById('viewModalTitle').textContent = d.title;
+  let fileHTML = '';
+  if(d.fileData){
+    if((d.fileMime||'').startsWith('image/')) fileHTML = `<div class="file-preview"><img src="${d.fileData}"></div>`;
+    else fileHTML = `<div class="file-preview"><embed src="${d.fileData}" type="${d.fileMime}"></div>`;
   }
-  html += `<div class="card"><h4 style="margin-bottom:10px;">قرار إداري: اعتماد تشكيل اللجنة لعام ${ed('١٤٤٦ هـ')}</h4>${membersTableHTML(c.members)}</div>`;
-  html += `<div class="card accent-gold"><h4 style="margin-bottom:8px;">مهام اللجنة:</h4><ul class="plain">${c.tasks.map(t=>`<li>${t}</li>`).join('')}</ul></div>`;
-  html += `<div class="section-title-bar no-print"><span class="dot"></span><h3>الاجتماعات</h3></div>`;
-  c.meetings.forEach((m,i)=>{ html += meetingCardHTML(c, m, i, false); });
-  if(c.emergency){ html += meetingCardHTML(c, {agenda:['ما يستجد من أعمال طارئة تقتضي تدخل اللجنة']}, 0, true); }
-  html += `</div>`;
-  return html;
+  const contentHTML = d.content? `<div class="doc-view-content">${escapeHtml(d.content)}</div>` : '';
+  document.getElementById('viewModalBody').innerHTML = `
+    <div style="font-size:.8rem;color:var(--muted);margin-bottom:10px;"><span class="badge ${typeBadgeClass(d.type)}">${d.type}</span> &nbsp; تاريخ الإصدار: ${d.date||'—'}</div>
+    ${fileHTML}${contentHTML}
+    ${d.notes? `<p style="font-size:.82rem;color:var(--muted);margin-bottom:14px;">ملاحظات: ${escapeHtml(d.notes)}</p>`:''}
+    <div class="section-title-bar" style="margin:16px 0 10px;"><span class="dot"></span><h3>حالة التوقيع</h3></div>
+    <div class="table-responsive">
+      <table>
+        <colgroup><col style="width:30%"><col style="width:25%"><col style="width:20%"><col style="width:25%"></colgroup>
+        <thead><tr><th>الاسم</th><th>الحالة</th><th>وقت التوقيع</th><th class="no-print">إجراء</th></tr></thead>
+        <tbody>${signRowsHTML(docId)}</tbody>
+      </table>
+    </div>`;
+  document.getElementById('viewModal').classList.add('open');
 }
-function renderCommittees(){
-  const pills = document.getElementById('pillTabs');
-  const mount = document.getElementById('committeesMount');
-  let pillsHTML = '', tabsHTML = '';
-  COMMITTEES.forEach((c,i)=>{
-    pillsHTML += `<button class="pill-btn${i===0?' active':''}" data-cid="${c.id}" onclick="switchCommitteeTab('${c.id}')">${c.label}</button>`;
-    tabsHTML += committeeTabHTML(c);
-  });
-  pills.innerHTML = pillsHTML;
-  mount.innerHTML = tabsHTML;
-  document.getElementById('tab-'+COMMITTEES[0].id).classList.add('active');
-}
-function switchCommitteeTab(cid){
-  document.querySelectorAll('.committee-tab').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.pill-btn').forEach(el=>el.classList.remove('active'));
-  document.getElementById('tab-'+cid).classList.add('active');
-  document.querySelector(`.pill-btn[data-cid="${cid}"]`).classList.add('active');
-}
-
-/* home shortcuts + meetings index */
-function renderHomeAndIndex(){
-  const sg = document.getElementById('shortcutGrid');
-  const icons = {admin:'🏫',excellence:'🏆',guidance:'🧭',achievement:'📊',fund:'💰',safety:'🛡️'};
-  sg.innerHTML = COMMITTEES.map(c=>`
-    <div class="shortcut-card" onclick="switchPanel('panel-committees');switchCommitteeTab('${c.id}')">
-      <div class="ic">${icons[c.id]||'📁'}</div><h4>${c.label}</h4><p>${(c.meetings?c.meetings.length:0)} اجتماعات دورية${c.emergency?' + طارئ':''}</p>
-    </div>`).join('');
-
-  const tbody = document.querySelector('#meetingsIndexTable tbody');
-  let rows = '';
-  COMMITTEES.forEach(c=>{
-    const count = (c.meetings?c.meetings.length:0) + (c.emergency?1:0);
-    for(let i=0;i<count;i++){
-      const isEm = c.emergency && i===count-1;
-      const label = isEm ? 'الاجتماع الطارئ' : (MEETING_NUM_LABELS[i]||`الاجتماع ${i+1}`);
-      rows += `<tr><td>${c.label}</td><td>${label}</td><td><button class="btn btn-outline btn-sm" onclick="switchPanel('panel-committees');switchCommitteeTab('${c.id}')">فتح ↗</button></td></tr>`;
+function closeViewModal(){ document.getElementById('viewModal').classList.remove('open'); }
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function signRowsHTML(docId){
+  const sigs = state.signatures[docId] || {};
+  if(!state.staff.length) return '<tr><td colspan="4">لا يوجد موظفون مسجّلون بعد — أضفهم من "قائمة الموظفين والموظفات".</td></tr>';
+  return state.staff.map(s=>{
+    const sig = sigs[s.id];
+    if(sig){
+      return `<tr><td>${s.name}</td><td class="status-signed">✔️ موقّع</td><td>${new Date(sig.signedAt).toLocaleString('ar-SA')}</td><td class="no-print"><img src="${sig.dataURL}" class="sig-img"></td></tr>`;
     }
-  });
-  tbody.innerHTML = rows;
-}
-
-/* notifications (light cosmetic tips) */
-function renderNotifications(){
-  const items = [
-    {ic:'📌', txt:'تذكر اعتماد "قرار التشكيل" بتوقيع مدير/ة المدرسة في كل لجنة قبل بداية الفصل الدراسي.'},
-    {ic:'🗓️', txt:'كل لجنة تحتاج 3 اجتماعات على الأقل خلال الفصل — تحقق من اكتمال محاضر جميع اللجان.'},
-    {ic:'✒️', txt:'لا تنسَ استكمال توقيعات الأعضاء وحضور الاجتماعات قبل الطباعة والاعتماد النهائي.'},
-    {ic:'💾', txt:'يُفضّل تصدير نسخة احتياطية دوريًا من صفحة الإعدادات لحفظ عملك.'},
-  ];
-  document.getElementById('notifList').innerHTML = items.map(n=>`
-    <div class="notif-item"><span class="ic">${n.ic}</span><div class="txt">${n.txt}</div></div>`).join('');
+    return `<tr><td>${s.name}</td><td class="status-pending">⏳ لم يوقّع</td><td>—</td><td class="no-print"><button class="sig-btn" onclick="openSigModal('${docId}','${s.id}')">✒️ توقيع</button></td></tr>`;
+  }).join('');
 }
 
 /* =========================================================
-   NAVIGATION
+   ETHICS CHARTER (pinned single document)
 ========================================================= */
-const PANEL_TITLES = {'panel-home':'الرئيسية','panel-committees':'اللجان المدرسية','panel-meetings':'دليل الاجتماعات','panel-notifications':'التنبيهات','panel-settings':'الإعدادات'};
-function switchPanel(id){
-  document.querySelectorAll('.panel').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  const nav = document.querySelector(`.nav-item[data-panel="${id}"]`);
-  if(nav) nav.classList.add('active');
-  document.getElementById('topbarTitle').textContent = PANEL_TITLES[id]||'';
-}
-document.querySelectorAll('.nav-item').forEach(el=>{
-  el.addEventListener('click', ()=>switchPanel(el.dataset.panel));
-});
-
-/* =========================================================
-   AGENDA ITEMS (add / remove, with urgent tagging)
-========================================================= */
-function addAgendaItem(listId, isUrgent){
-  const ul = document.getElementById(listId);
-  const li = document.createElement('li');
-  li.className = 'agenda-row' + (isUrgent ? ' urgent' : '');
-  const span = document.createElement('span');
-  span.className = 'agenda-text';
-  span.contentEditable = 'true';
-  span.textContent = isUrgent ? 'بند طارئ جديد...' : 'بند جديد...';
-  bindNewEditable(span);
-  li.appendChild(span);
-  if(isUrgent){
-    const badge = document.createElement('span');
-    badge.className = 'badge-urgent';
-    badge.textContent = '⚠️ طارئ';
-    li.appendChild(badge);
+function ensureEthicsDoc(){
+  let d = state.documents.find(x=>x.type==='ميثاق أخلاقيات المهنة');
+  if(!d){
+    d = { id:uid(), title:'ميثاق أخلاقيات المهنة', type:'ميثاق أخلاقيات المهنة', date:new Date().toISOString().slice(0,10),
+      content:'يلتزم كل منسوب/ة للمدرسة بالأمانة والمهنية والحفاظ على كرامة المهنة وحقوق المتعلمين والمتعلمات، والالتزام باللوائح والأنظمة المعتمدة من وزارة التعليم.',
+      notes:'', fileData:null, fileMime:null, fileName:null, createdAt:Date.now() };
+    state.documents.push(d);
+    state.signatures[d.id] = {};
+    persist();
   }
-  const delBtn = document.createElement('button');
-  delBtn.className = 'icon-btn no-print';
-  delBtn.textContent = '✕';
-  delBtn.onclick = function(){ li.remove(); };
-  li.appendChild(delBtn);
-  ul.appendChild(li);
-  span.focus();
+  return d;
 }
-function bindNewEditable(el){
-  const key = 'auto_'+(edCounter++);
-  el.dataset.edkey = key;
-  state.editable[key] = el.innerHTML;
-  el.addEventListener('input', ()=>{ state.editable[key]=el.innerHTML; persist(); });
+function renderEthics(){
+  const d = ensureEthicsDoc();
+  const total = state.staff.length;
+  const signed = signedCountFor(d.id);
+  const pct = total? Math.round(signed/total*100) : 0;
+  document.getElementById('ethicsWrap').innerHTML = `
+    <div class="card accent-gold">
+      <div class="controls no-print"><button class="btn btn-outline btn-sm" id="ethicsEditBtn" onclick="toggleEthicsEdit()">✏️ تعديل نص الميثاق</button></div>
+      <div class="doc-view-content" id="ethicsDisplay">${escapeHtml(d.content)}</div>
+      <textarea class="field-ta" id="ethicsEditArea" style="display:none;" rows="8" oninput="autoGrow(this)">${d.content}</textarea>
+      <div class="controls no-print" id="ethicsSaveRow" style="display:none;"><button class="btn btn-teal btn-sm" onclick="saveEthicsEdit('${d.id}')">💾 حفظ</button></div>
+      <div style="font-size:.8rem;color:var(--muted);margin:12px 0;">${signed} من ${total} من المنسوبين والمنسوبات وقّعوا على الميثاق (${pct}%)</div>
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%;"></div></div>
+    </div>
+    <div class="section-title-bar"><span class="dot"></span><h3>سجل التوقيع على الميثاق</h3></div>
+    <div class="table-responsive">
+      <table>
+        <colgroup><col style="width:30%"><col style="width:25%"><col style="width:20%"><col style="width:25%"></colgroup>
+        <thead><tr><th>الاسم</th><th>الحالة</th><th>وقت التوقيع</th><th class="no-print">إجراء</th></tr></thead>
+        <tbody>${signRowsHTML(d.id)}</tbody>
+      </table>
+    </div>`;
 }
-
-/* =========================================================
-   TABLE ROW ADD/REMOVE
-========================================================= */
-function addRow(btn){
-  const wrap = btn.closest('.controls').previousElementSibling;
-  const table = wrap && wrap.tagName==='TABLE' ? wrap : btn.closest('.table-responsive').querySelector('table');
-  const tbody = table.querySelector('tbody');
-  if(tbody.rows.length>0){
-    const newRow = tbody.rows[0].cloneNode(true);
-    newRow.querySelectorAll('[contenteditable="true"]').forEach(c=>{ if(!c.classList.contains('sig-cell')) c.textContent=''; });
-    newRow.querySelectorAll('.sig-cell').forEach(td=>{
-      const key = nextSigKey();
-      td.dataset.sigcell = key;
-      td.innerHTML = `<button class="sig-btn" onclick="openSigModal('${key}')">✒️ توقيع</button>`;
-    });
-    tbody.appendChild(newRow);
-  }
+function toggleEthicsEdit(){
+  const disp = document.getElementById('ethicsDisplay');
+  const area = document.getElementById('ethicsEditArea');
+  const row = document.getElementById('ethicsSaveRow');
+  const editing = area.style.display!=='none';
+  disp.style.display = editing? 'block':'none';
+  area.style.display = editing? 'none':'block';
+  row.style.display = editing? 'none':'flex';
+  if(!editing) autoGrow(area);
 }
-function removeRow(btn){
-  const wrap = btn.closest('.controls').previousElementSibling;
-  const table = wrap && wrap.tagName==='TABLE' ? wrap : btn.closest('.table-responsive').querySelector('table');
-  const tbody = table.querySelector('tbody');
-  if(tbody.rows.length>1) tbody.removeChild(tbody.lastElementChild);
-  else alert('لا يمكن حذف الصف الأخير.');
-}
-
-/* =========================================================
-   CLICHÉ
-========================================================= */
-function clicheHTML(){
-  const s = state.settings;
-  const region = s.region ? `إدارة تعليم منطقة ${s.region}` : 'إدارة تعليم منطقة .......';
-  const school = s.school ? `المدرسة: ${s.school}` : 'المدرسة: .......';
-  const logoHTML = s.logo
-    ? `<img src="${s.logo}" class="cliche-logo" style="object-fit:contain;">`
-    : `<svg class="cliche-logo" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="10" r="2.2" fill="#1b3a63"/><circle cx="16" cy="6" r="2.2" fill="#0f7a72"/><circle cx="24" cy="10" r="2.2" fill="#1b3a63"/><circle cx="8" cy="20" r="2.2" fill="#0f7a72"/><circle cx="16" cy="24" r="2.2" fill="#1b3a63"/><circle cx="24" cy="20" r="2.2" fill="#0f7a72"/><circle cx="16" cy="15" r="2.6" fill="#d4af37"/></svg>`;
-  return `
-    <div class="col col-right">المملكة العربية السعودية<br>وزارة التعليم</div>
-    <div class="col col-mid">${logoHTML}<div class="moe">وزارة التعليم</div><div class="moe-en">Ministry of Education</div></div>
-    <div class="col col-left">${region}<br>${school}</div>`;
-}
-function renderCliche(){
-  document.getElementById('clicheRenderTarget').innerHTML = clicheHTML();
-  document.getElementById('clichePreviewTarget').innerHTML = clicheHTML();
+function saveEthicsEdit(docId){
+  const d = state.documents.find(x=>x.id===docId);
+  d.content = document.getElementById('ethicsEditArea').value;
+  persist();
+  renderEthics();
 }
 
 /* =========================================================
-   SETTINGS
+   STAFF
 ========================================================= */
-function initSettingsForm(){
-  document.getElementById('settingRegion').value = state.settings.region||'';
-  document.getElementById('settingSchool').value = state.settings.school||'';
-  document.getElementById('settingYear').value = state.settings.year||'١٤٤٦ هـ';
-  document.getElementById('settingOrientation').value = state.settings.printOrientation||'portrait';
-  document.getElementById('statYear').textContent = state.settings.year||'١٤٤٦ هـ';
-  if(state.settings.logo){
-    document.getElementById('logoImg').src = state.settings.logo;
-    document.getElementById('logoImg').style.display='block';
-    document.getElementById('logoPlaceholderTxt').style.display='none';
-    document.getElementById('removeLogoBtn').style.display='inline-block';
-  }
-  renderCliche();
-  applyPrintOrientation();
-
-  ['settingRegion','settingSchool','settingYear'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', e=>{
-      const map = {settingRegion:'region', settingSchool:'school', settingYear:'year'};
-      state.settings[map[id]] = e.target.value;
-      if(id==='settingYear') document.getElementById('statYear').textContent = e.target.value||'١٤٤٦ هـ';
-      renderCliche(); persist();
-    });
-  });
-  document.getElementById('settingOrientation').addEventListener('change', e=>{
-    state.settings.printOrientation = e.target.value;
-    applyPrintOrientation(); persist();
-  });
-  document.getElementById('logoUpload').addEventListener('change', function(e){
-    const file = e.target.files[0]; if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(ev){
-      state.settings.logo = ev.target.result;
-      document.getElementById('logoImg').src = ev.target.result;
-      document.getElementById('logoImg').style.display='block';
-      document.getElementById('logoPlaceholderTxt').style.display='none';
-      document.getElementById('removeLogoBtn').style.display='inline-block';
-      renderCliche(); persist();
-    };
-    reader.readAsDataURL(file);
-  });
-  document.getElementById('removeLogoBtn').addEventListener('click', function(e){
-    e.stopPropagation();
-    state.settings.logo=''; document.getElementById('logoImg').style.display='none';
-    document.getElementById('logoPlaceholderTxt').style.display='block';
-    this.style.display='none';
-    renderCliche(); persist();
-  });
+function addStaff(){
+  const name = document.getElementById('stName').value.trim();
+  const role = document.getElementById('stRole').value.trim();
+  if(!name){ alert('يرجى إدخال الاسم.'); return; }
+  state.staff.push({id:uid(), name, role});
+  persist();
+  document.getElementById('stName').value=''; document.getElementById('stRole').value='';
+  renderStaffTable();
 }
-function applyPrintOrientation(){
-  const o = state.settings.printOrientation==='landscape' ? 'landscape' : 'portrait';
-  let styleEl = document.getElementById('dynPageStyle');
-  if(!styleEl){ styleEl=document.createElement('style'); styleEl.id='dynPageStyle'; document.head.appendChild(styleEl); }
-  styleEl.textContent = `@page{ size:A4 ${o}; margin:1.5cm; }`;
-  document.body.setAttribute('data-print-orient', o);
+function deleteStaff(id){
+  if(!confirm('هل تريد حذف هذا الموظف/ة من القائمة؟')) return;
+  state.staff = state.staff.filter(s=>s.id!==id);
+  Object.keys(state.signatures).forEach(docId=>{ delete state.signatures[docId][id]; });
+  persist();
+  renderStaffTable();
 }
-function printCurrentCommittee(){ switchPanel('panel-committees'); window.print(); }
+function renderStaffTable(){
+  document.getElementById('staffTableBody').innerHTML = state.staff.length? state.staff.map((s,i)=>`
+    <tr><td>${i+1}</td><td>${s.name}</td><td>${s.role||'—'}</td>
+    <td class="no-print"><button class="icon-btn" onclick="deleteStaff('${s.id}')">🗑️</button></td></tr>`).join('')
+    : '<tr><td colspan="4">لا يوجد موظفون مضافون بعد.</td></tr>';
+}
 
 /* =========================================================
-   SIGNATURE MODAL
+   REPORTS
 ========================================================= */
-let sigCurrentKey = null, sigMode='draw', sigDrawing=false, sigCtx=null, sigCanvasEl=null;
-function openSigModal(key){
-  sigCurrentKey = key;
-  document.getElementById('sigModal').classList.add('open');
+function renderReports(){
+  const total = state.staff.length;
+  document.getElementById('reportDocsBody').innerHTML = state.documents.length? state.documents.map(d=>{
+    const signed = signedCountFor(d.id);
+    const pct = total? Math.round(signed/total*100):0;
+    return `<tr><td>${d.title}</td><td><span class="badge ${typeBadgeClass(d.type)}">${d.type}</span></td><td>${signed}</td><td>${total}</td><td>${pct}%</td></tr>`;
+  }).join('') : '<tr><td colspan="5">لا توجد تعاميم بعد.</td></tr>';
+
+  document.getElementById('reportStaffBody').innerHTML = state.staff.length? state.staff.map(s=>{
+    let signedCount=0;
+    state.documents.forEach(d=>{ if((state.signatures[d.id]||{})[s.id]) signedCount++; });
+    const remaining = state.documents.length - signedCount;
+    return `<tr><td>${s.name}</td><td>${s.role||'—'}</td><td>${signedCount}</td><td>${remaining}</td></tr>`;
+  }).join('') : '<tr><td colspan="4">لا يوجد موظفون مضافون بعد.</td></tr>';
+}
+
+/* =========================================================
+   SIGNATURE MODAL (draw / type)
+========================================================= */
+let sigDocId=null, sigStaffId=null, sigMode='draw', sigCanvasEl=null, sigCtx=null;
+function openSigModal(docId, staffId){
+  sigDocId=docId; sigStaffId=staffId;
+  const s = state.staff.find(x=>x.id===staffId);
+  document.getElementById('sigModalTitle').textContent = 'توقيع: '+(s? s.name:'');
+  document.getElementById('sigTypeInput').value=''; document.getElementById('sigTypePreview').textContent='';
   switchSigTab('draw');
+  document.getElementById('sigModal').classList.add('open');
   setTimeout(initSigCanvas, 30);
 }
-function closeSigModal(){ document.getElementById('sigModal').classList.remove('open'); sigCurrentKey=null; }
+function closeSigModal(){ document.getElementById('sigModal').classList.remove('open'); sigDocId=null; sigStaffId=null; }
 function switchSigTab(mode){
   sigMode = mode;
   document.getElementById('sigTabDraw').classList.toggle('active', mode==='draw');
@@ -800,30 +716,22 @@ function initSigCanvas(){
   sigCanvasEl.ontouchstart=start; sigCanvasEl.ontouchmove=move; sigCanvasEl.ontouchend=end;
 }
 function clearSigCanvas(){ if(sigCtx) sigCtx.clearRect(0,0,sigCanvasEl.width,sigCanvasEl.height); }
-function updateSigTypePreview(){
-  document.getElementById('sigTypePreview').textContent = document.getElementById('sigTypeInput').value;
-}
+function updateSigTypePreview(){ document.getElementById('sigTypePreview').textContent = document.getElementById('sigTypeInput').value; }
 function cropToInk(sourceCanvas){
   const ctx = sourceCanvas.getContext('2d');
   const w=sourceCanvas.width, h=sourceCanvas.height;
   const data = ctx.getImageData(0,0,w,h).data;
   let minX=w,minY=h,maxX=0,maxY=0,found=false;
-  for(let y=0;y<h;y++){
-    for(let x=0;x<w;x++){
-      const a = data[(y*w+x)*4+3];
-      if(a>10){ found=true; if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y; }
-    }
-  }
+  for(let y=0;y<h;y++){ for(let x=0;x<w;x++){ const a = data[(y*w+x)*4+3]; if(a>10){ found=true; if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y; } } }
   if(!found) return null;
-  const pad=4;
-  minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad); maxX=Math.min(w,maxX+pad); maxY=Math.min(h,maxY+pad);
+  const pad=4; minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad); maxX=Math.min(w,maxX+pad); maxY=Math.min(h,maxY+pad);
   const cw=maxX-minX, ch=maxY-minY;
   const out=document.createElement('canvas'); out.width=cw; out.height=ch;
   out.getContext('2d').drawImage(sourceCanvas,minX,minY,cw,ch,0,0,cw,ch);
   return out.toDataURL('image/png');
 }
 function saveSignature(){
-  if(!sigCurrentKey) return;
+  if(!sigDocId || !sigStaffId) return;
   let dataURL = null;
   if(sigMode==='draw'){
     dataURL = cropToInk(sigCanvasEl);
@@ -833,46 +741,105 @@ function saveSignature(){
     if(!name){ alert('يرجى كتابة الاسم أولاً.'); return; }
     const tmp = document.createElement('canvas'); tmp.width=400; tmp.height=120;
     const tctx = tmp.getContext('2d');
-    tctx.font = "48px 'Aref Ruqaa', cursive";
-    tctx.fillStyle = '#111';
-    tctx.textBaseline='middle';
-    tctx.direction='rtl';
+    tctx.font = "48px 'Aref Ruqaa', cursive"; tctx.fillStyle = '#111'; tctx.textBaseline='middle'; tctx.direction='rtl';
     tctx.fillText(name, 380, 60, 380);
     dataURL = cropToInk(tmp);
     if(!dataURL){ alert('تعذر إنشاء التوقيع.'); return; }
   }
-  state.signatures[sigCurrentKey] = dataURL;
+  if(!state.signatures[sigDocId]) state.signatures[sigDocId] = {};
+  state.signatures[sigDocId][sigStaffId] = { dataURL, mode:sigMode, signedAt: Date.now() };
   persist();
-  renderSigCell(sigCurrentKey);
   closeSigModal();
-}
-function renderSigCell(key){
-  const td = document.querySelector(`[data-sigcell="${key}"]`);
-  if(!td) return;
-  td.innerHTML = `<img src="${state.signatures[key]}" class="sig-img"><br><button class="sig-btn" style="margin-top:4px;" onclick="openSigModal('${key}')">✏️ تعديل</button>`;
-}
-function restoreAllSignatures(){
-  Object.keys(state.signatures).forEach(key=>{
-    if(document.querySelector(`[data-sigcell="${key}"]`)) renderSigCell(key);
-  });
+  if(document.getElementById('panel-ethics').classList.contains('active')) renderEthics();
+  if(document.getElementById('viewModal').classList.contains('open')) openViewModal(currentViewDocId);
+  renderDocsList(); renderHome();
 }
 
 /* =========================================================
-   AUTOSAVE (contenteditable fields)
+   PRINT (single document)
 ========================================================= */
-function initAutosave(){
-  document.querySelectorAll('[data-edkey]').forEach(el=>{
-    const key = el.dataset.edkey;
-    if(state.editable[key]!==undefined) el.innerHTML = state.editable[key];
-    el.addEventListener('input', ()=>{ state.editable[key]=el.innerHTML; persist(); });
-  });
-  // plain contenteditable table cells without explicit keys (tbody rows) — key by stable path
-  document.querySelectorAll('td[contenteditable="true"]').forEach((el,i)=>{
-    if(!el.dataset.edkey){ el.dataset.edkey = 'cell_'+i; }
-    const key = el.dataset.edkey;
-    if(state.editable[key]!==undefined) el.innerHTML = state.editable[key];
-    el.addEventListener('input', ()=>{ state.editable[key]=el.innerHTML; persist(); });
-  });
+function printSingleDoc(docId){
+  currentViewDocId = docId;
+  window.print();
+}
+
+/* =========================================================
+   CLICHÉ (print header, two themes) — reused across on-screen preview + print thead
+========================================================= */
+function buildClicheHTML(){
+  const s = state.settings;
+  const region = s.region||'.......', school = s.school||'.......';
+  const logo = s.logo;
+  if(s.theme==='identity'){
+    return `<div class="cliche-identity">
+      <div class="strip"></div>
+      <div class="box">
+        <div class="right" style="display:flex;align-items:center;gap:8px;">
+          ${logo? `<img src="${logo}" style="width:40px;height:40px;object-fit:contain;">` : svgLogo(true)}
+          <div><div class="moe">وزارة التعليم</div><div class="en">Ministry of Education</div></div>
+        </div>
+        <div class="left">الإدارة العامة للتعليم بمنطقة ${region}</div>
+      </div>
+      <div class="pill-wrap"><span class="pill">${school}</span></div>
+    </div>`;
+  }
+  return `<div class="cliche-default">
+    <div class="row">
+      <div class="right"><b>المملكة العربية السعودية</b><b>وزارة التعليم</b></div>
+      <div class="mid">${logo? `<img src="${logo}" style="width:62px;height:30px;object-fit:contain;">` : svgLogo(false)}<div class="moe">وزارة التعليم</div><div class="en">Ministry of Education</div></div>
+      <div class="left">إدارة تعليم منطقة ${region}<br>المدرسة: ${school}</div>
+    </div>
+  </div>`;
+}
+function svgLogo(dark){
+  const c = dark? '#59c7ac':'#0f7a72';
+  return `<svg width="40" height="24" viewBox="0 0 40 24"><circle cx="6" cy="6" r="3" fill="${c}"/><circle cx="16" cy="6" r="3" fill="${c}"/><circle cx="26" cy="6" r="3" fill="${c}"/><circle cx="11" cy="14" r="3" fill="${c}"/><circle cx="21" cy="14" r="3" fill="${c}"/></svg>`;
+}
+function renderCliche(){
+  document.getElementById('clicheMount').innerHTML = buildClicheHTML();
+  document.getElementById('clichePreviewMount').innerHTML = buildClicheHTML();
+}
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+function initSettingsForm(){
+  document.getElementById('setRegion').value = state.settings.region;
+  document.getElementById('setSchool').value = state.settings.school;
+  document.getElementById('setPrintCliche').checked = state.settings.printCliche;
+  document.getElementById('setOrient').value = state.settings.orient;
+  if(state.settings.logo){ document.getElementById('logoPreviewImg').src = state.settings.logo; document.getElementById('logoPreviewImg').style.display='block'; document.getElementById('logoPlaceholder').style.display='none'; document.getElementById('removeLogoBtn').style.display='inline-block'; }
+  updateThemeChoiceUI();
+  applyPrintStyle();
+  renderCliche();
+}
+function onSettingsInput(){
+  state.settings.region = document.getElementById('setRegion').value;
+  state.settings.school = document.getElementById('setSchool').value;
+  state.settings.printCliche = document.getElementById('setPrintCliche').checked;
+  state.settings.orient = document.getElementById('setOrient').value;
+  persist();
+  applyPrintStyle();
+  renderCliche();
+}
+function handleLogoUpload(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{ state.settings.logo = reader.result; persist(); initSettingsForm(); };
+  reader.readAsDataURL(file);
+}
+function removeLogo(){ state.settings.logo=''; persist(); initSettingsForm(); }
+function setTheme(t){ state.settings.theme = t; persist(); updateThemeChoiceUI(); renderCliche(); }
+function updateThemeChoiceUI(){
+  document.getElementById('themeChoiceDefault').classList.toggle('active', state.settings.theme==='default');
+  document.getElementById('themeChoiceIdentity').classList.toggle('active', state.settings.theme==='identity');
+}
+function applyPrintStyle(){
+  document.body.setAttribute('data-print-cliche', state.settings.printCliche? 'on':'off');
+  document.body.setAttribute('data-print-orient', state.settings.orient);
+  let styleTag = document.getElementById('dynamicPageStyle');
+  if(!styleTag){ styleTag = document.createElement('style'); styleTag.id='dynamicPageStyle'; document.head.appendChild(styleTag); }
+  styleTag.textContent = `@page{size:A4 ${state.settings.orient}; margin:0 1.5cm;} body{padding-top:1.5cm;padding-bottom:.5cm;}`;
 }
 
 /* =========================================================
@@ -882,7 +849,7 @@ function exportBackup(){
   const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'نسخة-احتياطية-اللجان.json';
+  a.download = 'نسخة-احتياطية-منصة-التوقيع.json';
   a.click();
 }
 document.getElementById('restoreFile').addEventListener('change', function(e){
@@ -906,6 +873,19 @@ function clearData(){
 }
 
 /* =========================================================
+   PRINT MIRRORS FOR TEXTAREAS
+========================================================= */
+function buildPrintMirrors(){
+  document.querySelectorAll('textarea.field-ta').forEach((ta,i)=>{
+    let mirror = ta.nextElementSibling && ta.nextElementSibling.classList.contains('print-mirror') ? ta.nextElementSibling : null;
+    if(!mirror){ mirror = document.createElement('div'); mirror.className='print-mirror'; ta.parentNode.insertBefore(mirror, ta.nextSibling); }
+    mirror.textContent = ta.value;
+    mirror.classList.add('show-print');
+  });
+}
+window.addEventListener('beforeprint', buildPrintMirrors);
+
+/* =========================================================
    INIT
 ========================================================= */
 function initTodayChip(){
@@ -913,13 +893,11 @@ function initTodayChip(){
   document.getElementById('todayChip').textContent = d.toLocaleDateString('ar-SA', {weekday:'long', day:'numeric', month:'long'});
 }
 window.addEventListener('DOMContentLoaded', ()=>{
-  renderCommittees();
-  renderHomeAndIndex();
-  renderNotifications();
+  loadState();
+  renderHome();
   initSettingsForm();
-  initAutosave();
-  restoreAllSignatures();
   initTodayChip();
+  document.getElementById('ndDate').value = new Date().toISOString().slice(0,10);
 });
 </script>
 </body>

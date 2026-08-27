@@ -417,6 +417,18 @@
   </div>
 </div>
 
+<div class="toolbar week-nav no-print">
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span style="font-weight:bold;color:#1F4E78;">📅 الأسبوع الحالي:</span>
+    <select id="weekSelect" onchange="switchWeek(this.value)" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;font-family:inherit;font-size:13px;"></select>
+    <button class="success" onclick="addNewWeek()">➕ أسبوع جديد</button>
+    <button class="danger" onclick="deleteCurrentWeek()">🗑️ حذف هذا الأسبوع</button>
+  </div>
+  <div style="font-size:11.5px;color:#888;">
+    كل أسبوع يُحفظ تلقائيًا بشكل مستقل — يمكنك التنقل والرجوع لأي أسبوع طوال العام الدراسي
+  </div>
+</div>
+
 <!-- نافذة إعدادات الطباعة -->
 <div class="modal-bg" id="settingsModal">
   <div class="modal-box">
@@ -593,7 +605,7 @@
     localStorage.setItem('hh55_orientation', state.printOrientation);
     applyPrintOrientation();
     closeSettings();
-    saveAll();
+    persistYearData();
   }
   function printClicheOnly(){
     closeSettings();
@@ -603,11 +615,16 @@
   }
   applyPrintOrientation();
 
-  /* ========== الحفظ التلقائي + النسخ الاحتياطي/الاستعادة ========== */
+  /* ========== حفظ متعدد الأسابيع (يمتد لنهاية العام، مع إمكانية الرجوع لأي أسبوع) ========== */
   function debounce(fn, ms){
     let t;
     return function(...args){ clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
   }
+  let weeksStore = {};      // { weekId: {info:[الفترة,العام,الفصل], empCount, employees:[...]} }
+  let weekOrder = [];       // ترتيب ظهور الأسابيع في القائمة
+  let currentWeekId = null;
+  let weekSeq = 0;
+
   function buildEmployeesData(){
     const employees = [];
     for (let emp = 1; emp <= empCount; emp++) {
@@ -637,52 +654,146 @@
       });
     });
   }
-  function collectAllData(){
-    const editable = document.querySelectorAll('.header [contenteditable]');
-    return {
-      region: editable[0] ? editable[0].textContent : '',
-      school: editable[1] ? editable[1].textContent : '',
+  function saveCurrentWeekIntoStore(){
+    if (!currentWeekId) return;
+    weeksStore[currentWeekId] = {
       info: Array.from(document.querySelectorAll('.info-bar .val')).map(el => el.textContent),
-      logo: (document.getElementById('logoImg').style.display !== 'none') ? document.getElementById('logoImg').src : null,
-      orientation: state.printOrientation,
       empCount: empCount,
       employees: buildEmployeesData()
     };
   }
-  function saveAll(){
-    try { localStorage.setItem('hh55_data_v1', JSON.stringify(collectAllData())); } catch (e) {}
+  function loadWeekIntoDOM(weekId){
+    const wk = weeksStore[weekId];
+    if (!wk) return;
+    const infoVals = document.querySelectorAll('.info-bar .val');
+    (wk.info || []).forEach((v, i) => { if (infoVals[i]) infoVals[i].textContent = v; });
+    document.getElementById('tbody').innerHTML = '';
+    empCount = 0;
+    const count = wk.empCount || INITIAL_EMPLOYEES;
+    for (let i = 1; i <= count; i++) { empCount = i; buildEmployeeRows(i); }
+    buildGrandTotal();
+    applyEmployeesData(wk.employees || []);
+    recalculate();
   }
-  const saveAllDebounced = debounce(saveAll, 500);
-  function restoreFromData(data){
-    if (!data) return;
+  function weekLabel(id){
+    const wk = weeksStore[id];
+    const raw = wk && wk.info && wk.info[0] ? wk.info[0].trim() : '';
+    return (raw && !/^\.+$/.test(raw)) ? raw : `أسبوع بدون اسم (${id})`;
+  }
+  function renderWeekSelect(){
+    const sel = document.getElementById('weekSelect');
+    if (!sel) return;
+    sel.innerHTML = '';
+    weekOrder.forEach(id => {
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = weekLabel(id);
+      if (id === currentWeekId) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+  function switchWeek(weekId){
+    if (!weekId || weekId === currentWeekId) return;
+    saveCurrentWeekIntoStore();
+    currentWeekId = weekId;
+    loadWeekIntoDOM(weekId);
+    renderWeekSelect();
+    persistYearData();
+  }
+  function addNewWeek(){
+    saveCurrentWeekIntoStore();
+    weekSeq++;
+    const newId = 'w' + weekSeq;
+    const prevInfo = (weeksStore[currentWeekId] && weeksStore[currentWeekId].info) || [];
+    weeksStore[newId] = {
+      info: ['...................', prevInfo[1] || '144../144.. هـ', prevInfo[2] || '........'],
+      empCount: INITIAL_EMPLOYEES,
+      employees: []
+    };
+    weekOrder.push(newId);
+    currentWeekId = newId;
+    loadWeekIntoDOM(newId);
+    renderWeekSelect();
+    persistYearData();
+  }
+  function deleteCurrentWeek(){
+    if (weekOrder.length <= 1) { alert('لا يمكن حذف الأسبوع — يجب أن يبقى أسبوع واحد على الأقل.'); return; }
+    if (!confirm(`هل تريد حذف بيانات "${weekLabel(currentWeekId)}" نهائيًا؟ لا يمكن التراجع عن هذا الإجراء.`)) return;
+    const idx = weekOrder.indexOf(currentWeekId);
+    delete weeksStore[currentWeekId];
+    weekOrder.splice(idx, 1);
+    currentWeekId = weekOrder[idx] || weekOrder[idx - 1] || weekOrder[0];
+    loadWeekIntoDOM(currentWeekId);
+    renderWeekSelect();
+    persistYearData();
+  }
+  function collectYearData(){
+    saveCurrentWeekIntoStore();
+    const editable = document.querySelectorAll('.header [contenteditable]');
+    return {
+      region: editable[0] ? editable[0].textContent : '',
+      school: editable[1] ? editable[1].textContent : '',
+      logo: (document.getElementById('logoImg').style.display !== 'none') ? document.getElementById('logoImg').src : null,
+      orientation: state.printOrientation,
+      weekOrder: weekOrder,
+      weekSeq: weekSeq,
+      currentWeekId: currentWeekId,
+      weeks: weeksStore
+    };
+  }
+  function persistYearData(){
+    try { localStorage.setItem('hh55_year_v1', JSON.stringify(collectYearData())); } catch (e) {}
+  }
+  const persistDebounced = debounce(persistYearData, 500);
+  function restoreYearData(data){
+    if (!data) return false;
     const editable = document.querySelectorAll('.header [contenteditable]');
     if (data.region != null && editable[0]) editable[0].textContent = data.region;
     if (data.school != null && editable[1]) editable[1].textContent = data.school;
-    const infoVals = document.querySelectorAll('.info-bar .val');
-    (data.info || []).forEach((v, i) => { if (infoVals[i]) infoVals[i].textContent = v; });
     if (data.logo) {
       document.getElementById('logoImg').src = data.logo;
       document.getElementById('logoImg').style.display = 'block';
       document.getElementById('logoPlaceholder').style.display = 'none';
     }
     if (data.orientation) { state.printOrientation = data.orientation; localStorage.setItem('hh55_orientation', data.orientation); applyPrintOrientation(); }
-    document.getElementById('tbody').innerHTML = '';
-    empCount = 0;
-    const count = data.empCount || INITIAL_EMPLOYEES;
-    for (let i = 1; i <= count; i++) { empCount = i; buildEmployeeRows(i); }
-    buildGrandTotal();
-    applyEmployeesData(data.employees || []);
-    recalculate();
+    weeksStore = data.weeks || {};
+    weekOrder = data.weekOrder && data.weekOrder.length ? data.weekOrder : Object.keys(weeksStore);
+    weekSeq = data.weekSeq || weekOrder.length;
+    if (!weekOrder.length) return false;
+    currentWeekId = (data.currentWeekId && weeksStore[data.currentWeekId]) ? data.currentWeekId : weekOrder[0];
+    loadWeekIntoDOM(currentWeekId);
+    renderWeekSelect();
+    return true;
   }
-  function loadSavedData(){
-    try { const raw = localStorage.getItem('hh55_data_v1'); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+  function loadSavedYear(){
+    try {
+      const raw = localStorage.getItem('hh55_year_v1');
+      if (raw) return JSON.parse(raw);
+      // ترقية تلقائية من نسخة سابقة كانت بأسبوع واحد فقط، إن وُجدت على هذا الجهاز
+      const oldRaw = localStorage.getItem('hh55_data_v1');
+      if (oldRaw) {
+        const old = JSON.parse(oldRaw);
+        return {
+          region: old.region, school: old.school, logo: old.logo, orientation: old.orientation,
+          weekOrder: ['w1'], weekSeq: 1, currentWeekId: 'w1',
+          weeks: { w1: { info: old.info, empCount: old.empCount, employees: old.employees } }
+        };
+      }
+      return null;
+    } catch (e) { return null; }
+  }
+  function initFirstWeek(){
+    weekSeq = 1;
+    currentWeekId = 'w1';
+    weekOrder = ['w1'];
+    weeksStore = { w1: { info: null, empCount: INITIAL_EMPLOYEES, employees: [] } };
   }
   function exportBackup(){
-    const data = collectAllData();
+    const data = collectYearData();
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'نسخة-احتياطية-حصر-التأخر-' + new Date().toISOString().slice(0, 10) + '.json';
+    a.download = 'نسخة-احتياطية-حصر-التأخر-كامل-العام-' + new Date().toISOString().slice(0, 10) + '.json';
     a.click();
   }
   function restoreBackup(ev){
@@ -691,18 +802,19 @@
     reader.onload = function(e){
       try {
         const data = JSON.parse(e.target.result);
-        restoreFromData(data);
-        saveAll();
-        closeSettings();
-        alert('تمت الاستعادة بنجاح');
+        if (restoreYearData(data)) {
+          persistYearData();
+          closeSettings();
+          alert('تمت استعادة جميع أسابيع العام بنجاح');
+        } else { alert('ملف غير صالح'); }
       } catch (err) { alert('ملف غير صالح'); }
     };
     reader.readAsText(file);
   }
-  // حفظ تلقائي عند أي تعديل داخل الورقة (أسماء، أرقام، حقول قابلة للتعديل)
-  document.getElementById('sheet').addEventListener('input', saveAllDebounced);
+  // حفظ تلقائي عند أي تعديل (أسماء، أرقام، حقول قابلة للتعديل) — لكل أسبوع على حدة
+  document.getElementById('sheet').addEventListener('input', () => persistDebounced());
   document.querySelectorAll('.header [contenteditable], .info-bar .val').forEach(el => {
-    el.addEventListener('blur', saveAll);
+    el.addEventListener('blur', () => { persistYearData(); renderWeekSelect(); });
   });
 
   /* ========== التوقيع الإلكتروني ========== */
@@ -816,7 +928,7 @@
       <img class="sig-thumb" src="${dataUrl}" alt="توقيع">
       <button type="button" class="sig-edit-btn" onclick="openSignature(${sigTargetEmp})">✏️ تعديل</button>`;
     closeSignature();
-    saveAll();
+    persistYearData();
   }
 
 </script>
@@ -1080,7 +1192,7 @@
     empCount++;
     buildEmployeeRows(empCount);
     recalculate();
-    saveAll();
+    persistYearData();
   }
 
   function clearAllInputs() {
@@ -1088,7 +1200,7 @@
     document.querySelectorAll('table.main input[type="number"]').forEach(i => i.value = '');
     document.querySelectorAll('table.main td.emp-name input').forEach(i => i.value = '');
     recalculate();
-    saveAll();
+    persistYearData();
   }
 
   // ========== الشعار ==========
@@ -1101,22 +1213,25 @@
       img.src = ev.target.result;
       img.style.display = 'block';
       document.getElementById('logoPlaceholder').style.display = 'none';
-      saveAll();
+      persistYearData();
     };
     reader.readAsDataURL(file);
   });
 
-  // ========== التهيئة الأولية (استرجاع آخر نسخة محفوظة تلقائيًا إن وُجدت) ==========
-  const savedData = loadSavedData();
-  if (savedData) {
-    restoreFromData(savedData);
+  // ========== التهيئة الأولية (تستمر لنهاية العام؛ يمكن الرجوع لأي أسبوع سابق لاحقًا) ==========
+  const savedYear = loadSavedYear();
+  if (savedYear && restoreYearData(savedYear)) {
+    persistYearData();
   } else {
+    initFirstWeek();
     for (let i = 1; i <= INITIAL_EMPLOYEES; i++) {
       empCount = i;
       buildEmployeeRows(i);
     }
     buildGrandTotal();
     recalculate();
+    persistYearData();
+    renderWeekSelect();
   }
 </script>
 

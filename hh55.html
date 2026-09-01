@@ -188,6 +188,29 @@
   table.main thead tr:nth-child(2) th.total-sub {
     background: #FFE699;
   }
+  /* تمييز عمودي الاثنين والأربعاء ليسهل تتبع اليوم عند التمرير لأسفل الجدول */
+  table.main thead tr:nth-child(1) th.day-highlight {
+    background: #2E75B6;
+  }
+  table.main thead tr:nth-child(2) th.day-highlight-sub {
+    background: #9DC3E6;
+  }
+  table.main td.input-cell[data-day="mon"],
+  table.main td.input-cell[data-day="wed"] {
+    background: #FFE0B3;
+  }
+  table.main td.input-cell[data-day="mon"] input:focus,
+  table.main td.input-cell[data-day="wed"] input:focus {
+    background: #FFCC80;
+  }
+  table.main tr.emp-total td[data-role="emp-day-sum"][data-day="mon"],
+  table.main tr.emp-total td[data-role="emp-day-sum"][data-day="wed"] {
+    background: #A9D18E;
+  }
+  table.main tr.grand-total td[data-role="grand-day-sum"][data-day="mon"],
+  table.main tr.grand-total td[data-role="grand-day-sum"][data-day="wed"] {
+    background: #14395C;
+  }
 
   /* الأعمدة */
   .col-num { width: 36px; }
@@ -538,17 +561,17 @@
         <th class="sig-cell" rowspan="2">التوقيع</th>
         <th class="col-type" rowspan="2">نوع التأخر</th>
         <th colspan="2">الأحد</th>
-        <th colspan="2">الاثنين</th>
+        <th colspan="2" class="day-highlight">الاثنين</th>
         <th colspan="2">الثلاثاء</th>
-        <th colspan="2">الأربعاء</th>
+        <th colspan="2" class="day-highlight">الأربعاء</th>
         <th colspan="2">الخميس</th>
         <th colspan="2" style="background:#FFE699;color:#000;">المجموع</th>
       </tr>
       <tr>
         <th>ساعات</th><th>دقائق</th>
+        <th class="day-highlight-sub">ساعات</th><th class="day-highlight-sub">دقائق</th>
         <th>ساعات</th><th>دقائق</th>
-        <th>ساعات</th><th>دقائق</th>
-        <th>ساعات</th><th>دقائق</th>
+        <th class="day-highlight-sub">ساعات</th><th class="day-highlight-sub">دقائق</th>
         <th>ساعات</th><th>دقائق</th>
         <th class="total-sub">ساعات</th>
         <th class="total-sub">دقائق</th>
@@ -995,6 +1018,7 @@
         ['h', 'm'].forEach(unit => {
           const td = document.createElement('td');
           td.className = 'col-cell input-cell';
+          td.dataset.day = d;
           const inp = document.createElement('input');
           inp.type = 'number';
           inp.min = '0';

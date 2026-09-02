@@ -795,9 +795,7 @@
       </div>
     </div>
   </div>
-
-  <!-- المؤشر 2-1-1-1 -->
-  <div class="indicator-card" id="ind-2">
+<div class="indicator-card" id="ind-2">
     <div class="indicator-header" onclick="toggleCard('ind-2')">
       <div class="indicator-header-left">
         <span class="indicator-code">2-1-1-1</span>
@@ -890,10 +888,7 @@
       </div>
     </div>
   </div>
-
-  <!-- المؤشرات 3-7 مختصرة لكنها كاملة -->
-  <!-- المؤشر 1-1-2-1 -->
-  <div class="indicator-card" id="ind-3">
+<div class="indicator-card" id="ind-3">
     <div class="indicator-header" onclick="toggleCard('ind-3')">
       <div class="indicator-header-left">
         <span class="indicator-code">1-1-2-1</span>
@@ -934,9 +929,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Additional indicators 2-1-2-1 through 7-1-4-1 shown collapsed by default -->
-  <div class="indicator-card collapsed" id="ind-4">
+<div class="indicator-card collapsed" id="ind-4">
     <div class="indicator-header" onclick="toggleCard('ind-4')">
       <div class="indicator-header-left">
         <span class="indicator-code">2-1-2-1</span>
@@ -983,9 +976,7 @@
       </div>
     </div>
   </div>
-
-  <!-- More indicators grouped -->
-  <div class="indicator-card collapsed" id="ind-5">
+<div class="indicator-card collapsed" id="ind-5">
     <div class="indicator-header" onclick="toggleCard('ind-5')">
       <div class="indicator-header-left">
         <span class="indicator-code">3-1-2-1 إلى 7-1-4-1</span>
@@ -1064,7 +1055,7 @@
   <div class="section-header">
     <div class="section-title">
       <div class="section-icon icon-teal">📚</div>
-      <div class="section-title-text"><h2>٢. التعليم والتعلم</h2><p>7 مفردات تقييم | 3 مؤشرات</p></div>
+      <div class="section-title-text"><h2>٢. التعليم والتعلم</h2><p>14 مفردة تقييم | 13 مؤشراً</p></div>
     </div>
     <div class="section-actions">
       <button class="btn-action btn-print" onclick="pdfSection('s2')">🖨️ طباعة</button>
@@ -1073,10 +1064,21 @@
   </div>
   <div id="s2-progress" class="progress-wrap"><div class="progress-header"><span class="progress-label">التقدم في تقييم القسم</span><span class="progress-pct" id="s2-pct">0%</span></div><div class="progress-bar"><div class="progress-fill" id="s2-fill" style="width:0%"></div></div></div>
   <script>
-    const s2data = [
+    const s2data = [      {code:'2-1-1-1', title:'توفر المدرسة فرصًا متكافئة للتعلم تلبي احتياجات المتعلمين، ومنهم ذوو الإعاقة والموهوبون.', items:[
+        {num:53, title:'توفر المدرسة فرصًا متكافئة للتعلم تلبي احتياجات المتعلمين، ومنهم ذوو الإعاقة والموهوبون.', evs:['فرص تعلم متكافئة تلبي احتياجات جميع المتعلمين.','برامج ومسارات تراعي ذوي الإعاقة والموهوبين.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
       {code:'2-1-1-2', title:'تدعم المدرسة تنفيذ المناهج؛ لتحقيق نواتج التعلم المستهدفة وفق الخطة الدراسية.', items:[
         {num:40, title:'توفر المدرسة أنشطة ومصادر لدعم تعلم محتوى المناهج (المعارف والمهارات والقيم).', evs:['توجد مصادر متنوعة تدعم تعلم جميع موضوعات ومحتوى المنهج.','توجد أنشطة تعلم تركز على المعارف المستهدفة.','توجد أنشطة تعلم تركز على المهارات النوعية المستهدفة.','توجد أنشطة تعلم تركز على القيم الوطنية المستهدفة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
         {num:41, title:'تتابع المدرسة تنفيذ المناهج لتحقيق نواتج التعلم المستهدفة وفق الخطة الدراسية.', evs:['تتابع المدرسة تنفيذ المناهج وفق الخطة الدراسة.','تقدم المدرسة التغذية الراجعة باستمرار.','تبادر المدرسة بتأمين حصص للمعلم المتأخر في المنهج.','يتوافق تنفيذ المنهج مع الخطة الزمنية بنسبة أكثر من 90%.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'2-1-1-3', title:'تنوع المدرسة في إستراتيجيات التعليم والتعلم؛ لتلبية احتياجات المتعلمين، ودعم تعلمهم.', items:[
+        {num:54, title:'تنوع المدرسة في إستراتيجيات التعليم والتعلم؛ لتلبية احتياجات المتعلمين، ودعم تعلمهم.', evs:['تنويع استراتيجيات التدريس وفق طبيعة الدرس واحتياجات المتعلمين.','توظيف استراتيجيات نشطة تراعي الفروق الفردية.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'2-1-1-4', title:'تفعل المدرسة التقنية الرقمية؛ لدعم تعلم المتعلمين وتلبية احتياجاتهم.', items:[
+        {num:55, title:'تفعل المدرسة التقنية الرقمية؛ لدعم تعلم المتعلمين وتلبية احتياجاتهم.', evs:['توظيف منصة مدرستي والأدوات الرقمية في دعم التعلم.','تدريب المتعلمين على الاستخدام الآمن للتقنية.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'2-1-1-5', title:'تنفذ المدرسة أنشطة تعلم تطبيقية ترتبط بحياة المتعلمين.', items:[
+        {num:56, title:'تنفذ المدرسة أنشطة تعلم تطبيقية ترتبط بحياة المتعلمين.', evs:['أنشطة تطبيقية تربط محتوى المناهج بواقع حياة المتعلمين.','مشروعات وتجارب عملية داعمة للتعلم.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
       ]},
       {code:'6-1-1-2', title:'تنمي المدرسة المهارات القرائية والعددية الأساسية لدى المتعلمين.', items:[
         {num:42, title:'تنمي المدرسة المهارات القرائية والعددية الأساسية لدى المتعلمين.', evs:['توجد أنشطة تنمي مهارات القراءة والكتابة لدى المتعلمين.','توجد أنشطة تنمي المهارات العددية لدى المتعلمين.','توجد أنشطة علاجية وإثرائية لتنمية مهارات القراءة والكتابة.','توجد أنشطة علاجية وإثرائية لتنمية المهارات العددية.','تشجع المدرسة المتعلمين على القراءة والكتابة بطرق متنوعة.','تشجع المدرسة المتعلمين على العمليات الحسابية بطرق متنوعة.','تشجع المدرسة المتعلمين على المشاركة في المسابقات الوطنية والدولية.'], scale:'1=3-1 شواهد | 2=5-4 | 3=6 | 4=7+'},
@@ -1084,15 +1086,24 @@
       {code:'7-1-1-2', title:'تنمي المدرسة مهارات التفكير العليا لدى المتعلمين.', items:[
         {num:43, title:'توفر المدرسة أنشطة تنمي مهارات التفكير العليا (الناقد والإبداعي وحل المشكلات) لدى المتعلمين.', evs:['توجد أنشطة تنمي مهارات التفكير الناقد (التحليل، الاستنتاج، التقويم).','توجد أنشطة تنمي مهارات التفكير الإبداعي (الطلاقة، المرونة، الأصالة).','توجد أنشطة تنمي مهارات حل المشكلات لدى المتعلمين.','توجد أنشطة إثرائية صفية وغير صفية متنوعة.','تتابع المدرسة تنفيذ الأنشطة بانتظام.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
       ]},
+      {code:'2-1-1-8', title:'تنمي المدرسة المهارات العاطفية والاجتماعية لدى المتعلمين.', items:[
+        {num:57, title:'تنمي المدرسة المهارات العاطفية والاجتماعية لدى المتعلمين.', evs:['أنشطة تنمي الوعي الذاتي وإدارة الانفعالات لدى المتعلمين.','أنشطة تعزز مهارات التواصل والعمل الجماعي.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
+      {code:'2-1-1-9', title:'تعزز المدرسة دافعية المتعلمين للتعلم، والاستمتاع به.', items:[
+        {num:58, title:'تعزز المدرسة دافعية المتعلمين للتعلم، والاستمتاع به.', evs:['أساليب تحفيزية تعزز حب التعلم لدى المتعلمين.','بيئة صفية محفزة وممتعة تدعم استمتاع المتعلمين بالتعلم.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},
       {code:'1-1-2-2', title:'تقوم المدرسة أداء المتعلمين باستخدام أساليب وأدوات تقويم متنوعة وفاعلة.', items:[
         {num:44, title:'تستخدم المدرسة أساليب وأدوات تقويم متنوعة تُظهر التمايز في أداء المتعلمين.', evs:['توجد أساليب وأدوات تقويم متنوعة (تشخيصي، تكويني، ختامي).','تطبق المدرسة أدوات تقويم متنوعة (تقويم ذاتي، تقويم الأقران، مشروعات، مهام أدائية).','تقدم المدرسة أدوات تقويم تحقق التمايز في مستويات الأداء.','تراعي أدوات التقويم أنماط تعلم المتعلمين المختلفة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
       ]},
-      {code:'2-1-2-2', title:'تحلل المدرسة نتائج التقويم وتوظفها في تحسين نواتج التعلم بانتظام.', items:[
+      {code:'2-2-1-2', title:'تطبق المدرسة أساليب وأدوات متنوعة؛ لتقويم نواتج التعلم المستهدفة في مناهج التعليم.', items:[
+        {num:59, title:'تطبق المدرسة أساليب وأدوات متنوعة؛ لتقويم نواتج التعلم المستهدفة في مناهج التعليم.', evs:['أدوات تقويم مرتبطة مباشرة بنواتج التعلم المستهدفة في المنهج.','معايير تصحيح واضحة ومعلنة.'], scale:'1=1 شاهد | 2=2 | 3=3 | 4=4+'},
+      ]},      {code:'2-1-2-2', title:'تحلل المدرسة نتائج التقويم وتوظفها في تحسين نواتج التعلم بانتظام.', items:[
         {num:45, title:'تحلل المدرسة نتائج تقويم أداء المتعلمين، وتوظفها في تحسين تعلمهم بانتظام.', evs:['تحلل المدرسة نتائج تقويم أداء المتعلمين.','تدعم المدرسة المتعلمين الذين يحتاجون إلى تحسين أدائهم بأساليب متنوعة.','توظف المدرسة نتائج التقويم في دعم التعلم وتحسينه.','تضع المدرسة خطط علاجية وإثرائية بأساليب متنوعة.','تتابع المدرسة تنفيذ الخطط العلاجية والبرامج الإثرائية بانتظام.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
       ]},
       {code:'3-1-2-2', title:'تقدم المدرسة التغذية الراجعة للمتعلمين بانتظام.', items:[
         {num:46, title:'تقدم المدرسة تغذية راجعة للمتعلمين بانتظام.', evs:['تقدم المدرسة تغذية راجعة مقدمة بانتظام.','تقدم تغذية راجعة مرتبطة بنواتج التعلم المستهدفة.','تقدم تغذية راجعة تركز على دعم التعلم وتحسين أداء المتعلمين.','تقدم تغذية راجعة توضح مستوى تقدم المتعلمين.','تقدم تغذية راجعة إيجابية تشجع المتعلمين على تقديم ملاحظاتهم وأفكارهم.'], scale:'1=2-1 شواهد | 2=3 | 3=4 | 4=5+'},
       ]},
+
     ];
     document.currentScript.insertAdjacentHTML('afterend', s2data.map((ind,i) => `
       <div class="indicator-card" id="s2-ind-${i}">
@@ -1141,14 +1152,248 @@
   <div class="section-header">
     <div class="section-title">
       <div class="section-icon icon-purple">🎯</div>
-      <div class="section-title-text"><h2>٣. نواتج التعلم</h2><p>3 مفردات تقييم | 2 مؤشرات</p></div>
+      <div class="section-title-text"><h2>٣. نواتج التعلم</h2><p>14 مفردة تقييم | 13 مؤشراً</p></div>
     </div>
     <div class="section-actions">
       <button class="btn-action btn-print" onclick="pdfSection('s3')">🖨️ طباعة</button>
       <button class="btn-action btn-save" onclick="pdfSection('s3')">📄 حفظ PDF</button>
     </div>
   </div>
-  <div class="indicator-card" id="s3-ind-0">
+  <div class="indicator-card" id="s3-ind-2">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-2')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-1</span><span class="indicator-title">يحقق المتعلمون نتائج مرتفعة في مجال القراءة وفقًا للاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-2')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-2')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-60">
+        <div class="item-header"><div class="item-num">60</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون نتائج مرتفعة في مجال القراءة وفقًا للاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">نتائج مرتفعة في مهارة القراءة وفق اختبار نافس.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تحليل نتائج القراءة وبناء خطط لتحسينها.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-60"><button class="star-btn" onclick="setRating('rating-60',1,this)">1</button><button class="star-btn" onclick="setRating('rating-60',2,this)">2</button><button class="star-btn" onclick="setRating('rating-60',3,this)">3</button><button class="star-btn" onclick="setRating('rating-60',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-3">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-3')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-2</span><span class="indicator-title">يحقق المتعلمون نتائج مرتفعة في مجال الرياضيات وفقًا للاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-3')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-3')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-61">
+        <div class="item-header"><div class="item-num">61</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون نتائج مرتفعة في مجال الرياضيات وفقًا للاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">نتائج مرتفعة في مهارة الرياضيات وفق اختبار نافس.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تحليل نتائج الرياضيات وبناء خطط لتحسينها.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-61"><button class="star-btn" onclick="setRating('rating-61',1,this)">1</button><button class="star-btn" onclick="setRating('rating-61',2,this)">2</button><button class="star-btn" onclick="setRating('rating-61',3,this)">3</button><button class="star-btn" onclick="setRating('rating-61',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-4">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-4')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-3</span><span class="indicator-title">يحقق المتعلمون نتائج مرتفعة في مجال العلوم وفقًا للاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-4')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-4')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-62">
+        <div class="item-header"><div class="item-num">62</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون نتائج مرتفعة في مجال العلوم وفقًا للاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">نتائج مرتفعة في مهارة العلوم وفق اختبار نافس.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تحليل نتائج العلوم وبناء خطط لتحسينها.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-62"><button class="star-btn" onclick="setRating('rating-62',1,this)">1</button><button class="star-btn" onclick="setRating('rating-62',2,this)">2</button><button class="star-btn" onclick="setRating('rating-62',3,this)">3</button><button class="star-btn" onclick="setRating('rating-62',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-5">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-5')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-4</span><span class="indicator-title">يحقق المتعلمون تقدمًا في مجال القراءة قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-5')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-5')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-63">
+        <div class="item-header"><div class="item-num">63</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون تقدمًا في مجال القراءة قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مقارنة نتائج القراءة الحالية بنتائج الأعوام السابقة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">خطة تحسين مبنية على فجوات الأداء في القراءة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-63"><button class="star-btn" onclick="setRating('rating-63',1,this)">1</button><button class="star-btn" onclick="setRating('rating-63',2,this)">2</button><button class="star-btn" onclick="setRating('rating-63',3,this)">3</button><button class="star-btn" onclick="setRating('rating-63',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-6">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-6')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-5</span><span class="indicator-title">يحقق المتعلمون تقدمًا في مجال الرياضيات قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-6')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-6')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-64">
+        <div class="item-header"><div class="item-num">64</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون تقدمًا في مجال الرياضيات قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مقارنة نتائج الرياضيات الحالية بنتائج الأعوام السابقة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">خطة تحسين مبنية على فجوات الأداء في الرياضيات.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-64"><button class="star-btn" onclick="setRating('rating-64',1,this)">1</button><button class="star-btn" onclick="setRating('rating-64',2,this)">2</button><button class="star-btn" onclick="setRating('rating-64',3,this)">3</button><button class="star-btn" onclick="setRating('rating-64',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-7">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-7')">
+      <div class="indicator-header-left"><span class="indicator-code">3-1-1-6</span><span class="indicator-title">يحقق المتعلمون تقدمًا في مجال العلوم قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-7')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-7')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-65">
+        <div class="item-header"><div class="item-num">65</div><div class="item-content">
+          <div class="item-title">يحقق المتعلمون تقدمًا في مجال العلوم قياسًا على مستوى أداء المدرسة السابق في الاختبارات الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مقارنة نتائج العلوم الحالية بنتائج الأعوام السابقة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">خطة تحسين مبنية على فجوات الأداء في العلوم.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-65"><button class="star-btn" onclick="setRating('rating-65',1,this)">1</button><button class="star-btn" onclick="setRating('rating-65',2,this)">2</button><button class="star-btn" onclick="setRating('rating-65',3,this)">3</button><button class="star-btn" onclick="setRating('rating-65',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-8">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-8')">
+      <div class="indicator-header-left"><span class="indicator-code">3-2-1-1</span><span class="indicator-title">يظهر المتعلمون الاعتزاز بالقيم والهوية الوطنية.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-8')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-8')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-66">
+        <div class="item-header"><div class="item-num">66</div><div class="item-content">
+          <div class="item-title">يظهر المتعلمون الاعتزاز بالقيم والهوية الوطنية.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مشاركة المتعلمين في الفعاليات والمناسبات الوطنية.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ممارسات تعكس الاعتزاز بالهوية الوطنية والقيم الإسلامية.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-66"><button class="star-btn" onclick="setRating('rating-66',1,this)">1</button><button class="star-btn" onclick="setRating('rating-66',2,this)">2</button><button class="star-btn" onclick="setRating('rating-66',3,this)">3</button><button class="star-btn" onclick="setRating('rating-66',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-9">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-9')">
+      <div class="indicator-header-left"><span class="indicator-code">3-2-1-2</span><span class="indicator-title">يظهر المتعلمون اتجاهات إيجابية نحو ذواتهم والآخرين.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-9')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-9')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-67">
+        <div class="item-header"><div class="item-num">67</div><div class="item-content">
+          <div class="item-title">يظهر المتعلمون اتجاهات إيجابية نحو ذواتهم والآخرين.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">استبانات قياس اتجاهات المتعلمين نحو ذواتهم والآخرين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">ملاحظات سلوكية تعكس الثقة بالنفس واحترام الآخرين.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-67"><button class="star-btn" onclick="setRating('rating-67',1,this)">1</button><button class="star-btn" onclick="setRating('rating-67',2,this)">2</button><button class="star-btn" onclick="setRating('rating-67',3,this)">3</button><button class="star-btn" onclick="setRating('rating-67',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-10">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-10')">
+      <div class="indicator-header-left"><span class="indicator-code">3-2-1-3</span><span class="indicator-title">يظهر المتعلمون الالتزام بالممارسات الصحية السليمة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-10')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-10')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-68">
+        <div class="item-header"><div class="item-num">68</div><div class="item-content">
+          <div class="item-title">يظهر المتعلمون الالتزام بالممارسات الصحية السليمة.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">أنشطة توعية صحية وغذائية للمتعلمين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">التزام المتعلمين بالعادات الصحية داخل المدرسة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-68"><button class="star-btn" onclick="setRating('rating-68',1,this)">1</button><button class="star-btn" onclick="setRating('rating-68',2,this)">2</button><button class="star-btn" onclick="setRating('rating-68',3,this)">3</button><button class="star-btn" onclick="setRating('rating-68',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-0">
     <div class="indicator-header" onclick="toggleCard('s3-ind-0')">
       <div class="indicator-header-left"><span class="indicator-code">4-1-2-3</span><span class="indicator-title">يشارك المتعلمون في الأنشطة المجتمعية والأعمال التطوعية.</span></div>
       <div class="indicator-header-right">
@@ -1177,7 +1422,7 @@
       </div>
     </div>
   </div>
-  <div class="indicator-card" id="s3-ind-1">
+<div class="indicator-card" id="s3-ind-1">
     <div class="indicator-header" onclick="toggleCard('s3-ind-1')">
       <div class="indicator-header-left"><span class="indicator-code">5-1-2-3</span><span class="indicator-title">يلتزم المتعلمون بقواعد السلوك والانضباط المدرسي.</span></div>
       <div class="indicator-header-right">
@@ -1221,6 +1466,58 @@
       </div>
     </div>
   </div>
+<div class="indicator-card" id="s3-ind-11">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-11')">
+      <div class="indicator-header-left"><span class="indicator-code">3-2-1-6</span><span class="indicator-title">يظهر المتعلمون الاستقلالية، والقدرة على التعلم الذاتي.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-11')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-11')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-69">
+        <div class="item-header"><div class="item-num">69</div><div class="item-content">
+          <div class="item-title">يظهر المتعلمون الاستقلالية، والقدرة على التعلم الذاتي.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">أنشطة تعزز التعلم الذاتي والاعتماد على النفس.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مشروعات بحثية فردية يقودها المتعلمون.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-69"><button class="star-btn" onclick="setRating('rating-69',1,this)">1</button><button class="star-btn" onclick="setRating('rating-69',2,this)">2</button><button class="star-btn" onclick="setRating('rating-69',3,this)">3</button><button class="star-btn" onclick="setRating('rating-69',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s3-ind-12">
+    <div class="indicator-header" onclick="toggleCard('s3-ind-12')">
+      <div class="indicator-header-left"><span class="indicator-code">3-2-1-7</span><span class="indicator-title">يظهر المتعلمون اعتزازًا بثقافتهم واحترامًا للتنوع الثقافي في المجتمع.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s3-ind-12')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s3-ind-12')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-70">
+        <div class="item-header"><div class="item-num">70</div><div class="item-content">
+          <div class="item-title">يظهر المتعلمون اعتزازًا بثقافتهم واحترامًا للتنوع الثقافي في المجتمع.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">أنشطة وفعاليات تعزز احترام التنوع الثقافي.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مشاركة المتعلمين في فعاليات ثقافية متنوعة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-70"><button class="star-btn" onclick="setRating('rating-70',1,this)">1</button><button class="star-btn" onclick="setRating('rating-70',2,this)">2</button><button class="star-btn" onclick="setRating('rating-70',3,this)">3</button><button class="star-btn" onclick="setRating('rating-70',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ===================== SECTION 4 ===================== -->
@@ -1228,14 +1525,118 @@
   <div class="section-header">
     <div class="section-title">
       <div class="section-icon icon-orange">🏗️</div>
-      <div class="section-title-text"><h2>٤. البيئة المدرسية</h2><p>3 مفردات تقييم | 2 مؤشرات</p></div>
+      <div class="section-title-text"><h2>٤. البيئة المدرسية</h2><p>8 مفردات تقييم | 7 مؤشرات</p></div>
     </div>
     <div class="section-actions">
       <button class="btn-action btn-print" onclick="pdfSection('s4')">🖨️ طباعة</button>
       <button class="btn-action btn-save" onclick="pdfSection('s4')">📄 حفظ PDF</button>
     </div>
   </div>
-  <div class="indicator-card" id="s4-ind-0">
+  <div class="indicator-card" id="s4-ind-2">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-2')">
+      <div class="indicator-header-left"><span class="indicator-code">4-1-1-1</span><span class="indicator-title">توفر المدرسة مبنى تعليميًا يستوفي المواصفات والاشتراطات المعتمدة من حيث النوع والخدمات المساندة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-2')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-2')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-71">
+        <div class="item-header"><div class="item-num">71</div><div class="item-content">
+          <div class="item-title">توفر المدرسة مبنى تعليميًا يستوفي المواصفات والاشتراطات المعتمدة من حيث النوع والخدمات المساندة.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مبنى مستوفٍ للمواصفات والاشتراطات المعتمدة.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">خدمات مساندة كافية (مقصف، دورات مياه، ساحات).</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-71"><button class="star-btn" onclick="setRating('rating-71',1,this)">1</button><button class="star-btn" onclick="setRating('rating-71',2,this)">2</button><button class="star-btn" onclick="setRating('rating-71',3,this)">3</button><button class="star-btn" onclick="setRating('rating-71',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s4-ind-3">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-3')">
+      <div class="indicator-header-left"><span class="indicator-code">4-1-1-2</span><span class="indicator-title">تنظيم مبنى ملائم لعدد المتعلمين وخصائص المرحلة العمرية، ومنهم ذوو الإعاقة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-3')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-3')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-72">
+        <div class="item-header"><div class="item-num">72</div><div class="item-content">
+          <div class="item-title">تنظيم مبنى ملائم لعدد المتعلمين وخصائص المرحلة العمرية، ومنهم ذوو الإعاقة.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">سعة المبنى تتناسب مع أعداد المتعلمين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تجهيزات تراعي خصائص المرحلة العمرية واحتياجات ذوي الإعاقة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-72"><button class="star-btn" onclick="setRating('rating-72',1,this)">1</button><button class="star-btn" onclick="setRating('rating-72',2,this)">2</button><button class="star-btn" onclick="setRating('rating-72',3,this)">3</button><button class="star-btn" onclick="setRating('rating-72',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s4-ind-4">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-4')">
+      <div class="indicator-header-left"><span class="indicator-code">4-1-1-3</span><span class="indicator-title">تتوافر فصول ومعامل ملائمة للعملية التعليمية تلبي احتياجات المتعلمين، ومنهم ذوو الإعاقة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-4')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-4')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-73">
+        <div class="item-header"><div class="item-num">73</div><div class="item-content">
+          <div class="item-title">تتوافر فصول ومعامل ملائمة للعملية التعليمية تلبي احتياجات المتعلمين، ومنهم ذوو الإعاقة.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">فصول ومعامل مجهزة تدعم العملية التعليمية.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">معامل ومصادر تعلم ملائمة لذوي الإعاقة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-73"><button class="star-btn" onclick="setRating('rating-73',1,this)">1</button><button class="star-btn" onclick="setRating('rating-73',2,this)">2</button><button class="star-btn" onclick="setRating('rating-73',3,this)">3</button><button class="star-btn" onclick="setRating('rating-73',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s4-ind-5">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-5')">
+      <div class="indicator-header-left"><span class="indicator-code">4-1-1-4</span><span class="indicator-title">تلبي المرافق والتجهيزات والخدمات المساندة احتياجات المتعلمين، ومنهم ذوو الإعاقة.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-5')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-5')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-74">
+        <div class="item-header"><div class="item-num">74</div><div class="item-content">
+          <div class="item-title">تلبي المرافق والتجهيزات والخدمات المساندة احتياجات المتعلمين، ومنهم ذوو الإعاقة.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">مرافق وخدمات مساندة (المقصف، المكتبة، دورات المياه) تلبي احتياجات جميع المتعلمين.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">تجهيزات خاصة تراعي ذوي الإعاقة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-74"><button class="star-btn" onclick="setRating('rating-74',1,this)">1</button><button class="star-btn" onclick="setRating('rating-74',2,this)">2</button><button class="star-btn" onclick="setRating('rating-74',3,this)">3</button><button class="star-btn" onclick="setRating('rating-74',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s4-ind-0">
     <div class="indicator-header" onclick="toggleCard('s4-ind-0')">
       <div class="indicator-header-left"><span class="indicator-code">1-1-2-4</span><span class="indicator-title">تتوافر في فصول المدرسة ومعاملها وجميع مرافقها متطلبات الأمن والسلامة.</span></div>
       <div class="indicator-header-right">
@@ -1280,7 +1681,7 @@
       </div>
     </div>
   </div>
-  <div class="indicator-card" id="s4-ind-1">
+<div class="indicator-card" id="s4-ind-1">
     <div class="indicator-header" onclick="toggleCard('s4-ind-1')">
       <div class="indicator-header-left"><span class="indicator-code">2-1-2-4</span><span class="indicator-title">تعمل المدرسة على صيانة جميع مرافق المبنى وتجهيزاته بانتظام.</span></div>
       <div class="indicator-header-right">
@@ -1302,6 +1703,32 @@
         </div></div>
         <div class="rating-section"><span class="rating-label">التقييم:</span>
           <div class="rating-stars" id="rating-52"><button class="star-btn" onclick="setRating('rating-52',1,this)">1</button><button class="star-btn" onclick="setRating('rating-52',2,this)">2</button><button class="star-btn" onclick="setRating('rating-52',3,this)">3</button><button class="star-btn" onclick="setRating('rating-52',4,this)">4</button></div>
+          <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
+          <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="indicator-card" id="s4-ind-6">
+    <div class="indicator-header" onclick="toggleCard('s4-ind-6')">
+      <div class="indicator-header-left"><span class="indicator-code">4-2-1-3</span><span class="indicator-title">تتابع المدرسة نظافة المبنى المدرسي وجميع مرافقه بشكل مستمر.</span></div>
+      <div class="indicator-header-right">
+        <button class="btn-ind btn-ind-print" onclick="event.stopPropagation();pdfIndicator('s4-ind-6')">🖨️ طباعة</button>
+        <button class="btn-ind btn-ind-save" onclick="event.stopPropagation();pdfIndicator('s4-ind-6')">📄 PDF</button>
+        <span class="toggle-icon">▲</span>
+      </div>
+    </div>
+    <div class="indicator-body">
+      <div class="item-row" id="item-75">
+        <div class="item-header"><div class="item-num">75</div><div class="item-content">
+          <div class="item-title">تتابع المدرسة نظافة المبنى المدرسي وجميع مرافقه بشكل مستمر.</div>
+          <div class="evidence-grid">
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">برنامج دوري لنظافة المبنى والمرافق.</span></div>
+            <div class="evidence-item" onclick="toggleEvidence(this)"><div class="evidence-checkbox"></div><span class="evidence-text">متابعة التزام العاملين بمعايير النظافة.</span></div>
+          </div>
+        </div></div>
+        <div class="rating-section"><span class="rating-label">التقييم:</span>
+          <div class="rating-stars" id="rating-75"><button class="star-btn" onclick="setRating('rating-75',1,this)">1</button><button class="star-btn" onclick="setRating('rating-75',2,this)">2</button><button class="star-btn" onclick="setRating('rating-75',3,this)">3</button><button class="star-btn" onclick="setRating('rating-75',4,this)">4</button></div>
           <span class="scale-hint">1=1 شاهد | 2=2 | 3=3 | 4=4+</span>
           <textarea class="notes-input" rows="1" placeholder="ملاحظات..."></textarea>
         </div>
@@ -1381,9 +1808,9 @@ function updateStats() {
   const rated = Object.keys(ratings).length;
   const vals = Object.values(ratings);
   const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
-  document.getElementById('stat-evidence').textContent = checked;
-  document.getElementById('stat-rated').textContent = rated;
-  document.getElementById('stat-avg').textContent = avg;
+  if(document.getElementById('stat-evidence')) document.getElementById('stat-evidence').textContent = checked;
+  if(document.getElementById('stat-rated')) document.getElementById('stat-rated').textContent = rated;
+  if(document.getElementById('stat-avg')) document.getElementById('stat-avg').textContent = avg;
   if(document.getElementById('sum-ev')) {
     document.getElementById('sum-ev').textContent = checked;
     document.getElementById('sum-rated').textContent = rated;

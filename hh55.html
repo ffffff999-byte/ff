@@ -316,6 +316,17 @@
     font-weight: bold;
     font-size: 13px;
   }
+  .signatures .sig-name-field {
+    outline: none;
+    cursor: text;
+    color: #0000FF;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border-bottom: 1px dashed #999;
+    display: inline-block;
+    min-width: 110px;
+  }
+  .signatures .sig-name-field:focus { background: #FFF2CC; }
 
   /* ========== شريط التصميم ========== */
   .credit {
@@ -344,6 +355,10 @@
     table.main { page-break-inside: auto; }
     table.main tr { page-break-inside: avoid; break-inside: avoid; }
     table.main thead { display: table-header-group; }
+    /* منع تكرار صف "الإجمالي العام لجميع الموظفين" في أعلى/أسفل كل صفحة طباعة —
+       الافتراضي في المتصفح يعامل tfoot مثل thead ويكرره، مما يوهم المدقق أنه إجمالي خاص بالموظف
+       الذي تصادف وجوده في صفحة منفردة. نجعله يظهر مرة واحدة فقط في نهاية الجدول. */
+    table.main tfoot { display: table-row-group; }
     table.main td.input-cell input { color: #0000FF; }
     .logo-box { border: 1px solid #999; }
     .credit a { color: #1F4E78; }
@@ -446,9 +461,32 @@
     <select id="weekSelect" onchange="switchWeek(this.value)" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;font-family:inherit;font-size:13px;"></select>
     <button class="success" onclick="addNewWeek()">➕ أسبوع جديد</button>
     <button class="danger" onclick="deleteCurrentWeek()">🗑️ حذف هذا الأسبوع</button>
+    <button style="background:#7030A0;" onclick="openMonthlyModal()">📊 التقرير الشهري التراكمي</button>
   </div>
   <div style="font-size:11.5px;color:#888;">
     كل أسبوع يُحفظ تلقائيًا بشكل مستقل — يمكنك التنقل والرجوع لأي أسبوع طوال العام الدراسي
+  </div>
+</div>
+
+<!-- نافذة التقرير الشهري التراكمي -->
+<div class="modal-bg" id="monthlyModal">
+  <div class="modal-box" style="max-width:480px;">
+    <h3>📊 التقرير الشهري التراكمي لتأخر الموظفين</h3>
+    <div class="frow">
+      <label>اسم الشهر الميلادي (يظهر في عنوان التقرير)</label>
+      <input type="text" id="monthlyTitleInput" placeholder="مثال: شهر سبتمبر 2026م">
+    </div>
+    <div class="frow">
+      <label>اختر الأسابيع الداخلة ضمن هذا الشهر</label>
+      <div id="monthlyWeeksList" style="max-height:220px;overflow:auto;border:1px solid #eee;border-radius:6px;padding:8px;"></div>
+      <div style="font-size:11px;color:#888;margin-top:6px;">
+        يتم جمع تأخر كل موظف (بحسب الاسم المكتوب) عبر جميع الأسابيع المحدّدة للحصول على إجمالي الشهر بالكامل.
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-close" onclick="closeMonthlyModal()">إغلاق</button>
+      <button class="btn-save" style="background:#7030A0;" onclick="generateMonthlyReport()">📄 إنشاء التقرير الشهري</button>
+    </div>
   </div>
 </div>
 
@@ -467,13 +505,18 @@
     <div class="frow">
       <label>النسخ الاحتياطي</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button type="button" class="sig-btn" style="background:#548235;padding:8px 14px;font-size:12.5px;" onclick="exportBackup()">⬇️ تصدير نسخة احتياطية</button>
+        <button type="button" class="sig-btn" style="background:#548235;padding:8px 14px;font-size:12.5px;" onclick="exportBackup()">⬇️ تصدير نسخة احتياطية (JSON)</button>
         <label class="sig-btn" style="background:#2E75B6;padding:8px 14px;font-size:12.5px;cursor:pointer;">
           ⬆️ استعادة نسخة
           <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="restoreBackup(event)">
         </label>
       </div>
-      <div style="font-size:11px;color:#888;margin-top:6px;">يتم أيضًا الحفظ تلقائيًا على هذا الجهاز عند أي تعديل.</div>
+      <div style="font-size:11.5px;color:#C00000;margin-top:6px;font-weight:bold;">
+        ⚠️ هذا الملف بصيغة JSON للاستعادة لاحقًا فقط — لا يُفتح كملف PDF أو تقرير مقروء، ولا تفتحه ببرنامج Adobe Acrobat.
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:4px;">
+        لطباعة أو حفظ تقرير PDF يمكن فتحه وعرضه مباشرة، استخدم زر "🖨️ طباعة / حفظ PDF" من الشريط العلوي، ثم اختر "حفظ كـ PDF" من نافذة الطباعة. يتم أيضًا الحفظ تلقائيًا على هذا الجهاز عند أي تعديل.
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-print-cliche" onclick="printClicheOnly()">🖨️ طباعة الكليشة فقط</button>
@@ -596,9 +639,9 @@
 
   <!-- التوقيعات -->
   <div class="signatures">
-    <div>معدّ النموذج: ........................</div>
+    <div>معدّ النموذج: <span class="sig-name-field" contenteditable="true" data-field="preparer">........................</span></div>
     <div>التوقيع: ........................</div>
-    <div>مدير المدرسة: ........................</div>
+    <div>مدير المدرسة: <span class="sig-name-field" contenteditable="true" data-field="principal">........................</span></div>
   </div>
 
   <!-- التصميم -->
@@ -753,9 +796,13 @@
   function collectYearData(){
     saveCurrentWeekIntoStore();
     const editable = document.querySelectorAll('.header [contenteditable]');
+    const preparerEl = document.querySelector('.sig-name-field[data-field="preparer"]');
+    const principalEl = document.querySelector('.sig-name-field[data-field="principal"]');
     return {
       region: editable[0] ? editable[0].textContent : '',
       school: editable[1] ? editable[1].textContent : '',
+      preparer: preparerEl ? preparerEl.textContent : '',
+      principal: principalEl ? principalEl.textContent : '',
       logo: (document.getElementById('logoImg').style.display !== 'none') ? document.getElementById('logoImg').src : null,
       orientation: state.printOrientation,
       weekOrder: weekOrder,
@@ -773,6 +820,10 @@
     const editable = document.querySelectorAll('.header [contenteditable]');
     if (data.region != null && editable[0]) editable[0].textContent = data.region;
     if (data.school != null && editable[1]) editable[1].textContent = data.school;
+    const preparerEl = document.querySelector('.sig-name-field[data-field="preparer"]');
+    const principalEl = document.querySelector('.sig-name-field[data-field="principal"]');
+    if (data.preparer != null && preparerEl) preparerEl.textContent = data.preparer;
+    if (data.principal != null && principalEl) principalEl.textContent = data.principal;
     if (data.logo) {
       document.getElementById('logoImg').src = data.logo;
       document.getElementById('logoImg').style.display = 'block';
@@ -818,6 +869,7 @@
     a.href = URL.createObjectURL(blob);
     a.download = 'نسخة-احتياطية-حصر-التأخر-كامل-العام-' + new Date().toISOString().slice(0, 10) + '.json';
     a.click();
+    alert('تم تنزيل ملف النسخة الاحتياطية (JSON). هذا الملف للاستعادة داخل هذه الصفحة لاحقًا فقط — لا تحاول فتحه ببرنامج Adobe Acrobat أو أي قارئ PDF.\n\nللحصول على تقرير PDF قابل للفتح والطباعة، أغلق هذه النافذة واستخدم زر "🖨️ طباعة / حفظ PDF".');
   }
   function restoreBackup(ev){
     const file = ev.target.files[0]; if (!file) return;
@@ -836,7 +888,7 @@
   }
   // حفظ تلقائي عند أي تعديل (أسماء، أرقام، حقول قابلة للتعديل) — لكل أسبوع على حدة
   document.getElementById('sheet').addEventListener('input', () => persistDebounced());
-  document.querySelectorAll('.header [contenteditable], .info-bar .val').forEach(el => {
+  document.querySelectorAll('.header [contenteditable], .info-bar .val, .sig-name-field').forEach(el => {
     el.addEventListener('blur', () => { persistYearData(); renderWeekSelect(); });
   });
 
@@ -1225,6 +1277,153 @@
     document.querySelectorAll('table.main td.emp-name input').forEach(i => i.value = '');
     recalculate();
     persistYearData();
+  }
+
+  // ========== التقرير الشهري التراكمي ==========
+  function openMonthlyModal(){
+    saveCurrentWeekIntoStore();
+    const list = document.getElementById('monthlyWeeksList');
+    list.innerHTML = '';
+    if (!weekOrder.length) {
+      list.innerHTML = '<div style="color:#888;font-size:12.5px;">لا توجد أسابيع محفوظة بعد.</div>';
+    }
+    weekOrder.forEach(id => {
+      const row = document.createElement('label');
+      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:5px 2px;font-size:12.5px;cursor:pointer;';
+      row.innerHTML = `<input type="checkbox" value="${id}" checked style="width:16px;height:16px;"> ${weekLabel(id)}`;
+      list.appendChild(row);
+    });
+    if (!document.getElementById('monthlyTitleInput').value) {
+      const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+      const now = new Date();
+      document.getElementById('monthlyTitleInput').value = `شهر ${months[now.getMonth()]} ${now.getFullYear()}م`;
+    }
+    document.getElementById('monthlyModal').classList.add('show');
+  }
+  function closeMonthlyModal(){ document.getElementById('monthlyModal').classList.remove('show'); }
+
+  function computeMonthlyAggregate(selectedWeekIds){
+    const byName = {};   // name -> { perType: [min...], totalMin }
+    const order = [];    // للحفاظ على ترتيب أول ظهور
+    selectedWeekIds.forEach(wid => {
+      const wk = weeksStore[wid];
+      if (!wk) return;
+      (wk.employees || []).forEach(emp => {
+        const name = (emp.name || '').trim();
+        if (!name) return; // نتجاهل الصفوف بدون اسم حتى لا تختلط ببعضها بين الأسابيع
+        if (!byName[name]) {
+          byName[name] = { perType: new Array(VIOLATION_TYPES.length).fill(0), totalMin: 0 };
+          order.push(name);
+        }
+        Object.entries(emp.cells || {}).forEach(([key, val]) => {
+          const [typeStr, , unit] = key.split('_');
+          const type = parseInt(typeStr, 10);
+          const v = parseFloat(val);
+          if (isNaN(v) || isNaN(type)) return;
+          const minutes = unit === 'h' ? v * 60 : v;
+          byName[name].perType[type] += minutes;
+          byName[name].totalMin += minutes;
+        });
+      });
+    });
+    const employees = order.map(name => ({ name, ...byName[name] }));
+    const grandPerType = new Array(VIOLATION_TYPES.length).fill(0);
+    let grandTotalMin = 0;
+    employees.forEach(e => {
+      e.perType.forEach((m, i) => grandPerType[i] += m);
+      grandTotalMin += e.totalMin;
+    });
+    return { employees, grandPerType, grandTotalMin };
+  }
+
+  function hm(min){
+    const m = Math.round(min);
+    return { h: Math.floor(m / 60), m: m % 60 };
+  }
+
+  function buildMonthlyReportHTML(agg, monthTitle){
+    const region = (document.querySelectorAll('.header [contenteditable]')[0] || {}).textContent || '';
+    const school = (document.querySelectorAll('.header [contenteditable]')[1] || {}).textContent || '';
+    const preparerEl = document.querySelector('.sig-name-field[data-field="preparer"]');
+    const principalEl = document.querySelector('.sig-name-field[data-field="principal"]');
+    const preparer = preparerEl ? preparerEl.textContent.trim() : '';
+    const principal = principalEl ? principalEl.textContent.trim() : '';
+
+    const typeHeaders = VIOLATION_TYPES.map(t => `<th colspan="2">${t}</th>`).join('');
+    const typeSubHeaders = VIOLATION_TYPES.map(() => `<th>ساعات</th><th>دقائق</th>`).join('');
+
+    const rows = agg.employees.map((e, i) => {
+      const cells = e.perType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
+      const t = hm(e.totalMin);
+      return `<tr><td>${i + 1}</td><td style="text-align:right;padding-right:6px;">${e.name}</td>${cells}<td style="background:#FFE699;font-weight:bold;">${t.h}</td><td style="background:#FFE699;font-weight:bold;">${t.m}</td></tr>`;
+    }).join('');
+
+    const grandCells = agg.grandPerType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
+    const gt = hm(agg.grandTotalMin);
+
+    return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">
+<title>التقرير الشهري التراكمي لتأخر الموظفين</title>
+<style>
+  @page { size: A4 landscape; margin: 1.2cm; }
+  * { box-sizing: border-box; font-family: Arial, Tahoma, sans-serif; }
+  body { margin:0; padding:16px; color:#000; }
+  .header { text-align:center; border-bottom:3px solid #1F4E78; padding-bottom:8px; margin-bottom:8px; }
+  .header .row1, .header .row2 { background:#1F4E78; color:#fff; padding:6px; font-weight:bold; font-size:15px; }
+  .header .row1 { border-radius:6px 6px 0 0; }
+  .header .row3, .header .row4 { background:#2E75B6; color:#fff; padding:6px; font-weight:bold; font-size:14px; }
+  .title { text-align:center; font-size:20px; font-weight:bold; color:#1F4E78; margin:14px 0 4px; }
+  .subtitle { text-align:center; font-size:15px; font-weight:bold; color:#C00000; margin-bottom:14px; }
+  table { width:100%; border-collapse:collapse; font-size:11px; }
+  th, td { border:1px solid #000; padding:5px 3px; text-align:center; }
+  thead tr:first-child th { background:#1F4E78; color:#fff; }
+  thead tr:nth-child(2) th { background:#BDD7EE; font-size:10.5px; }
+  tfoot td { background:#1F4E78; color:#fff; font-weight:bold; font-size:12.5px; padding:8px 4px; }
+  .signatures { margin-top:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; text-align:center; font-weight:bold; font-size:13px; }
+  .credit { margin-top:14px; padding:10px; background:#DDEBF7; border:2px solid #1F4E78; border-radius:6px; text-align:center; font-weight:bold; font-size:13px; color:#1F4E78; }
+  .credit a { color:#1F4E78; }
+  .toolbar-print { text-align:center; margin-bottom:14px; }
+  .toolbar-print button { background:#1F4E78; color:#fff; border:0; padding:8px 18px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; }
+  @media print { .toolbar-print { display:none; } body { padding:0; } }
+</style></head>
+<body>
+  <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
+  <div class="header">
+    <div class="row1">المملكة العربية السعودية</div>
+    <div class="row2">وزارة التعليم</div>
+    <div class="row3">إدارة التعليم بمنطقة ${region}</div>
+    <div class="row4">مدرسة ${school}</div>
+  </div>
+  <div class="title">التقرير الشهري التراكمي لتأخر الموظفين عن الدوام</div>
+  <div class="subtitle">${monthTitle}</div>
+  <table>
+    <thead>
+      <tr><th rowspan="2">م</th><th rowspan="2">اسم الموظف</th>${typeHeaders}<th colspan="2" style="background:#FFE699;color:#000;">إجمالي الشهر</th></tr>
+      <tr>${typeSubHeaders}<th>ساعات</th><th>دقائق</th></tr>
+    </thead>
+    <tbody>${rows || '<tr><td colspan="' + (3 + VIOLATION_TYPES.length * 2) + '">لا توجد بيانات موظفين في الأسابيع المحددة</td></tr>'}</tbody>
+    <tfoot><tr><td colspan="2">الإجمالي العام لجميع الموظفين خلال الشهر</td>${grandCells}<td>${gt.h}</td><td>${gt.m}</td></tr></tfoot>
+  </table>
+  <div class="signatures">
+    <div>معدّ التقرير: ${preparer}</div>
+    <div>التوقيع: ........................</div>
+    <div>مدير المدرسة: ${principal}</div>
+  </div>
+  <div class="credit">تصميم د/ فواز &nbsp;&nbsp;&nbsp; تفضل للمزيد هنا <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
+</body></html>`;
+  }
+
+  function generateMonthlyReport(){
+    const checked = Array.from(document.querySelectorAll('#monthlyWeeksList input[type="checkbox"]:checked')).map(c => c.value);
+    if (!checked.length) { alert('الرجاء اختيار أسبوع واحد على الأقل.'); return; }
+    const monthTitle = document.getElementById('monthlyTitleInput').value.trim() || 'التقرير الشهري';
+    const agg = computeMonthlyAggregate(checked);
+    const html = buildMonthlyReportHTML(agg, monthTitle);
+    const win = window.open('', '_blank');
+    if (!win) { alert('الرجاء السماح بالنوافذ المنبثقة لعرض التقرير الشهري.'); return; }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    closeMonthlyModal();
   }
 
   // ========== الشعار ==========

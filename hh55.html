@@ -310,7 +310,7 @@
   .signatures {
     margin-top: 16px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
     text-align: center;
     font-weight: bold;
@@ -327,6 +327,17 @@
     min-width: 110px;
   }
   .signatures .sig-name-field:focus { background: #FFF2CC; }
+  .sig-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+  }
+  .sig-cell-inline { min-height: 46px; display: flex; align-items: center; justify-content: center; }
+  .sig-cell-inline .sig-thumb { max-height: 42px; }
 
   /* ========== شريط التصميم ========== */
   .credit {
@@ -462,6 +473,7 @@
     <button class="success" onclick="addNewWeek()">➕ أسبوع جديد</button>
     <button class="danger" onclick="deleteCurrentWeek()">🗑️ حذف هذا الأسبوع</button>
     <button style="background:#7030A0;" onclick="openMonthlyModal()">📊 التقرير الشهري التراكمي</button>
+    <button style="background:#C55A11;" onclick="openNoticeModal()">📝 نماذج التنبيه</button>
   </div>
   <div style="font-size:11.5px;color:#888;">
     كل أسبوع يُحفظ تلقائيًا بشكل مستقل — يمكنك التنقل والرجوع لأي أسبوع طوال العام الدراسي
@@ -476,6 +488,22 @@
       <label>اسم الشهر الميلادي (يظهر في عنوان التقرير)</label>
       <input type="text" id="monthlyTitleInput" placeholder="مثال: شهر سبتمبر 2026م">
     </div>
+    <div class="frow" style="display:flex;gap:10px;">
+      <div style="flex:1;">
+        <label>من تاريخ</label>
+        <input type="date" id="monthlyFromInput">
+      </div>
+      <div style="flex:1;">
+        <label>إلى تاريخ</label>
+        <input type="date" id="monthlyToInput">
+      </div>
+    </div>
+    <div class="frow">
+      <label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer;">
+        <input type="checkbox" id="monthlyMinutesOnly" style="width:16px;height:16px;">
+        عرض الإجماليات بالدقائق فقط (بدون تقسيم ساعات/دقائق)
+      </label>
+    </div>
     <div class="frow">
       <label>اختر الأسابيع الداخلة ضمن هذا الشهر</label>
       <div id="monthlyWeeksList" style="max-height:220px;overflow:auto;border:1px solid #eee;border-radius:6px;padding:8px;"></div>
@@ -486,6 +514,65 @@
     <div class="modal-actions">
       <button class="btn-close" onclick="closeMonthlyModal()">إغلاق</button>
       <button class="btn-save" style="background:#7030A0;" onclick="generateMonthlyReport()">📄 إنشاء التقرير الشهري</button>
+    </div>
+  </div>
+</div>
+
+<!-- نافذة نماذج التنبيه (شفهي/خطي/مسائلة) -->
+<div class="modal-bg" id="noticeModal">
+  <div class="modal-box" style="max-width:480px;">
+    <h3>📝 نموذج تنبيه للموظف/ة</h3>
+    <div class="frow">
+      <label>اختر الموظف/ة (من الأسبوع الحالي)</label>
+      <select id="noticeEmpSelect"></select>
+    </div>
+    <div class="frow">
+      <label>التخصص</label>
+      <input type="text" id="noticeSpecialty" placeholder="مثال: رياضيات">
+    </div>
+    <div class="frow">
+      <label>المرتبة</label>
+      <input type="text" id="noticeRank" placeholder="مثال: الرابعة">
+    </div>
+    <div class="frow">
+      <label>السجل المدني</label>
+      <input type="text" id="noticeCivilId" placeholder="رقم السجل المدني">
+    </div>
+    <div class="frow">
+      <label>العمل الحالي</label>
+      <input type="text" id="noticeCurrentJob" placeholder="مثال: معلم/ة">
+    </div>
+    <div class="frow">
+      <label>نوع التنبيه</label>
+      <select id="noticeType" onchange="onNoticeTypeChange()">
+        <option value="1">تنبيه شفهي ( 1 ) — تجاوز التأخير ساعتين</option>
+        <option value="2">تنبيه خطي ( 2 ) — تجاوز التأخير 3 ساعات</option>
+        <option value="3">مسائلة تأخير ( 3 ) — تجاوز التأخير 7 ساعات</option>
+      </select>
+    </div>
+    <div class="frow" style="display:flex;gap:10px;">
+      <div style="flex:1;">
+        <label>عدد ساعات التأخير المرصودة</label>
+        <input type="text" id="noticeHours" value="3">
+      </div>
+      <div style="flex:1;">
+        <label>رقم هذا التنبيه للموظف/ة</label>
+        <input type="number" id="noticeSeq" value="1" min="1">
+      </div>
+    </div>
+    <div class="frow" style="display:flex;gap:10px;">
+      <div style="flex:1;">
+        <label>التاريخ (هجري أو ميلادي)</label>
+        <input type="text" id="noticeDate" placeholder="25 / 11 / 1447هـ">
+      </div>
+      <div style="flex:1;">
+        <label>اسم الرئيس المباشر</label>
+        <input type="text" id="noticeSupervisor" placeholder="اسم الرئيس المباشر">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-close" onclick="closeNoticeModal()">إغلاق</button>
+      <button class="btn-save" style="background:#C55A11;" onclick="generateNoticeForm()">📄 إنشاء النموذج</button>
     </div>
   </div>
 </div>
@@ -634,14 +721,22 @@
       <li>يمكن إضافة موظفين بزر "إضافة موظف" أعلى الصفحة.</li>
       <li>لاستيراد الشعار: انقر على مربع الشعار في الأعلى ← اختر صورة من جهازك.</li>
       <li>الحقول قابلة للتغيير: اسم الإدارة، اسم المدرسة، الفترة، العام الدراسي، الفصل الدراسي، وأسماء الموظفين.</li>
+      <li>في التقرير الشهري التراكمي: يُلوَّن إجمالي كل موظف تلقائيًا (أصفر عند بلوغه ساعتين = تنبيه شفهي، برتقالي عند 3 ساعات = تنبيه خطي، أحمر عند 7 ساعات = مسائلة)، مع إمكانية تحديد الفترة (من/إلى) وعرض الإجماليات بالدقائق فقط.</li>
+      <li>يمكن توقيع معدّ النموذج ومدير/ة المدرسة إلكترونيًا أسفل الصفحة، وسيظهر التوقيعان في التقرير الشهري كذلك.</li>
+      <li>زر "📝 نماذج التنبيه" أعلى الصفحة يُنشئ نموذج تنبيه شفهي/خطي/مسائلة جاهزًا للطباعة لأي موظف.</li>
     </ul>
   </div>
 
   <!-- التوقيعات -->
   <div class="signatures">
-    <div>معدّ النموذج: <span class="sig-name-field" contenteditable="true" data-field="preparer">........................</span></div>
-    <div>التوقيع: ........................</div>
-    <div>مدير المدرسة: <span class="sig-name-field" contenteditable="true" data-field="principal">........................</span></div>
+    <div class="sig-block">
+      <div>معدّ النموذج: <span class="sig-name-field" contenteditable="true" data-field="preparer">........................</span></div>
+      <div class="sig-cell-inline" id="sigCellpreparer"><button type="button" class="sig-btn" onclick="openSignature('preparer')">✒️ توقيع</button></div>
+    </div>
+    <div class="sig-block">
+      <div>مدير/ة المدرسة: <span class="sig-name-field" contenteditable="true" data-field="principal">........................</span></div>
+      <div class="sig-cell-inline" id="sigCellprincipal"><button type="button" class="sig-btn" onclick="openSignature('principal')">✒️ توقيع</button></div>
+    </div>
   </div>
 
   <!-- التصميم -->
@@ -803,6 +898,8 @@
       school: editable[1] ? editable[1].textContent : '',
       preparer: preparerEl ? preparerEl.textContent : '',
       principal: principalEl ? principalEl.textContent : '',
+      preparerSig: preparerSigData,
+      principalSig: principalSigData,
       logo: (document.getElementById('logoImg').style.display !== 'none') ? document.getElementById('logoImg').src : null,
       orientation: state.printOrientation,
       weekOrder: weekOrder,
@@ -824,6 +921,20 @@
     const principalEl = document.querySelector('.sig-name-field[data-field="principal"]');
     if (data.preparer != null && preparerEl) preparerEl.textContent = data.preparer;
     if (data.principal != null && principalEl) principalEl.textContent = data.principal;
+    preparerSigData = data.preparerSig || null;
+    principalSigData = data.principalSig || null;
+    const sigCellPreparerEl = document.getElementById('sigCellpreparer');
+    const sigCellPrincipalEl = document.getElementById('sigCellprincipal');
+    if (sigCellPreparerEl) {
+      sigCellPreparerEl.innerHTML = preparerSigData
+        ? `<img class="sig-thumb" src="${preparerSigData}" alt="توقيع"><button type="button" class="sig-edit-btn" onclick="openSignature('preparer')">✏️ تعديل</button>`
+        : `<button type="button" class="sig-btn" onclick="openSignature('preparer')">✒️ توقيع</button>`;
+    }
+    if (sigCellPrincipalEl) {
+      sigCellPrincipalEl.innerHTML = principalSigData
+        ? `<img class="sig-thumb" src="${principalSigData}" alt="توقيع"><button type="button" class="sig-edit-btn" onclick="openSignature('principal')">✏️ تعديل</button>`
+        : `<button type="button" class="sig-btn" onclick="openSignature('principal')">✒️ توقيع</button>`;
+    }
     if (data.logo) {
       document.getElementById('logoImg').src = data.logo;
       document.getElementById('logoImg').style.display = 'block';
@@ -893,6 +1004,8 @@
   });
 
   /* ========== التوقيع الإلكتروني ========== */
+  let preparerSigData = null;
+  let principalSigData = null;
   let sigTargetEmp = null;
   let sigMode = 'draw';
   let sigDrawing = false;
@@ -999,10 +1112,13 @@
       dataUrl = trimCanvas(document.getElementById('sigCanvas'));
     }
     const cell = document.getElementById(`sigCell${sigTargetEmp}`);
+    const targetArg = (typeof sigTargetEmp === 'string') ? `'${sigTargetEmp}'` : sigTargetEmp;
     cell.innerHTML = `
       <img class="sig-thumb" src="${dataUrl}" alt="توقيع">
-      <button type="button" class="sig-edit-btn" onclick="openSignature(${sigTargetEmp})">✏️ تعديل</button>`;
+      <button type="button" class="sig-edit-btn" onclick="openSignature(${targetArg})">✏️ تعديل</button>`;
     closeSignature();
+    if (sigTargetEmp === 'preparer') { preparerSigData = dataUrl; }
+    if (sigTargetEmp === 'principal') { principalSigData = dataUrl; }
     persistYearData();
   }
 
@@ -1341,7 +1457,22 @@
     return { h: Math.floor(m / 60), m: m % 60 };
   }
 
-  function buildMonthlyReportHTML(agg, monthTitle){
+  // حدود التنبيه التراكمي: أصفر = تنبيه شفهي (120 دقيقة) / برتقالي = تنبيه خطي (180 دقيقة) / أحمر = مسائلة (420 دقيقة = 7 ساعات)
+  const WARN_THRESHOLDS = [
+    { min: 420, bg: '#FF6B6B', fg: '#fff', label: 'مسائلة (بلغ 7 ساعات)' },
+    { min: 180, bg: '#F4B183', fg: '#000', label: 'تنبيه خطي (بلغ 3 ساعات)' },
+    { min: 120, bg: '#FFD966', fg: '#000', label: 'تنبيه شفهي (بلغ ساعتين)' }
+  ];
+  function warnLevelFor(totalMin){
+    return WARN_THRESHOLDS.find(w => totalMin >= w.min) || null;
+  }
+  function fmtDate(d){
+    if (!d) return '';
+    const parts = d.split('-');
+    return parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : d;
+  }
+
+  function buildMonthlyReportHTML(agg, monthTitle, fromDate, toDate, minutesOnly){
     const region = (document.querySelectorAll('.header [contenteditable]')[0] || {}).textContent || '';
     const school = (document.querySelectorAll('.header [contenteditable]')[1] || {}).textContent || '';
     const preparerEl = document.querySelector('.sig-name-field[data-field="preparer"]');
@@ -1349,17 +1480,41 @@
     const preparer = preparerEl ? preparerEl.textContent.trim() : '';
     const principal = principalEl ? principalEl.textContent.trim() : '';
 
-    const typeHeaders = VIOLATION_TYPES.map(t => `<th colspan="2">${t}</th>`).join('');
-    const typeSubHeaders = VIOLATION_TYPES.map(() => `<th>ساعات</th><th>دقائق</th>`).join('');
+    const typeHeaders = VIOLATION_TYPES.map(t => minutesOnly ? `<th>${t}</th>` : `<th colspan="2">${t}</th>`).join('');
+    const typeSubHeaders = minutesOnly ? '' : VIOLATION_TYPES.map(() => `<th>ساعات</th><th>دقائق</th>`).join('');
+    const totalHeadCols = minutesOnly
+      ? `<th style="background:#FFE699;color:#000;">إجمالي الشهر (دقيقة)</th>`
+      : `<th colspan="2" style="background:#FFE699;color:#000;">إجمالي الشهر</th>`;
+    const totalSubCols = minutesOnly ? '' : `<th>ساعات</th><th>دقائق</th>`;
+    const colCount = minutesOnly ? (2 + VIOLATION_TYPES.length + 1) : (2 + VIOLATION_TYPES.length * 2 + 2);
 
     const rows = agg.employees.map((e, i) => {
-      const cells = e.perType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
-      const t = hm(e.totalMin);
-      return `<tr><td>${i + 1}</td><td style="text-align:right;padding-right:6px;">${e.name}</td>${cells}<td style="background:#FFE699;font-weight:bold;">${t.h}</td><td style="background:#FFE699;font-weight:bold;">${t.m}</td></tr>`;
+      const cells = minutesOnly
+        ? e.perType.map(min => `<td>${Math.round(min)}</td>`).join('')
+        : e.perType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
+      const w = warnLevelFor(e.totalMin);
+      const totalStyle = w ? `background:${w.bg};color:${w.fg};font-weight:bold;` : `background:#FFE699;font-weight:bold;`;
+      const totalCells = minutesOnly
+        ? `<td style="${totalStyle}">${Math.round(e.totalMin)}</td>`
+        : (() => { const t = hm(e.totalMin); return `<td style="${totalStyle}">${t.h}</td><td style="${totalStyle}">${t.m}</td>`; })();
+      const rowNote = w ? ` — ${w.label}` : '';
+      return `<tr><td>${i + 1}</td><td style="text-align:right;padding-right:6px;">${e.name}${rowNote ? `<div style="font-size:9.5px;color:${w.bg === '#FF6B6B' ? '#C00000' : '#7a4a00'};font-weight:bold;">${rowNote}</div>` : ''}</td>${cells}${totalCells}</tr>`;
     }).join('');
 
-    const grandCells = agg.grandPerType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
-    const gt = hm(agg.grandTotalMin);
+    const grandCells = minutesOnly
+      ? agg.grandPerType.map(min => `<td>${Math.round(min)}</td>`).join('')
+      : agg.grandPerType.map(min => { const x = hm(min); return `<td>${x.h}</td><td>${x.m}</td>`; }).join('');
+    const grandTotalCell = minutesOnly ? `<td>${Math.round(agg.grandTotalMin)}</td>` : (() => { const gt = hm(agg.grandTotalMin); return `<td>${gt.h}</td><td>${gt.m}</td>`; })();
+
+    const dateRangeLine = (fromDate || toDate)
+      ? `<div class="daterange">الفترة: من ${fmtDate(fromDate) || '.......'} إلى ${fmtDate(toDate) || '.......'}</div>` : '';
+
+    const legendHTML = `<div class="legend">
+      ${WARN_THRESHOLDS.slice().reverse().map(w => `<span class="legend-item"><span class="legend-dot" style="background:${w.bg};"></span>${w.label}</span>`).join('')}
+    </div>`;
+
+    const preparerSigHTML = preparerSigData ? `<img class="sig-thumb" src="${preparerSigData}" alt="توقيع">` : `<div class="sig-line">........................</div>`;
+    const principalSigHTML = principalSigData ? `<img class="sig-thumb" src="${principalSigData}" alt="توقيع">` : `<div class="sig-line">........................</div>`;
 
     return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">
 <title>التقرير الشهري التراكمي لتأخر الموظفين</title>
@@ -1372,18 +1527,26 @@
   .header .row1 { border-radius:6px 6px 0 0; }
   .header .row3, .header .row4 { background:#2E75B6; color:#fff; padding:6px; font-weight:bold; font-size:14px; }
   .title { text-align:center; font-size:20px; font-weight:bold; color:#1F4E78; margin:14px 0 4px; }
-  .subtitle { text-align:center; font-size:15px; font-weight:bold; color:#C00000; margin-bottom:14px; }
+  .subtitle { text-align:center; font-size:15px; font-weight:bold; color:#C00000; margin-bottom:4px; }
+  .daterange { text-align:center; font-size:13px; font-weight:bold; color:#1F4E78; margin-bottom:10px; }
+  .legend { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:10px; font-size:11.5px; font-weight:bold; }
+  .legend-item { display:flex; align-items:center; gap:5px; }
+  .legend-dot { width:12px; height:12px; border-radius:3px; display:inline-block; border:1px solid rgba(0,0,0,.2); }
   table { width:100%; border-collapse:collapse; font-size:11px; }
   th, td { border:1px solid #000; padding:5px 3px; text-align:center; }
   thead tr:first-child th { background:#1F4E78; color:#fff; }
   thead tr:nth-child(2) th { background:#BDD7EE; font-size:10.5px; }
+  tbody tr:nth-child(even) td { background:#F2F6FB; }
   tfoot td { background:#1F4E78; color:#fff; font-weight:bold; font-size:12.5px; padding:8px 4px; }
-  .signatures { margin-top:20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; text-align:center; font-weight:bold; font-size:13px; }
+  .signatures { margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:16px; text-align:center; font-weight:bold; font-size:13px; }
+  .sig-block { border:1px dashed #999; border-radius:8px; padding:10px; }
+  .sig-thumb { max-height:46px; max-width:100%; display:block; margin:6px auto 0; }
+  .sig-line { margin-top:6px; color:#666; }
   .credit { margin-top:14px; padding:10px; background:#DDEBF7; border:2px solid #1F4E78; border-radius:6px; text-align:center; font-weight:bold; font-size:13px; color:#1F4E78; }
   .credit a { color:#1F4E78; }
   .toolbar-print { text-align:center; margin-bottom:14px; }
   .toolbar-print button { background:#1F4E78; color:#fff; border:0; padding:8px 18px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; }
-  @media print { .toolbar-print { display:none; } body { padding:0; } }
+  @media print { .toolbar-print { display:none; } body { padding:0; } tbody tr:nth-child(even) td { background:#F2F6FB !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
 </style></head>
 <body>
   <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
@@ -1395,18 +1558,19 @@
   </div>
   <div class="title">التقرير الشهري التراكمي لتأخر الموظفين عن الدوام</div>
   <div class="subtitle">${monthTitle}</div>
+  ${dateRangeLine}
+  ${legendHTML}
   <table>
     <thead>
-      <tr><th rowspan="2">م</th><th rowspan="2">اسم الموظف</th>${typeHeaders}<th colspan="2" style="background:#FFE699;color:#000;">إجمالي الشهر</th></tr>
-      <tr>${typeSubHeaders}<th>ساعات</th><th>دقائق</th></tr>
+      <tr><th rowspan="2">م</th><th rowspan="2">اسم الموظف</th>${typeHeaders}${totalHeadCols}</tr>
+      <tr>${typeSubHeaders}${totalSubCols}</tr>
     </thead>
-    <tbody>${rows || '<tr><td colspan="' + (3 + VIOLATION_TYPES.length * 2) + '">لا توجد بيانات موظفين في الأسابيع المحددة</td></tr>'}</tbody>
-    <tfoot><tr><td colspan="2">الإجمالي العام لجميع الموظفين خلال الشهر</td>${grandCells}<td>${gt.h}</td><td>${gt.m}</td></tr></tfoot>
+    <tbody>${rows || '<tr><td colspan="' + colCount + '">لا توجد بيانات موظفين في الأسابيع المحددة</td></tr>'}</tbody>
+    <tfoot><tr><td colspan="2">الإجمالي العام لجميع الموظفين خلال الشهر</td>${grandCells}${grandTotalCell}</tr></tfoot>
   </table>
   <div class="signatures">
-    <div>معدّ التقرير: ${preparer}</div>
-    <div>التوقيع: ........................</div>
-    <div>مدير المدرسة: ${principal}</div>
+    <div class="sig-block">معدّ التقرير: ${preparer}${preparerSigHTML}</div>
+    <div class="sig-block">مدير/ة المدرسة: ${principal}${principalSigHTML}</div>
   </div>
   <div class="credit">تصميم د/ فواز &nbsp;&nbsp;&nbsp; تفضل للمزيد هنا <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
 </body></html>`;
@@ -1416,14 +1580,120 @@
     const checked = Array.from(document.querySelectorAll('#monthlyWeeksList input[type="checkbox"]:checked')).map(c => c.value);
     if (!checked.length) { alert('الرجاء اختيار أسبوع واحد على الأقل.'); return; }
     const monthTitle = document.getElementById('monthlyTitleInput').value.trim() || 'التقرير الشهري';
+    const fromDate = document.getElementById('monthlyFromInput').value;
+    const toDate = document.getElementById('monthlyToInput').value;
+    const minutesOnly = document.getElementById('monthlyMinutesOnly').checked;
     const agg = computeMonthlyAggregate(checked);
-    const html = buildMonthlyReportHTML(agg, monthTitle);
+    const html = buildMonthlyReportHTML(agg, monthTitle, fromDate, toDate, minutesOnly);
     const win = window.open('', '_blank');
     if (!win) { alert('الرجاء السماح بالنوافذ المنبثقة لعرض التقرير الشهري.'); return; }
     win.document.open();
     win.document.write(html);
     win.document.close();
     closeMonthlyModal();
+  }
+
+  // ========== نماذج التنبيه (شفهي/خطي/مسائلة) ==========
+  const NOTICE_TYPE_INFO = {
+    '1': { title: 'تنبيه شفهي', hours: '2' },
+    '2': { title: 'تنبيه خطي', hours: '3' },
+    '3': { title: 'مسائلة تأخير', hours: '7' }
+  };
+  function onNoticeTypeChange(){
+    const t = document.getElementById('noticeType').value;
+    document.getElementById('noticeHours').value = NOTICE_TYPE_INFO[t].hours;
+  }
+  function openNoticeModal(){
+    const sel = document.getElementById('noticeEmpSelect');
+    sel.innerHTML = '';
+    const names = Array.from(document.querySelectorAll('input.emp-name-input'))
+      .map(inp => inp.value.trim())
+      .filter(Boolean);
+    if (!names.length) {
+      sel.innerHTML = '<option value="">لا توجد أسماء موظفين مدخلة في الأسبوع الحالي</option>';
+    } else {
+      names.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n; opt.textContent = n;
+        sel.appendChild(opt);
+      });
+    }
+    onNoticeTypeChange();
+    document.getElementById('noticeModal').classList.add('show');
+  }
+  function closeNoticeModal(){ document.getElementById('noticeModal').classList.remove('show'); }
+
+  function buildNoticeFormHTML(data){
+    const { empName, specialty, rank, civilId, currentJob, typeTitle, badge, hours, date, supervisor } = data;
+    return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">
+<title>${typeTitle}</title>
+<style>
+  @page { size: A4 portrait; margin: 1.5cm; }
+  * { box-sizing: border-box; font-family: Arial, Tahoma, sans-serif; }
+  body { margin:0; padding:16px; color:#000; }
+  h1.formtitle { text-align:center; font-size:18px; margin-bottom:18px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:24px; }
+  th, td { border:1px solid #000; padding:8px 6px; text-align:center; }
+  th { background:#e6e6e6; font-weight:bold; }
+  td.data { height:38px; }
+  h2.noticetitle { text-align:center; font-size:15px; margin:10px 0 16px; text-decoration:underline; }
+  .notice-text { font-size:14px; line-height:2; margin-bottom:30px; }
+  .sign-emp { margin:26px 0 34px; }
+  .sup-block { margin-top:10px; }
+  .sup-block .lbl { font-weight:bold; text-decoration:underline; margin-top:10px; }
+  .toolbar-print { text-align:center; margin-bottom:14px; }
+  .toolbar-print button { background:#1F4E78; color:#fff; border:0; padding:8px 18px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; }
+  .credit { margin-top:20px; padding:10px; background:#DDEBF7; border:2px solid #1F4E78; border-radius:6px; text-align:center; font-weight:bold; font-size:12.5px; color:#1F4E78; }
+  .credit a { color:#1F4E78; }
+  @media print { .toolbar-print { display:none; } body { padding:0; } .credit { display:none !important; } }
+</style></head>
+<body>
+  <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
+  <h1 class="formtitle">${typeTitle}</h1>
+  <table>
+    <tr><th>الاسم</th><th>التخصص</th><th>المرتبة</th><th>السجل المدني</th><th>العمل الحالي</th></tr>
+    <tr><td class="data">${empName || ''}</td><td class="data">${specialty || ''}</td><td class="data">${rank || ''}</td><td class="data">${civilId || ''}</td><td class="data">${currentJob || ''}</td></tr>
+  </table>
+  <h2 class="noticetitle">${typeTitle}${badge}</h2>
+  <div class="notice-text">
+    نود تنبيهكم الى ان تأخيركم قد زاد عن ${hours} ساعات ونأمل منتظم الحرص على أوقات العمل شاكرين لكم تفهمكم والله يرعاكم
+  </div>
+  <div class="sign-emp">توقيع الموظف/ة بالعلم / .................................................</div>
+  <div class="sup-block">
+    <div class="lbl">الرئيس المباشر</div>
+    <div>الاسم: ${supervisor || '.......................'}</div>
+    <div>التوقيع: .......................</div>
+    <div>التاريخ: ${date || '.......................'}</div>
+  </div>
+  <div class="credit">تصميم د/ فواز &nbsp;&nbsp;&nbsp; تفضل للمزيد هنا <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
+</body></html>`;
+  }
+
+  function generateNoticeForm(){
+    const empName = document.getElementById('noticeEmpSelect').value;
+    if (!empName) { alert('الرجاء اختيار اسم الموظف/ة (يجب إدخال أسماء الموظفين في الأسبوع الحالي أولاً).'); return; }
+    const t = document.getElementById('noticeType').value;
+    const info = NOTICE_TYPE_INFO[t];
+    const seq = document.getElementById('noticeSeq').value.trim() || '1';
+    const data = {
+      empName,
+      specialty: document.getElementById('noticeSpecialty').value.trim(),
+      rank: document.getElementById('noticeRank').value.trim(),
+      civilId: document.getElementById('noticeCivilId').value.trim(),
+      currentJob: document.getElementById('noticeCurrentJob').value.trim(),
+      typeTitle: info.title,
+      badge: ` ( ${seq} )`,
+      hours: document.getElementById('noticeHours').value.trim() || info.hours,
+      date: document.getElementById('noticeDate').value.trim(),
+      supervisor: document.getElementById('noticeSupervisor').value.trim()
+    };
+    const html = buildNoticeFormHTML(data);
+    const win = window.open('', '_blank');
+    if (!win) { alert('الرجاء السماح بالنوافذ المنبثقة لعرض النموذج.'); return; }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    closeNoticeModal();
   }
 
   // ========== الشعار ==========

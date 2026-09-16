@@ -439,7 +439,7 @@
     background: none; border: 1px dashed #1F4E78; color: #1F4E78; border-radius: 4px;
     font-size: 9px; padding: 1px 5px; cursor: pointer; margin-top: 2px;
   }
-  #sigModeTabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  #sigModeTabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
   #sigModeTabs button {
     flex: 1; padding: 7px; border: 1px solid #ccc; background: #f5f5f5; border-radius: 6px;
     cursor: pointer; font-size: 12.5px; font-weight: bold;
@@ -570,6 +570,16 @@
         <input type="text" id="noticeSupervisor" placeholder="اسم الرئيس المباشر">
       </div>
     </div>
+    <div class="frow" style="display:flex;gap:10px;">
+      <div style="flex:1;">
+        <label>الرقم (اختياري)</label>
+        <input type="text" id="noticeRefNo" placeholder="رقم الخطاب">
+      </div>
+      <div style="flex:1;">
+        <label>المرفقات (اختياري)</label>
+        <input type="text" id="noticeAttachments" placeholder="مثال: لا يوجد">
+      </div>
+    </div>
     <div class="modal-actions">
       <button class="btn-close" onclick="closeNoticeModal()">إغلاق</button>
       <button class="btn-save" style="background:#C55A11;" onclick="generateNoticeForm()">📄 إنشاء النموذج</button>
@@ -620,6 +630,7 @@
     <div id="sigModeTabs">
       <button type="button" class="active" id="tabDraw" onclick="setSigMode('draw')">🖊️ رسم بالقلم</button>
       <button type="button" id="tabType" onclick="setSigMode('type')">⌨️ كتابة بخط اليد</button>
+      <button type="button" id="tabUpload" onclick="setSigMode('upload')">⬆️ رفع من الجهاز</button>
     </div>
     <div id="sigDrawArea">
       <canvas id="sigCanvas" width="420" height="150"></canvas>
@@ -629,6 +640,16 @@
     </div>
     <div id="sigTypeArea" style="display:none;">
       <input type="text" id="sigTypeInput" placeholder="اكتب الاسم هنا">
+    </div>
+    <div id="sigUploadArea" style="display:none;">
+      <label class="sig-btn" style="background:#2E75B6;display:inline-block;cursor:pointer;">
+        📎 اختر صورة التوقيع
+        <input type="file" id="sigUploadInput" accept="image/*" style="display:none;" onchange="handleSigUpload(event)">
+      </label>
+      <div style="margin-top:10px;text-align:center;">
+        <img id="sigUploadPreview" style="max-width:100%;max-height:130px;display:none;border:1px dashed #999;border-radius:6px;padding:6px;">
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:6px;">يفضّل رفع صورة بخلفية شفافة أو بيضاء لأفضل نتيجة عند الطباعة.</div>
     </div>
     <div class="modal-actions">
       <button class="btn-close" onclick="closeSignature()">إلغاء</button>
@@ -1012,11 +1033,16 @@
   let sigCtx = null;
   let sigHasInk = false;
 
+  let sigUploadDataUrl = null;
   function openSignature(empIdx){
     sigTargetEmp = empIdx;
     setSigMode('draw');
     clearCanvas();
     document.getElementById('sigTypeInput').value = '';
+    sigUploadDataUrl = null;
+    document.getElementById('sigUploadInput').value = '';
+    document.getElementById('sigUploadPreview').style.display = 'none';
+    document.getElementById('sigUploadPreview').src = '';
     const cell = document.getElementById(`sigCell${empIdx}`);
     const existingImg = cell.querySelector('img');
     document.getElementById('sigModal').classList.add('show');
@@ -1028,8 +1054,22 @@
     sigMode = mode;
     document.getElementById('tabDraw').classList.toggle('active', mode === 'draw');
     document.getElementById('tabType').classList.toggle('active', mode === 'type');
+    document.getElementById('tabUpload').classList.toggle('active', mode === 'upload');
     document.getElementById('sigDrawArea').style.display = mode === 'draw' ? 'block' : 'none';
     document.getElementById('sigTypeArea').style.display = mode === 'type' ? 'block' : 'none';
+    document.getElementById('sigUploadArea').style.display = mode === 'upload' ? 'block' : 'none';
+  }
+  function handleSigUpload(e){
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      sigUploadDataUrl = ev.target.result;
+      const preview = document.getElementById('sigUploadPreview');
+      preview.src = sigUploadDataUrl;
+      preview.style.display = 'inline-block';
+    };
+    reader.readAsDataURL(file);
   }
   function initCanvasIfNeeded(){
     const canvas = document.getElementById('sigCanvas');
@@ -1107,6 +1147,9 @@
       tctx.textBaseline = 'middle';
       tctx.fillText(name, 10, 60);
       dataUrl = trimCanvas(tmp);
+    } else if (sigMode === 'upload') {
+      if (!sigUploadDataUrl) { alert('الرجاء اختيار صورة التوقيع أولاً'); return; }
+      dataUrl = sigUploadDataUrl;
     } else {
       if (!sigHasInk) { alert('الرجاء رسم التوقيع أولاً'); return; }
       dataUrl = trimCanvas(document.getElementById('sigCanvas'));
@@ -1546,7 +1589,12 @@
   .credit a { color:#1F4E78; }
   .toolbar-print { text-align:center; margin-bottom:14px; }
   .toolbar-print button { background:#1F4E78; color:#fff; border:0; padding:8px 18px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; }
-  @media print { .toolbar-print { display:none; } body { padding:0; } tbody tr:nth-child(even) td { background:#F2F6FB !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; } }
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
+    .toolbar-print { display:none; }
+    body { padding:0; }
+    tbody tr:nth-child(even) td { background:#F2F6FB !important; }
+  }
 </style></head>
 <body>
   <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
@@ -1624,14 +1672,36 @@
   function closeNoticeModal(){ document.getElementById('noticeModal').classList.remove('show'); }
 
   function buildNoticeFormHTML(data){
-    const { empName, specialty, rank, civilId, currentJob, typeTitle, badge, hours, date, supervisor } = data;
+    const { empName, specialty, rank, civilId, currentJob, typeTitle, badge, hours, date, supervisor, refNo, attachments, region, school, empAgg } = data;
+
+    const breakdownRows = VIOLATION_TYPES.map((label, i) => {
+      const min = empAgg ? empAgg.perType[i] : 0;
+      const x = hm(min);
+      return `<tr><td style="text-align:right;padding-right:6px;">${label}</td><td>${x.h}</td><td>${x.m}</td></tr>`;
+    }).join('');
+    const totalMin = empAgg ? empAgg.totalMin : 0;
+    const totalHM = hm(totalMin);
+    const w = warnLevelFor(totalMin);
+    const totalStyle = w ? `background:${w.bg};color:${w.fg};` : `background:#FFE699;color:#000;`;
+    const breakdownTable = `
+  <table>
+    <tr><th colspan="3">تفصيل دقائق وساعات التأخير المرصودة</th></tr>
+    <tr><th>نوع التأخر</th><th>ساعات</th><th>دقائق</th></tr>
+    ${breakdownRows || '<tr><td colspan="3">لا توجد بيانات مرصودة</td></tr>'}
+    <tr><td style="${totalStyle}font-weight:bold;">الإجمالي</td><td style="${totalStyle}font-weight:bold;">${totalHM.h}</td><td style="${totalStyle}font-weight:bold;">${totalHM.m}</td></tr>
+  </table>`;
+
     return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">
 <title>${typeTitle}</title>
 <style>
   @page { size: A4 portrait; margin: 1.5cm; }
   * { box-sizing: border-box; font-family: Arial, Tahoma, sans-serif; }
   body { margin:0; padding:16px; color:#000; }
-  h1.formtitle { text-align:center; font-size:18px; margin-bottom:18px; }
+  .letterhead { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; font-size:12.5px; font-weight:bold; }
+  .letterhead .refs div { margin-bottom:6px; }
+  .letterhead .org { text-align:left; color:#1F4E78; line-height:1.7; }
+  .frame { border:2px solid #1F4E78; border-radius:10px; padding:16px 18px; }
+  h1.formtitle { text-align:center; font-size:18px; margin:0 0 18px; color:#1F4E78; }
   table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:24px; }
   th, td { border:1px solid #000; padding:8px 6px; text-align:center; }
   th { background:#e6e6e6; font-weight:bold; }
@@ -1645,25 +1715,46 @@
   .toolbar-print button { background:#1F4E78; color:#fff; border:0; padding:8px 18px; border-radius:6px; cursor:pointer; font-weight:bold; font-size:14px; }
   .credit { margin-top:20px; padding:10px; background:#DDEBF7; border:2px solid #1F4E78; border-radius:6px; text-align:center; font-weight:bold; font-size:12.5px; color:#1F4E78; }
   .credit a { color:#1F4E78; }
-  @media print { .toolbar-print { display:none; } body { padding:0; } .credit { display:none !important; } }
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
+    .toolbar-print { display:none; }
+    body { padding:0; }
+    .credit { display:none !important; }
+  }
 </style></head>
 <body>
   <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
-  <h1 class="formtitle">${typeTitle}</h1>
-  <table>
-    <tr><th>الاسم</th><th>التخصص</th><th>المرتبة</th><th>السجل المدني</th><th>العمل الحالي</th></tr>
-    <tr><td class="data">${empName || ''}</td><td class="data">${specialty || ''}</td><td class="data">${rank || ''}</td><td class="data">${civilId || ''}</td><td class="data">${currentJob || ''}</td></tr>
-  </table>
-  <h2 class="noticetitle">${typeTitle}${badge}</h2>
-  <div class="notice-text">
-    نود تنبيهكم الى ان تأخيركم قد زاد عن ${hours} ساعات ونأمل منتظم الحرص على أوقات العمل شاكرين لكم تفهمكم والله يرعاكم
+  <div class="letterhead">
+    <div class="refs">
+      <div>الرقم: ${refNo || '...........................'}</div>
+      <div>التاريخ: ${date || '...........................'}</div>
+      <div>المرفقات: ${attachments || '...........................'}</div>
+    </div>
+    <div class="org">
+      المملكة العربية السعودية<br>
+      وزارة التعليم<br>
+      إدارة التعليم بمنطقة ${region || '..................'}<br>
+      مدرسة ${school || '..................'}
+    </div>
   </div>
-  <div class="sign-emp">توقيع الموظف/ة بالعلم / .................................................</div>
-  <div class="sup-block">
-    <div class="lbl">الرئيس المباشر</div>
-    <div>الاسم: ${supervisor || '.......................'}</div>
-    <div>التوقيع: .......................</div>
-    <div>التاريخ: ${date || '.......................'}</div>
+  <div class="frame">
+    <h1 class="formtitle">${typeTitle}</h1>
+    <table>
+      <tr><th>الاسم</th><th>التخصص</th><th>المرتبة</th><th>السجل المدني</th><th>العمل الحالي</th></tr>
+      <tr><td class="data">${empName || ''}</td><td class="data">${specialty || ''}</td><td class="data">${rank || ''}</td><td class="data">${civilId || ''}</td><td class="data">${currentJob || ''}</td></tr>
+    </table>
+    <h2 class="noticetitle">${typeTitle}${badge}</h2>
+    <div class="notice-text">
+      نود تنبيهكم الى ان تأخيركم قد زاد عن ${hours} ساعات ونأمل منكم الحرص على أوقات العمل شاكرين لكم تفهمكم والله يرعاكم
+    </div>
+    ${breakdownTable}
+    <div class="sign-emp">توقيع الموظف/ة بالعلم / .................................................</div>
+    <div class="sup-block">
+      <div class="lbl">الرئيس المباشر</div>
+      <div>الاسم: ${supervisor || '.......................'}</div>
+      <div>التوقيع: .......................</div>
+      <div>التاريخ: ${date || '.......................'}</div>
+    </div>
   </div>
   <div class="credit">تصميم د/ فواز &nbsp;&nbsp;&nbsp; تفضل للمزيد هنا <a href="https://t.me/TAqhjT3MFVE1Yzk0" target="_blank" rel="noopener">https://t.me/TAqhjT3MFVE1Yzk0</a></div>
 </body></html>`;
@@ -1675,6 +1766,11 @@
     const t = document.getElementById('noticeType').value;
     const info = NOTICE_TYPE_INFO[t];
     const seq = document.getElementById('noticeSeq').value.trim() || '1';
+    saveCurrentWeekIntoStore();
+    const agg = computeMonthlyAggregate(weekOrder);
+    const empAgg = agg.employees.find(e => e.name === empName) || null;
+    const region = (document.querySelectorAll('.header [contenteditable]')[0] || {}).textContent || '';
+    const school = (document.querySelectorAll('.header [contenteditable]')[1] || {}).textContent || '';
     const data = {
       empName,
       specialty: document.getElementById('noticeSpecialty').value.trim(),
@@ -1685,7 +1781,11 @@
       badge: ` ( ${seq} )`,
       hours: document.getElementById('noticeHours').value.trim() || info.hours,
       date: document.getElementById('noticeDate').value.trim(),
-      supervisor: document.getElementById('noticeSupervisor').value.trim()
+      supervisor: document.getElementById('noticeSupervisor').value.trim(),
+      refNo: document.getElementById('noticeRefNo').value.trim(),
+      attachments: document.getElementById('noticeAttachments').value.trim(),
+      region, school,
+      empAgg
     };
     const html = buildNoticeFormHTML(data);
     const win = window.open('', '_blank');

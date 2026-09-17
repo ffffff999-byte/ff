@@ -1593,7 +1593,7 @@
     * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
     .toolbar-print { display:none; }
     body { padding:0; }
-    tbody tr:nth-child(even) td { background:#F2F6FB !important; }
+    tbody tr:nth-child(even) td:not([style]) { background:#F2F6FB !important; }
   }
 </style></head>
 <body>
@@ -1672,7 +1672,7 @@
   function closeNoticeModal(){ document.getElementById('noticeModal').classList.remove('show'); }
 
   function buildNoticeFormHTML(data){
-    const { empName, specialty, rank, civilId, currentJob, typeTitle, badge, hours, date, supervisor, refNo, attachments, region, school, empAgg } = data;
+    const { empName, specialty, rank, civilId, currentJob, typeTitle, badge, hours, date, supervisor, refNo, attachments, region, school, empAgg, logo } = data;
 
     const breakdownRows = VIOLATION_TYPES.map((label, i) => {
       const min = empAgg ? empAgg.perType[i] : 0;
@@ -1699,6 +1699,9 @@
   body { margin:0; padding:16px; color:#000; }
   .letterhead { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; font-size:12.5px; font-weight:bold; }
   .letterhead .refs div { margin-bottom:6px; }
+  .letterhead .left-col { text-align:left; }
+  .letterhead .logo-area { margin-bottom:8px; }
+  .letterhead .logo-area img { max-height:65px; max-width:150px; object-fit:contain; }
   .letterhead .org { text-align:left; color:#1F4E78; line-height:1.7; }
   .frame { border:2px solid #1F4E78; border-radius:10px; padding:16px 18px; }
   h1.formtitle { text-align:center; font-size:18px; margin:0 0 18px; color:#1F4E78; }
@@ -1730,11 +1733,14 @@
       <div>التاريخ: ${date || '...........................'}</div>
       <div>المرفقات: ${attachments || '...........................'}</div>
     </div>
-    <div class="org">
-      المملكة العربية السعودية<br>
-      وزارة التعليم<br>
-      إدارة التعليم بمنطقة ${region || '..................'}<br>
-      مدرسة ${school || '..................'}
+    <div class="left-col">
+      <div class="logo-area">${logo ? `<img src="${logo}" alt="logo">` : ''}</div>
+      <div class="org">
+        المملكة العربية السعودية<br>
+        وزارة التعليم<br>
+        إدارة التعليم بمنطقة ${region || '..................'}<br>
+        مدرسة ${school || '..................'}
+      </div>
     </div>
   </div>
   <div class="frame">
@@ -1771,8 +1777,11 @@
     const empAgg = agg.employees.find(e => e.name === empName) || null;
     const region = (document.querySelectorAll('.header [contenteditable]')[0] || {}).textContent || '';
     const school = (document.querySelectorAll('.header [contenteditable]')[1] || {}).textContent || '';
+    const logoEl = document.getElementById('logoImg');
+    const logo = (logoEl && logoEl.style.display !== 'none') ? logoEl.src : null;
     const data = {
       empName,
+      logo,
       specialty: document.getElementById('noticeSpecialty').value.trim(),
       rank: document.getElementById('noticeRank').value.trim(),
       civilId: document.getElementById('noticeCivilId').value.trim(),

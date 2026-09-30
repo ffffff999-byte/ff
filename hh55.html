@@ -926,7 +926,8 @@
       weekOrder: weekOrder,
       weekSeq: weekSeq,
       currentWeekId: currentWeekId,
-      weeks: weeksStore
+      weeks: weeksStore,
+      typesVer: 2
     };
   }
   function persistYearData(){
@@ -963,6 +964,21 @@
     }
     if (data.orientation) { state.printOrientation = data.orientation; localStorage.setItem('hh55_orientation', data.orientation); applyPrintOrientation(); }
     weeksStore = data.weeks || {};
+    // ترقية البيانات القديمة: إدراج نوع "الاصطفاف الصباحي" في الموضع الثاني يستلزم إزاحة الأنواع التالية
+    if (!data.typesVer || data.typesVer < 2) {
+      Object.values(weeksStore).forEach(wk => {
+        (wk && wk.employees || []).forEach(emp => {
+          const newCells = {};
+          Object.entries(emp.cells || {}).forEach(([key, val]) => {
+            const parts = key.split('_');
+            const t = parseInt(parts[0], 10);
+            if (!isNaN(t) && t >= 1) parts[0] = String(t + 1);
+            newCells[parts.join('_')] = val;
+          });
+          emp.cells = newCells;
+        });
+      });
+    }
     weekOrder = data.weekOrder && data.weekOrder.length ? data.weekOrder : Object.keys(weeksStore);
     weekSeq = data.weekSeq || weekOrder.length;
     if (!weekOrder.length) return false;
@@ -1169,6 +1185,7 @@
 <script>
   const VIOLATION_TYPES = [
     "التأخر الصباحي",
+    "التأخر أو عدم الحضور للاصطفاف الصباحي",
     "التأخر عن دخول الحصص",
     "الخروج من الحصة قبل انتهاء الوقت",
     "الامتناع من دخول حصص الانتظار",
@@ -1541,7 +1558,11 @@
         ? `<td style="${totalStyle}">${Math.round(e.totalMin)}</td>`
         : (() => { const t = hm(e.totalMin); return `<td style="${totalStyle}">${t.h}</td><td style="${totalStyle}">${t.m}</td>`; })();
       const rowNote = w ? ` — ${w.label}` : '';
-      return `<tr><td>${i + 1}</td><td style="text-align:right;padding-right:6px;">${e.name}${rowNote ? `<div style="font-size:9.5px;color:${w.bg === '#FF6B6B' ? '#C00000' : '#7a4a00'};font-weight:bold;">${rowNote}</div>` : ''}</td>${cells}${totalCells}</tr>`;
+      const nameStyle = w
+        ? `text-align:right;padding-right:6px;background:${w.bg};color:${w.fg};font-weight:bold;`
+        : `text-align:right;padding-right:6px;`;
+      const noteColor = w ? w.fg : '#000';
+      return `<tr${w ? ' class="warn-row"' : ''}><td${w ? ` style="background:${w.bg};color:${w.fg};font-weight:bold;"` : ''}>${i + 1}</td><td style="${nameStyle}">${e.name}${rowNote ? `<div style="font-size:9.5px;color:${noteColor};font-weight:bold;">${rowNote}</div>` : ''}</td>${cells}${totalCells}</tr>`;
     }).join('');
 
     const grandCells = minutesOnly
@@ -1697,12 +1718,15 @@
   @page { size: A4 portrait; margin: 1.5cm; }
   * { box-sizing: border-box; font-family: Arial, Tahoma, sans-serif; }
   body { margin:0; padding:16px; color:#000; }
-  .letterhead { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; font-size:12.5px; font-weight:bold; }
-  .letterhead .refs div { margin-bottom:6px; }
-  .letterhead .left-col { text-align:left; }
-  .letterhead .logo-area { margin-bottom:8px; }
-  .letterhead .logo-area img { max-height:65px; max-width:150px; object-fit:contain; }
-  .letterhead .org { text-align:left; color:#1F4E78; line-height:1.7; }
+  table.letterhead { width:100%; border-collapse:collapse; table-layout:fixed; margin:0 0 12px; font-size:12.5px; font-weight:bold; border-bottom:1px solid #d9d9d9; }
+  table.letterhead td { border:0; padding:0 0 10px; vertical-align:middle; background:none !important; }
+  table.letterhead td.lh-org { text-align:right; color:#1F4E78; }
+  table.letterhead td.lh-org span { display:block; line-height:1.9; }
+  table.letterhead td.lh-logo { text-align:center; }
+  table.letterhead td.lh-logo img { max-height:70px; max-width:160px; object-fit:contain; display:inline-block; }
+  table.letterhead td.lh-refs { text-align:left; }
+  table.letterhead td.lh-refs .refs { display:inline-block; text-align:right; }
+  table.letterhead td.lh-refs .refs span { display:block; line-height:2; }
   .frame { border:2px solid #1F4E78; border-radius:10px; padding:16px 18px; }
   h1.formtitle { text-align:center; font-size:18px; margin:0 0 18px; color:#1F4E78; }
   table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:24px; }
@@ -1727,22 +1751,25 @@
 </style></head>
 <body>
   <div class="toolbar-print"><button onclick="window.print()">🖨️ طباعة / حفظ PDF</button></div>
-  <div class="letterhead">
-    <div class="refs">
-      <div>الرقم: ${refNo || '...........................'}</div>
-      <div>التاريخ: ${date || '...........................'}</div>
-      <div>المرفقات: ${attachments || '...........................'}</div>
-    </div>
-    <div class="left-col">
-      <div class="logo-area">${logo ? `<img src="${logo}" alt="logo">` : ''}</div>
-      <div class="org">
-        المملكة العربية السعودية<br>
-        وزارة التعليم<br>
-        إدارة التعليم بمنطقة ${region || '..................'}<br>
-        مدرسة ${school || '..................'}
-      </div>
-    </div>
-  </div>
+  <table class="letterhead">
+    <colgroup><col style="width:40%"><col style="width:20%"><col style="width:40%"></colgroup>
+    <tr>
+      <td class="lh-org">
+        <span>المملكة العربية السعودية</span>
+        <span>وزارة التعليم</span>
+        <span>إدارة التعليم بمنطقة ${region || '..................'}</span>
+        <span>مدرسة ${school || '..................'}</span>
+      </td>
+      <td class="lh-logo">${logo ? `<img src="${logo}" alt="شعار">` : '<span style="color:#0f7a72;">وزارة التعليم</span>'}</td>
+      <td class="lh-refs">
+        <div class="refs">
+          <span>الرقم: ${refNo || '...........................'}</span>
+          <span>التاريخ: ${date || '...........................'}</span>
+          <span>المرفقات: ${attachments || '...........................'}</span>
+        </div>
+      </td>
+    </tr>
+  </table>
   <div class="frame">
     <h1 class="formtitle">${typeTitle}</h1>
     <table>
